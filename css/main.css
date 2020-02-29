@@ -677,7 +677,7 @@ nav#mainNav li a.buy i{
 /*Subscribe*/
 
 .subscribeContainer{
-	background: url(../images/sliderImages/parallax2.png);
+	background: url(../images/sliderImages/parallax2.jpg);
 	background-attachment: fixed;
 	background-position: center top;
 	background-repeat: repeat-y;
@@ -1263,7 +1263,7 @@ span.price span.dollar {
 
 
 .clientContainer{
-	background: url(../images/sliderImages/parallax2.png);
+	background: url(../images/sliderImages/parallax3.jpg);
 	background-attachment: fixed;
 	background-position: center top;
 	background-repeat: repeat-y;
