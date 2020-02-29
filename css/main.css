@@ -248,7 +248,9 @@ nav#mainNav li a.buy i{
 	color:#ffffff;
 	background:url(../images/sliderImages/full.jpg) no-repeat scroll 0 0px #fafafa;
 	height:680px;
-	text-align:center;	
+	text-align:center;
+	background-position: center bottom;
+	background-size: cover;
 }
 
 #teaser .overlay {
