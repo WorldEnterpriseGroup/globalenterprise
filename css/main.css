@@ -1405,7 +1405,7 @@ ul.clientList a{
 }
 
 
-.contactForm input[type="text"], .contactForm input[type="email"], .contactForm textarea {
+.contactForm input[type="text"], .contactForm input[type="email"], .contactForm input[type="tel"], .contactForm textarea {
     background:#ffffff;
     border: 1px solid #EFEFEF;
     color: #444444;
@@ -1420,17 +1420,17 @@ ul.clientList a{
 	-ms-border-radius: 4px;
 	-o-border-radius: 4px;
 }
-.contactForm input[type="text"]:focus, .contactForm input[type="email"]:focus, .contactForm textarea:focus {
+.contactForm input[type="text"]:focus, .contactForm input[type="email"]:focus, .contactForm input[type="tel"]:focus, .contactForm textarea:focus {
     background: none repeat scroll 0 0 #FCFCFC;
 }
-.contactForm input[type="text"], .contactForm input[type="email"] {
+.contactForm input[type="text"], .contactForm input[type="email"], .contactForm input[type="tel"] {
     height: 48px;
     width: 430px;
 }
 .contactForm textarea {
     color: #444444;
     font-size: 13px;
-    height: 100px;
+    height: 160px;
 	display:block;
     margin-bottom: 10px;
     padding-top: 10px;
