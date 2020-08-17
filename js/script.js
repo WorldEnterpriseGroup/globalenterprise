@@ -110,26 +110,26 @@ $('#submit').click(function(){
 		return false;
 	}
 
-	var data_string = $('.contactForm form').serialize(); 
+	// var data_string = $('.contactForm form').serialize(); 
 	
 
-	$.ajax({
-		type: "POST",
-		url: $('.contactForm form').attr('action'),
-		data: data_string,
+	// $.ajax({
+	// 	type: "POST",
+	// 	url: $('.contactForm form').attr('action'),
+	// 	data: data_string,
 		
-		success: function(message) {
-				if(message == 'SENDING'){
-					$('#success').fadeIn('slow');
-				}
-				else{
-					$('#error').fadeIn('slow');
-				}
-					}
+	// 	success: function(message) {
+	// 			if(message == 'SENDING'){
+	// 				$('#success').fadeIn('slow');
+	// 			}
+	// 			else{
+	// 				$('#error').fadeIn('slow');
+	// 			}
+	// 				}
 					
 					
 					
-	});
+	// });
 
 	return false; 
 });

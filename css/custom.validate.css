@@ -1,0 +1,10 @@
+
+.form-group.has-error .form-control{
+    margin-bottom: 0px;
+}
+.form-group.has-error .form-control {
+    border-color: #ea205a;
+}
+#careerForm textarea{
+    height: 120px;
+}
