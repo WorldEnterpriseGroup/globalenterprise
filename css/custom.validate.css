@@ -1,3 +1,4 @@
+
 .sm-form-control {
 	display: block;
 	width: 100%;
@@ -127,6 +128,7 @@ input[type=checkbox]:not(:checked) + label.error { display: block !important; }
 
 .form-control.error,
 .sm-form-control.error { border-color: #E42C3E; }
+
 
 
 .form-group.has-error .form-control{
