@@ -19,7 +19,7 @@ iframe {
 }
 
 
-a, .contactForm input[type="text"]:focus, .contactForm input[type="email"]:focus, .contactForm textarea:focus, input#formSubmit, .errorForm, #subscribe input[type="email"]:focus, .errorSubs, .servSingle, #toTop i , #notForm input[type="email"]:focus, .contactForm input#submit, #loginForm input,
+a, .contactForm input[type="text"]:focus, .contactForm input[type="email"]:focus, .contactForm textarea:focus, input#formSubmit, .errorForm, #subscribe input[type="email"]:focus, .errorSubs, .servSingle, #toTop i , #notForm input[type="email"]:focus, .contactForm input#submit, .contactForm input.formSubmit, #loginForm input,
 #loginForm input[type="text"]:focus, #loginForm input[type="password"]:focus{
 	-webkit-transition: all 0.5s ease 0s;
 	-moz-transition: all 0.5s ease 0s;
@@ -1436,7 +1436,7 @@ ul.clientList a{
     padding-top: 10px;
     width: 450px;
 }
-.contactForm input#submit {
+.contactForm input#submit, input.formSubmit {
     background:  #1FB4DA;
     border:none;
     color: #FFFFFF;
@@ -1458,7 +1458,7 @@ ul.clientList a{
 	-ms-box-shadow: -4px -4px 0px rgba(0, 0, 0, 0.1) inset;
 	-o-box-shadow: -4px -4px 0px rgba(0, 0, 0, 0.1) inset;
 }
-.contactForm input#submit:hover {
+.contactForm input#submit:hover, input.formSubmit:hover {
    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1) inset;
 	-webkit-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1) inset;
 	-moz-box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1) inset;
@@ -1631,7 +1631,7 @@ ul.clientList a{
 @media screen and (max-device-width: 960px){
 	input, textarea{-webkit-appearance: none;-webkit-border-radius:0;}
 	.subscribeContainer,.clientContainer {background-attachment: scroll;background-position:top center !important;background-size: cover;}
-	.contactForm input#submit { margin-top: 10px;padding: 17px 20px;}
+	.contactForm input#submit, input.formSubmit { margin-top: 10px;padding: 17px 20px;}
 	.contactForm input[type="text"], .contactForm input[type="email"] {height: 45px;}
 	#btnSubmit input[type="submit"] {right:134px;top:-38px;}
 	
@@ -1687,7 +1687,7 @@ ul.clientList a{
 	#inputs, #textArea{float:none;width:100%;}
 	.contactForm input[type="text"], .contactForm input[type="email"]{width:680px}
 	.contactForm textarea{width:683px}
-	.contactForm input#submit{width:698px;}
+	.contactForm input#submit, input.formSubmit{width:698px;}
 	
 }
 
@@ -1764,7 +1764,7 @@ ul.clientList a{
 	#inputs, #textArea{float:none;width:100%;}
 	.contactForm input[type="text"], .contactForm input[type="email"]{width:380px}
 	.contactForm textarea{width:383px}
-	.contactForm input#submit{width:398px;}
+	.contactForm input#submit, input.formSubmit{width:398px;}
 	
 	.socialsShare li{margin-right:15px;}
 	#footer {text-align:center;}
@@ -1860,7 +1860,7 @@ ul.clientList a{
 	#inputs, #textArea{float:none;width:100%;}
 	.contactForm input[type="text"], .contactForm input[type="email"]{width:210px}
 	.contactForm textarea{width:213px}
-	.contactForm input#submit{width:225px;}
+	.contactForm input#submit, input.formSubmit{width:225px;}
 	#footer{text-align:center;}
 	#footer p{margin-bottom:10px;}
 
