@@ -46,6 +46,8 @@ Else open the project in your code editor.
 
 
 ## Contributing
+> We welcome <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests" target="_blank">Pull Requests</a> from everyone, whether you are a student, a teacher, or an expert in the field. When first making a pull request, please keep it short &amp; brief as we establish a relationship.
+
 To contribute to the project, fix the <a href="https://github.com/TaoFruit/globalenterprise/issues"><b>Issues</b></a>, and then make a <a href="https://github.com/TaoFruit/globalenterprise/compare"><b>Pull request</b></a>.
 
 ## License
