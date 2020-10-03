@@ -29,9 +29,11 @@ Languages and Technologies used in the project:
 3. Open the folder in <b>VS Code</b> or any other <b>Code Editor</b>
 
 ### For developers using git
-Clone the source locally:
+1. First, <a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo"><b>Fork</b></a> this repo.
+
+Clone the forked repo locally:
 ```sh
-$ git clone https://github.com/TaoFruit/globalenterprise.git
+$ git clone your_forked_repo
 $ cd foco
 ```
 If using <b>VS Code</b> project can be opened directly using command line:
@@ -40,9 +42,10 @@ $ code .
 ```
 Else open the project in your code editor.
 
+
 ### To see your changes locally when you make changes:
 1. Open the html file in which changes were made directly in the browser and <kbd>Command/ctrl + R</kbd> - Reload  everytime if you make changes.
-2. Also, if <b>VS Code</b> is installed to see the changes directly without refreshing the page <b><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server</a></b> can be used.
+2. Also, if <b>VS Code</b> <b><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server</a></b> can be used to see the changes directly without refreshing the page 
 
 
 ## Contributing
