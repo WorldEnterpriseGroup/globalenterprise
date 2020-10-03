@@ -42,6 +42,8 @@ $ code .
 ```
 Else open the project in your code editor.
 
+**Note: Always make a new branch before making changes.**
+
 
 ### To see your changes locally when you make changes:
 1. Open the html file in which changes were made directly in the browser and <kbd>Command/ctrl + R</kbd> - Reload  everytime if you make changes.
