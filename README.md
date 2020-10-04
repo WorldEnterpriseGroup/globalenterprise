@@ -24,34 +24,34 @@ Languages and Technologies used in the project:
 
 ### Installation:
 #### Direct Download
-1. Download <a href="https://github.com/TaoFruit/globalenterprise/archive/gh-pages.zip" target="_blank">Global Enterprises</a>
-2. Extract the zip file.
-3. Open the folder in <b>VS Code</b> or any other <b>Code Editor</b>
+  1. Download <a href="https://github.com/TaoFruit/globalenterprise/archive/gh-pages.zip" target="_blank">Global Enterprises</a>
+  2. Extract the zip file.
+  3. Open the folder in <b>VS Code</b> or any other <b>Code Editor</b>
 
-### For developers using git
-1. First, <a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo"><b>Fork</b></a> this repo.
+  ### For developers using git
+  1. First, <a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo"><b>Fork</b></a> this repo.
 
-Clone the forked repo locally:
-```sh
-$ git clone your_forked_repo
-$ cd foco
-```
-**Note: Current branch should be gh-pages. To check the current branch type following in git bash**
-```sh
-$ git branch
-```
-<b>To change the branch to gh-pages.</b>
-      
-```sh
-$ git checkout gh-pages
-```
-If using <b>VS Code</b> project can be opened directly using command line:
-```sh
-$ code .
-```
-Else open the project in your code editor.
+  Clone the forked repo locally:
+  ```sh
+  $ git clone your_forked_repo
+  $ cd foco
+  ```
+  **Note: Current branch should be gh-pages. To check the current branch type following in git bash**
+  ```sh
+  $ git branch
+  ```
+  <b>To change the branch to gh-pages.</b>
 
-**Note: Always make a new branch before making changes.**
+  ```sh
+  $ git checkout gh-pages
+  ```
+  If using <b>VS Code</b> project can be opened directly using command line:
+  ```sh
+  $ code .
+  ```
+  Else open the project in your code editor.
+
+  **Note: Always make a new branch before making changes.**
 
 
 ### To see your changes locally when you make changes:
