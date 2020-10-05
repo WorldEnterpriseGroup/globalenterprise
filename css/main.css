@@ -1629,7 +1629,6 @@ ul.clientList a{
 
 /*iPad lanscape*/
 @media screen and (max-device-width: 960px){
-	input, textarea{-webkit-appearance: none;-webkit-border-radius:0;}
 	.subscribeContainer,.clientContainer {background-attachment: scroll;background-position:top center !important;background-size: cover;}
 	.contactForm input#submit, input.formSubmit { margin-top: 10px;padding: 17px 20px;}
 	.contactForm input[type="text"], .contactForm input[type="email"] {height: 45px;}
@@ -1643,7 +1642,6 @@ ul.clientList a{
 /* Tablet Portrait size -> standard 960 */
 @media only screen and (min-width: 768px) and (max-width: 959px) {
 	
-	input, textarea{-webkit-appearance: none;-webkit-border-radius:0;}
 	.logo h1{margin-left:30px;}
 	nav#mainNav{margin-right:15px;}
 	nav#mainNav li a{padding:25px 16px;}
@@ -1695,7 +1693,6 @@ ul.clientList a{
 /* Mobile Landscape Size -> Tablet Portrait size*/
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 	
-	input, textarea{-webkit-appearance: none;-webkit-border-radius:0;}
 	html{-webkit-text-size-adjust: none;-moz-text-size-adjust:none;-ms-text-size-adjust:none;}
 
 	#loaderInner {margin: -50px 0 0 -30px;}
@@ -1777,7 +1774,6 @@ ul.clientList a{
 /* Mobile Portrait Size -> Mobile Landscape Size */
 @media only screen and (max-width:479px) {
 	
-	input, textarea{-webkit-appearance: none;-webkit-border-radius:0;}
 	html{-webkit-text-size-adjust: none;-moz-text-size-adjust:none;-ms-text-size-adjust:none;}
 	.logo, nav#mainNav{float:none;}
 	#loaderInner {margin: -50px 0 0 -30px;}
