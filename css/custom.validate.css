@@ -1,4 +1,136 @@
 
+.sm-form-control {
+	display: block;
+	width: 100%;
+	height: 38px;
+	padding: 8px 14px;
+	font-size: 15px;
+	line-height: 1.42857143;
+	color: #555555;
+	background-color: #ffffff;
+	background-image: none;
+	border: 2px solid #DDD;
+	border-radius: 0 !important;
+	-webkit-transition: border-color ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s;
+	transition: border-color ease-in-out .15s;
+}
+
+.sm-form-control:focus {
+	border-color: #AAA;
+	outline: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.sm-form-control::-moz-placeholder {
+	color: #999;
+	opacity: 1;
+}
+
+.sm-form-control:-ms-input-placeholder { color: #999; }
+.sm-form-control::-webkit-input-placeholder { color: #999; }
+
+.sm-form-control[disabled],
+.sm-form-control[readonly],
+fieldset[disabled] .sm-form-control {
+	cursor: not-allowed;
+	background-color: #eeeeee;
+	opacity: 1;
+}
+#TaoSubmit {
+    background-color: #00bed7;
+    border-radius: 3px;
+    border-bottom: 3px solid rgba(0,0,0,0.15);
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+    color: #FFF;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.sm-form-control { height: auto; }
+
+.form-control { border-radius: 3px; }
+
+.form-control:active,
+.form-control:focus {
+	border-color: #999;
+	box-shadow: none;
+}
+
+label {
+	display: inline-block;
+	font-size: 13px;
+	font-weight: 700;
+	font-family: 'Raleway', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #555;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+label.label-muted {
+	color: #999;
+	font-weight: normal;
+	margin-right: 5px;
+}
+
+form .col_full,
+form .col_half,
+form .col_one_third,
+form .col_two_third,
+form .col_three_fourth,
+form .col_one_fourth,
+form .col_one_fifth,
+form .col_two_fifth,
+form .col_three_fifth,
+form .col_four_fifth,
+form .col_one_sixth,
+form .col_five_sixth { margin-bottom: 25px; }
+
+
+/* ----------------------------------------------------------------
+	Contact Form
+-----------------------------------------------------------------*/
+
+
+#contact-form-overlay,
+#contact-form-overlay-mini {
+	position: relative;
+	max-width: 800px;
+	background-color: #FFF;
+	padding: 40px;
+	margin: 0 auto;
+	z-index: 10;
+	border-radius: 4px;
+	box-shadow: 0 1px 10px rgba(0,0,0,0.15);
+}
+
+#contact-form-overlay-mini {
+	float: right;
+	width: 380px;
+	margin: 0;
+}
+
+label.error {
+	margin-top: 5px;
+	color: #E42C3E;
+	font-weight: 400;
+}
+
+label.error { display: none !important; }
+
+.show-error-msg + label.error { display: block !important; }
+
+input[type=checkbox]:not(:checked) + label.error { display: block !important; }
+
+.form-control.error,
+.sm-form-control.error { border-color: #E42C3E; }
+
+
+
 .form-group.has-error .form-control{
     margin-bottom: 0px;
 }
