@@ -180,7 +180,7 @@ $(".feedContainer").parallax("100%", 0.3);
 
 
 //---------------------------------- Newsletter form validation-----------------------------------------//
-$(".subscribeHolder form").validate();
+// $(".subscribeHolder form").validate();
 //---------------------------------- End newsletter form validation-----------------------------------------//
 
 
