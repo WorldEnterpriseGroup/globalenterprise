@@ -128,14 +128,14 @@
 						
 						<!--Teaser title-->
 						<div class="teaserTitle">
-							<h1>We <span>Empower</span> Businesses</h1>
-							<h2>consult us</h2>
+							<h1>We <span>Empower</span> Business</h1>
+							<h2>Consult With Us</h2>
 						</div>
 						<!--End teaser title-->
 						
 						<!--Down-->
 						<div class="down">
-							<a href="#consult-us"><i class="icon-down-open-big"></i></a>
+							<a href="#consult-us"><i class="icon-menu"></i></a>
 						</div>
 						<!--End down-->
 					
@@ -161,26 +161,32 @@
 				<div class="container" id="consult-us">
 					<div class="row">
 						<div class="col-md-4 col-sm-5 col-xs-12">
-							<label for="company_name">Name of Company </label>
+							<label for="company_name">Company Name </label>
 							<input  type="text" id="company_name" name="company_name" value="" class="sm-form-control " />
 						</div>
-						
-						<div class="col-md-4 col-sm-5 col-xs-12">
-							<label for="email">Email</label>
-							<input  type="email" id="email" name="email" value="" class="sm-form-control" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4 col-sm-5 col-xs-12">
-							<label for="contact_name">Contact Name <small></small></label>
-							<input  type="text" id="contact_name" name="contact_name" value="" class="sm-form-control" />
-						</div>
-						
+
 						
 						<div class="col-md-4 col-sm-5 col-xs-12">
 							<label for="tel">Phone Number</label>
 							<input tabindex="7" type="tel" id="tel" name="tel" value="" class="sm-form-control" />
 						</div>
+						
+						
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-sm-5 col-xs-12">
+							<label for="firstname">First Name <small></small></label>
+							<input  type="text" id="firstname" name="firstname" value="" class="sm-form-control" />
+						</div>
+						<div class="col-md-4 col-sm-5 col-xs-12">
+							<label for="lastname">Last Name <small></small></label>
+							<input  type="text" id="lastname" name="lastname" value="" class="sm-form-control" />
+						</div>
+						<div class="col-md-4 col-sm-5 col-xs-12">
+							<label for="email">Email</label>
+							<input  type="email" id="email" name="email" value="" class="sm-form-control" />
+						</div>
+						
 					</div>
 					
 					<div class="row mt-3">
@@ -190,6 +196,52 @@
 									1. What Categories are you hiring for?
 								</label>
 								<div class="ml-4">
+									<div class="row">
+										&nbsp;&nbsp;&nbsp;
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="CEO" />
+												CEO
+											</label>&nbsp;&nbsp;&nbsp;&nbsp;
+										</div>
+
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="COO" />
+												COO
+											</label>&nbsp;&nbsp;&nbsp;&nbsp;
+										</div>
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="CFO" />
+												CFO
+											</label>&nbsp;&nbsp;&nbsp;&nbsp;
+										</div>
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="CIO" />
+												CIO
+											</label>&nbsp;&nbsp;&nbsp;&nbsp;
+										</div>
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="CMO" />
+												CMO
+											</label>&nbsp;&nbsp;&nbsp;&nbsp;
+										</div>
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="CTO" />
+												CTO
+											</label>&nbsp;&nbsp;&nbsp;&nbsp;
+										</div>
+										<div class="checkbox">
+											<label class="checkbox">
+												<input name="hiring_categories" type="checkbox" value="CTO" />
+												CCO
+											</label>
+										</div>
+									</div>
 									<div class="checkbox">
 										<label class="checkbox">
 											<input name="hiring_categories" type="checkbox" value="Director/Executive" />
@@ -204,20 +256,20 @@
 									</div>
 									<div class="checkbox">
 										<label class="checkbox">
-											<input name="hiring_categories" type="checkbox" value="Chief Technical Officer" />
-											Chief Technical Officer
-										</label>
-									</div>
-									<div class="checkbox">
-										<label class="checkbox">
 											<input name="hiring_categories" type="checkbox" value="Tech Lead" />
 											Tech Lead
 										</label>
 									</div>
 									<div class="checkbox">
 										<label class="checkbox">
-											<input name="hiring_categories" type="checkbox" value="Senior Engineer" />
-											Senior Engineer
+											<input name="hiring_categories" type="checkbox" value="Senior Developer" />
+											Senior Developer
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="checkbox">
+											<input name="hiring_categories" type="checkbox" value="Agile Manager" />
+											Agile Manager
 										</label>
 									</div>
 									<div class="checkbox">
@@ -279,7 +331,6 @@
 											Established Company
 										</label>
 									</div>
-						
 								</div>
 							</div>
 						</div>
@@ -470,7 +521,7 @@
 					</div>
 					<div class="row">
 						<div class="col-12 col-xs-12 ">
-							<label class="nobottommargin" value="" for="salarysmall">9.What salary range are you targeting for this role?</label>
+							<label class="nobottommargin" value="" for="salarysmall">9. What salary range are you targeting for this role?</label>
 							<input tabindex="10" id="budgetsmall" name="salarysmall" class="sm-form-control salaryRange" oninput="calculateSalary()" />
 						</div>
 					</div>
