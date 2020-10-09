@@ -350,23 +350,13 @@
 					</div>
 					<div class="row">
 						<div class="col-12 col-xs-12">
-							<div class="form-group" id="div_radio">
-								<label class="control-label " value="" for="desire_corp">
-									5. Do you Desire Corp to Corp or Employee?
-								</label>
-								<div class="ml-4">
-									<div class="radio">
-										<label class="radio-inline">
-											<input name="desire_corp" type="radio" value="Corp to Corp (1099)" />
-											Corp to Corp (1099)
-										</label>
-									</div>
-									<div class="radio">
-										<label class="radio-inline">
-											<input name="desire_corp" type="radio" value="W-2 (Employee)" />
-											W-2 (Employee).
-										</label>
-									</div>
+							<div class="form-group" id="div_irs">
+								<div class="checkbox">
+									<label class="control-label " value="" for="desire_corp">
+										5. Do you Desire Corp to Corp or Employee?
+									</label>
+									<input name="desire_corpHidden" type="hidden" value="Corp to Corp (1099)" />
+									<input name="desire_corp" type="checkbox" value="W-2 (Employee)">
 								</div>
 							</div>
 						</div>
@@ -769,6 +759,9 @@
 		prettify: function (n) {
 			return valuesuptoRole_p[valuesuptoRole.indexOf(n)];
 		}
+	})
+	$("#desire_corp").change(function() {
+		document.getElementById('desire_corpHidden').disabled = document.querySelector('#desire_corp').checked;
 	})
 		function calculateSalary() {
 			console.log('sc')
