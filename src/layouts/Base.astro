@@ -3,7 +3,9 @@ import { ClientRouter } from "astro:transitions";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import ContextualNext from "@/components/ContextualNext.astro";
-import { industries, services, site } from "@/data/site";
+import PageVisual from "@/components/PageVisual.astro";
+import { site } from "@/data/site";
+import { visualForPath } from "@/data/route-manifest";
 import "@/styles/global.css";
 
 interface Props {
@@ -22,21 +24,7 @@ interface Props {
 const { title, description, image = "/og-image.svg", type = "website", noindex = false, keywords = [], author = site.name, publishedTime, modifiedTime, serviceSchema } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const pathname = Astro.url.pathname;
-const industryMatch = industries.find((item) => pathname.startsWith(`/industries/${item.slug}`));
-const serviceMatch = services.find((item) => pathname.startsWith(`/services/${item.slug}`));
-const pageVisual = industryMatch
-  ? { src: industryMatch.image, alt: `${industryMatch.title} strategy working session`, eyebrow: `${industryMatch.title} · sector signal`, title: "Context changes the answer. We make the next decision clearer.", icon: "pulse" }
-  : serviceMatch
-    ? { src: serviceMatch.image, alt: `${serviceMatch.title} consulting working session`, eyebrow: `${serviceMatch.title} · capability in practice`, title: "A capability becomes valuable when it can travel through the organization.", icon: "system" }
-    : pathname.startsWith("/insights")
-      ? { src: "/media/generated/ai-governance.avif", alt: "Leaders reviewing an enterprise AI operating model", eyebrow: "Evidence into action", title: "The useful question is what the evidence changes in the operating model.", icon: "compass" }
-      : pathname.startsWith("/case-studies")
-        ? { src: "/media/generated/federal-mission.avif", alt: "Enterprise transformation leaders reviewing performance signals", eyebrow: "Selected work · field note", title: "The work is the proof when the system keeps improving after launch.", icon: "arrow" }
-        : pathname.startsWith("/careers") || pathname.startsWith("/team")
-          ? { src: "/media/generated/education-future.avif", alt: "A diverse group collaborating in a modern learning space", eyebrow: "The people behind the work", title: "Good strategy is a team sport with unusually high standards.", icon: "people" }
-          : pathname.startsWith("/contact")
-            ? { src: "/media/generated/enterprise-hero.avif", alt: "A quiet enterprise boardroom prepared for a working session", eyebrow: "Start with the real question", title: "A useful first conversation begins before the brief is perfect.", icon: "compass" }
-            : { src: "/media/generated/enterprise-hero.avif", alt: "Modern city skyline seen from a strategy room", eyebrow: "Global Enterprise", title: "Clarity is a competitive advantage when the world is changing quickly.", icon: "system" };
+const pageVisual = visualForPath(pathname);
 const socialImagePath = image === "/og-image.svg" ? "/og-image.png" : image;
 const socialImage = new URL(socialImagePath, site.url).toString();
 const logo = new URL("/favicon.svg", site.url).toString();
@@ -115,12 +103,13 @@ const graph = [
     <script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": graph })}></script>
     <ClientRouter />
   </head>
-  <body>
+  <body data-route-signature={pageVisual.signature} data-route-image={pageVisual.imageId}>
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-lime focus:px-4 focus:py-3 focus:text-ink" href="#main-content">Skip to content</a>
     <Header />
     <main id="main-content">
       <slot />
     </main>
+    <PageVisual src={pageVisual.src} alt={pageVisual.alt} eyebrow={pageVisual.role} title={pageVisual.signature} icon={pageVisual.imageId === "healthcare-data" ? "pulse" : pageVisual.imageId === "energy-grid" ? "compass" : "system"} />
     <ContextualNext />
     <Footer />
     <script>

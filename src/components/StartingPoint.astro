@@ -13,7 +13,7 @@ import { startingPoints } from "@/data/site";
       <div class="grid gap-3" role="list" aria-label="Starting point choices">
         {startingPoints.map((point, index) => (
           <button class="starting-point-option" type="button" role="listitem" data-starting-point-option={point.id} aria-controls="starting-point-result" aria-expanded={index === 0 ? "true" : "false"}>
-            <span class="font-display text-2xl text-lime">0{index + 1}</span>
+            <span class="eyebrow text-lime">{["Decision", "AI", "Foundation", "Capability"][index]}</span>
             <span class="text-left font-display text-xl font-medium tracking-[-0.03em]">{point.label}</span>
             <span aria-hidden="true">↗</span>
           </button>

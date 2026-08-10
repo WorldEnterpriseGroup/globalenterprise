@@ -17,6 +17,6 @@ const diagram = diagrams[variant] ?? diagrams["operating-model"];
   <div class="solution-diagram-header"><p class="eyebrow">The system view</p><p class="text-sm leading-relaxed text-muted">{diagram.caption}</p></div>
   <svg viewBox="0 0 760 180" role="img" aria-label={`${diagram.title}: ${diagram.nodes.join(", ")}`}>
     <path class="solution-diagram-line" d="M100 90H660" />
-    {diagram.nodes.map((node, index) => <g class="solution-diagram-node" transform={`translate(${100 + index * 187},90)`}><circle r="42" /><text y="5">{String(index + 1).padStart(2, "0")}</text><text class="solution-diagram-label" y="72">{node}</text></g>)}
+    {diagram.nodes.map((node, index) => <g class="solution-diagram-node" transform={`translate(${100 + index * 187},90)`}><circle r="42" /><text y="5">{["Question", "Choice", "Judgment", "Outcome"][index]}</text><text class="solution-diagram-label" y="72">{node}</text></g>)}
   </svg>
 </section>
