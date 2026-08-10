@@ -9,7 +9,7 @@ eyebrow: "Signal · Governance"
 
 Responsible AI is often presented as a checklist for model teams. In a complex enterprise, it is closer to a management system: a way to decide what can be used, by whom, on which data, for what purpose, under what supervision, and with what evidence.
 
-NIST’s AI Risk Management Framework organizes the work around governing, mapping, measuring, and managing risk. OMB’s guidance for federal agencies adds a useful operational expectation: organizations need enterprise strategies, appropriate risk management, and clear accountability as AI becomes part of public services and internal operations.
+ISO/IEC 42001:2023 treats AI governance as a management system that must be established, implemented, maintained, and continually improved. NIST’s Generative AI Profile adds lifecycle-specific risk considerations for organizations using generative systems. Together, they support a practical conclusion: responsible AI needs a repeatable management loop, not a static policy document.
 
 ## Policies are necessary but insufficient
 
@@ -35,6 +35,5 @@ The ambition is not to slow responsible innovation. It is to make the organizati
 
 ## Sources
 
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
-- [NIST Generative AI Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf)
-- [OMB M-24-10](https://www.whitehouse.gov/wp-content/uploads/2024/03/M-24-10-Advancing-Governance-Innovation-and-Risk-Management-for-Agency-Use-of-Artificial-Intelligence.pdf)
+- [ISO/IEC 42001:2023, AI Management Systems](https://www.iso.org/standard/42001)
+- [NIST, Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence)

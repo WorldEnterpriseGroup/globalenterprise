@@ -19,7 +19,7 @@ The enterprise promise is not a slogan. It is a measurable answer to a practical
 
 For a federal service, that may be fewer handoffs and clearer evidence. For a healthcare enterprise, it may be a care team seeing the right context before a decision. For a technology organization, it may be a product team getting a reliable platform path instead of opening a new ticket for every release.
 
-Stanford HAI reports that organizational AI use rose to 88% in 2025. That kind of adoption makes the product mindset more important, not less. A tool that works in isolation is a feature. A capability that changes the enterprise promise is a product.
+MIT CISR’s research on enterprise IT operating models in the AI era describes a model in which business units drive innovation while enterprise platforms provide reusable scale. In that research, 16% of enterprises had this model as their dominant pattern, with 70% of operations on enterprise platforms and 49% of revenue coming from innovation. The lesson is not to copy a benchmark. It is to make the platform and the business accountable to the same promise. A tool that works in isolation is a feature. A capability that changes the enterprise promise is a product.
 
 ## Release the operating model
 
@@ -35,4 +35,4 @@ The management question becomes healthier: not “Did the project launch?” but
 
 ## Source
 
-- [Stanford HAI, 2026 AI Index: Economy](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy)
+- [MIT CISR, Enterprise IT Operating Models in the AI Era](https://cisr.mit.edu/publication/2025_1201_EntITOperatingModels_ThorogoodWoerner)

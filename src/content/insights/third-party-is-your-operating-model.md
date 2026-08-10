@@ -27,7 +27,7 @@ These questions belong in service design, architecture, incident management, pro
 
 We recommend treating third-party dependencies as products to be observed. Assign an owner. Define a service promise. Map the critical path. Test the failure mode. Establish a decision cadence that reviews exceptions and concentration risk before an incident forces the organization to learn in public.
 
-CISA’s [Zero Trust Maturity Model](https://www.cisa.gov/sites/default/files/2023-04/zero_trust_maturity_model_v2_508.pdf) is useful here because it shifts the conversation from perimeter trust to explicit policy, visibility, and continuous evaluation. The same principle should shape the management system around suppliers.
+NIST’s 2026 Cybersecurity Supply Chain Risk Management Due Diligence Assessment Quick-Start Guide gives leaders a more specific supplier lens: foreign ownership and control, provenance, resilience, foundational cyber practices, and supply-chain tiers. The same principle should shape the management system around suppliers—make the dependency legible before an incident makes it urgent.
 
 ## The Global Enterprise view
 
@@ -36,4 +36,4 @@ We bring strategy, architecture, and change management into the supplier convers
 ## Sources
 
 - [Verizon, 2025 Data Breach Investigations Report](https://www.verizon.com/about/news/2025-data-breach-investigations-report)
-- [CISA, Zero Trust Maturity Model 2.0](https://www.cisa.gov/sites/default/files/2023-04/zero_trust_maturity_model_v2_508.pdf)
+- [NIST, Cybersecurity Supply Chain Risk Management Due Diligence Assessment Quick-Start Guide](https://csrc.nist.gov/pubs/sp/1326/final)

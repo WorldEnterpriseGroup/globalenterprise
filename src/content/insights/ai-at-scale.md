@@ -29,7 +29,7 @@ An AI use case is not a feature. It is a new relationship between a person, a so
 
 For a federal agency, this may mean separating public-facing assistance from mission-critical determinations, then assigning different evidence, review, logging, and escalation requirements to each. For a healthcare enterprise, it may mean treating a clinical summarization tool as part of the care workflow, not as an isolated application. For a commercial enterprise, it may mean designing a new service level around an AI-assisted process instead of simply measuring the old process faster.
 
-NIST’s [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) gives organizations a useful vocabulary for governing these choices. OMB’s [M-24-10 memorandum](https://www.whitehouse.gov/wp-content/uploads/2024/03/M-24-10-Advancing-Governance-Innovation-and-Risk-Management-for-Agency-Use-of-Artificial-Intelligence.pdf) makes the same point in a public-sector context: governance, innovation, and risk management have to move together.
+The operating model is the governance mechanism. It should connect a use case to a mission outcome, a named owner, an evidence threshold, an exception path, and a decision about whether to scale, redesign, or stop. That makes governance part of delivery instead of a review that arrives after the workflow has already been chosen.
 
 ## The Global Enterprise view
 
@@ -40,5 +40,3 @@ The strategic question is simple: if the AI works, what must the organization be
 ## Sources
 
 - [Stanford HAI, 2026 AI Index: Economy](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy)
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
-- [OMB M-24-10: Advancing Governance, Innovation, and Risk Management for Agency Use of AI](https://www.whitehouse.gov/wp-content/uploads/2024/03/M-24-10-Advancing-Governance-Innovation-and-Risk-Management-for-Agency-Use-of-Artificial-Intelligence.pdf)

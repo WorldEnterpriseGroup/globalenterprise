@@ -29,7 +29,7 @@ The result is not simply faster throughput. It is a clearer operating rhythm and
 
 We use a short adoption brief before a tool is scaled. It names the decision or service being improved, the people who own the outcome, the evidence they need, the exceptions that require judgment, and the measure that will tell the team whether the new default is actually helping.
 
-This is especially important as AI becomes ordinary. Stanford HAI’s [2026 AI Index](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy) reports that 88% of surveyed organizations used AI in 2025. A market where almost everyone is experimenting rewards the organizations that can turn experiments into coherent operating capability.
+This is especially important as AI becomes ordinary. The Census Bureau’s Business Trends and Outlook Survey found that 18% of firms used AI in a business function in its November 2025–January 2026 supplement, rising to 32% when weighted by employment. Yet 57% of adopting firms used AI in three or fewer functions. Adoption is therefore not a binary milestone; it is a question of how deeply the new capability is integrated into the work.
 
 The adoption scorecard we recommend combines four measures:
 
@@ -40,5 +40,4 @@ The adoption scorecard we recommend combines four measures:
 
 ## Sources
 
-- [Stanford HAI, 2026 AI Index: Economy](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy)
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [U.S. Census Bureau, The Microstructure of AI Diffusion](https://www.census.gov/library/working-papers/2026/adrm/CES-WP-26-25.html)
