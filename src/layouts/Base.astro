@@ -61,7 +61,7 @@ const graph = [
   ...(site.social.linkedin ? { sameAs: [site.social.linkedin] } : {}),
   },
   { "@type": "WebSite", "@id": `${site.url}/#website`, name: site.name, url: site.url, description: site.description, publisher: { "@id": `${site.url}/#organization` } },
-  { "@type": type === "article" ? "Article" : "WebPage", name: title, url: canonical, description, isPartOf: { "@type": "WebSite", name: site.name, url: site.url }, ...(type === "article" ? { author: { "@type": "Organization", name: author }, datePublished: publishedTime, dateModified: modifiedTime ?? publishedTime, image: socialImage } : {}) },
+  { "@type": type === "article" ? "Article" : "WebPage", "@id": canonical, name: title, headline: type === "article" ? title : undefined, url: canonical, description, isPartOf: { "@id": `${site.url}/#website` }, ...(type === "article" ? { author: { "@type": "Organization", name: author }, publisher: { "@id": `${site.url}/#organization` }, mainEntityOfPage: { "@id": canonical }, datePublished: publishedTime, dateModified: modifiedTime ?? publishedTime, image: socialImage } : {}) },
   ...(serviceSchema ? [{ "@type": "Service", name: serviceSchema.name, description: serviceSchema.description, provider: { "@id": `${site.url}/#organization` }, areaServed: "Worldwide", url: canonical }] : []),
   { "@type": "BreadcrumbList", itemListElement: breadcrumbItems.map((item, index) => ({ "@type": "ListItem", position: index + 1, name: item.name, item: item.item })) },
 ];
