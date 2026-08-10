@@ -1,0 +1,18 @@
+---
+import Base from "@/layouts/Base.astro";
+import AssetImage from "@/components/AssetImage.astro";
+---
+
+<Base title="Thank you | Global Enterprise" description="Your Global Enterprise inquiry has been received." noindex>
+  <section class="bg-cobalt py-24 text-white md:py-36">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end">
+      <div>
+        <p class="eyebrow text-lime">Message received</p>
+        <h1 class="section-title mt-7 max-w-4xl">The next move is in motion.</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/75">Thank you for sharing the context. We will review it and come back with a useful next step.</p>
+        <div class="mt-10 flex flex-wrap gap-4"><a class="btn-primary" href="/">Back to home <span aria-hidden="true">↗</span></a><a class="btn-ghost" href="/insights/">Read the signal <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="relative overflow-hidden bg-ink"><AssetImage src="/media/generated/enterprise-hero.avif" width={1536} height={1024} loading="eager" decoding="async" alt="A quiet enterprise strategy room prepared for a working session" class="aspect-[4/3] w-full object-cover opacity-85" /><div class="absolute inset-x-0 bottom-0 bg-ink/80 p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-lime">While you wait</p><p class="mt-3 text-lg leading-relaxed text-white/70">Browse the work and perspectives that explain how we make complex systems more legible.</p></div></div>
+    </div>
+  </section>
+</Base>

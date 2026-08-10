@@ -1,0 +1,9 @@
+{
+  "name": "Global Enterprise",
+  "short_name": "Global Enterprise",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f2ec",
+  "theme_color": "#315b8e",
+  "icons": [{"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml"}]
+}

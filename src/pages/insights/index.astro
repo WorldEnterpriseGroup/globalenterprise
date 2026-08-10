@@ -1,0 +1,58 @@
+---
+import Base from "@/layouts/Base.astro";
+import EvidenceBand from "@/components/EvidenceBand.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import AssetImage from "@/components/AssetImage.astro";
+import { insightMedia } from "@/data/media";
+import { topicHref } from "@/data/insights";
+import { getCollection } from "astro:content";
+import NewsletterSignup from "@/components/NewsletterSignup.astro";
+
+const insights = (await getCollection("insights")).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0));
+const featured = insights[0];
+const featuredImage = featured?.data.image ?? insightMedia[featured?.data.category as keyof typeof insightMedia] ?? "/media/generated/enterprise-hero.avif";
+const insightKeywords = ["enterprise strategy", "operating model", "enterprise AI", "organizational change", "future of work"];
+const topics = [...new Set(insights.map((entry) => entry.data.category))];
+---
+
+<Base title="Insights | Global Enterprise" description="Evidence-led perspectives on enterprise AI, operating models, modernization, healthcare, federal transformation, cybersecurity, workforce, and infrastructure." keywords={insightKeywords}>
+  <section class="bg-paper py-20 md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-end"><div><p class="eyebrow">Insights</p><h1 class="section-title mt-7 max-w-5xl">Signals for the people carrying the next move.</h1><p class="body-copy mt-8 max-w-2xl text-xl">Short notes on operating models, technology, adoption, and the human work of change—grounded in public evidence and written for leaders who have to decide.</p></div>{featured && <a class="group relative overflow-hidden bg-ink" href={`/insights/${featured.id}/`}><AssetImage src={featuredImage} width={1536} height={1024} loading="eager" decoding="async" alt={featured.data.title} class="aspect-[16/9] w-full object-cover opacity-80 transition duration-500 group-hover:scale-105 group-hover:opacity-100" /><div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><p class="text-xs font-bold uppercase tracking-[0.12em] text-lime">Featured · {featured.data.category}</p><h2 class="mt-3 max-w-xl font-display text-3xl font-medium tracking-[-0.05em]">{featured.data.title}</h2></div></a>}</div></section>
+  <section class="section-pad bg-white"><div class="container-site"><SectionHeading eyebrow="Latest" title="Keep the signal." text="A growing library organized around the decisions that make transformation real." /><div class="mt-12 grid gap-4 border-y border-line py-5 md:grid-cols-[1fr_15rem_auto] md:items-end" data-insight-filters><label class="grid gap-2 text-xs font-bold uppercase tracking-[0.12em] text-cobalt" for="insight-search">Search the library<input id="insight-search" class="min-h-12 border border-line bg-paper px-4 text-base font-normal tracking-normal text-ink outline-none transition-colors focus:border-cobalt" type="search" placeholder="AI, adoption, modernization…" data-insight-search /></label><label class="grid gap-2 text-xs font-bold uppercase tracking-[0.12em] text-cobalt" for="insight-topic">Topic<select id="insight-topic" class="min-h-12 border border-line bg-paper px-4 text-base font-normal tracking-normal text-ink outline-none transition-colors focus:border-cobalt" data-insight-topic><option value="all">All topics</option>{topics.map((topic) => <option value={topic}>{topic}</option>)}</select></label><p class="text-sm text-muted md:pb-3" aria-live="polite" data-insight-count>{insights.length} perspectives</p></div><div class="mt-2 divide-y divide-line border-b border-line" data-insight-list>{insights.map((entry) => <a class="group grid gap-6 py-8 md:grid-cols-[8rem_1fr_auto] md:items-start" href={`/insights/${entry.id}/`} data-insight-card data-category={entry.data.category} data-search={`${entry.data.title} ${entry.data.description} ${entry.data.category} ${entry.data.keywords.join(" ")}`.toLowerCase()}><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.category}</p><p class="mt-2 text-xs text-muted">{entry.data.readingTime}</p>{entry.data.date && <p class="mt-2 text-xs text-muted">{entry.data.date.toLocaleDateString("en-US", { month: "short", year: "numeric" })}</p>}</div><div><h2 class="font-display text-3xl font-bold tracking-[-0.06em] transition-colors group-hover:text-cobalt">{entry.data.title}</h2><p class="mt-3 max-w-2xl leading-relaxed text-muted">{entry.data.description}</p><span class="mt-4 inline-flex text-xs font-bold uppercase tracking-[0.12em] text-cobalt">Read the argument ↗</span></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div><p class="hidden py-12 text-center text-muted" data-insight-empty>No perspectives match that search yet.</p></div></section>
+  <section class="section-pad bg-paper"><div class="container-site"><SectionHeading eyebrow="Browse by theme" title="Follow a question across the library." text="Topic pages bring related arguments together so a useful idea can become a line of inquiry." /><div class="mt-12 flex flex-wrap gap-3">{topics.map((topic) => <a class="pill border-cobalt/30 px-5 py-3 text-sm font-bold text-cobalt transition-colors hover:bg-cobalt hover:text-white" href={topicHref(topic)}>{topic} ↗</a>)}</div></div></section>
+  <NewsletterSignup />
+  <EvidenceBand eyebrow="Our research habit" title="Start with the evidence. Stay with the implication." text="We read the public record for the signal, then ask what it means for a leader making a decision inside a real system." limit={5} />
+  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-5xl font-bold tracking-[-0.07em]">Want a signal tailored to your situation?</h2><a class="btn-dark shrink-0" href="/contact/">Talk with us <span aria-hidden="true">↗</span></a></div></section>
+</Base>
+
+<script>
+  const initializeInsightFilters = () => {
+    const root = document.querySelector<HTMLElement>("[data-insight-filters]")?.closest(".container-site");
+    const list = root?.querySelector<HTMLElement>("[data-insight-list]");
+    if (!root || !list || root.hasAttribute("data-filter-bound")) return;
+    root.setAttribute("data-filter-bound", "true");
+    const search = root.querySelector<HTMLInputElement>("[data-insight-search]");
+    const topic = root.querySelector<HTMLSelectElement>("[data-insight-topic]");
+    const count = root.querySelector<HTMLElement>("[data-insight-count]");
+    const empty = root.querySelector<HTMLElement>("[data-insight-empty]");
+    const cards = [...list.querySelectorAll<HTMLElement>("[data-insight-card]")];
+    const update = () => {
+      const query = search?.value.trim().toLowerCase() ?? "";
+      const selectedTopic = topic?.value ?? "all";
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesQuery = !query || (card.dataset.search ?? "").includes(query);
+        const matchesTopic = selectedTopic === "all" || card.dataset.category === selectedTopic;
+        const show = matchesQuery && matchesTopic;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      if (count) count.textContent = `${visible} ${visible === 1 ? "perspective" : "perspectives"}`;
+      if (empty) empty.classList.toggle("hidden", visible !== 0);
+    };
+    search?.addEventListener("input", update);
+    topic?.addEventListener("change", update);
+  };
+
+  initializeInsightFilters();
+  document.addEventListener("astro:page-load", initializeInsightFilters);
+</script>
