@@ -2,6 +2,7 @@
 title: "The cost of unclear is compounding"
 description: "How decision ambiguity creates invisible drag across teams, systems, and customer experience."
 date: 2026-05-09
+lastReviewed: 2026-08-10
 category: "Execution"
 readingTime: "4 min read"
 eyebrow: "Signal · Execution"
@@ -15,7 +16,7 @@ That ambiguity accumulates as meetings, rework, slow approvals, and systems that
 
 The cost of unclear rarely appears as one line item. It appears as duplicated analysis, escalations that should have been decisions, emergency changes, inconsistent customer answers, and leaders who cannot tell whether a program is late because of execution or because the organization has not agreed what “done” means.
 
-The federal modernization challenge makes the pattern visible at national scale. [GAO’s 2025 review](https://www.gao.gov/products/gao-25-107795) identified 69 legacy systems in need of modernization and recommended that agencies document plans, milestones, and disposition decisions. Those are not paperwork requirements; they are attempts to create enough clarity for a portfolio to move.
+MIT CISR’s research on digital operating models frames the issue as a design choice: leaders need an explicit logic for how business processes and technology capabilities are integrated and standardized, while digital offerings also demand speed and agility. Clarity is therefore not an org-chart exercise. It is the operating logic that lets a portfolio decide where to integrate, where to standardize, and where to preserve local variation.
 
 ## Turn the fog into a control surface
 
@@ -31,4 +32,4 @@ This is where our decade of ITIL change management experience becomes useful. Th
 
 ## Source
 
-- [U.S. GAO, Agencies Need to Plan for Modernizing Critical Decades-Old Legacy Systems](https://www.gao.gov/products/gao-25-107795)
+- [MIT CISR, Defining Digital Operating Models](https://cisr.mit.edu/content/defining-digital-operating-models)

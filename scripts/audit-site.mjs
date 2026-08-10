@@ -5,6 +5,8 @@ const root = new URL("../dist/", import.meta.url);
 const errors = [];
 const htmlFiles = [];
 const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/"];
+const editorialDirectory = new URL("../src/content/insights/", import.meta.url);
+const freshnessBaseline = "2026-08-10";
 
 async function walk(directory) {
   for (const name of await readdir(directory)) {
@@ -80,6 +82,24 @@ for (const name of await readdir(root)) {
   for (const utilityRoute of utilityRoutes) {
     if (sitemap.includes(`globalenterprise.com${utilityRoute}`)) errors.push(`${name}: utility route included in sitemap (${utilityRoute})`);
   }
+}
+
+const editorialFiles = (await readdir(editorialDirectory)).filter((name) => name.endsWith(".md"));
+const editorialParagraphs = new Map();
+for (const name of editorialFiles) {
+  const markdown = await readFile(join(editorialDirectory.pathname, name), "utf8");
+  if (!markdown.includes(`lastReviewed: ${freshnessBaseline}`)) errors.push(`src/content/insights/${name}: missing August 2026 review date`);
+  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(markdown)) errors.push(`src/content/insights/${name}: stale pre-August 2026 reference`);
+  const body = markdown.replace(/^---[\s\S]*?---\s*/m, "");
+  for (const paragraph of body.split(/\n\s*\n/).map((value) => value.replace(/\s+/g, " ").trim())) {
+    if (paragraph.length < 140 || paragraph.startsWith("#") || paragraph.startsWith("- ")) continue;
+    const existing = editorialParagraphs.get(paragraph) ?? [];
+    existing.push(name);
+    editorialParagraphs.set(paragraph, existing);
+  }
+}
+for (const [paragraph, names] of editorialParagraphs) {
+  if (names.length > 1) errors.push(`editorial library: repeated paragraph across ${names.join(", ")}: ${paragraph.slice(0, 90)}…`);
 }
 const insightPages = htmlFiles.filter((path) => /\/insights\/[^/]+\/index\.html$/.test(path) && !path.includes("/topics/")).length;
 const topicPages = htmlFiles.filter((path) => /\/insights\/topics\/[^/]+\/index\.html$/.test(path)).length;

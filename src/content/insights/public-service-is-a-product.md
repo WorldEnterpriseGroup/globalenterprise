@@ -14,16 +14,15 @@ image: "/media/generated/federal-mission.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "OECD, Governing with Artificial Intelligence"
-    url: "https://www.oecd.org/en/about/news/press-releases/2025/09/oecd-encourages-responsible-use-of-ai-by-governments-to-strengthen-efficiency-effectiveness-and-trust.html"
-    published: "2025-09-18"
+    url: "https://www.oecd.org/en/publications/ai-and-skills_f843b352-en/full-report.html"
+    published: "2026-06"
     reviewed: 2026-08-10
-  - label: "U.S. Government Accountability Office, Federal AI Requirements"
-    url: "https://www.gao.gov/products/gao-25-107933"
-    published: "2025-07"
+  - label: "UN, The Sustainable Development Goals Report 2026"
+    url: "https://unstats.un.org/sdgs/report/2026/"
+    published: "2026-07-07"
     reviewed: 2026-08-10
-  - label: "U.S. Government Accountability Office, Legacy IT Modernization"
-    url: "https://www.gao.gov/products/gao-25-107795"
-    published: "2025-06"
+  - label: "UK Government, Service Standard: Make the service simple to use"
+    url: "https://www.gov.uk/service-manual/service-standard/point-4-make-the-service-simple-to-use"
     reviewed: 2026-08-10
 ---
 
@@ -31,7 +30,7 @@ Public institutions often describe transformation as a technology program becaus
 
 That is a product experience. The product is not a website or a platform in isolation. It is the public service as a whole: policy translated into eligibility, eligibility translated into workflow, workflow carried by people, and technology providing the evidence and control that keep the promise credible.
 
-The OECD’s 2025 review of government AI use examined 200 use cases and found applications across automation, forecasting, and decision support. It also emphasized the challenge of moving beyond pilot activity while preserving efficiency, responsiveness, and accountability. The implication is clear: public-sector leaders need a management system that can take a use case from mission need to operated service.
+The UN’s 2026 Sustainable Development Goals report makes the public-sector context unavoidable: progress is meaningful but uneven, the 2030 window is narrowing, and investment, international cooperation, technology, and data access must move faster. The implication for public services is practical: governments need impact measurement, skills, infrastructure, procurement, and partnerships—not just a successful pilot.
 
 ## Product thinking is a mission discipline
 
@@ -44,7 +43,7 @@ A mission product should make four things explicit:
 - **Evidence:** how will the agency know the service is accessible, timely, accurate, and safe?
 - **Authority:** who can change the service when policy, technology, or public need changes?
 
-These questions expose why legacy modernization cannot be managed as an inventory cleanup. GAO’s review of 69 federal legacy systems is a reminder that each system carries a service, a dependency, a funding pattern, and a set of operational habits. Disposition decisions are therefore product decisions: what should be retired, what should be redesigned, and what continuity must be protected while the service changes.
+These questions expose why modernization cannot be managed as an inventory cleanup. The UK Service Standard makes the product discipline concrete: understand the wider user journey, test with real users, make the service simple, and define success with performance data. Disposition decisions are therefore product decisions: what should be retired, what should be redesigned, and what continuity must be protected while the service changes.
 
 ## The service is the unit of accountability
 
@@ -60,7 +59,6 @@ Use a small set of service measures: time to a clear answer, first-time-right co
 
 ## What would change our mind?
 
-Not every public service needs a permanent product team or a release cadence that resembles a consumer application. The appropriate model depends on volatility, volume, risk, and the importance of continuity. Product thinking is useful precisely because it helps leaders choose the lightest management system that can keep the promise visible and improve it responsibly.
+Not every public service needs a permanent product team or a release cadence that resembles a consumer application. The appropriate model depends on volatility, volume, risk, and the importance of continuity. The OECD evidence suggests that the real test is whether the service can move from use case to operated capability while preserving accountability. Product thinking is useful precisely because it helps leaders choose the lightest management system that can keep the promise visible and improve it responsibly.
 
 Public trust is built at the point where the mission meets the experience. That is where government transformation should begin, and where it should remain accountable.
-

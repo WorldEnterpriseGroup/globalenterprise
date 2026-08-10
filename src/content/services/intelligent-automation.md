@@ -12,7 +12,7 @@ That can include AI opportunity mapping, workflow automation, enterprise resourc
 
 ## From pilot to portfolio
 
-Stanford HAI reports that 88% of surveyed organizations used AI in 2025. That makes the old pilot language less useful. Leaders now need a portfolio view: which workflows should be automated, which should be augmented, which should remain human-led, and what evidence is required before the system can scale.
+The OECD’s January 2026 release reports that 20.2% of firms used AI in the latest reporting year, with adoption materially higher among large firms than small firms. The gap is a design signal: leaders need a portfolio view of which workflows should be automated, which should be augmented, which should remain human-led, and what evidence is required before the system can scale.
 
 Our approach links opportunity to operating design:
 
@@ -22,4 +22,4 @@ Our approach links opportunity to operating design:
 4. instrument adoption, quality, exceptions, and escalation;
 5. govern the portfolio as a product that learns.
 
-NIST’s [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) gives the governance vocabulary; our job is to make the vocabulary operational inside the service.
+DOE’s [2026 grid modernization agenda](https://www.energy.gov/undersecretaryforscience/genesis-mission/scaling-grid-power-american-economy) shows the direction of travel: validated AI has to work inside high-consequence planning, operations, and security workflows. NIST’s [AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) gives the governance vocabulary; our job is to make it operational inside the service.

@@ -24,4 +24,4 @@ The result was a foundation that could scale without asking the business to wait
 
 We prioritized the questions the business needed answered, then worked backward into data ownership, integration patterns, observability, access controls, and release sequencing. That kept architecture from becoming an abstract future state.
 
-The lesson is reinforced by the [2025 Verizon DBIR](https://www.verizon.com/about/news/2025-data-breach-investigations-report): when third-party involvement appears in 30% of breaches, the boundary of the enterprise has to be visible in the architecture and the management system.
+The lesson is reinforced by NATO’s [Alliance Digital Strategy](https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy): data access, identity, metadata, interoperability, and Zero Trust are management concerns as much as architecture concerns. The boundary of the enterprise has to be visible in both the design and the operating rhythm.

@@ -12,8 +12,6 @@ Our work can include market and competitive analysis, technology scouting, scena
 
 ## Research that changes a decision
 
-The World Economic Forum’s Future of Jobs 2025 report expects 170 million roles to be created and 92 million displaced by 2030, while 39% of core skills change. Those figures are useful as signals, not as a strategy.
+The [UN’s 2026 SDG report](https://unstats.un.org/sdgs/report/2026/) says the next four years will determine whether progress holds or unravels. NATO’s [Ankara Summit](https://nato.int/en/news-and-events/events/2026/07/overview---2026-nato-summit-in-ankara-) adds a different but connected signal: industrial capacity, interoperability, innovation adoption, energy security, and resilience now share one strategic horizon. Those are signals, not a strategy.
 
 We turn public evidence into a decision surface: what is changing, who is exposed, which assumptions are carrying the most risk, and what small move would buy the organization better information. The output is not a trend deck. It is a sequence of choices, tests, and signals that a leadership team can keep updating.
-
-Source: [World Economic Forum, Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/)

@@ -2,12 +2,14 @@
 title: "Interoperability is not access; it is use"
 description: "The next healthcare data advantage will come from redesigning the workflow around information, not simply exchanging more of it."
 date: 2026-07-23
+updatedDate: 2026-08-10
+lastReviewed: 2026-08-10
 category: "Healthcare"
 readingTime: "8 min read"
 eyebrow: "Signal · Healthcare"
 ---
 
-The Office of the National Coordinator for Health IT found that 70% of non-federal acute care hospitals engaged in all four interoperability domains—send, receive, find, and integrate—in 2023. That is meaningful progress. It is also not the finish line: only 42% of hospitals reported that clinicians often used outside information when treating patients.
+ONC’s February 2026 brief shows that approximately nine in ten hospitals enabled patient access through an API, while much third-party exchange still relied on proprietary or non-standards-based methods. That is meaningful progress. It is also not the finish line: connectivity and clinical coherence are not the same thing.
 
 The gap is not primarily a standards problem. It is an operating model problem. Information may be available and still arrive too late, in the wrong place, with unclear provenance, or without a workflow that tells a person what to do next.
 
@@ -23,7 +25,7 @@ That requires more than an interface inventory. Leaders need to map:
 - the ownership of data quality and exceptions;
 - the point at which a human must review, explain, or override a recommendation.
 
-ONC’s 2026 brief on [hospital APIs and third-party technology](https://healthit.gov/data/data-briefs/hospital-use-of-apis-to-enable-data-sharing-between-ehrs-and-third-party-technology/) adds another important detail: roughly nine in ten hospitals enabled patient access through an API in 2024, but much third-party exchange still relied on proprietary or non-standards-based methods. Connectivity and coherence are not the same thing.
+ONC’s current [hospital API brief](https://healthit.gov/data/data-briefs/hospital-use-of-apis-to-enable-data-sharing-between-ehrs-and-third-party-technology/) adds the management question: who owns the information contract, what context is required for safe use, and how does a clinical or administrative team report that the exchange failed its purpose?
 
 ## Design the clinical and administrative system together
 
@@ -39,5 +41,4 @@ The question we ask is not “Can the systems exchange data?” It is “What wi
 
 ## Sources
 
-- [ONC, Interoperable Exchange of Patient Health Information Among U.S. Hospitals: 2023](https://healthit.gov/data/data-briefs/interoperable-exchange-patient-health-information-among-us-hospitals-2023/)
 - [ONC, Hospital Use of APIs to Enable Data Sharing](https://healthit.gov/data/data-briefs/hospital-use-of-apis-to-enable-data-sharing-between-ehrs-and-third-party-technology/)

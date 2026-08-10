@@ -2,6 +2,7 @@
 title: "Treat the enterprise like a product"
 description: "A useful shift in mindset for leaders responsible for systems, services, and the people who depend on them."
 date: 2026-06-26
+lastReviewed: 2026-08-10
 category: "Leadership"
 readingTime: "5 min read"
 eyebrow: "Signal · Leadership"
@@ -19,7 +20,7 @@ The enterprise promise is not a slogan. It is a measurable answer to a practical
 
 For a federal service, that may be fewer handoffs and clearer evidence. For a healthcare enterprise, it may be a care team seeing the right context before a decision. For a technology organization, it may be a product team getting a reliable platform path instead of opening a new ticket for every release.
 
-Stanford HAI reports that organizational AI use rose to 88% in 2025. That kind of adoption makes the product mindset more important, not less. A tool that works in isolation is a feature. A capability that changes the enterprise promise is a product.
+NATO’s 2026 digital strategy describes a future in which interoperable data spaces, federated identity, responsible use, and mission-critical continuity have to work together across organizations. The lesson is not to copy an institutional blueprint. It is to make the platform and the business accountable to the same promise. A tool that works in isolation is a feature. A capability that changes the enterprise promise is a product.
 
 ## Release the operating model
 
@@ -33,6 +34,7 @@ We recommend an operating roadmap with the same discipline a strong product team
 
 The management question becomes healthier: not “Did the project launch?” but “Did the service get better for the people who carry the outcome?”
 
-## Source
+## Sources
 
-- [Stanford HAI, 2026 AI Index: Economy](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy)
+- [NATO, Alliance Digital Strategy](https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy)
+- [Data.gov, Catalog API](https://resources.data.gov/catalog-api/)

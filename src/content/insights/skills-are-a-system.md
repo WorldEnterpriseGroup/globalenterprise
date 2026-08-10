@@ -2,12 +2,13 @@
 title: "Skills are a system, not a seminar"
 description: "The future workforce conversation becomes more useful when capability is designed into the way work is organized."
 date: 2026-07-08
+lastReviewed: 2026-08-10
 category: "Leadership"
 readingTime: "7 min read"
 eyebrow: "Signal · Workforce"
 ---
 
-The World Economic Forum’s Future of Jobs 2025 report estimates that 39% of workers’ core skills will be transformed or outdated by 2030. It also found that 63% of employers identify skills gaps as the biggest barrier to business transformation.
+The OECD’s 2026 work on AI and skills argues that capability has to be connected to the conditions of work: access to learning, the chance to practice, and a productive role in which new skills can be used. It points toward a dual response: widen access to high-quality learning and improve the match between skills and productive, rewarding work.
 
 The usual response is to buy training. Training matters, but it cannot repair a system that makes new capability difficult to use. A person can complete an AI course and still return to a workflow with unclear decision rights, poor data, no time to practice, and incentives that reward the old behavior.
 
@@ -20,7 +21,7 @@ We help leaders distinguish four different questions:
 3. **Authority:** Do they have the decision rights to act on what they know?
 4. **Reinforcement:** Do measures, managers, and systems make the behavior durable?
 
-Most transformation plans over-invest in the first layer and under-design the other three. That is how organizations end up with a highly trained workforce still waiting for approvals, navigating duplicate systems, or escalating decisions nobody owns.
+Most transformation plans over-invest in the first layer and under-design the other three. That is how organizations end up with a highly trained workforce still waiting for approvals, navigating duplicate systems, or escalating decisions nobody owns. The OECD’s emphasis on skills governance and skills matching suggests a broader conclusion: capability is an access-and-deployment problem, not just an education problem.
 
 ## Design the role before designing the curriculum
 
@@ -34,5 +35,4 @@ Our leadership and talent work connects capability maps to operating models, cha
 
 ## Sources
 
-- [World Economic Forum, Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/)
-- [World Economic Forum, Skills Outlook 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/in-full/3-skills-outlook/)
+- [OECD, AI and skills](https://www.oecd.org/en/publications/ai-and-skills_f843b352-en/full-report.html)

@@ -13,20 +13,18 @@ related: ["energy-transition-is-an-operating-model", "data-center-permitting-is-
 image: "/media/generated/energy-grid.avif"
 lastReviewed: 2026-08-10
 sources:
-  - label: "U.S. Department of Energy / NREL, Clean Electricity by 2035"
-    url: "https://www.energy.gov/cmei/examining-supply-side-options-achieve-100-clean-electricity-2035"
+  - label: "FEMA, National Resilience Guidance"
+    url: "https://www.fema.gov/vi/emergency-managers/national-preparedness/plan/resilience-guidance"
     reviewed: 2026-08-10
-  - label: "U.S. Department of Energy, Electric Grid Projects"
-    url: "https://www.energy.gov/edf/electric-grid-projects"
-    reviewed: 2026-08-10
-  - label: "CISA, Cross-Sector Cybersecurity Performance Goals"
-    url: "https://www.cisa.gov/cybersecurity-performance-goals"
+  - label: "DOE, Monitoring Oscillations from Large Data Centers"
+    url: "https://www.energy.gov/oe/articles/monitoring-oscillations-large-data-centers"
+    published: "2026-05-28"
     reviewed: 2026-08-10
 ---
 
 Resilience is frequently treated as an insurance premium: spend enough to reduce the probability of a bad event, then move on to growth. That framing is too narrow for the infrastructure systems being built now. The question is not only whether an asset can withstand a shock. It is whether the organization can keep the service promise while demand, regulation, technology, suppliers, and public expectations change at the same time.
 
-DOE and NREL’s clean-electricity scenarios make the scale of the coordination problem visible. The modeled pathways require large growth in generation, transmission, and storage while preserving reliability and managing land, supply-chain, and community constraints. DOE’s grid project portfolio similarly connects reliability, resilience, capacity, and modernization. These are not independent capital projects. They are a system of operating choices.
+FEMA’s National Resilience Guidance defines resilience as a collective condition spanning social, economic, environmental, housing, infrastructure, and institutional systems. That breadth matters for capital allocation: an asset can be technically robust and still fail its service promise if the workforce, community, supplier, or institution around it cannot adapt.
 
 ## The asset is not the outcome
 
@@ -41,6 +39,8 @@ Capital decisions improve when leaders connect each investment to five questions
 - What evidence will show that the investment improved resilience after it is in service?
 
 The questions force a portfolio to include operations, workforce, cyber, data, and legitimacy alongside engineering. They also make it easier to distinguish a genuine resilience investment from a project that merely adds capacity without reducing the uncertainty around how the system will behave.
+
+DOE’s 2026 work on monitoring oscillations from large data centers makes the portfolio implication concrete: digital load can create electrical behavior that operators must observe and manage as part of grid reliability. The measurement problem is broader than any single asset. Leaders should make resilience an explicit service outcome before capital is committed, not a favorable side effect discovered afterward.
 
 ## Design for changing conditions
 
@@ -60,3 +60,7 @@ Not every investment needs a portfolio-level governance layer. The right degree 
 
 Resilience is the ability to keep making good decisions as conditions change. That makes it a capital allocation question, an operating model question, and ultimately a leadership question about what the organization is prepared to make visible.
 
+## Sources
+
+- [FEMA, National Resilience Guidance](https://www.fema.gov/vi/emergency-managers/national-preparedness/plan/resilience-guidance)
+- [DOE, Monitoring Oscillations from Large Data Centers](https://www.energy.gov/oe/articles/monitoring-oscillations-large-data-centers)

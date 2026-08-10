@@ -2,6 +2,7 @@
 title: "The adoption gap is an operating model problem"
 description: "Why the next wave of enterprise AI will be won by teams that redesign work—not just tools."
 date: 2026-07-14
+lastReviewed: 2026-08-10
 category: "Operating model"
 readingTime: "6 min read"
 eyebrow: "Signal · Adoption"
@@ -29,7 +30,7 @@ The result is not simply faster throughput. It is a clearer operating rhythm and
 
 We use a short adoption brief before a tool is scaled. It names the decision or service being improved, the people who own the outcome, the evidence they need, the exceptions that require judgment, and the measure that will tell the team whether the new default is actually helping.
 
-This is especially important as AI becomes ordinary. Stanford HAI’s [2026 AI Index](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy) reports that 88% of surveyed organizations used AI in 2025. A market where almost everyone is experimenting rewards the organizations that can turn experiments into coherent operating capability.
+This is especially important as AI becomes ordinary. The OECD’s January 2026 release shows that adoption is expanding while remaining uneven across organization sizes and sectors. Adoption is therefore not a binary milestone; it is a question of how deeply the new capability is integrated into the work and whether the organization can learn from the exceptions.
 
 The adoption scorecard we recommend combines four measures:
 
@@ -40,5 +41,5 @@ The adoption scorecard we recommend combines four measures:
 
 ## Sources
 
-- [Stanford HAI, 2026 AI Index: Economy](https://hai.stanford.edu/ai-index/2026-ai-index-report/economy)
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [OECD, AI use by individuals surges across the OECD as adoption by firms continues to expand](https://www.oecd.org/en/about/news/announcements/2026/01/ai-use-by-individuals-surges-across-the-oecd-as-adoption-by-firms-continues-to-expand.html)
+- [OECD, AI and skills](https://www.oecd.org/en/publications/ai-and-skills_f843b352-en/full-report.html)

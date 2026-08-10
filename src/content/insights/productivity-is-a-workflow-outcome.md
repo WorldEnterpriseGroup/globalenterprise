@@ -17,19 +17,15 @@ sources:
     url: "https://www.oecd.org/en/about/news/announcements/2026/01/ai-use-by-individuals-surges-across-the-oecd-as-adoption-by-firms-continues-to-expand.html"
     published: "2026-01-28"
     reviewed: 2026-08-10
-  - label: "OECD, AI adoption by small and medium-sized enterprises"
-    url: "https://www.oecd.org/content/dam/oecd/en/publications/reports/2025/12/ai-adoption-by-small-and-medium-sized-enterprises_9c48eae6/426399c1-en.pdf"
-    published: "2025-12"
-    reviewed: 2026-08-10
   - label: "OECD, AI and skills"
     url: "https://www.oecd.org/en/publications/ai-and-skills_f843b352-en/full-report.html"
     published: "2026-06"
     reviewed: 2026-08-10
 ---
 
-The productivity promise around AI is real enough to shape capital allocation, but too conditional to justify a technology-only business case. OECD data shows that 20.2% of firms reported using AI in 2025, up from 14.2% in 2024 and 8.7% in 2023. The distribution matters: adoption reached 52% among large firms and 17.4% among small firms. Access is spreading; advantage will depend on how well organizations redesign the work around it.
+The productivity promise around AI is real enough to shape capital allocation, but too conditional to justify a technology-only business case. The OECD’s January 2026 release shows adoption expanding across people and firms while remaining uneven by organization size. Access is spreading; advantage will depend on how well organizations redesign the work around it.
 
-OECD’s review of small and medium-sized enterprises estimates that AI could add between 0.2 and 1.3 percentage points to annual labor-productivity growth across G7 economies over the next decade, depending on the adoption scenario. That is a serious signal, not a guaranteed return. The same body of research points to complementary investments in skills, data, process design, and organizational adaptation as conditions for the gain to appear.
+OECD’s 2026 work on AI and skills points to complementary investments in skills, data, process design, and organizational adaptation as conditions for productivity gains to appear. That is a serious signal, not a guaranteed return. A business case that cannot describe the changed workflow, the new control, and the evidence threshold is still a technology hope.
 
 ## The model is not the unit of value
 
@@ -61,4 +57,3 @@ Track leading signals before financial outcomes arrive: time to a trusted answer
 AI will not create material productivity in every workflow. The economics may fail when the task is too rare, the data too weak, the review burden too high, or the risk of a wrong output too consequential. The right response is not to force adoption. It is to make the stop condition explicit and move investment toward the workflows where human judgment and machine capability genuinely reinforce each other.
 
 The strategic question for leaders is therefore not whether their organization has AI. It is whether the organization can repeatedly turn a promising capability into a better way of working. That is an operating model question, and it is where the productivity case becomes real.
-

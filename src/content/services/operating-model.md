@@ -22,6 +22,4 @@ We typically work through:
 - a **governance rhythm** that turns exceptions into learning instead of escalation theater;
 - an **adoption plan** that gives teams a usable next default.
 
-GAO’s 2025 review of 69 federal legacy systems is a useful reminder that modernization plans need milestones, disposition decisions, and accountability. The same discipline applies in commercial and healthcare enterprises: the system changes when decisions, funding, service ownership, and behavior change together.
-
-Source: [U.S. GAO, Agencies Need to Plan for Modernizing Critical Decades-Old Legacy Systems](https://www.gao.gov/products/gao-25-107795)
+The [UN Sustainable Development Goals Report 2026](https://unstats.un.org/sdgs/report/2026/) makes the leadership requirement current: progress is meaningful but insufficient, and technology, data access, energy transition, and international cooperation need to move faster before 2030. The same discipline applies in commercial, healthcare, and public enterprises: the system changes when decisions, funding, service ownership, and behavior change together.

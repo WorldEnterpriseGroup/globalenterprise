@@ -12,8 +12,6 @@ Our work can include leadership alignment, workforce capability mapping, culture
 
 ## Capability has to show up in the work
 
-The World Economic Forum estimates that 39% of workers’ core skills will change by 2030 and that 63% of employers see skills gaps as a major barrier to transformation. The implication is not simply “train more.” It is to redesign roles, decision rights, practice environments, management signals, and measures so that the new capability has somewhere to land.
+The OECD’s [2026 AI and skills research](https://www.oecd.org/en/publications/ai-and-skills_f843b352-en/full-report.html) connects positive outcomes to training, evaluation ability, and work environments that let people use new capability. NATO’s [2026 digital strategy](https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy) similarly treats digital literacy and continuous learning as core professional capabilities through 2035. The implication is not simply “train more.” It is to redesign roles, decision rights, practice environments, management signals, and measures so that the new capability has somewhere to land.
 
 We build capability maps that connect the future workflow to the people who operate it. That makes leadership development specific: what must this role notice, decide, delegate, review, and learn as the system changes?
-
-Source: [World Economic Forum, Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/)
