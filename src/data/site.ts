@@ -391,7 +391,7 @@ export const navigationPanel = {
   feature: {
     label: "Point of view",
     title: "AI adoption is now an operating model problem.",
-    description: "Stanford’s latest AI Index points to scale. Our work starts where the statistic stops: decisions, workflows, controls, and capability.",
+    description: "DOE’s 2026 grid agenda points to scale. Our work starts where the infrastructure signal stops: decisions, workflows, controls, and capability.",
     href: "/insights/ai-at-scale/",
   },
 };
