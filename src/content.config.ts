@@ -2,19 +2,21 @@ import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 
+const authoredDate = z.coerce.date().transform((value) => new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth(), value.getUTCDate(), 12)));
+
 const shared = {
   title: z.string(),
   description: z.string(),
-  date: z.coerce.date().optional(),
-  updatedDate: z.coerce.date().optional(),
+  date: authoredDate.optional(),
+  updatedDate: authoredDate.optional(),
   eyebrow: z.string().optional(),
   image: z.string().optional(),
   author: z.string().default("Global Enterprise"),
   keywords: z.array(z.string()).default([]),
   industry: z.string().optional(),
   related: z.array(z.string()).default([]),
-  sources: z.array(z.object({ label: z.string(), url: z.url(), published: z.string().optional(), reviewed: z.coerce.date().optional() })).default([]),
-  lastReviewed: z.coerce.date().optional(),
+  sources: z.array(z.object({ label: z.string(), url: z.url(), published: z.string().optional(), reviewed: authoredDate.optional() })).default([]),
+  lastReviewed: authoredDate.optional(),
 };
 
 const insights = defineCollection({
