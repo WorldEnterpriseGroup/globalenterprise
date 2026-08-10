@@ -226,6 +226,7 @@ export const publicSignals = [
     text: "Stanford HAI reports that 88% of surveyed organizations used AI in 2025. The question is no longer whether to experiment; it is how to make adoption governable and useful.",
     source: "https://hai.stanford.edu/ai-index/2026-ai-index-report/economy",
     sourceLabel: "Stanford HAI · 2026 AI Index",
+    reviewed: "Aug 2026",
   },
   {
     value: "69",
@@ -233,6 +234,7 @@ export const publicSignals = [
     text: "GAO’s 2025 review identified 69 federal legacy systems in need of modernization. Modernization is a portfolio decision, not a software refresh.",
     source: "https://www.gao.gov/products/gao-25-107795",
     sourceLabel: "U.S. GAO · GAO-25-107795",
+    reviewed: "Aug 2026",
   },
   {
     value: "42%",
@@ -240,6 +242,7 @@ export const publicSignals = [
     text: "ONC found that 71% of hospitals had routine access to outside clinical information, yet only 42% said clinicians often used it when treating patients.",
     source: "https://healthit.gov/data/data-briefs/interoperable-exchange-patient-health-information-among-us-hospitals-2023/",
     sourceLabel: "ONC · Data Brief 71",
+    reviewed: "Aug 2026",
   },
   {
     value: "30%",
@@ -247,6 +250,7 @@ export const publicSignals = [
     text: "Verizon’s 2025 DBIR doubled the prior year’s third-party involvement finding. Supplier architecture and operating accountability now belong in the security conversation.",
     source: "https://www.verizon.com/about/news/2025-data-breach-investigations-report",
     sourceLabel: "Verizon · 2025 DBIR",
+    reviewed: "Aug 2026",
   },
   {
     value: "39%",
@@ -254,6 +258,7 @@ export const publicSignals = [
     text: "The WEF expects 39% of workers’ current core skills to be transformed or outdated by 2030. Capability building cannot remain a late-stage training workstream.",
     source: "https://www.weforum.org/press/2025/01/future-of-jobs-report-2025-78-million-new-job-opportunities-by-2030-but-urgent-upskilling-needed/",
     sourceLabel: "World Economic Forum · Future of Jobs 2025",
+    reviewed: "Aug 2026",
   },
 ];
 
@@ -265,7 +270,7 @@ export const experienceHighlights = [
 
 export const engagements = [
   {
-    number: "01",
+    number: "Clarity",
     title: "Executive working session",
     duration: "90 minutes",
     fit: "When the room needs a sharper decision.",
@@ -273,7 +278,7 @@ export const engagements = [
     href: "/contact/",
   },
   {
-    number: "02",
+    number: "Diagnosis",
     title: "System diagnostic",
     duration: "2–4 weeks",
     fit: "When the drag is real but the cause is distributed.",
@@ -281,7 +286,7 @@ export const engagements = [
     href: "/contact/",
   },
   {
-    number: "03",
+    number: "Partnership",
     title: "Transformation partnership",
     duration: "Quarter-scale",
     fit: "When the organization needs momentum that survives kickoff.",

@@ -1,0 +1,62 @@
+---
+const steps = [
+  { id: "mandate", number: "01", title: "Mandate", text: "Name the outcome, the promise, and the decision the organization has to make next." },
+  { id: "workflow", number: "02", title: "Workflow", text: "See how the work really moves, where it waits, and where judgment matters." },
+  { id: "platform", number: "03", title: "Platform", text: "Connect architecture, data, controls, and tools to the work they must support." },
+  { id: "capability", number: "04", title: "Capability", text: "Give people the roles, skills, and decision rights required to carry the change." },
+  { id: "evidence", number: "05", title: "Evidence", text: "Make progress observable through measures, feedback, and a cadence that can adapt." },
+];
+---
+
+<section class="section-pad bg-paper" data-system-map>
+  <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
+    <div>
+      <p class="eyebrow">The system view</p>
+      <h2 class="section-title mt-5">Change holds when the parts reinforce each other.</h2>
+      <p class="body-copy mt-6 max-w-xl">Move through the system to see the questions we keep connected when a problem crosses strategy, technology, and organizational life.</p>
+    </div>
+    <div class="system-map-canvas">
+      <div class="system-map-nodes" role="tablist" aria-label="The Global Enterprise system view">
+        {steps.map((step, index) => <button class:list={["system-map-node", index === 0 ? "is-active" : ""]} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`system-map-panel-${step.id}`} data-system-map-tab={step.id}><span>{step.number}</span><strong>{step.title}</strong></button>)}
+      </div>
+      <div class="system-map-panel" role="tabpanel" id="system-map-panel-mandate" data-system-map-panel="mandate" aria-live="polite"><p class="eyebrow">01 · Mandate</p><p class="mt-4 text-2xl font-medium leading-tight tracking-[-0.04em]" data-system-map-text>{steps[0].text}</p><a class="ink-link mt-7" href="/about/">See our approach <span aria-hidden="true"></span></a></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const initializeSystemMap = () => {
+    document.querySelectorAll<HTMLElement>("[data-system-map]").forEach((root) => {
+      if (root.hasAttribute("data-bound")) return;
+      root.setAttribute("data-bound", "true");
+      const steps = {
+        mandate: { number: "01", title: "Mandate", text: "Name the outcome, the promise, and the decision the organization has to make next.", href: "/about/", label: "See our approach" },
+        workflow: { number: "02", title: "Workflow", text: "See how the work really moves, where it waits, and where judgment matters.", href: "/services/operating-model/", label: "Explore operating model design" },
+        platform: { number: "03", title: "Platform", text: "Connect architecture, data, controls, and tools to the work they must support.", href: "/services/cloud-data/", label: "Explore cloud and data foundations" },
+        capability: { number: "04", title: "Capability", text: "Give people the roles, skills, and decision rights required to carry the change.", href: "/services/leadership-talent/", label: "Explore leadership and talent" },
+        evidence: { number: "05", title: "Evidence", text: "Make progress observable through measures, feedback, and a cadence that can adapt.", href: "/insights/", label: "Explore the signal" },
+      } as Record<string, { number: string; title: string; text: string; href: string; label: string }>;
+      const panel = root.querySelector<HTMLElement>("[data-system-map-panel]");
+      const text = root.querySelector<HTMLElement>("[data-system-map-text]");
+      const eyebrow = panel?.querySelector<HTMLElement>(".eyebrow");
+      const link = panel?.querySelector<HTMLAnchorElement>("a");
+      root.querySelectorAll<HTMLButtonElement>("[data-system-map-tab]").forEach((tab) => tab.addEventListener("click", () => {
+        const step = steps[tab.dataset.systemMapTab ?? "mandate"];
+        root.querySelectorAll("[data-system-map-tab]").forEach((candidate) => {
+          candidate.classList.toggle("is-active", candidate === tab);
+          candidate.setAttribute("aria-selected", String(candidate === tab));
+        });
+        if (panel && text && eyebrow && link) {
+          panel.id = `system-map-panel-${tab.dataset.systemMapTab}`;
+          eyebrow.textContent = `${step.number} · ${step.title}`;
+          text.textContent = step.text;
+          link.href = step.href;
+          link.innerHTML = `${step.label} <span aria-hidden="true"></span>`;
+        }
+      }));
+    });
+  };
+
+  initializeSystemMap();
+  document.addEventListener("astro:page-load", initializeSystemMap);
+</script>

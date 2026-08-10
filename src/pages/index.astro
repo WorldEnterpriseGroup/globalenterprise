@@ -5,6 +5,7 @@ import SectionHeading from "@/components/SectionHeading.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import StartingPoint from "@/components/StartingPoint.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import SystemMap from "@/components/SystemMap.astro";
 import { getCollection } from "astro:content";
 import { experienceHighlights, services, site } from "@/data/site";
 
@@ -31,6 +32,8 @@ const cases = await getCollection("caseStudies");
   <section class="section-pad bg-white"><div class="container-site grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-24"><SectionHeading eyebrow="The mandate" title="When the stakes are high, clarity is a capability." /><div><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest enterprise problems are rarely isolated. They sit between decisions, systems, and the people responsible for outcomes.</p><p class="body-copy mt-7 max-w-2xl">Global Enterprise brings senior strategy, architecture, and operating experience into one practical partnership. We help you see the system, choose the move, and make it durable.</p><a class="ink-link mt-8" href="/about/">How we work <span aria-hidden="true"></span></a></div></div></section>
 
   <StartingPoint />
+
+  <SystemMap />
 
   <EvidenceBand eyebrow="Signals worth designing around" title="The public record is moving fast. Your operating model has to keep up." text="We use public evidence to sharpen the question, then work with leaders to turn it into a strategy that fits their mission, risk, and capacity." limit={4} />
 
