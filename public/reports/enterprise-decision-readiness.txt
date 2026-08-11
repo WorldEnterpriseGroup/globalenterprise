@@ -1,0 +1,18 @@
+Global Enterprise Operating Report
+Prepared as a practical, reusable working reference.
+
+Executive summary
+This decision-readiness report compares mandate clarity, data trust, AI governance, and capability ownership.
+
+Key checkpoints
+1) Is the decision authority explicit for each workstream?
+2) Are data sources discoverable, versioned, and accessible where the decision is made?
+3) Is the AI workflow linked to a human exception path and documented recovery actions?
+4) Are modernization dependencies visible before execution commitments?
+
+Outcome
+Use this report as a first-pass diagnostic for modernization portfolios.
+
+Reference sources used in this report
+- UN SDG Report 2026
+- Data.gov catalog

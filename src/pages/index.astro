@@ -1,0 +1,128 @@
+---
+import Base from "@/layouts/Base.astro";
+import EvidenceBand from "@/components/EvidenceBand.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import StartingPoint from "@/components/StartingPoint.astro";
+import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import MediaInterlude from "@/components/MediaInterlude.astro";
+import SystemMap from "@/components/SystemMap.astro";
+import AssetImage from "@/components/AssetImage.astro";
+import { getCollection } from "astro:content";
+import { businessReports, experienceHighlights, services, site } from "@/data/site";
+
+const insights = (await getCollection("insights")).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)).slice(0, 3);
+const cases = await getCollection("caseStudies");
+const featuredReports = businessReports.slice(0, 3);
+---
+
+<Base title="Global Enterprise | Strategy for the next system" description={site.description} image="/media/hero-city.avif">
+  <div class="home-compact">
+  <section class="hero-home">
+    <AssetImage src="/media/original/hero-city.avif" width={1600} height={900} loading="eager" fetchpriority="high" decoding="async" sizes="100vw" alt="A global city skyline in clear morning light" class="hero-home-image" />
+    <div class="container-site relative z-10 flex min-h-[min(42rem,calc(100vh-1rem))] items-center py-20">
+      <div class="max-w-3xl text-white">
+        <p class="eyebrow text-lime">When one decision changes the room</p>
+        <h1 class="display-title mt-8">The advisory partner for the <span class="text-white/90">next order of complexity.</span></h1>
+        <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/75">We turn frontier intelligence into operating models, trusted data institutions, and change systems that hold when the stakes move.</p>
+        <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary bg-white" href="/contact/" data-track="hero_cta" data-track-label="Request a principal dialogue">Request a principal dialogue <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/resources/" data-track="hero_cta" data-track-label="Explore business reports">Explore business reports <span aria-hidden="true">↗</span></a></div>
+        <div class="mt-20 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Sense</p><p class="mt-1">The signal</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Shape</p><p class="mt-1">The intelligence</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Steer</p><p class="mt-1">The institution</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><span class="font-bold text-ink">The question changes. The standard holds.</span><span>AI-native operations</span><span>Frontier intelligence</span><span>Resilient infrastructure</span><span>Human capability</span></div></section>
+
+  <MediaInterlude
+    src="/media/original/home-mandate-briefing.avif"
+    alt="A senior planner tracing a route across a large paper map while colleagues watch"
+    eyebrow="The mandate"
+    caption="A decision becomes real when someone can point to the route, the trade-off, and the consequence."
+    index="01"
+    tone="white"
+    ratio="standard"
+    position="50% 30%"
+    showEyebrow={false}
+  >
+    <SectionHeading eyebrow="The mandate" title="When the future moves faster than the institution, judgment becomes infrastructure." />
+    <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of intelligence, authority, economics, trust, and the capacity to change without losing the plot.</p><p class="body-copy mt-7 max-w-2xl">Global Enterprise works at that seam. We bring a calm, senior view across frontier research, data, AI/ML, operating models, and change so leaders can make the next order of complexity governable.</p><a class="ink-link mt-8" href="/about/">Our point of view <span aria-hidden="true"></span></a></div>
+  </MediaInterlude>
+
+  <StartingPoint mediaSrc="/media/original/home-field-controls.avif" mediaAlt="A field engineer checking an old utility control cabinet with a paper checklist" mediaCaption="Start with the operating condition, not the preferred narrative." mediaRatio="wide" />
+
+  <SystemMap mediaSrc="/media/original/home-system-infrastructure.avif" mediaAlt="Rail, utility pipes, and power lines crossing a river at dawn" mediaCaption="The system is not an abstraction. It is a set of physical and human dependencies." />
+
+  <EvidenceBand eyebrow="Signals worth designing around" title="The public record is moving fast. Your operating model has to keep up." text="We use public evidence to sharpen the question, then work with leaders to turn it into a strategy that fits their mission, risk, and capacity." limit={4} photoSrc="/media/original/home-evidence-archive.avif" photoAlt="A researcher selecting a worn folder from shelves in a quiet archive" photoCaption="The record is not decoration. It changes what a serious leader can responsibly decide." />
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div>
+        <p class="eyebrow text-cobalt">Decision-ready business reports</p>
+        <h2 class="section-title mt-5">Research built to enter the working session.</h2>
+        <p class="mt-6 max-w-xl leading-relaxed text-muted">Concise operating briefs for leaders deciding how to govern AI, sequence modernization, and make institutional decisions move.</p>
+        <a class="btn-dark mt-8" href="/resources/">Browse the report library <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="border-y border-line">
+        {featuredReports.map((report, index) => (
+          <a class="report-index-row group" href={`/resources/${report.slug}/`} data-track="home_report_cta" data-track-label={report.slug}>
+            <span class="report-index-number">0{index + 1}</span>
+            <span>
+              <span class="eyebrow text-cobalt">{report.eyebrow}</span>
+              <strong>{report.title}</strong>
+              <span class="report-index-summary">{report.summary}</span>
+            </span>
+            <span class="report-index-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <MediaInterlude src="/media/original/home-consequence-field.avif" alt="A technician standing on a walkway above the basins and pipes of a water treatment facility" eyebrow="Why Global Enterprise" caption="The standard is proximity to the consequence: the place where a strategy becomes someone’s Tuesday." index="02" tone="white" reverse showEyebrow={false} ratio="standard" position="66% 50%">
+    <SectionHeading eyebrow="Why Global Enterprise" title="Experience that sits close to the consequence." text="Our perspective comes from working across the places where strategy becomes operational: federal missions, healthcare enterprises, technology platforms, and the people who have to carry change." />
+    <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <article class="bg-white p-8 md:p-10"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h3><p class="mt-4 leading-relaxed text-muted">{item.text}</p></article>)}</div>
+  </MediaInterlude>
+
+  <MediaInterlude src="/media/original/home-capability-workflow.avif" alt="Two systems technicians comparing a wiring diagram and components beside an open industrial cabinet" eyebrow="Capabilities" caption="Architecture is useful only when the people operating it can see the relationship between the parts." index="03" tone="paper" showEyebrow={false} ratio="wide" position="54% 50%">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Capabilities" title="A connected view of change." text="Choose the pressure point. We will connect it to the wider system." /><a class="btn-ghost shrink-0" href="/services/">View all capabilities <span aria-hidden="true">↗</span></a></div>
+    <div class="mt-14 divide-y divide-line border-y border-line">{services.slice(0, 4).map((service) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_auto] md:items-center" href={`/services/${service.slug}/`}><span class="font-display text-3xl text-cobalt">{service.number}</span><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
+  </MediaInterlude>
+
+  <MediaInterlude src="/media/original/home-field-note.avif" alt="A hard hat, notebook, and work gloves resting on a steel railing above an industrial facility" eyebrow="Selected work" caption="A field note begins with what the system leaves on the railing: evidence, residue, and the next question." index="04" tone="white" reverse showEyebrow={false} ratio="wide" position="38% 50%">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Selected work" title="Progress that survives the presentation." text="Three field notes, presented as decisions and outcomes—not a gallery of repeated stock scenes." /><a class="btn-ghost shrink-0" href="/case-studies/">View all work <span aria-hidden="true">↗</span></a></div>
+    <div class="mt-14 divide-y divide-line border-y border-line">{cases.map((entry, index) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_1.1fr_auto] md:items-center" href={`/case-studies/${entry.id}/`}><span class="font-display text-4xl text-cobalt">0{index + 1}</span><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.service}</p><h3 class="mt-2 font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{entry.data.title}</h3></div><p class="max-w-xl text-sm leading-relaxed text-muted">{entry.data.result}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
+  </MediaInterlude>
+
+  <MediaInterlude src="/media/original/home-listening-room.avif" alt="A researcher listening at an analog audio console with printed notes" eyebrow="Perspective" caption="Attention is a practice: listen long enough for the signal to become a useful question." index="05" tone="ink" showEyebrow={false} ratio="wide">
+    <div><p class="eyebrow text-lime">Perspective</p><h2 class="section-title mt-5">Useful ideas for the people carrying the next move.</h2><a class="btn-primary mt-8" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a></div>
+    <div class="mt-10 divide-y divide-white/15 border-y border-white/15">{insights.map((insight) => <a class="group block py-6" href={`/insights/${insight.id}/`}><div class="flex items-start justify-between gap-5"><div><p class="text-xs uppercase tracking-[0.12em] text-white/50">{insight.data.category} · {insight.data.readingTime}</p><h3 class="mt-3 max-w-xl font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-lime">{insight.data.title}</h3></div><span class="text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></div></a>)}</div>
+  </MediaInterlude>
+
+  <NewsletterSignup dark />
+
+  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-14 md:flex-row md:items-center md:justify-between"><div><p class="eyebrow text-ink">Make the next move visible</p><h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring us the mandate behind the question.</h2><p class="mt-6 max-w-2xl text-sm leading-relaxed text-ink/70">Need decision support now, not just perspective?</p></div><div class="flex flex-wrap gap-4"><a class="btn-dark shrink-0" href="/contact/" data-track="home_bottom_cta" data-track-label="principal dialogue">Request a principal dialogue <span aria-hidden="true">↗</span></a><a class="btn-ghost bg-white text-ink shrink-0" href="/resources/" data-track="home_bottom_cta" data-track-label="download report">Get an operating report <span aria-hidden="true">↗</span></a></div></div></section>
+  </div>
+</Base>
+
+<style>
+  .report-index-row {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+    gap: 1.25rem;
+    align-items: start;
+    padding-block: clamp(1.5rem, 3vw, 2.25rem);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .report-index-row:last-child { border-bottom: 0; }
+  .report-index-number { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.75rem; line-height: 1; }
+  .report-index-row strong { display: block; margin-top: 0.65rem; font-family: var(--font-display); font-size: clamp(1.4rem, 2.3vw, 2rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.035em; }
+  .report-index-summary { display: block; max-width: 42rem; margin-top: 0.7rem; color: var(--color-muted); font-size: 0.88rem; line-height: 1.55; }
+  .report-index-arrow { font-size: 1.4rem; transition: transform 180ms ease; }
+  .report-index-row:hover strong { color: var(--color-cobalt); }
+  .report-index-row:hover .report-index-arrow { transform: translate(0.25rem, -0.25rem); }
+
+  @media (max-width: 520px) {
+    .report-index-row { grid-template-columns: 2.5rem minmax(0, 1fr); }
+    .report-index-arrow { display: none; }
+  }
+</style>

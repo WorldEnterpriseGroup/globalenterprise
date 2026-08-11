@@ -1,0 +1,169 @@
+---
+import AssetImage from "@/components/AssetImage.astro";
+
+interface Props {
+  src: string;
+  alt: string;
+  eyebrow: string;
+  caption: string;
+  index?: string;
+  tone?: "paper" | "white" | "ink";
+  className?: string;
+  reverse?: boolean;
+  showEyebrow?: boolean;
+  loading?: "eager" | "lazy";
+  ratio?: "standard" | "wide" | "cinematic" | "tall";
+  position?: string;
+}
+
+const {
+  src,
+  alt,
+  eyebrow,
+  caption,
+  index = "01",
+  tone = "paper",
+  className = "",
+  reverse = false,
+  showEyebrow = true,
+  loading = "lazy",
+  ratio = "standard",
+  position = "50% 50%",
+} = Astro.props;
+---
+
+<section class:list={["media-interlude", `media-interlude-${tone}`, `media-interlude-ratio-${ratio}`, reverse && "media-interlude-reverse", className]} data-media-role={eyebrow}>
+  <div class="container-site media-interlude-grid">
+    <figure class="media-interlude-figure">
+      <div class="media-interlude-image-wrap" style={`--media-position: ${position}`}>
+        <AssetImage src={src} alt={alt} width={1536} height={1024} loading={loading} decoding="async" class="media-interlude-image" />
+        <span class="media-interlude-index" aria-hidden="true">{index}</span>
+      </div>
+      <figcaption>{caption}</figcaption>
+    </figure>
+    <div class="media-interlude-copy">
+      {showEyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <div class="media-interlude-content"><slot /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .media-interlude {
+    padding-block: var(--space-section);
+  }
+
+  .media-interlude-paper { background: var(--color-paper); }
+  .media-interlude-white { background: white; }
+  .media-interlude-ink { background: var(--color-ink); color: white; }
+
+  .media-interlude-grid {
+    display: grid;
+    gap: clamp(2.5rem, 7vw, 6rem);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .media-interlude-grid { grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr); }
+    .media-interlude-reverse .media-interlude-grid { grid-template-columns: minmax(18rem, 0.95fr) minmax(0, 1.05fr); }
+    .media-interlude-reverse .media-interlude-figure { order: 2; }
+  }
+
+  @media (min-width: 900px) {
+    .media-interlude-mandate .media-interlude-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(14rem, 0.82fr);
+    }
+  }
+
+  .media-interlude-figure { margin: 0; }
+
+  .media-interlude-image-wrap {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-cobalt);
+    box-shadow: 1.2rem 1.2rem 0 color-mix(in srgb, var(--color-cobalt) 16%, transparent);
+  }
+
+  :global(.media-interlude-image) {
+    display: block;
+    aspect-ratio: 1.5 / 1;
+    width: 100%;
+    object-fit: cover;
+    object-position: var(--media-position);
+    filter: saturate(0.84) contrast(1.04);
+    transition: transform 500ms ease, filter 500ms ease;
+  }
+
+  .media-interlude-ratio-wide :global(.media-interlude-image) { aspect-ratio: 16 / 9; }
+  .media-interlude-ratio-cinematic :global(.media-interlude-image) { aspect-ratio: 2.35 / 1; }
+  .media-interlude-ratio-tall :global(.media-interlude-image) { aspect-ratio: 4 / 5; }
+
+  .media-interlude-figure:hover :global(.media-interlude-image) {
+    transform: scale(1.025);
+    filter: saturate(1) contrast(1.04);
+  }
+
+  .media-interlude-index {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid rgb(255 255 255 / 45%);
+    background: rgb(16 19 29 / 68%);
+    color: white;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+
+  .media-interlude-figure figcaption {
+    max-width: 42rem;
+    margin-top: 1rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.035em;
+  }
+
+  .media-interlude-dark .media-interlude-figure figcaption { color: rgb(255 255 255 / 58%); }
+
+  .media-interlude-copy { max-width: 42rem; }
+
+  .media-interlude-mandate .media-interlude-grid {
+    gap: clamp(1.15rem, 4vw, 2rem);
+    align-items: start;
+  }
+
+  .media-interlude-mandate .media-interlude-copy {
+    margin-top: -0.35rem;
+  }
+
+  .media-interlude-mandate .media-interlude-figure {
+    max-width: min(95%, 30rem);
+    margin-top: -0.55rem;
+  }
+
+  .media-interlude-mandate .media-interlude-image-wrap {
+    box-shadow: 0.85rem 0.85rem 0 color-mix(in srgb, var(--color-cobalt) 16%, transparent);
+  }
+
+  .media-interlude-mandate .media-interlude-figure figcaption {
+    margin-top: 0.6rem;
+  }
+
+  .media-interlude-content {
+    margin-top: 1.35rem;
+  }
+
+  .media-interlude-content :global(.body-copy) { max-width: 42rem; }
+
+  .media-interlude-ink .media-interlude-content { color: rgb(255 255 255 / 76%); }
+  .media-interlude-ink .media-interlude-content :global(h2),
+  .media-interlude-ink .media-interlude-content :global(h3) { color: white; }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.media-interlude-image) { transition: none; }
+  }
+</style>

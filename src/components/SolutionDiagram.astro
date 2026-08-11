@@ -1,0 +1,10 @@
+---
+interface Props {
+  variant: string;
+}
+
+const { variant } = Astro.props;
+import ArchitectureMap from "@/components/ArchitectureMap.astro";
+---
+
+<ArchitectureMap variant={variant} />

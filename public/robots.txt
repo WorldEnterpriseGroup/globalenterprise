@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://globalenterprise.com/sitemap-index.xml

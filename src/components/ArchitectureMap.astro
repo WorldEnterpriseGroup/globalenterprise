@@ -1,0 +1,151 @@
+---
+interface DiagramNode {
+  name: string;
+  meta: string;
+}
+
+interface DiagramRow {
+  label: string;
+  tone: "data" | "work" | "control";
+  nodes: DiagramNode[];
+}
+
+interface DiagramDefinition {
+  eyebrow: string;
+  title: string;
+  caption: string;
+  columns: string[];
+  rows: DiagramRow[];
+  note: string;
+}
+
+interface Props {
+  variant?: string;
+  eyebrow?: string;
+  title?: string;
+  caption?: string;
+}
+
+const diagrams: Record<string, DiagramDefinition> = {
+  enterprise: {
+    eyebrow: "Solution architecture · operating system",
+    title: "A traceable path from signal to outcome.",
+    caption: "Value, control, and learning stay in the same loop so the system can improve without losing accountability.",
+    columns: ["Sense", "Shape", "Decide", "Operate"],
+    rows: [
+      { label: "Data plane", tone: "data", nodes: [{ name: "Signals", meta: "events · records" }, { name: "Trusted context", meta: "quality · lineage" }, { name: "Decision surface", meta: "role-aware" }, { name: "Outcome telemetry", meta: "adoption · impact" }] },
+      { label: "Work plane", tone: "work", nodes: [{ name: "Mandate", meta: "promise · boundary" }, { name: "Workflow", meta: "handoffs · queues" }, { name: "Judgment", meta: "rights · escalation" }, { name: "Service", meta: "delivery · learning" }] },
+      { label: "Control plane", tone: "control", nodes: [{ name: "Policy", meta: "risk · guardrails" }, { name: "Identity", meta: "access · roles" }, { name: "Assurance", meta: "test · review" }, { name: "Recovery", meta: "rollback · change" }] },
+    ],
+    note: "The architecture is useful when a leader can trace any outcome back to its decision, owner, evidence, and recovery path.",
+  },
+  "enterprise-ai": {
+    eyebrow: "AI solution architecture · governed workflow",
+    title: "Move from model access to managed capability.",
+    caption: "The model is one component inside a service with a clear owner, human review, evaluation, and a stop condition.",
+    columns: ["Select", "Design", "Assure", "Scale"],
+    rows: [
+      { label: "Signal plane", tone: "data", nodes: [{ name: "Use case", meta: "value · risk" }, { name: "Context", meta: "retrieval · data" }, { name: "Evaluation", meta: "quality · bias" }, { name: "Telemetry", meta: "drift · adoption" }] },
+      { label: "Work plane", tone: "work", nodes: [{ name: "Decision", meta: "owner · promise" }, { name: "Prompt / tool", meta: "workflow · UX" }, { name: "Human review", meta: "exceptions · appeal" }, { name: "Service", meta: "SLO · support" }] },
+      { label: "Control plane", tone: "control", nodes: [{ name: "Policy", meta: "allowed use" }, { name: "Identity", meta: "least privilege" }, { name: "Audit trail", meta: "provenance" }, { name: "Kill switch", meta: "pause · rollback" }] },
+    ],
+    note: "Scale the workflow only when the evidence threshold, human role, and recovery path are explicit.",
+  },
+  modernization: {
+    eyebrow: "Modernization architecture · portfolio sequencing",
+    title: "Make the future state visible before you fund it.",
+    caption: "Portfolio choices become safer when dependency, continuity, and operating capability travel with the target architecture.",
+    columns: ["Inventory", "Choose", "Release", "Stabilize"],
+    rows: [
+      { label: "System plane", tone: "data", nodes: [{ name: "Estate", meta: "services · debt" }, { name: "Disposition", meta: "retire · wrap" }, { name: "Target slice", meta: "APIs · seams" }, { name: "Observability", meta: "health · cost" }] },
+      { label: "Value plane", tone: "work", nodes: [{ name: "Mission", meta: "promise · users" }, { name: "Sequence", meta: "risk · value" }, { name: "Release", meta: "test · migrate" }, { name: "Service", meta: "continuity · care" }] },
+      { label: "Control plane", tone: "control", nodes: [{ name: "Funding", meta: "options · gates" }, { name: "Risk", meta: "dependency" }, { name: "Change", meta: "owners · comms" }, { name: "Runbook", meta: "support · exit" }] },
+    ],
+    note: "A modernization roadmap earns confidence when every release creates evidence for the next portfolio decision.",
+  },
+  "operating-model": {
+    eyebrow: "Operating model architecture · decision flow",
+    title: "Translate intent into work teams can actually run.",
+    caption: "Decision rights, service promises, handoffs, and measures are designed as one operating system.",
+    columns: ["Frame", "Design", "Decide", "Learn"],
+    rows: [
+      { label: "Information plane", tone: "data", nodes: [{ name: "Signal", meta: "demand · context" }, { name: "Service map", meta: "journey · value" }, { name: "Measure", meta: "leading · lagging" }, { name: "Feedback", meta: "voice · variance" }] },
+      { label: "Work plane", tone: "work", nodes: [{ name: "Promise", meta: "outcome · user" }, { name: "Handoff", meta: "queue · owner" }, { name: "Decision", meta: "rights · forum" }, { name: "Cadence", meta: "review · adapt" }] },
+      { label: "Control plane", tone: "control", nodes: [{ name: "Mandate", meta: "scope · boundary" }, { name: "Role", meta: "accountability" }, { name: "Escalation", meta: "threshold · path" }, { name: "Guardrail", meta: "risk · change" }] },
+    ],
+    note: "The model is real when the next decision is easier, the next handoff is cleaner, and accountability holds at the point of work.",
+  },
+  "healthcare-transformation": {
+    eyebrow: "Healthcare architecture · signal to care",
+    title: "Reduce the distance between reliable signal and better care.",
+    caption: "Interoperability is only valuable when context, safety, and human accountability arrive at the moment of decision.",
+    columns: ["Source", "Context", "Decide", "Care"],
+    rows: [
+      { label: "Data plane", tone: "data", nodes: [{ name: "Records", meta: "EHR · devices" }, { name: "Context", meta: "identity · consent" }, { name: "Evidence", meta: "quality · provenance" }, { name: "Outcome", meta: "care · cost" }] },
+      { label: "Clinical plane", tone: "work", nodes: [{ name: "Signal", meta: "change · risk" }, { name: "Workflow", meta: "queue · handoff" }, { name: "Judgment", meta: "review · explain" }, { name: "Action", meta: "care · follow-up" }] },
+      { label: "Safety plane", tone: "control", nodes: [{ name: "Consent", meta: "purpose · access" }, { name: "Privacy", meta: "minimum use" }, { name: "Escalation", meta: "exception path" }, { name: "Learning", meta: "monitor · improve" }] },
+    ],
+    note: "Design the clinical, administrative, and technology layers together so the care moment is not the place where the system breaks.",
+  },
+};
+
+const fallback = diagrams.enterprise;
+const requestedVariant = Astro.props.variant ?? "enterprise";
+const aliases: Record<string, string> = {
+  "case-automation-at-scale": "enterprise-ai",
+  "case-cloud-data-foundation": "modernization",
+  "case-operating-model": "operating-model",
+  "solution-enterprise-ai": "enterprise-ai",
+  "solution-healthcare-transformation": "healthcare-transformation",
+  "solution-modernization": "modernization",
+  "solution-operating-model": "operating-model",
+};
+const baseVariant = aliases[requestedVariant] ?? (requestedVariant.startsWith("service-intelligent-automation") ? "enterprise-ai" : requestedVariant.startsWith("service-cloud-data") ? "modernization" : requestedVariant.startsWith("service-operating-model") ? "operating-model" : requestedVariant.startsWith("solution-") ? "enterprise" : "enterprise");
+const selected = diagrams[requestedVariant] ?? diagrams[baseVariant] ?? fallback;
+const diagram = {
+  ...selected,
+  eyebrow: Astro.props.eyebrow ?? selected.eyebrow,
+  title: Astro.props.title ?? selected.title,
+  caption: Astro.props.caption ?? selected.caption,
+};
+const diagramId = `architecture-${requestedVariant.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}`;
+const headingId = `${diagramId}-heading`;
+---
+
+<section class="architecture-map" data-diagram-id={diagramId} aria-labelledby={headingId}>
+  <div class="architecture-map-header">
+    <div>
+      <p class="eyebrow text-cobalt">{diagram.eyebrow}</p>
+      <h2 id={headingId} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">{diagram.title}</h2>
+      <p class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">{diagram.caption}</p>
+    </div>
+    <div class="architecture-map-status"><span aria-hidden="true"></span><span>Traceability designed in</span></div>
+  </div>
+
+  <div class="architecture-map-canvas" tabindex="0" role="group" aria-label={`${diagram.title}. Scroll horizontally on narrow screens to inspect every layer.`}>
+    <div class="architecture-map-flow">
+      <div class="architecture-map-columns" aria-hidden="true">
+        <span>System layer</span>
+        {diagram.columns.map((column, index) => <span><i>0{index + 1}</i>{column}</span>)}
+      </div>
+      {diagram.rows.map((row) => (
+        <div class:list={["architecture-map-row", `is-${row.tone}`]}>
+          <div class="architecture-map-row-label"><span>{row.tone === "data" ? "D" : row.tone === "work" ? "W" : "C"}</span><strong>{row.label}</strong></div>
+          {row.nodes.map((node, index) => (
+            <div class="architecture-map-node">
+              <span class="architecture-map-node-index">{String(index + 1).padStart(2, "0")}</span>
+              <strong>{node.name}</strong>
+              <small>{node.meta}</small>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+  <p class="architecture-map-scroll-note">Swipe or shift-scroll to inspect every layer →</p>
+
+  <div class="architecture-map-footer">
+    <p>{diagram.note}</p>
+    <div class="architecture-map-legend" aria-label="Architecture layer legend"><span><i class="is-data"></i>Data / signal</span><span><i class="is-work"></i>Work / judgment</span><span><i class="is-control"></i>Control / recovery</span></div>
+  </div>
+</section>

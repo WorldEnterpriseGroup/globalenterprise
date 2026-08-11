@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import { media } from "@/data/media";
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: "eager" | "lazy";
+  decoding?: "async" | "sync" | "auto";
+  sizes?: string;
+  fetchpriority?: "high" | "low" | "auto";
+}
+
+const { src, alt, width = 1536, height = 1024, class: className, loading = "lazy", decoding = "async", sizes = "100vw", fetchpriority = "auto" } = Astro.props;
+const asset = media[src as keyof typeof media];
+const widths = [...new Set([480, 768, 1024, width].filter((candidate) => candidate <= width))].sort((a, b) => a - b);
+// Astro's development image endpoint can spend tens of seconds transcoding the
+// AVIF source set on a cold start. Public mirrors keep local review immediate;
+// production still uses the optimized, hashed Astro output below.
+const developmentSrc = src === "/media/original/hero-city.avif" ? "/media/hero-city.avif" : src;
+---
+
+{asset && !import.meta.env.DEV
+  ? <Image src={asset} alt={alt} width={width} height={height} widths={widths} sizes={sizes} format="avif" quality={78} loading={loading} decoding={decoding} fetchpriority={fetchpriority} class={className} />
+  : <img src={asset ? developmentSrc : src} alt={alt} width={width} height={height} loading={loading} decoding={decoding} fetchpriority={fetchpriority} class={className} />}

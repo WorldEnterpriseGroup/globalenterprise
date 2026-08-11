@@ -1,0 +1,31 @@
+---
+import { site } from "@/data/site";
+
+interface Props {
+  dark?: boolean;
+}
+
+const { dark = false } = Astro.props;
+---
+
+<section class:list={["newsletter-signup", dark ? "newsletter-signup-dark" : ""]}>
+  <div class="container-site grid gap-8 lg:grid-cols-[1fr_.9fr] lg:items-end">
+    <div>
+      <p class="eyebrow">The Signal</p>
+      <h2 class="mt-5 font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">A short note for the next decision.</h2>
+      <p class="mt-4 max-w-2xl leading-relaxed text-muted">Occasional evidence-led perspectives on operating models, enterprise AI, modernization, and the work of making change useful.</p>
+    </div>
+    <form class="grid gap-4" action={site.formEndpoint} method="POST" data-lead-form data-form-kind="signal">
+      <input type="hidden" name="_subject" value="Subscribe to The Signal" />
+      <input type="hidden" name="_next" value={`${site.url}/insights/thanks/`} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
+      <label class="sr-only" for="signal-email">Work email</label>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <input id="signal-email" class="min-h-[3.25rem] min-w-0 flex-1 border border-line bg-white px-5 text-base outline-none transition-colors focus:border-cobalt" type="email" name="email" autocomplete="email" placeholder="Work email" required />
+        <button class="btn-dark shrink-0" type="submit" data-track="newsletter_submit">Subscribe <span aria-hidden="true">↗</span></button>
+      </div>
+      <label class="flex items-start gap-3 text-xs text-muted"><input class="mt-0.5 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to receive occasional notes and can unsubscribe at any time.</label>
+    </form>
+  </div>
+</section>

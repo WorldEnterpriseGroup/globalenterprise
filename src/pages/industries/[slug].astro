@@ -1,0 +1,110 @@
+---
+import Base from "@/layouts/Base.astro";
+import SignalIcon from "@/components/SignalIcon.astro";
+import SignalChart from "@/components/SignalChart.astro";
+import { industries, services } from "@/data/site";
+
+export function getStaticPaths() {
+  return industries.map((industry) => ({
+    params: { slug: industry.slug },
+    props: { industry },
+  }));
+}
+
+const { industry } = Astro.props;
+const relatedServices = services.filter((service) => {
+  if (industry.slug === "enterprise-ai") return ["intelligent-automation", "research-foresight", "transformation-office"].includes(service.slug);
+  if (industry.slug === "frontier-intelligence-autonomous-systems") return ["research-foresight", "intelligent-automation", "cloud-data"].includes(service.slug);
+  if (industry.slug === "energy-infrastructure") return ["cloud-data", "transformation-office", "research-foresight"].includes(service.slug);
+  if (industry.slug === "healthcare-life-sciences") return ["operating-model", "cloud-data", "intelligent-automation"].includes(service.slug);
+  if (industry.slug === "federal-public-service") return ["operating-model", "transformation-office", "cloud-data"].includes(service.slug);
+  return services.slice(0, 3).some((candidate) => candidate.slug === service.slug);
+});
+const insightLinks: Record<string, { title: string; href: string; text: string }[]> = {
+  "enterprise-services": [{ title: "Skills are a system", href: "/insights/skills-are-a-system/", text: "Why capability building belongs inside the operating model." }, { title: "The cost of unclear", href: "/insights/the-cost-of-unclear/", text: "A practical case for making decision rights visible." }],
+  "healthcare-life-sciences": [{ title: "Interoperability is a workflow", href: "/insights/interoperability-is-a-workflow/", text: "Why exchange is only the beginning of clinical value." }, { title: "Designing for adoption", href: "/insights/designing-for-adoption/", text: "The operating discipline behind durable change." }],
+  "federal-public-service": [{ title: "Legacy is a product decision", href: "/insights/legacy-is-a-product-decision/", text: "A portfolio lens for mission-critical modernization." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "How governance becomes a delivery advantage." }],
+  "technology-data": [{ title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "Why supplier architecture is now security architecture." }, { title: "Enterprise as a product", href: "/insights/enterprise-as-a-product/", text: "How platforms become a promise to internal customers." }],
+  education: [{ title: "Skills are a system", href: "/insights/skills-are-a-system/", text: "Turning future skills into an institutional capability." }, { title: "AI at scale", href: "/insights/ai-at-scale/", text: "What adoption asks of leaders beyond the pilot." }],
+  "enterprise-ai": [{ title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating model question behind the adoption statistic." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "Why responsible AI belongs in the management system." }],
+  "frontier-intelligence-autonomous-systems": [{ title: "2035 is a design constraint", href: "/insights/2035-is-a-design-constraint/", text: "Why long-horizon capability requires decisions now." }, { title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating system behind frontier capability." }],
+  "energy-infrastructure": [{ title: "The grid is an operating model", href: "/insights/ai-at-scale/", text: "A future-facing view of infrastructure, intelligence, and execution." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "What supply-chain exposure means for resilient delivery." }],
+};
+const insights = insightLinks[industry.slug] ?? [];
+const title = `${industry.title} strategy and transformation | Global Enterprise`;
+const description = `${industry.description} Evidence-led strategy and transformation support for ${industry.title.toLowerCase()} leaders.`;
+const chartVariant = `industry-${industry.slug}`;
+---
+
+<Base title={title} description={description}>
+  <section class="bg-ink py-20 text-white md:py-28">
+    <div class="container-site grid gap-12 lg:grid-cols-[.82fr_1.18fr] lg:items-end">
+      <div>
+        <a class="eyebrow text-lime" href="/industries/">Industries · Back to all</a>
+        <p class="mt-12 font-display text-5xl font-medium tracking-[-0.06em] text-white/25 md:text-7xl">{industry.number}</p>
+        <h1 class="section-title mt-5 max-w-4xl">The next chapter of {industry.title.toLowerCase()} will be won in the operating model.</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">{industry.description}</p>
+      </div>
+      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Sector lens</p><p class="mt-5 max-w-sm font-display text-4xl font-medium leading-tight tracking-[-0.05em] text-white/85">{industry.focus[0]}</p><p class="mt-5 max-w-sm text-sm leading-relaxed text-white/60">A sector perspective, grounded in public evidence and translated into operating choices.</p></div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.68fr_1.32fr] lg:gap-24">
+      <div>
+        <p class="eyebrow text-cobalt">Our point of view</p>
+        <h2 class="mt-6 font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">The strategy is only real when the people and system can carry it.</h2>
+        <div class="mt-10 flex items-center gap-3 text-cobalt"><SignalIcon name="compass" size={24} /><span class="text-xs font-bold uppercase tracking-[0.14em]">Future agenda</span></div>
+      </div>
+      <div class="max-w-3xl space-y-7 text-xl leading-relaxed text-muted">
+        <p>{industry.direction}</p>
+        <p>Our role is to connect the public signal to an actionable sequence: what leaders should decide now, what must become observable, what capability has to move, and what evidence will show that the change is working.</p>
+        <p>That is how a consulting engagement becomes more than an answer. It becomes a management system for the next version of the organization.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper">
+    <div class="container-site grid gap-px border-x border-line bg-line md:grid-cols-[.88fr_1.12fr]">
+      <div class="bg-paper p-8 md:p-12">
+        <p class="eyebrow text-cobalt">Public signal</p>
+        <p class="mt-8 font-display text-3xl font-medium leading-tight tracking-[-0.05em]">{industry.signal}</p>
+        <a class="mt-8 inline-flex text-xs font-bold uppercase tracking-[0.12em] text-cobalt underline decoration-cobalt/30 underline-offset-4 hover:decoration-cobalt" href={industry.source} target="_blank" rel="noreferrer">{industry.sourceLabel} ↗</a>
+      </div>
+      <div class="bg-white p-8 md:p-12">
+        <p class="eyebrow">What the future asks of the sector</p>
+        <div class="mt-8 grid gap-5 sm:grid-cols-3">
+          {industry.focus.map((item) => <div class="border-t border-line pt-4"><span class="eyebrow text-cobalt">Priority</span><p class="mt-4 text-sm font-bold leading-relaxed">{item}</p></div>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white"><div class="container-site"><SignalChart variant={chartVariant} eyebrow={`${industry.title} · operating signal`} /></div></section>
+
+  <section class="section-pad bg-paper">
+    <div class="container-site">
+      <div class="flex flex-col justify-between gap-7 md:flex-row md:items-end">
+        <div><p class="eyebrow text-cobalt">Three moves that matter</p><h2 class="section-title mt-5 max-w-4xl">From signal to a system leaders can run.</h2></div>
+        <p class="max-w-sm text-sm leading-relaxed text-muted">The work is sequenced around the decisions that unlock the next layer of performance.</p>
+      </div>
+      <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
+        {industry.plays.map((play) => <article class="bg-paper p-8 md:min-h-[25rem] md:p-10"><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{play.label}</p><h3 class="mt-12 font-display text-3xl font-medium leading-tight tracking-[-0.05em]">{play.title}</h3><p class="mt-5 leading-relaxed text-muted">{play.text}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-14 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div><p class="eyebrow text-cobalt">How we can help</p><h2 class="mt-6 font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring the mandate, the constraint, and the ambition.</h2></div>
+      <div>
+        <div class="divide-y divide-line border-y border-line">
+          {relatedServices.map((service) => <a class="group grid gap-4 py-7 md:grid-cols-[4rem_1fr_auto] md:items-center" href={`/services/${service.slug}/`}><span class="font-display text-3xl text-cobalt">{service.number}</span><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}
+        </div>
+        <div class="mt-12"><p class="eyebrow">Read the argument</p><div class="mt-5 grid gap-4 sm:grid-cols-2">{insights.map((insight) => <a class="group border border-line p-6 transition-colors hover:border-cobalt" href={insight.href}><p class="font-display text-xl font-medium tracking-[-0.04em] group-hover:text-cobalt">{insight.title}</p><p class="mt-3 text-sm leading-relaxed text-muted">{insight.text}</p><span class="mt-6 inline-block text-cobalt">↗</span></a>)}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cobalt text-white"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Bring us the future system behind the challenge.</h2><a class="btn-primary shrink-0" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div></section>
+</Base>

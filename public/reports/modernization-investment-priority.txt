@@ -1,0 +1,17 @@
+Global Enterprise Modernization and Investment Priority Brief
+Sequencing guidance for legacy modernization and operating-model evolution.
+
+Focus
+This report aligns mission continuity, dependency risk, and capability design into one execution sequence.
+
+How to use
+- Map your current systems as retire/wrap/re-platform/re-design choices.
+- Make explicit the continuity requirement before technical design decisions.
+- Assign ownership for each transition and close the loop through measurable outcomes.
+
+Expected result
+Faster decisions about where to spend budget and where to defer.
+
+Reference sources used in this brief
+- DOE AI-enabled grid planning context
+- NIST AI reliability and governance materials

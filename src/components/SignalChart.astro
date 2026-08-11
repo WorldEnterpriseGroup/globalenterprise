@@ -1,0 +1,100 @@
+---
+interface ChartDefinition {
+  eyebrow: string;
+  title: string;
+  caption: string;
+  series: { label: string; color: "cobalt" | "lime" | "ink" }[];
+  annotation: string;
+}
+
+interface Props {
+  variant?: string;
+  eyebrow?: string;
+  title?: string;
+  caption?: string;
+}
+
+const charts: Record<string, ChartDefinition> = {
+  default: {
+    eyebrow: "Diagnostic chart · feedback loop",
+    title: "The strongest systems improve in public.",
+    caption: "An illustrative operating trajectory: visibility arrives first, then control, then durable outcome. It is a diagnostic pattern—not a forecast.",
+    series: [{ label: "Visibility", color: "cobalt" }, { label: "Control", color: "lime" }, { label: "Outcome", color: "ink" }],
+    annotation: "The threshold is the point where a team can see enough to make the next decision with confidence.",
+  },
+  "enterprise-ai": {
+    eyebrow: "AI portfolio diagnostic · signal quality",
+    title: "Scale follows evidence, not enthusiasm.",
+    caption: "Illustrative trajectory for moving a use case from signal to managed service: prove value, then add control before adding volume.",
+    series: [{ label: "Use-case value", color: "cobalt" }, { label: "Assurance", color: "lime" }, { label: "Adoption", color: "ink" }],
+    annotation: "The scale gate is earned when evaluation, human review, and recovery are part of the everyday workflow.",
+  },
+  healthcare: {
+    eyebrow: "Care-system diagnostic · point of use",
+    title: "Exchange becomes useful when context reaches the care moment.",
+    caption: "Illustrative trajectory for reducing the distance between a trustworthy signal and a decision without adding cognitive drag.",
+    series: [{ label: "Access", color: "cobalt" }, { label: "Context", color: "lime" }, { label: "Care impact", color: "ink" }],
+    annotation: "The useful threshold is not more data; it is the right context, at the right moment, with the right accountability.",
+  },
+  energy: {
+    eyebrow: "Infrastructure diagnostic · operating resilience",
+    title: "Complexity becomes manageable when dependencies are visible.",
+    caption: "Illustrative trajectory for coordinating assets, data, permitting, workforce, and operations across a capital program.",
+    series: [{ label: "Dependencies", color: "cobalt" }, { label: "Control room", color: "lime" }, { label: "Resilience", color: "ink" }],
+    annotation: "The operating threshold is the point where investment choices can be tested against service continuity.",
+  },
+};
+
+const requestedVariant = Astro.props.variant ?? "default";
+const baseVariant = requestedVariant.startsWith("industry-")
+  ? requestedVariant === "industry-healthcare-life-sciences" ? "healthcare" : requestedVariant === "industry-energy-infrastructure" ? "energy" : requestedVariant === "industry-enterprise-ai" ? "enterprise-ai" : "default"
+  : requestedVariant.startsWith("article-")
+    ? requestedVariant.includes("clinical-ai") || requestedVariant.includes("interoperability") ? "healthcare" : requestedVariant.includes("energy") || requestedVariant.includes("data-center") || requestedVariant.includes("resilience") ? "energy" : requestedVariant.includes("ai") || requestedVariant.includes("governance") ? "enterprise-ai" : "default"
+    : requestedVariant;
+const selected = charts[requestedVariant] ?? charts[baseVariant] ?? charts.default;
+const chart = {
+  ...selected,
+  eyebrow: Astro.props.eyebrow ?? selected.eyebrow,
+  title: Astro.props.title ?? selected.title,
+  caption: Astro.props.caption ?? selected.caption,
+};
+const diagramId = `signal-${requestedVariant.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}`;
+const chartId = `${diagramId}-heading`;
+---
+
+<figure class="signal-chart" data-diagram-id={diagramId} aria-labelledby={chartId}>
+  <div class="signal-chart-header">
+    <div>
+      <p class="eyebrow text-cobalt">{chart.eyebrow}</p>
+      <h2 id={chartId} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">{chart.title}</h2>
+      <figcaption class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">{chart.caption}</figcaption>
+    </div>
+    <div class="signal-chart-code">DIAG / 04<br /><span>TRACEABLE SIGNAL</span></div>
+  </div>
+
+  <div class="signal-chart-canvas">
+    <svg viewBox="0 0 840 340" role="img" aria-label={`${chart.title}. The chart shows three illustrative trajectories rising over four stages: signal, context, decision, and outcome.`}>
+      <defs>
+        <linearGradient id={`${chartId}-fade`} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#315b8e" stop-opacity="0.18" /><stop offset="100%" stop-color="#315b8e" stop-opacity="0" /></linearGradient>
+      </defs>
+      <g class="signal-chart-grid" aria-hidden="true">
+        <line x1="72" y1="50" x2="790" y2="50" /><line x1="72" y1="110" x2="790" y2="110" /><line x1="72" y1="170" x2="790" y2="170" /><line x1="72" y1="230" x2="790" y2="230" /><line x1="72" y1="290" x2="790" y2="290" />
+        <line x1="72" y1="50" x2="72" y2="290" /><line x1="312" y1="50" x2="312" y2="290" /><line x1="552" y1="50" x2="552" y2="290" /><line x1="790" y1="50" x2="790" y2="290" />
+      </g>
+      <path class="signal-chart-area" d="M72 254 C155 239 220 220 312 206 S465 176 552 142 S700 95 790 72 V290 H72 Z" />
+      <path class="signal-chart-line is-cobalt" d="M72 254 C155 239 220 220 312 206 S465 176 552 142 S700 95 790 72" />
+      <path class="signal-chart-line is-lime" d="M72 280 C158 275 226 256 312 240 S470 195 552 176 S690 135 790 106" />
+      <path class="signal-chart-line is-ink" d="M72 294 C165 292 236 282 312 271 S462 248 552 225 S696 180 790 155" />
+      <line class="signal-chart-threshold" x1="552" y1="50" x2="552" y2="290" />
+      <circle class="signal-chart-point is-cobalt" cx="312" cy="206" r="5" /><circle class="signal-chart-point is-lime" cx="552" cy="176" r="5" /><circle class="signal-chart-point is-ink" cx="790" cy="155" r="5" />
+      <g class="signal-chart-axis" aria-hidden="true"><text x="72" y="318">SIGNAL</text><text x="291" y="318">CONTEXT</text><text x="531" y="318">DECISION</text><text x="760" y="318">OUTCOME</text><text x="19" y="56">HIGH</text><text x="19" y="294">LOW</text></g>
+      <g class="signal-chart-callout"><rect x="570" y="66" width="178" height="50" rx="2" /><text x="584" y="87">SCALE GATE</text><text x="584" y="103">evidence + owner + exit</text></g>
+    </svg>
+  </div>
+  <p class="signal-chart-scroll-note">Swipe or shift-scroll to inspect the full diagnostic →</p>
+
+  <div class="signal-chart-footer">
+    <div class="signal-chart-legend">{chart.series.map((series) => <span><i class:list={[`is-${series.color}`]}></i>{series.label}</span>)}</div>
+    <p>{chart.annotation}</p>
+  </div>
+</figure>
