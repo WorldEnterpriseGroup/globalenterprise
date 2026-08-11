@@ -236,6 +236,7 @@ const exactVisuals: Record<string, VisualRecord> = {
   "/insights/": photo("insights-field-notes", "research photo · filterable index · topic rail · evidence", ["orientation", "observation", "participation", "connection"]),
   "/services/": photo("services-control-room", "photo-led capability index · architecture map · evidence rail", ["orientation", "observation", "index", "diagram", "evidence"]),
   "/solutions/": photo("solutions-care-handoff", "photo-led question index · solution chooser · compact invitation", ["orientation", "observation", "participation", "connection"]),
+  "/resources/": photo("home-intelligence-workshop", "workshop-led thesis · editorial report index · subscription", ["orientation", "observation", "index", "participation"]),
   "/visual-sitemap/": route("site map · numbered directory · route preview", ["orientation", "index", "connection"]),
 };
 
@@ -250,6 +251,7 @@ export function visualForPath(pathname: string): VisualRecord {
   if (normalized.startsWith("/insights/topics/")) return route(`topic index · ${normalized.split("/")[3]} · argument list · next question`, ["orientation", "index", "connection"], "topic index");
   if (normalized.startsWith("/insights/")) return route(`article · ${normalized.split("/")[2]} · reading map · evidence visual`, ["thesis", "prose", "diagram", "connection"], "article");
   if (normalized.startsWith("/case-studies/")) return route(`case study · ${normalized.split("/")[2]} · field note · architecture`, ["context", "prose", "diagram", "consequence"], "case study");
+  if (normalized.startsWith("/resources/")) return route(`report · ${normalized.split("/")[2]} · field note · request`, ["orientation", "observation", "preview", "participation"], "business report");
   if (normalized.startsWith("/contact/")) return exactVisuals["/contact/"];
   return route("utility route · summary · next action", ["orientation", "connection"], "utility route");
 }

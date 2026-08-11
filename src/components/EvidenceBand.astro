@@ -50,15 +50,21 @@ const {
   .evidence-band-intro {
     display: grid;
     gap: 2rem;
-    align-items: end;
+    align-items: start;
   }
 
   @media (min-width: 900px) {
-    .evidence-band-intro { grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr); }
+    .evidence-band-intro {
+      align-items: start;
+      grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 0.85fr);
+      gap: 2.4rem;
+    }
   }
 
   .evidence-band-photo {
     margin: 0;
+    align-self: start;
+    width: 100%;
     overflow: hidden;
     border: 1px solid var(--color-line);
     background: white;

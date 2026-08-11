@@ -3,7 +3,7 @@
 
 @theme {
   --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Roboto Condensed", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
   --color-ink: #10131d;
   --color-paper: #f4f2ec;
   --color-cobalt: #315b8e;
@@ -244,6 +244,22 @@
     padding-block: var(--space-section);
   }
 
+  .home-compact .section-pad,
+  .home-compact .media-interlude,
+  .home-compact .newsletter-signup,
+  .home-compact .contextual-next,
+  .home-compact .page-visual {
+    padding-block: clamp(3rem, 5.8vw, 5rem);
+  }
+
+  .home-compact .media-interlude-grid {
+    gap: clamp(1.7rem, 4.7vw, 3.4rem);
+  }
+
+  .home-compact .hero-home {
+    min-height: min(42rem, calc(100vh - 1rem));
+  }
+
   .pill {
     display: inline-flex;
     align-items: center;
@@ -479,7 +495,8 @@
   }
 
   .system-map-canvas {
-    position: relative;
+    display: grid;
+    gap: 1.2rem;
   }
 
   .system-map-nodes {
@@ -529,6 +546,10 @@
     font-weight: 700;
   }
 
+  .system-map-instructions {
+    display: none;
+  }
+
   .system-map-node:hover,
   .system-map-node.is-active {
     color: var(--color-cobalt);
@@ -543,9 +564,63 @@
   }
 
   .system-map-panel {
-    margin-top: 2.5rem;
     border-top: 1px solid var(--color-line);
     padding-top: 1.5rem;
+    min-height: 11rem;
+    background: white;
+    border: 1px solid var(--color-line);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .system-map-insight-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .system-map-insight {
+    border: 1px solid var(--color-line);
+    background: white;
+    padding: 0.95rem 1rem;
+  }
+
+  .system-map-insight.is-active {
+    border-color: var(--color-cobalt);
+    background: var(--color-paper);
+  }
+
+  .system-map-insight p {
+    line-height: 1.45;
+  }
+
+  .system-map-panel-wrap .ink-link {
+    display: inline-block;
+  }
+
+  @media (min-width: 1024px) {
+    .system-map-canvas {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .system-map-instructions {
+      display: block;
+    }
+
+    .system-map-nodes {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .system-map-panel-wrap {
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .system-map-insight-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: start;
+    }
   }
 
   .solution-diagram {
@@ -1197,63 +1272,8 @@ body:has(.reading-progress) .site-motion-progress {
   display: none;
 }
 
-html[data-motion-system="active"] [data-motion-item] {
-  transition:
-    opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(var(--motion-order, 0) * 70ms);
-  will-change: opacity, transform;
-}
-
-html[data-motion-system="active"] [data-motion-item][data-motion-state="pending"] {
-  opacity: 0;
-  transform: translate3d(0, clamp(1.1rem, 2.4vw, 2.4rem), 0);
-}
-
-html[data-motion-system="active"] [data-motion-item="media"][data-motion-state="pending"] {
-  transform: translate3d(0, 1.5rem, 0) scale(0.985);
-}
-
-html[data-motion-system="active"] [data-motion-item][data-motion-state="visible"] {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  will-change: auto;
-}
-
-html[data-motion-system="active"] [data-motion-media] {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-html[data-motion-system="active"] [data-motion-state="pending"] [data-motion-media] {
-  clip-path: inset(0 0 12% 0);
-}
-
-html[data-motion-system="active"] [data-motion-media] img {
-  transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1), filter 500ms ease;
-}
-
-html[data-motion-system="active"] [data-motion-state="pending"] [data-motion-media] img {
-  transform: scale(1.045);
-}
-
-html[data-motion-system="active"] [data-motion-stagger] > * {
-  transition:
-    opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(120ms + var(--motion-child, 0) * 55ms);
-}
-
-html[data-motion-system="active"] [data-motion-state="pending"] [data-motion-stagger] > *,
-html[data-motion-system="active"] [data-motion-stagger][data-motion-state="pending"] > * {
-  opacity: 0;
-  transform: translate3d(0, 0.8rem, 0);
-}
-
-html[data-motion-system="active"] [data-motion-state="visible"] [data-motion-stagger] > *,
-html[data-motion-system="active"] [data-motion-stagger][data-motion-state="visible"] > * {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
+html[data-motion-system="ready"] [data-motion-media] img {
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), filter 400ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {

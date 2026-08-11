@@ -2,6 +2,8 @@ import aboutWorkshop from "@/assets/media/about-workshop.avif";
 import careersApprentice from "@/assets/media/careers-apprentice.avif";
 import contactWorkbench from "@/assets/media/contact-workbench.avif";
 import energyGrid from "@/assets/media/energy-grid.avif";
+import aiGovernance from "@/assets/media/ai-governance.avif";
+import enterpriseHero from "@/assets/media/enterprise-hero.avif";
 import faqEmptyRoom from "@/assets/media/faq-empty-room.avif";
 import heroCity from "@/assets/media/hero-city.avif";
 import homeConsequenceField from "@/assets/media/home-consequence-field.avif";
@@ -18,10 +20,14 @@ import servicesControlRoom from "@/assets/media/services-control-room.avif";
 import solutionsCareHandoff from "@/assets/media/solutions-care-handoff.avif";
 import teamStudioSession from "@/assets/media/team-studio-session.avif";
 import workFieldVisit from "@/assets/media/work-field-visit.avif";
+import technologyData from "@/assets/media/technology-data.avif";
 
 export const media = {
   "/media/original/careers-apprentice.avif": careersApprentice,
   "/media/generated/energy-grid.avif": energyGrid,
+  "/media/generated/ai-governance.avif": aiGovernance,
+  "/media/generated/enterprise-hero.avif": enterpriseHero,
+  "/media/generated/technology-data.avif": technologyData,
   "/media/original/faq-empty-room.avif": faqEmptyRoom,
   "/media/original/about-workshop.avif": aboutWorkshop,
   "/media/original/contact-workbench.avif": contactWorkbench,

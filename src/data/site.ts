@@ -261,6 +261,54 @@ export const publicSignals = [
   },
 ];
 
+export const businessReports = [
+  {
+    slug: "enterprise-decision-readiness",
+    eyebrow: "Operating system",
+    title: "Enterprise Decision Readiness Report",
+    summary: "A practical readout of mandate clarity, data trust, AI readiness, and capability ownership so leaders can decide what to fix first.",
+    description:
+      "This evergreen operating report keeps the focus on public evidence. It helps leaders separate a genuine bottleneck from an avoidable delay, then sequence decisions that improve execution speed without adding fragility.",
+    highlights: ["Mandate definition, ownership, and escalation mechanics", "Evidence pathways for operational decisions", "Where AI and human review should remain explicitly coupled", "How capability gaps show up before cost or compliance gaps"],
+    takeaways: ["A decision stack is legible when owners are explicit.", "Most modernization risk sits in handoffs, not the code stack.", "Data is only useful when it is governed to the point of work."],
+    file: "/reports/enterprise-decision-readiness.txt",
+    sources: [
+      { label: "UN SDG Report 2026", url: "https://unstats.un.org/sdgs/report/2026/" },
+      { label: "Data.gov catalog", url: "https://data.gov/" },
+    ],
+  },
+  {
+    slug: "ai-governance-controls",
+    eyebrow: "Governance",
+    title: "AI Governance and Interoperability Controls Report",
+    summary: "A decision-friendly guide to designing controlled AI, exchange, and human oversight in high-friction institutions.",
+    description:
+      "Use this report to move from tool-level questions to workflow-level control. It translates publicly observed interoperability and security expectations into a practical operating rhythm.",
+    highlights: ["Signals for API and interoperability readiness", "Control boundaries for human-in-the-loop workflows", "Measure, monitor, and recovery patterns that keep trust intact"],
+    takeaways: ["Control design should be anchored in the workflow, not the model stack.", "Governance should preserve useful authority at every layer.", "Public institutions and enterprise systems both need a deliberate exception process."],
+    file: "/reports/ai-governance-controls.txt",
+    sources: [
+      { label: "ONC API access brief", url: "https://healthit.gov/data/data-briefs/hospital-use-of-apis-to-enable-data-sharing-between-ehrs-and-third-party-technology/" },
+      { label: "NATO Digital Strategy 2026", url: "https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy" },
+    ],
+  },
+  {
+    slug: "modernization-investment-priority",
+    eyebrow: "Modernization",
+    title: "Modernization and Investment Priority Report",
+    summary: "A long-cycle planning tool for institutions balancing mission, risk, and capital across infrastructure, cloud, and data decisions.",
+    description:
+      "The report converts complex modernization choices into a staged sequence. It helps teams spot what should be retired, wrapped, replaced, or redesigned first.",
+    highlights: ["Portfolio-level sequencing across mission, systems, and skills", "Cost, dependency, and continuity risks in one view", "Capital-to-operations transition plans that preserve capability"],
+    takeaways: ["Modernization is a management problem before it is a technology problem.", "Resilience starts with explicit transition design between legacy and new systems.", "The first durable win is usually in decision rights, not tooling."],
+    file: "/reports/modernization-investment-priority.txt",
+    sources: [
+      { label: "DOE AI-enabled grid planning context", url: "https://www.energy.gov/undersecretaryforscience/genesis-mission/scaling-grid-power-american-economy" },
+      { label: "NIST AI risk and reliability work", url: "https://www.nist.gov/" },
+    ],
+  },
+];
+
 export const experienceHighlights = [
   { number: "20+", label: "years at the frontier of change", text: "Our work has evolved with emerging technology and ITIL change practice for more than two decades, always translating new capability into durable operating advantage." },
   { number: "AI", label: "award-recognized AI leadership", text: "Our founders have been recognized repeatedly for AI leadership. We bring that research posture to enterprise AI/ML, AI cost management, and governed adoption." },
@@ -393,6 +441,7 @@ export const navigationPanel = {
     { label: "Our point of view", href: "/about/", description: "How a future-facing advisory house makes complexity governable." },
     { label: "Selected work", href: "/case-studies/", description: "Field notes from operating models, AI, and institutional change." },
     { label: "Insights", href: "/insights/", description: "Evidence and original analysis for the moment when the signal becomes a decision." },
+    { label: "Business reports", href: "/resources/", description: "Research-backed, decision-ready reports for leaders carrying institutional consequence." },
     { label: "Strategic pathways", href: "/solutions/", description: "Focused entry points for consequential decisions across the system." },
   ],
   capabilities: services.map((service) => ({ ...service, href: `/services/${service.slug}/` })),
@@ -452,7 +501,10 @@ export const footerColumns = [
       { label: "Team", href: "/team/" },
       { label: "FAQ", href: "/faq/" },
       { label: "Visual sitemap", href: "/visual-sitemap/" },
-      { label: "Careers", href: "/careers/" },
     ],
+  },
+  {
+    title: "Resources",
+    links: businessReports.map((report) => ({ label: report.title, href: `/resources/${report.slug}/` })),
   },
 ];

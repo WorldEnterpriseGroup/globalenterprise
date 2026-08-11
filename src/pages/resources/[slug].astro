@@ -1,0 +1,155 @@
+---
+import Base from "@/layouts/Base.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import AssetImage from "@/components/AssetImage.astro";
+import { businessReports, site } from "@/data/site";
+
+export function getStaticPaths() {
+  return businessReports.map((report) => ({ params: { slug: report.slug }, props: { report } }));
+}
+
+const { report } = Astro.props;
+const others = businessReports.filter((item) => item.slug !== report.slug).slice(0, 2);
+const sourceLinks = report.sources ?? [];
+const reportMedia = {
+  "enterprise-decision-readiness": {
+    src: "/media/generated/enterprise-hero.avif",
+    alt: "A quiet executive working room overlooking a city at night",
+    caption: "Decision readiness begins before the room fills: the mandate, trade-off, and owner must already be visible.",
+    position: "56% 52%",
+  },
+  "ai-governance-controls": {
+    src: "/media/generated/ai-governance.avif",
+    alt: "A team reviewing AI governance controls around a working table",
+    caption: "Control belongs in the workflow, close to the judgment and the consequence.",
+    position: "50% 48%",
+  },
+  "modernization-investment-priority": {
+    src: "/media/generated/technology-data.avif",
+    alt: "Two operators walking through a data center corridor",
+    caption: "Modernization is a sequence across systems, capital, continuity, and time.",
+    position: "50% 50%",
+  },
+} as const;
+const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? reportMedia["enterprise-decision-readiness"];
+---
+
+<Base title={`${report.title} | Global Enterprise`} description={report.summary} image={leadMedia.src} keywords={["enterprise report", "operating model", "AI governance", "modernization planning"]}>
+  <section class="bg-ink py-16 text-white md:py-24">
+    <div class="container-site grid gap-12 lg:grid-cols-[.88fr_1.12fr] lg:items-end">
+      <div>
+        <p class="eyebrow text-lime">{report.eyebrow}</p>
+        <h1 class="section-title mt-7 max-w-4xl">{report.title}</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">{report.description}</p>
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a class="btn-primary" href="#request-report">Request the report <span aria-hidden="true">↓</span></a>
+          <a class="btn-ghost text-white" href="#inside-report">Preview what is inside <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <figure class="report-hero-figure" style={`--report-position: ${leadMedia.position}`}>
+        <AssetImage src={leadMedia.src} width={1536} height={1024} sizes="(min-width: 1024px) 52vw, 100vw" loading="eager" fetchpriority="high" alt={leadMedia.alt} class="report-hero-image" />
+        <figcaption><span>Report field note</span>{leadMedia.caption}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="inside-report" class="section-pad bg-paper">
+    <div class="container-site grid gap-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-20">
+      <div class="report-preview">
+        <SectionHeading eyebrow="What this report contains" title="A practical operating brief." text={report.summary} />
+        <div class="mt-10 border-y border-line">
+          {report.highlights.map((item, index) => (
+            <div class="report-preview-row"><span>0{index + 1}</span><p>{item}</p></div>
+          ))}
+        </div>
+        <div class="mt-10 grid gap-8 md:grid-cols-2">
+          <div>
+            <p class="eyebrow">Outcome for teams</p>
+            <div class="mt-5 space-y-3 text-sm leading-relaxed text-muted">
+              {report.takeaways.map((item) => <p>— {item}</p>)}
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow">Research basis</p>
+            <ul class="mt-5 space-y-3 text-sm">
+              {sourceLinks.map((source) => <li><a class="text-cobalt underline decoration-cobalt/35 underline-offset-4 hover:text-ink" href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a></li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="request-report" class="report-request">
+        <p class="eyebrow text-lime">Request the complete report</p>
+        <h2>Put the brief in the hands of the team carrying the decision.</h2>
+        <p class="report-request-intro">Tell us where the report will be used. We will send the file and a short note on the most relevant starting point.</p>
+        <form class="mt-9 grid gap-5" action={site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`}>
+          <input type="hidden" name="_subject" value={`${report.title} request · Global Enterprise`} />
+          <input type="hidden" name="_next" value={`${site.url}/resources/thanks/?resource=${report.slug}`} />
+          <input type="hidden" name="_template" value="table" />
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
+          <label class="grid gap-2 text-sm font-bold" for="resource-name">Name
+            <input id="resource-name" type="text" name="name" autocomplete="name" required />
+          </label>
+          <label class="grid gap-2 text-sm font-bold" for="resource-email">Work email
+            <input id="resource-email" type="email" name="email" autocomplete="email" required />
+          </label>
+          <label class="grid gap-2 text-sm font-bold" for="resource-org">Organization
+            <input id="resource-org" type="text" name="organization" autocomplete="organization" required />
+          </label>
+          <label class="grid gap-2 text-sm font-bold" for="resource-context">Use case
+            <select id="resource-context" name="use_case" required>
+              <option value="" selected disabled>Pick what you are evaluating</option>
+              <option>AI rollout and governance</option>
+              <option>Data platform and cost controls</option>
+              <option>Legacy modernization and migration</option>
+              <option>Executive operating model review</option>
+              <option>Public sector systems modernization</option>
+            </select>
+          </label>
+          <label class="flex items-start gap-3 text-sm leading-relaxed text-white/65" for="resource-consent">
+            <input id="resource-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />
+            I agree to be contacted about this report. I understand this form is not for sensitive information.
+          </label>
+          <button class="btn-primary w-fit" type="submit" data-track="resource_download_submit" data-track-label={report.slug}>Send the report <span aria-hidden="true">↗</span></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site">
+      <p class="eyebrow text-cobalt">Continue the working set</p>
+      <div class="mt-8 grid border-y border-line md:grid-cols-2 md:divide-x md:divide-line">
+        {others.map((item) => <a class="related-report" href={`/resources/${item.slug}/`}><span>{item.eyebrow}</span><strong>{item.title}</strong><small>{item.summary}</small><b>Preview report ↗</b></a>)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .report-hero-figure { margin: 0; border: 1px solid rgb(255 255 255 / 20%); background: var(--color-cobalt); box-shadow: 1rem 1rem 0 rgb(49 91 142 / 28%); }
+  :global(.report-hero-image) { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: var(--report-position); filter: saturate(0.82) contrast(1.04); }
+  .report-hero-figure figcaption { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid rgb(255 255 255 / 15%); color: rgb(255 255 255 / 66%); font-size: 0.72rem; line-height: 1.5; }
+  .report-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .report-preview-row { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--color-line); }
+  .report-preview-row:last-child { border-bottom: 0; }
+  .report-preview-row span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.3rem; }
+  .report-preview-row p { color: var(--color-muted); font-size: 0.9rem; line-height: 1.55; }
+  .report-request { align-self: start; padding: clamp(1.75rem, 4vw, 3.5rem); background: var(--color-ink); color: white; box-shadow: 1rem 1rem 0 rgb(49 91 142 / 18%); }
+  .report-request h2 { margin-top: 1.25rem; font-family: var(--font-display); font-size: clamp(2.15rem, 4vw, 3.55rem); font-weight: 400; letter-spacing: -0.045em; line-height: 1.02; }
+  .report-request-intro { margin-top: 1.25rem; color: rgb(255 255 255 / 66%); line-height: 1.65; }
+  .report-request input:not([type="checkbox"]), .report-request select { width: 100%; min-height: 3.4rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; outline: none; }
+  .report-request select { color-scheme: dark; }
+  .report-request input:focus, .report-request select:focus { border-color: var(--color-lime); }
+  .related-report { display: grid; align-content: start; min-height: 18rem; padding: clamp(1.5rem, 4vw, 3rem); }
+  .related-report > span { color: var(--color-cobalt); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .related-report strong { max-width: 32rem; margin-top: 1rem; font-family: var(--font-display); font-size: clamp(1.65rem, 3vw, 2.5rem); font-weight: 400; letter-spacing: -0.04em; line-height: 1.05; }
+  .related-report small { max-width: 34rem; margin-top: 1rem; color: var(--color-muted); font-size: 0.82rem; line-height: 1.55; }
+  .related-report b { align-self: end; margin-top: 2rem; color: var(--color-cobalt); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .related-report:hover strong { color: var(--color-cobalt); }
+
+  @media (max-width: 640px) {
+    .report-hero-figure figcaption { grid-template-columns: 1fr; }
+    .related-report { min-height: 0; border-bottom: 1px solid var(--color-line); }
+  }
+</style>

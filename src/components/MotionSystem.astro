@@ -8,17 +8,12 @@
 
 <script>
   type MotionRuntime = {
-    observer?: IntersectionObserver;
     progressFrame?: number;
   };
 
   const motionWindow = window as Window & { __globalEnterpriseMotion?: MotionRuntime };
   const runtime = motionWindow.__globalEnterpriseMotion ??= {};
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  const setVisible = (element: HTMLElement) => {
-    element.dataset.motionState = "visible";
-  };
 
   const meaningfulChildren = (parent: Element) => Array.from(parent.children).filter((child): child is HTMLElement =>
     child instanceof HTMLElement && !["SCRIPT", "STYLE", "TEMPLATE"].includes(child.tagName)
@@ -63,10 +58,7 @@
   };
 
   const initializeMotion = () => {
-    runtime.observer?.disconnect();
-
     const scenes = document.querySelectorAll<HTMLElement>("main > section, main > [data-motion-scene], .contextual-next, body > footer");
-    const items: HTMLElement[] = [];
 
     scenes.forEach((scene, sceneIndex) => {
       scene.dataset.motionScene = String(sceneIndex + 1).padStart(2, "0");
@@ -74,38 +66,16 @@
       candidates.forEach((item, itemIndex) => {
         if (item.dataset.motionSkip !== undefined) return;
         item.dataset.motionItem = item.matches("figure, picture") || item.querySelector("img, picture, svg") ? "media" : "content";
-        item.dataset.motionState = reduceMotion.matches ? "visible" : "pending";
+        item.dataset.motionState = "visible";
         item.style.setProperty("--motion-order", String(Math.min(itemIndex, 5)));
         item.querySelectorAll<HTMLElement>("figure, picture, .media-interlude-image-wrap, .architecture-map-canvas, .signal-chart-canvas, .solution-diagram").forEach((media) => {
           media.dataset.motionMedia = "";
         });
         markStaggerGroups(item);
-        items.push(item);
       });
     });
 
-    document.documentElement.dataset.motionSystem = reduceMotion.matches ? "reduced" : "active";
-
-    if (reduceMotion.matches || !("IntersectionObserver" in window)) {
-      items.forEach(setVisible);
-      updateProgress();
-      return;
-    }
-
-    runtime.observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        setVisible(entry.target as HTMLElement);
-        runtime.observer?.unobserve(entry.target);
-      });
-    }, { rootMargin: "0px 0px -8%", threshold: 0.01 });
-
-    items.forEach((item) => runtime.observer?.observe(item));
-    window.requestAnimationFrame(() => {
-      items.forEach((item) => {
-        if (item.getBoundingClientRect().top < window.innerHeight * 0.94) setVisible(item);
-      });
-    });
+    document.documentElement.dataset.motionSystem = reduceMotion.matches ? "reduced" : "ready";
     updateProgress();
   };
 

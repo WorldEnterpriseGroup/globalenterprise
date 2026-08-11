@@ -1,4 +1,4 @@
-import { industries, services, solutionPages } from "@/data/site";
+import { businessReports, industries, services, solutionPages } from "@/data/site";
 
 export const sitemapGroups = [
   {
@@ -86,6 +86,13 @@ export const sitemapGroups = [
       { label: "FAQ", href: "/faq/", description: "Useful before the first meeting.", kind: "guidance" },
       { label: "Privacy", href: "/privacy/", description: "How information is handled.", kind: "legal" },
       { label: "Terms", href: "/terms/", description: "Site terms and conditions.", kind: "legal" },
+    ],
+  },
+  {
+    title: "Resources",
+    pages: [
+      { label: "Business reports", href: "/resources/", description: "Research-backed reports and practical checklists for operating teams.", kind: "resource" },
+      ...businessReports.map((report) => ({ label: report.title, href: `/resources/${report.slug}/`, description: report.summary, kind: "resource" })),
     ],
   },
   {

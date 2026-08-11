@@ -1,0 +1,20 @@
+Global Enterprise AI Governance and Interoperability Brief
+A practical controls guide for high-friction institutions.
+
+What this brief helps you do
+- Define control boundaries for AI workflows.
+- Link API and data exchange quality to operational trust.
+- Build a recovery path for high-risk or uncertain decisions.
+
+Core sections
+1) Interoperability readiness
+2) Human oversight and exception handling
+3) Evidence standards and decision logs
+4) Recovery and corrective action cadence
+
+Note
+This is a working document intended for practical planning and internal discussion.
+
+Reference sources used in this brief
+- ONC API access and exchange summary
+- NATO Digital Strategy 2026

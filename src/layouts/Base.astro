@@ -25,6 +25,7 @@ const { title, description, image = "/og-image.svg", type = "website", noindex =
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const pathname = Astro.url.pathname;
 const pageVisual = visualForPath(pathname);
+const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/");
 const socialImagePath = image === "/og-image.svg" ? "/og-image.png" : image;
 const socialImage = new URL(socialImagePath, site.url).toString();
 const logo = new URL("/favicon.svg", site.url).toString();
@@ -37,6 +38,7 @@ const breadcrumbLabels: Record<string, string> = {
   industries: "Industries",
   insights: "Insights",
   privacy: "Privacy",
+  resources: "Resources",
   services: "Capabilities",
   team: "Team",
   terms: "Terms",
@@ -75,7 +77,7 @@ const graph = [
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#315b8e" />
     <link rel="preload" href="/font/roboto-regular-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
-    <link rel="preload" href="/font/roboto-bold-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
+    <link rel="preload" href="/font/robotocondensed-regular-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
@@ -111,7 +113,7 @@ const graph = [
     <main id="main-content" class:list={[pathname === "/" ? "" : "site-main-with-header"]}>
       <slot />
     </main>
-    <ContextualNext />
+    {showContextualNext && <ContextualNext />}
     <Footer />
     <script>
       const initializeSiteAnalytics = () => {
