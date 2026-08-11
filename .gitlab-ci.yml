@@ -5,3 +5,9 @@ include:
 variables:
   GITHUB_REPO: "WorldEnterpriseGroup/globalenterprise"
   SITE_DIR: "."
+
+# The shared mirror job runs from GitLab's detached CI checkout but pushes the
+# branch name. Materialize that branch locally so the mirror can publish it.
+mirror:
+  before_script:
+    - git branch -f gh-pages "$CI_COMMIT_SHA"
