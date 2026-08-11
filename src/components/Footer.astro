@@ -10,7 +10,8 @@ import { footerColumns, site } from "@/data/site";
         <span class="font-display text-lg font-bold uppercase tracking-[-0.04em]">Global <span class="text-lime">Enterprise</span></span>
       </a>
       <p class="max-w-sm text-lg leading-relaxed text-white/65">Where intelligence meets the institution, the work has to hold.</p>
-      <a class="mt-8 inline-flex text-sm font-bold text-lime underline decoration-lime/40 underline-offset-4 hover:decoration-lime" href={`mailto:${site.email}`}>{site.email}</a>
+      <p class="mt-6 text-sm text-white/55">{site.location}</p>
+      <div class="mt-6 flex flex-col gap-2 text-sm font-bold"><a class="text-lime underline decoration-lime/40 underline-offset-4 hover:decoration-lime" href={`mailto:${site.email}`}>{site.email}</a><a class="text-white/75 hover:text-lime" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a></div>
     </div>
     {footerColumns.map((column) => (
       <div>

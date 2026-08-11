@@ -39,7 +39,7 @@ const {
         </article>
       ))}
       {photoSrc && <figure class="evidence-band-photo">
-        <AssetImage src={photoSrc} alt={photoAlt} width={1536} height={1024} loading="lazy" decoding="async" class="w-full object-cover" />
+        <AssetImage src={photoSrc} alt={photoAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw" class="w-full object-cover" />
         {photoCaption && <figcaption>{photoCaption}</figcaption>}
       </figure>}
     </div>

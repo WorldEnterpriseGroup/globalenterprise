@@ -14,7 +14,7 @@ interface Props {
   fetchpriority?: "high" | "low" | "auto";
 }
 
-const { src, alt, width = 1536, height = 1024, class: className, loading = "lazy", decoding = "async", sizes = "100vw", fetchpriority = "auto" } = Astro.props;
+const { src, alt, width = 1536, height = 1024, class: className, loading = "lazy", decoding = "async", sizes = "(min-width: 900px) 50vw, 100vw", fetchpriority = "auto" } = Astro.props;
 const asset = media[src as keyof typeof media];
 const widths = [...new Set([480, 768, 1024, width].filter((candidate) => candidate <= width))].sort((a, b) => a - b);
 // Astro's development image endpoint can spend tens of seconds transcoding the

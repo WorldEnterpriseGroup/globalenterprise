@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { site } from "../data/site";
 
 export async function GET(context) {
-  const insights = (await getCollection("insights")).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0));
+  const insights = (await getCollection("insights")).filter((entry) => !entry.data.draft).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0));
   return rss({
     title: `${site.name} insights`,
     description: site.description,

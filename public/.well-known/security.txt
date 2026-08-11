@@ -1,0 +1,4 @@
+Contact: mailto:info@globalenterprise.com
+Canonical: https://globalenterprise.com/.well-known/security.txt
+Policy: https://globalenterprise.com/trust/
+Preferred-Languages: en

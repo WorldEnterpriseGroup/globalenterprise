@@ -7,6 +7,7 @@ const authoredDate = z.coerce.date().transform((value) => new Date(Date.UTC(valu
 const shared = {
   title: z.string(),
   description: z.string(),
+  draft: z.boolean().default(false),
   date: authoredDate.optional(),
   updatedDate: authoredDate.optional(),
   eyebrow: z.string().optional(),
@@ -34,6 +35,11 @@ const caseStudies = defineCollection({
     sector: z.string(),
     service: z.string(),
     result: z.string(),
+    environment: z.string().optional(),
+    timeframe: z.string().optional(),
+    scope: z.array(z.string()).default([]),
+    evidenceNote: z.string().optional(),
+    confidential: z.boolean().default(false),
   }),
 });
 

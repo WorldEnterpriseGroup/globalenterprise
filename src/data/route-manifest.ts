@@ -62,6 +62,15 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     createdAt: "2026-08-10",
     source: "generated",
   },
+  "federal-mission": {
+    src: "/media/generated/federal-mission.avif",
+    alt: "A briefing room with maps and working papers arranged around a shared mission",
+    role: "international mission and context",
+    focalPoint: "maps and working papers across the center; open negative space at the upper right",
+    promptIntent: "documentary mission-planning room with maps, working papers, and human scale",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
   "hero-city": {
     src: "/media/original/hero-city.avif",
     alt: "A global city skyline in clear morning light",
@@ -207,11 +216,11 @@ const photo = (imageId: keyof typeof imageManifest, signature: string, modes: st
   modes,
 });
 
-const route = (signature: string, modes: string[], role = "authored route composition"): VisualRecord => ({
+const route = (signature: string, modes: string[], role = "authored route composition", alt = "Content-led advisory route composition"): VisualRecord => ({
   kind: "none",
   src: "",
   imageId: "none",
-  alt: "",
+  alt,
   role,
   focalPoint: "not applicable; this route uses content and code-native visuals",
   promptIntent: "no photographic visual assigned",
@@ -224,6 +233,8 @@ const route = (signature: string, modes: string[], role = "authored route compos
 const exactVisuals: Record<string, VisualRecord> = {
   "/": photo("hero-city", "thesis · proof strip · diagnostic · route chooser", ["orientation", "evidence", "diagnostic", "connection"]),
   "/about/": photo("about-workshop", "photo-led intro · system map · principles · invitation", ["orientation", "observation", "sequence", "connection"]),
+  "/operations/": photo("federal-mission", "international operations thesis · context index · delivery model · invitation", ["orientation", "observation", "comparison", "sequence", "connection"]),
+  "/proof/": route("confidential proof · built systems · evidence basis · discretion · invitation", ["orientation", "evidence", "sequence", "boundary", "connection"], "proof of practice", "Confidential proof of practice presented through abstract operating patterns"),
   "/careers/": photo("careers-apprentice", "photo-led manifesto · role cards · working agreement · invitation", ["orientation", "observation", "participation", "connection"]),
   "/team/": photo("team-studio-session", "photo-led discipline index · bench note · capability grid · invitation", ["orientation", "observation", "index", "connection"]),
   "/contact/": photo("contact-workbench", "question stack · workbench photo · engagement path · form", ["orientation", "observation", "participation", "sequence"]),
@@ -231,6 +242,7 @@ const exactVisuals: Record<string, VisualRecord> = {
   "/faq/": photo("faq-empty-room", "photo-led question stack · native disclosure · compact action", ["orientation", "observation", "participation", "connection"]),
   "/privacy/": route("summary · policy sections · escape route", ["orientation", "boundary", "connection"]),
   "/terms/": route("summary · terms sections · escape route", ["orientation", "boundary", "connection"]),
+  "/trust/": route("identity · discretion · delivery assurance · data boundary · procurement", ["orientation", "evidence", "boundary", "connection", "action"], "trust center", "Global Enterprise trust center and public delivery boundaries"),
   "/case-studies/": photo("work-field-visit", "field photo · proof index · evidence band · invitation", ["orientation", "observation", "evidence", "connection"]),
   "/industries/": photo("energy-grid", "sector photo · context index · signal chart · invitation", ["orientation", "observation", "comparison", "connection"]),
   "/insights/": photo("insights-field-notes", "research photo · filterable index · topic rail · evidence", ["orientation", "observation", "participation", "connection"]),

@@ -35,6 +35,8 @@ const breadcrumbLabels: Record<string, string> = {
   "case-studies": "Work",
   contact: "Contact",
   faq: "FAQ",
+  operations: "Operations",
+  proof: "Proof of practice",
   industries: "Industries",
   insights: "Insights",
   privacy: "Privacy",
@@ -42,6 +44,7 @@ const breadcrumbLabels: Record<string, string> = {
   services: "Capabilities",
   team: "Team",
   terms: "Terms",
+  trust: "Trust center",
 };
 const breadcrumbItems = [{ name: site.name, item: new URL("/", site.url).toString() }, ...pathname.split("/").filter(Boolean).map((segment, index, segments) => ({
   name: index === segments.length - 1 ? title.split(" | ")[0] : breadcrumbLabels[segment] ?? segment.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase()),
@@ -57,14 +60,14 @@ const graph = [
   description: site.description,
   email: site.email,
   telephone: site.phone,
-  areaServed: "Worldwide",
+  areaServed: "Cross-border and multi-region mandates",
   serviceType: ["Strategic consulting", "Enterprise AI and ML", "Data lab build-out", "AI cost management", "Quantum intelligence", "ITIL change management"],
   knowsAbout: ["AI-native operating models", "Enterprise AI labs", "Data and compute economics", "Quantum intelligence", "Frontier systems", "Institutional change"],
   ...(site.social.linkedin ? { sameAs: [site.social.linkedin] } : {}),
   },
   { "@type": "WebSite", "@id": `${site.url}/#website`, name: site.name, url: site.url, description: site.description, publisher: { "@id": `${site.url}/#organization` } },
   { "@type": type === "article" ? "Article" : "WebPage", "@id": canonical, name: title, headline: type === "article" ? title : undefined, url: canonical, description, isPartOf: { "@id": `${site.url}/#website` }, ...(type === "article" ? { author: { "@type": "Organization", name: author }, publisher: { "@id": `${site.url}/#organization` }, mainEntityOfPage: { "@id": canonical }, datePublished: publishedTime, dateModified: modifiedTime ?? publishedTime, image: socialImage } : {}) },
-  ...(serviceSchema ? [{ "@type": "Service", name: serviceSchema.name, description: serviceSchema.description, provider: { "@id": `${site.url}/#organization` }, areaServed: "Worldwide", url: canonical }] : []),
+  ...(serviceSchema ? [{ "@type": "Service", name: serviceSchema.name, description: serviceSchema.description, provider: { "@id": `${site.url}/#organization` }, areaServed: "Cross-border and multi-region mandates", url: canonical }] : []),
   { "@type": "BreadcrumbList", itemListElement: breadcrumbItems.map((item, index) => ({ "@type": "ListItem", position: index + 1, name: item.name, item: item.item })) },
 ];
 ---

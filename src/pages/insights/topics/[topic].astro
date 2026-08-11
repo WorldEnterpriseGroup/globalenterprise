@@ -5,7 +5,7 @@ import { topicSlug } from "@/data/insights";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const insights = await getCollection("insights");
+  const insights = (await getCollection("insights")).filter((entry) => !entry.data.draft);
   const categories = [...new Set(insights.map((entry) => entry.data.category))];
   return categories.map((category) => ({
     params: { topic: topicSlug(category) },

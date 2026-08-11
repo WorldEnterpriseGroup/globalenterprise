@@ -1,0 +1,90 @@
+---
+import Base from "@/layouts/Base.astro";
+import AssetImage from "@/components/AssetImage.astro";
+import GlobalBriefSignup from "@/components/GlobalBriefSignup.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { globalOperatingModel, regionContexts } from "@/data/site";
+---
+
+<Base title="International operations | Global Enterprise" description="How Global Enterprise coordinates strategy, delivery, and operating contexts across regions, partners, and time zones." image="/media/generated/federal-mission.avif" keywords={["international operations consulting", "cross-border transformation", "regional operating model", "global AI governance", "multi-region operating model"]}>
+  <section class="operations-hero bg-ink text-white">
+    <div class="container-site grid gap-12 py-20 md:py-28 lg:grid-cols-[.9fr_1.1fr] lg:items-end lg:gap-20">
+      <div>
+        <p class="eyebrow text-lime">Global Enterprise · international operations</p>
+        <h1 class="section-title mt-7 max-w-4xl">One standard. Many operating contexts.</h1>
+        <p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/70">The same ambition changes shape when it crosses a regulator, a language, a time zone, a supply chain, or a community. We help leaders keep the strategic thread while making the work locally useful.</p>
+        <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary" href="#contexts">Explore the context lenses <span aria-hidden="true">↓</span></a><a class="btn-ghost text-white" href="/contact/">Bring an international mandate <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <figure class="operations-hero-figure">
+        <AssetImage src="/media/generated/federal-mission.avif" width={1536} height={1024} loading="eager" fetchpriority="high" decoding="async" sizes="(min-width: 1024px) 54vw, 100vw" alt="A briefing room with maps and working papers arranged around a shared mission" class="operations-hero-image" />
+        <figcaption><span>Field note</span> An international mandate becomes executable when the local decision, owner, and consequence are visible.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="contexts" class="section-pad bg-paper">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.62fr_1.38fr] lg:gap-20">
+        <SectionHeading eyebrow="Context lenses" title="The question changes with the system." text="These are not office claims or a list of locations. They are the operating conditions we put into the room when a mandate crosses borders, partners, or institutions." />
+        <div class="operations-context-index">
+          {regionContexts.map((context) => (
+            <article id={context.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")} class="operations-context-row scroll-mt-24">
+              <div class="operations-context-code">{context.code}</div>
+              <div>
+                <p class="eyebrow text-cobalt">{context.name}</p>
+                <h2>{context.title}</h2>
+                <p class="mt-4 max-w-2xl leading-relaxed text-muted">{context.description}</p>
+                <ul class="mt-6 flex flex-wrap gap-2">{context.lenses.map((lens) => <li>{lens}</li>)}</ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="The delivery model" title="Translation is the capability." text="An international engagement is not a central template copied into local markets. It is a shared management system with enough room for context, language, law, and lived experience." /><p class="max-w-xs border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted">Shared standards create coherence. Local intelligence creates usefulness.</p></div>
+      <div class="operations-model mt-14" data-diagram-id="international-operating-model" aria-labelledby="operations-model-title">
+        <h2 id="operations-model-title" class="sr-only">International operations sequence</h2>
+        {globalOperatingModel.map((step, index) => <article class="operations-model-step"><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.text}</p></div>{index < globalOperatingModel.length - 1 && <i aria-hidden="true">→</i>}</article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-cobalt text-white">
+    <div class="container-site grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:gap-24">
+      <div><p class="eyebrow text-lime">What we keep constant</p><h2 class="section-title mt-5 max-w-3xl">The standard is not a template. It is a way of deciding.</h2></div>
+      <div class="grid gap-8 text-lg leading-relaxed text-white/70 md:grid-cols-2">
+        <p><strong class="block text-white">Evidence over theater.</strong> Make the source, caveat, and owner visible before a recommendation travels.</p>
+        <p><strong class="block text-white">Context over shorthand.</strong> Let local operating reality change the mechanism without losing the outcome.</p>
+        <p><strong class="block text-white">Capability over dependency.</strong> Transfer the practice, not only the deliverable.</p>
+        <p><strong class="block text-white">Continuity over launch.</strong> Design the recovery, learning, and change rhythm before the new system is celebrated.</p>
+      </div>
+    </div>
+  </section>
+
+  <GlobalBriefSignup />
+</Base>
+
+<style>
+  .operations-hero-figure { margin: 0; border: 1px solid rgb(255 255 255 / 18%); background: var(--color-cobalt); box-shadow: 1rem 1rem 0 rgb(49 91 142 / 28%); }
+  :global(.operations-hero-image) { display: block; width: 100%; aspect-ratio: 1.35 / 1; object-fit: cover; object-position: 52% 48%; filter: saturate(0.78) contrast(1.05); }
+  .operations-hero-figure figcaption { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid rgb(255 255 255 / 15%); color: rgb(255 255 255 / 66%); font-size: 0.72rem; line-height: 1.5; }
+  .operations-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .operations-context-index { border-top: 1px solid var(--color-line); }
+  .operations-context-row { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding-block: clamp(1.75rem, 4vw, 3.25rem); border-bottom: 1px solid var(--color-line); }
+  .operations-context-code { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.75rem; line-height: 1; }
+  .operations-context-row h2 { margin-top: 0.75rem; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; letter-spacing: -0.045em; line-height: 1.05; }
+  .operations-context-row li { padding: 0.55rem 0.75rem; border: 1px solid var(--color-line); color: var(--color-muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .operations-model { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--color-line); }
+  .operations-model-step { position: relative; display: grid; gap: 2rem; min-height: 18rem; padding: 1.5rem; border-right: 1px solid var(--color-line); }
+  .operations-model-step:last-child { border-right: 0; }
+  .operations-model-step > span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 2.25rem; }
+  .operations-model-step h3 { font-family: var(--font-display); font-size: 2rem; font-weight: 400; letter-spacing: -0.04em; }
+  .operations-model-step p { margin-top: 0.7rem; color: var(--color-muted); font-size: 0.9rem; line-height: 1.6; }
+  .operations-model-step i { position: absolute; top: 1.5rem; right: -0.75rem; z-index: 1; display: grid; width: 1.5rem; height: 1.5rem; place-items: center; background: var(--color-paper); color: var(--color-cobalt); font-style: normal; }
+  @media (max-width: 900px) { .operations-model { grid-template-columns: repeat(2, minmax(0, 1fr)); } .operations-model-step:nth-child(2) { border-right: 0; } .operations-model-step:nth-child(-n + 2) { border-bottom: 1px solid var(--color-line); } .operations-model-step:nth-child(2) i { display: none; } }
+  @media (max-width: 560px) { .operations-hero-figure figcaption { grid-template-columns: 1fr; } .operations-context-row { grid-template-columns: 2.5rem minmax(0, 1fr); } .operations-model { grid-template-columns: 1fr; } .operations-model-step, .operations-model-step:nth-child(2) { min-height: 0; border-right: 0; border-bottom: 1px solid var(--color-line); } .operations-model-step:last-child { border-bottom: 0; } .operations-model-step i { display: none; } }
+</style>

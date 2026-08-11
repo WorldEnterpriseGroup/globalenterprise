@@ -8,8 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "npm run check && npm run build && node scripts/audit-site.mjs",
     "audit": "npm run build && node scripts/audit-site.mjs",
-    "audit:evidence": "node scripts/audit-evidence.mjs"
+    "audit:evidence": "node scripts/audit-evidence.mjs",
+    "audit:live": "node scripts/audit-live.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",

@@ -6,7 +6,7 @@ const resourceSlug = Astro.url.searchParams.get("resource");
 const report = businessReports.find((item) => item.slug === resourceSlug);
 ---
 
-<Base title="Your report is ready | Global Enterprise" description="Thanks for requesting a business report from Global Enterprise.">
+<Base title="Your report is ready | Global Enterprise" description="Thanks for requesting a business report from Global Enterprise." noindex>
   <section class="bg-cobalt py-24 text-white md:py-36">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end">
       <div>

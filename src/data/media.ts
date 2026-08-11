@@ -4,6 +4,7 @@ import contactWorkbench from "@/assets/media/contact-workbench.avif";
 import energyGrid from "@/assets/media/energy-grid.avif";
 import aiGovernance from "@/assets/media/ai-governance.avif";
 import enterpriseHero from "@/assets/media/enterprise-hero.avif";
+import federalMission from "@/assets/media/federal-mission.avif";
 import faqEmptyRoom from "@/assets/media/faq-empty-room.avif";
 import heroCity from "@/assets/media/hero-city.avif";
 import homeConsequenceField from "@/assets/media/home-consequence-field.avif";
@@ -27,6 +28,7 @@ export const media = {
   "/media/generated/energy-grid.avif": energyGrid,
   "/media/generated/ai-governance.avif": aiGovernance,
   "/media/generated/enterprise-hero.avif": enterpriseHero,
+  "/media/generated/federal-mission.avif": federalMission,
   "/media/generated/technology-data.avif": technologyData,
   "/media/original/faq-empty-room.avif": faqEmptyRoom,
   "/media/original/about-workshop.avif": aboutWorkshop,

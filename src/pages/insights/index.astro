@@ -7,7 +7,7 @@ import { topicHref } from "@/data/insights";
 import { getCollection } from "astro:content";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
 
-const insights = (await getCollection("insights")).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0));
+const insights = (await getCollection("insights")).filter((entry) => !entry.data.draft).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0));
 const featured = insights[0];
 const insightKeywords = ["enterprise strategy", "operating model", "enterprise AI", "organizational change", "future of work"];
 const topics = [...new Set(insights.map((entry) => entry.data.category))];

@@ -5,10 +5,12 @@ export const site = {
   shortName: "Global",
   url: "https://globalenterprise.com",
   description:
-    "Global Enterprise is a senior strategy, AI/ML, data, frontier research, and enterprise change partner for institutions shaping the next order of complexity.",
+    "Global Enterprise is a Delaware-based strategy and technology partner for institutions shaping the next order of complexity through agile operations, AI/ML, data, ITIL change, and emerging technology.",
   email: "info@globalenterprise.com",
   phone: "+1 929 229 2918",
-  location: "New York · Remote-first · Built for the world",
+  location: "Delaware, USA · Remote-first · Built for the world",
+  jurisdiction: "Delaware, USA",
+  operatingModel: "Remote-first delivery across time zones and operating contexts",
   formEndpoint,
   analytics: {
     plausibleDomain: "globalenterprise.com",
@@ -25,6 +27,51 @@ export const navItems = [
   { label: "Work", href: "/case-studies/" },
   { label: "Insights", href: "/insights/" },
   { label: "Careers", href: "/careers/" },
+];
+
+export const regionContexts = [
+  {
+    code: "01",
+    name: "North America",
+    title: "Scale without losing the mission.",
+    description: "Large institutions are being asked to move at startup speed while carrying public, regulatory, workforce, and infrastructure consequence. The useful question is which decisions belong close to the signal—and which require a shared control surface.",
+    lenses: ["Mission and enterprise architecture", "AI portfolio governance", "Infrastructure and public value"],
+  },
+  {
+    code: "02",
+    name: "Europe",
+    title: "Turn principle into operating practice.",
+    description: "Privacy, safety, resilience, competition, and digital sovereignty are not separate workstreams. They become an operating advantage when translated into product choices, data responsibilities, evidence, and a clear path for exception.",
+    lenses: ["Responsible AI and data trust", "Cross-border operating models", "Regulation-to-workflow translation"],
+  },
+  {
+    code: "03",
+    name: "Middle East & Africa",
+    title: "Build the platform and the capability together.",
+    description: "Ambitious transformation programs need more than capital and technology. They need local capability, durable institutions, delivery partners, and a sequence that lets a new system become useful before it becomes complex.",
+    lenses: ["Institution building and capability transfer", "Digital and physical infrastructure", "Partner ecosystems and resilience"],
+  },
+  {
+    code: "04",
+    name: "Asia-Pacific",
+    title: "Coordinate speed across a connected system.",
+    description: "Manufacturing, logistics, technology, health, and public systems often cross organizational and national boundaries. Advantage comes from making the interfaces, handoffs, and decision rights visible before the network is under stress.",
+    lenses: ["Supply-chain and platform resilience", "Interoperability and data products", "Distributed leadership and change"],
+  },
+  {
+    code: "05",
+    name: "Latin America & the Caribbean",
+    title: "Make trust part of the delivery architecture.",
+    description: "Transformation compounds when people can see who owns a decision, how data is used, and what happens when the system fails. Clear service promises and practical feedback loops are the infrastructure for adoption.",
+    lenses: ["Public service and institutional trust", "Inclusive capability building", "Data, identity, and service design"],
+  },
+];
+
+export const globalOperatingModel = [
+  { number: "01", title: "Translate", text: "Turn a shared ambition into local decision rules, service promises, and evidence that the people closest to the work can use." },
+  { number: "02", title: "Coordinate", text: "Make the dependencies across time zones, partners, regulators, platforms, and capital visible enough to govern." },
+  { number: "03", title: "Adapt", text: "Preserve the standard while allowing the workflow, language, risk boundary, and delivery rhythm to fit the context." },
+  { number: "04", title: "Transfer", text: "Leave behind the capability, cadence, and ownership model required for the institution to keep learning after the engagement." },
 ];
 
 export const services = [
@@ -439,6 +486,8 @@ export const solutionPages = [
 export const navigationPanel = {
   explore: [
     { label: "Our point of view", href: "/about/", description: "How a future-facing advisory house makes complexity governable." },
+    { label: "Operations", href: "/operations/", description: "How we coordinate strategy, delivery, and operating contexts across regions, partners, and time zones." },
+    { label: "Proof of practice", href: "/proof/", description: "Confidential field evidence from ventures, products, and systems we have built and grown." },
     { label: "Selected work", href: "/case-studies/", description: "Field notes from operating models, AI, and institutional change." },
     { label: "Insights", href: "/insights/", description: "Evidence and original analysis for the moment when the signal becomes a decision." },
     { label: "Business reports", href: "/resources/", description: "Research-backed, decision-ready reports for leaders carrying institutional consequence." },
@@ -450,6 +499,7 @@ export const navigationPanel = {
     { label: "Team", href: "/team/", description: "The senior disciplines we bring close to the decision." },
     { label: "Careers", href: "/careers/", description: "Thoughtful operators with range are always welcome." },
     { label: "FAQ", href: "/faq/", description: "The essentials for a senior partnership." },
+    { label: "Trust center", href: "/trust/", description: "Identity, discretion, delivery assurance, and data boundaries." },
     { label: "Contact", href: "/contact/", description: "Request a private principal dialogue." },
   ],
   feature: {
@@ -466,7 +516,7 @@ export const faqItems = [
   { question: "Do you work with internal teams or take over delivery?", answer: "Both, in the right proportion. We can shape the strategy, stand up the lab or transformation office, support delivery, or embed alongside an existing team. The goal is stronger institutional capability, not dependency." },
   { question: "How do you approach AI in a regulated or mission-critical environment?", answer: "We begin with the decision and the risk boundary, not the model. We map the workflow, define human accountability, establish evaluation and recovery controls, and use NIST plus agency or sector requirements as operating inputs." },
   { question: "What is the INSTAR Lab partnership?", answer: "INSTAR Lab Inc is our 501(c)(3) research institute partner. Together we contribute to cutting-edge research and keep a live bridge between frontier inquiry, responsible experimentation, and enterprise decisions." },
-  { question: "Where do you work?", answer: "We work with leaders whose decisions shape complex institutions, infrastructure, technology, and human systems across North America and beyond. Sensitive engagements are scoped through an appropriate secure channel." },
+  { question: "Where do you work?", answer: "We are Delaware-based and remote-first, working across time zones and operating contexts with leaders whose decisions shape complex institutions, infrastructure, technology, and human systems around the world. Sensitive engagements are scoped through an appropriate secure channel." },
 ];
 
 export const principles = [
@@ -498,6 +548,9 @@ export const footerColumns = [
       { label: "Book a conversation", href: "/contact/" },
       { label: "Capabilities", href: "/services/" },
       { label: "Solutions", href: "/solutions/" },
+      { label: "Operations", href: "/operations/" },
+      { label: "Proof of practice", href: "/proof/" },
+      { label: "Trust center", href: "/trust/" },
       { label: "Team", href: "/team/" },
       { label: "FAQ", href: "/faq/" },
       { label: "Visual sitemap", href: "/visual-sitemap/" },

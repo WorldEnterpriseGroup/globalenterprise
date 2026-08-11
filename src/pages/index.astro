@@ -1,6 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import EvidenceBand from "@/components/EvidenceBand.astro";
+import EngagementCards from "@/components/EngagementCards.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import StartingPoint from "@/components/StartingPoint.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
@@ -8,22 +9,22 @@ import MediaInterlude from "@/components/MediaInterlude.astro";
 import SystemMap from "@/components/SystemMap.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import { getCollection } from "astro:content";
-import { businessReports, experienceHighlights, services, site } from "@/data/site";
+import { businessReports, experienceHighlights, regionContexts, services, site } from "@/data/site";
 
-const insights = (await getCollection("insights")).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)).slice(0, 3);
-const cases = await getCollection("caseStudies");
+const insights = (await getCollection("insights")).filter((entry) => !entry.data.draft).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)).slice(0, 3);
+const cases = (await getCollection("caseStudies")).filter((entry) => !entry.data.draft);
 const featuredReports = businessReports.slice(0, 3);
 ---
 
-<Base title="Global Enterprise | Strategy for the next system" description={site.description} image="/media/hero-city.avif">
+<Base title="Global Enterprise | AI, operating model & transformation advisory" description={site.description} image="/media/hero-city.avif">
   <div class="home-compact">
   <section class="hero-home">
     <AssetImage src="/media/original/hero-city.avif" width={1600} height={900} loading="eager" fetchpriority="high" decoding="async" sizes="100vw" alt="A global city skyline in clear morning light" class="hero-home-image" />
     <div class="container-site relative z-10 flex min-h-[min(42rem,calc(100vh-1rem))] items-center py-20">
       <div class="max-w-3xl text-white">
         <p class="eyebrow text-lime">When one decision changes the room</p>
-        <h1 class="display-title mt-8">The advisory partner for the <span class="text-white/90">next order of complexity.</span></h1>
-        <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/75">We turn frontier intelligence into operating models, trusted data institutions, and change systems that hold when the stakes move.</p>
+        <h1 class="display-title mt-8">The strategy and technology partner for institutions turning <span class="text-white/90">AI, data, and transformation into operating capability.</span></h1>
+        <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/75">For CIOs, CTOs, COOs, mission owners, and product leaders who need frontier intelligence to become a system people can govern and use.</p>
         <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary bg-white" href="/contact/" data-track="hero_cta" data-track-label="Request a principal dialogue">Request a principal dialogue <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/resources/" data-track="hero_cta" data-track-label="Explore business reports">Explore business reports <span aria-hidden="true">↗</span></a></div>
         <div class="mt-20 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Sense</p><p class="mt-1">The signal</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Shape</p><p class="mt-1">The intelligence</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Steer</p><p class="mt-1">The institution</p></div></div>
       </div>
@@ -48,7 +49,24 @@ const featuredReports = businessReports.slice(0, 3);
     <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of intelligence, authority, economics, trust, and the capacity to change without losing the plot.</p><p class="body-copy mt-7 max-w-2xl">Global Enterprise works at that seam. We bring a calm, senior view across frontier research, data, AI/ML, operating models, and change so leaders can make the next order of complexity governable.</p><a class="ink-link mt-8" href="/about/">Our point of view <span aria-hidden="true"></span></a></div>
   </MediaInterlude>
 
+  <section class="section-pad bg-cobalt text-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div><p class="eyebrow text-lime">Operations by design</p><h2 class="section-title mt-5 max-w-3xl">The standard travels. The context changes.</h2><p class="mt-6 max-w-xl text-lg leading-relaxed text-white/70">An international mandate is never solved by copying a central playbook. We translate the outcome into the language of the institution, the market, the regulator, and the people carrying the work.</p><a class="btn-primary mt-8" href="/operations/">Explore operations <span aria-hidden="true">↗</span></a></div>
+      <div class="grid gap-px border border-white/20 bg-white/20 sm:grid-cols-2">{regionContexts.slice(0, 4).map((context) => <a class="group bg-cobalt p-7 transition-colors hover:bg-cobalt-dark" href={`/operations/#${context.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")}`}><p class="font-display text-3xl text-lime">{context.code}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-lime">{context.name}</h3><p class="mt-3 text-sm leading-relaxed text-white/65">{context.title}</p></a>)}</div>
+    </div>
+  </section>
+
   <StartingPoint mediaSrc="/media/original/home-field-controls.avif" mediaAlt="A field engineer checking an old utility control cabinet with a paper checklist" mediaCaption="Start with the operating condition, not the preferred narrative." mediaRatio="wide" />
+
+  <section class="section-pad bg-white">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end lg:gap-24">
+        <div><p class="eyebrow text-cobalt">Ways to work together</p><h2 class="section-title mt-5 max-w-3xl">Start at the level the mandate requires.</h2></div>
+        <p class="max-w-2xl text-lg leading-relaxed text-muted">A serious engagement does not need a package. It needs a clear first move, the right level of context, and a path that can become more useful as the evidence arrives.</p>
+      </div>
+      <div class="mt-14"><EngagementCards /></div>
+    </div>
+  </section>
 
   <SystemMap mediaSrc="/media/original/home-system-infrastructure.avif" mediaAlt="Rail, utility pipes, and power lines crossing a river at dawn" mediaCaption="The system is not an abstraction. It is a set of physical and human dependencies." />
 

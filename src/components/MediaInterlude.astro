@@ -41,7 +41,7 @@ const {
   <div class="container-site media-interlude-grid">
     <figure class="media-interlude-figure">
       <div class="media-interlude-image-wrap" style={`--media-position: ${position}`}>
-        <AssetImage src={src} alt={alt} width={1536} height={1024} loading={loading} decoding="async" class="media-interlude-image" />
+        <AssetImage src={src} alt={alt} width={1536} height={1024} loading={loading} decoding="async" sizes="(min-width: 900px) 52vw, 100vw" class="media-interlude-image" />
         <span class="media-interlude-index" aria-hidden="true">{index}</span>
       </div>
       <figcaption>{caption}</figcaption>
@@ -182,7 +182,7 @@ const {
     letter-spacing: 0.035em;
   }
 
-  .media-interlude-dark .media-interlude-figure figcaption { color: rgb(255 255 255 / 58%); }
+  .media-interlude-ink .media-interlude-figure figcaption { color: rgb(255 255 255 / 68%); }
 
   .media-interlude-copy { max-width: 42rem; }
 

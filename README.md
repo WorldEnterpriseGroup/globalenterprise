@@ -17,7 +17,7 @@ npm run build
 npm run preview
 ```
 
-The build is fully prerendered and deploys to GitHub Pages through `.github/workflows/deploy.yml`. The `public/CNAME` file preserves `globalenterprise.com` for Pages deployments.
+The build is fully prerendered and deploys to GitHub Pages through `.github/workflows/deploy.yml`. The `public/CNAME` file preserves `globalenterprise.com` for Pages deployments. The Pages environment is intentionally gated to the `gh-pages` branch; the workflow mirrors that policy.
 
 ## Site capabilities
 
@@ -31,6 +31,8 @@ The build is fully prerendered and deploys to GitHub Pages through `.github/work
 - Focused solution pages at `/solutions/` for enterprise AI, modernization, operating model, and healthcare transformation
 - Privacy-first Plausible analytics with CTA, form, diagnostic, insight, and solution events
 - Visual sitemap at `/visual-sitemap/` plus a live-preview compact map at `/visual-sitemap/compact.html`
+- Public proof and trust surfaces at `/proof/` and `/trust/`, with abstract portfolio evidence and explicit data boundaries
+- Edge-ready security headers in `public/_headers` and a public vulnerability-reporting path at `/.well-known/security.txt`; GitHub Pages requires these headers to be mirrored in the production edge/CDN
 
 ## Rendering and motion
 
@@ -62,6 +64,9 @@ npm run check
 npm run build
 npm run audit:evidence
 node scripts/audit-site.mjs
+npm run audit:live
 ```
 
 The production audit requires the progressive motion runtime on every generated HTML route in addition to the existing heading, SEO, link, media, diagram, content, and sitemap checks. Browser review should cover normal motion, reduced motion, JavaScript disabled, keyboard focus, 320–390px mobile widths, and a production-build scroll through each route family.
+
+`npm run audit:live` is a post-deploy smoke check for the primary public routes. Set `LIVE_SITE_URL` when validating a preview or alternate origin.

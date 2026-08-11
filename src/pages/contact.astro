@@ -17,7 +17,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
         <p class="text-xs font-bold uppercase tracking-[0.14em] text-lime">Direct line</p>
         <a class="mt-4 block text-2xl font-bold text-white hover:text-lime" href={`mailto:${site.email}`}>{site.email}</a>
         <a class="mt-2 block text-lg text-white/70 hover:text-lime" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a>
-        <p class="mt-6 max-w-xs text-sm leading-relaxed text-white/45">New York · Global reach · Sensitive context handled through the appropriate channel</p>
+        <p class="mt-6 max-w-xs text-sm leading-relaxed text-white/45">{site.location} · Sensitive context handled through the appropriate channel</p>
       </div>
       <figure class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/original/contact-workbench.avif" width={1536} height={1024} loading="eager" decoding="async" alt="Hands arranging working papers and a notebook on a wooden table" class="aspect-[16/9] w-full object-cover opacity-85" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/70">A serious conversation starts with the real brief.</figcaption></figure>
     </div>
@@ -64,6 +64,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
         </div>
         <label class="flex items-start gap-3 text-sm leading-relaxed text-muted" for="contact-consent"><input id="contact-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to be contacted about this inquiry. I understand that this form is not a secure channel for classified or controlled information.</label>
         <button class="btn-dark w-fit" type="submit" data-track="contact_submit">Request the dialogue <span aria-hidden="true">↗</span></button>
+        <p class="max-w-2xl text-xs leading-relaxed text-muted">This public form is for routing and context only. Review our <a class="underline decoration-cobalt underline-offset-4" href="/trust/">Trust center</a> and <a class="underline decoration-cobalt underline-offset-4" href="/privacy/">privacy notice</a> before sharing information.</p>
       </form>
     </div>
   </section>

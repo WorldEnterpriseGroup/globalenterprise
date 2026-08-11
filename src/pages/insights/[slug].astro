@@ -6,7 +6,7 @@ import { services } from "@/data/site";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("insights");
+  const entries = (await getCollection("insights")).filter((entry) => !entry.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
@@ -14,7 +14,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const formatDate = (value: Date, options: Intl.DateTimeFormatOptions) => value.toLocaleDateString("en-US", { timeZone: "UTC", ...options });
 const date = entry.data.date ? formatDate(entry.data.date, { year: "numeric", month: "long", day: "numeric" }) : undefined;
-const allInsights = await getCollection("insights");
+const allInsights = (await getCollection("insights")).filter((entry) => !entry.data.draft);
 const related = allInsights.filter((candidate) => candidate.id !== entry.id && (entry.data.related.includes(candidate.id) || candidate.data.category === entry.data.category)).slice(0, 3);
 const keywords = entry.data.keywords.length > 0 ? entry.data.keywords : [entry.data.category, "enterprise strategy", "operating model", "transformation"];
 const sectionTitles = (entry.body?.match(/^##\s+(.+)$/gm) ?? []).map((heading) => heading.replace(/^##\s+/, "")).slice(0, 3);
@@ -30,6 +30,13 @@ const serviceByCategory: Record<string, string> = {
   "Healthcare & life sciences": "cloud-data",
   "Technology & data": "cloud-data",
   "Enterprise services": "operating-model",
+  "Research & foresight": "research-foresight",
+  "AI Cost Management": "cloud-data",
+  Leadership: "leadership-talent",
+  "Quantum Intelligence": "research-foresight",
+  Resilience: "transformation-office",
+  Governance: "cloud-data",
+  Execution: "transformation-office",
 };
 const relatedService = services.find((service) => service.slug === serviceByCategory[entry.data.category]) ?? services[0];
 const chartVariant = `article-${entry.id}`;

@@ -5,7 +5,8 @@ import { join, relative } from "node:path";
 const root = new URL("../dist/", import.meta.url);
 const errors = [];
 const htmlFiles = [];
-const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/"];
+const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/global/"];
+const redirectFiles = new Set(["global/index.html"]);
 const editorialDirectory = new URL("../src/content/insights/", import.meta.url);
 const freshnessBaseline = "2026-08-10";
 const routeImages = new Map();
@@ -49,7 +50,7 @@ await walk(root.pathname);
 for (const path of htmlFiles) {
   const file = relative(root.pathname, path) || "index.html";
   const html = await readFile(path, "utf8");
-  if (file === "visual-sitemap/compact.html" || file === "404.html") continue;
+  if (file === "visual-sitemap/compact.html" || file === "404.html" || redirectFiles.has(file)) continue;
   requiredMarkup(html, /<title>[^<]+<\/title>/i, "title", file);
   requiredMarkup(html, /<meta name="description" content="[^"]+"/i, "meta description", file);
   requiredMarkup(html, /<link rel="canonical" href="https:\/\/globalenterprise\.com\//i, "canonical", file);

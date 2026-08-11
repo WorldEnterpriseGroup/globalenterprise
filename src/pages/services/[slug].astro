@@ -4,7 +4,7 @@ import ArchitectureMap from "@/components/ArchitectureMap.astro";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("servicePages");
+  const entries = (await getCollection("servicePages")).filter((entry) => !entry.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 

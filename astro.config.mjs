@@ -7,6 +7,9 @@ export default defineConfig({
   site: "https://globalenterprise.com",
   output: "static",
   trailingSlash: "always",
+  redirects: {
+    "/global/": "/operations/",
+  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "viewport",
@@ -14,7 +17,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/"].includes(new URL(page).pathname),
+      filter: (page) => !["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/"].includes(new URL(page).pathname),
     }),
   ],
   vite: {

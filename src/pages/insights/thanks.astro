@@ -1,17 +1,20 @@
 ---
 import Base from "@/layouts/Base.astro";
+
+const source = Astro.url.searchParams.get("source");
+const isGlobalBrief = source === "global-brief";
 ---
 
-<Base title="You are subscribed | Global Enterprise" description="You are subscribed to The Signal from Global Enterprise." noindex>
+<Base title={isGlobalBrief ? "Your global brief is ready | Global Enterprise" : "You are subscribed | Global Enterprise"} description={isGlobalBrief ? "Download the Global Brief from Global Enterprise." : "You are subscribed to The Signal from Global Enterprise."} noindex>
   <section class="bg-ink py-24 text-white md:py-36">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">The Signal</p>
-        <h1 class="section-title mt-7 max-w-4xl">You are on the list.</h1>
-        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">We will send occasional evidence-led notes for the people carrying the next decision.</p>
-        <div class="mt-10 flex flex-wrap gap-4"><a class="btn-primary" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a><a class="btn-ghost" href="/">Back to home <span aria-hidden="true">↗</span></a></div>
+        <p class="eyebrow text-lime">{isGlobalBrief ? "The Global Brief" : "The Signal"}</p>
+        <h1 class="section-title mt-7 max-w-4xl">{isGlobalBrief ? "Your brief is ready." : "You are on the list."}</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">{isGlobalBrief ? "Use this short field note to frame a cross-border decision, surface the local context, and choose the next management move." : "We will send occasional evidence-led notes for the people carrying the next decision."}</p>
+        <div class="mt-10 flex flex-wrap gap-4">{isGlobalBrief && <a class="btn-primary" href="/reports/global-operating-model-brief.txt" download>Download the brief <span aria-hidden="true">↗</span></a>}<a class="btn-ghost" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a><a class="btn-ghost" href="/">Back to home <span aria-hidden="true">↗</span></a></div>
       </div>
-      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Good next read</p><a class="mt-5 block max-w-sm text-2xl font-display font-medium tracking-[-0.04em] hover:text-lime" href="/insights/ai-at-scale/">AI at scale is an operating model decision ↗</a></div>
+      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Good next read</p><a class="mt-5 block max-w-sm text-2xl font-display font-medium tracking-[-0.04em] hover:text-lime" href={isGlobalBrief ? "/insights/global-operating-model-is-translation/" : "/insights/ai-at-scale/"}>{isGlobalBrief ? "A global operating model is a translation system ↗" : "AI at scale is an operating model decision ↗"}</a></div>
     </div>
   </section>
 </Base>

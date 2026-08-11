@@ -1,0 +1,68 @@
+---
+import { site } from "@/data/site";
+
+interface Props {
+  dark?: boolean;
+}
+
+const { dark = true } = Astro.props;
+---
+
+<section class:list={["global-brief", dark ? "global-brief-dark" : ""]}>
+  <div class="container-site grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-end lg:gap-20">
+    <div>
+      <p class="eyebrow text-lime">The Global Brief</p>
+      <h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">One standard. Translated for the system in front of you.</h2>
+      <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/65">A concise field note for leaders coordinating AI, infrastructure, data, and capability across regions, partners, and time zones.</p>
+      <ul class="mt-7 grid gap-3 text-sm text-white/65 sm:grid-cols-3 lg:grid-cols-1">
+        <li><span class="text-lime">01</span> A cross-border decision frame</li>
+        <li><span class="text-lime">02</span> Questions for the local operating context</li>
+        <li><span class="text-lime">03</span> A practical first move for the next room</li>
+      </ul>
+    </div>
+    <form class="global-brief-form" action={site.formEndpoint} method="POST" data-lead-form data-form-kind="global_brief">
+      <input type="hidden" name="_subject" value="Request the Global Brief" />
+      <input type="hidden" name="_next" value={`${site.url}/insights/thanks/?source=global-brief`} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
+      <div class="grid gap-6 sm:grid-cols-2">
+        <label for="global-brief-email">Work email
+          <input id="global-brief-email" type="email" name="email" autocomplete="email" placeholder="name@organization.com" required />
+        </label>
+        <label for="global-brief-context">Primary context
+          <select id="global-brief-context" name="context" required>
+            <option value="" selected disabled>Choose a lens</option>
+            <option>North America</option>
+            <option>Europe</option>
+            <option>Middle East & Africa</option>
+            <option>Asia-Pacific</option>
+            <option>Latin America & the Caribbean</option>
+            <option>Cross-border / multi-region</option>
+          </select>
+        </label>
+      </div>
+      <label class="mt-6 flex items-start gap-3 text-sm leading-relaxed text-white/65" for="global-brief-consent">
+        <input id="global-brief-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />
+        I agree to receive this brief and occasional evidence-led notes. I can unsubscribe at any time.
+      </label>
+      <button class="btn-primary mt-7" type="submit" data-track="global_brief_submit">Send me the brief <span aria-hidden="true">↗</span></button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .global-brief { padding-block: clamp(4rem, 8vw, 7.5rem); background: var(--color-cobalt); color: white; }
+  .global-brief-dark { background: var(--color-ink); }
+  .global-brief-form { padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid rgb(255 255 255 / 16%); background: rgb(255 255 255 / 6%); }
+  .global-brief-form label:not(.flex) { display: grid; gap: 0.55rem; color: rgb(255 255 255 / 74%); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .global-brief-form input:not([type="checkbox"]), .global-brief-form select { width: 100%; min-height: 3.35rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; font-weight: 400; letter-spacing: normal; outline: none; text-transform: none; }
+  .global-brief-form select { color-scheme: dark; }
+  .global-brief-form input:focus, .global-brief-form select:focus { border-color: var(--color-lime); }
+  .global-brief-form input:focus-visible, .global-brief-form select:focus-visible, .global-brief-form button:focus-visible {
+    outline: 3px solid var(--color-lime);
+    outline-offset: 4px;
+  }
+  .global-brief-form option { color: var(--color-ink); }
+  .global-brief li { display: flex; gap: 0.65rem; }
+  .global-brief li span { flex: 0 0 auto; font-family: var(--font-display); }
+</style>
