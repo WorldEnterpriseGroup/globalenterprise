@@ -8,6 +8,7 @@ import MediaInterlude from "@/components/MediaInterlude.astro";
 import SystemMap from "@/components/SystemMap.astro";
 import ArchitectureMap from "@/components/ArchitectureMap.astro";
 import IntelligenceStack from "@/components/IntelligenceStack.astro";
+import AssetImage from "@/components/AssetImage.astro";
 import { getCollection } from "astro:content";
 import { experienceHighlights, services, site } from "@/data/site";
 
@@ -17,7 +18,7 @@ const cases = await getCollection("caseStudies");
 
 <Base title="Global Enterprise | Strategy for the next system" description={site.description} image="/media/hero-city.avif">
   <section class="hero-home">
-    <img src="/media/hero-city.avif" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async" alt="A global city skyline in clear morning light" class="hero-home-image" />
+    <AssetImage src="/media/original/hero-city.avif" width={1600} height={900} loading="eager" fetchpriority="high" decoding="async" sizes="100vw" alt="A global city skyline in clear morning light" class="hero-home-image" />
     <div class="container-site relative z-10 flex min-h-[min(50rem,calc(100vh-1rem))] items-center py-28">
       <div class="max-w-3xl text-white">
         <p class="eyebrow text-lime">When one decision changes the room</p>
@@ -31,14 +32,14 @@ const cases = await getCollection("caseStudies");
 
   <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><span class="font-bold text-ink">The question changes. The standard holds.</span><span>AI-native operations</span><span>Frontier intelligence</span><span>Resilient infrastructure</span><span>Human capability</span></div></section>
 
-  <MediaInterlude src="/media/original/home-mandate-briefing.avif" alt="A senior planner tracing a route across a large paper map while colleagues watch" eyebrow="The mandate" caption="A decision becomes real when someone can point to the route, the trade-off, and the consequence." index="01" tone="white" showEyebrow={false} loading="eager" ratio="wide">
+  <MediaInterlude src="/media/original/home-mandate-briefing.avif" alt="A senior planner tracing a route across a large paper map while colleagues watch" eyebrow="The mandate" caption="A decision becomes real when someone can point to the route, the trade-off, and the consequence." index="01" tone="white" showEyebrow={false} ratio="wide">
     <SectionHeading eyebrow="The mandate" title="When the future moves faster than the institution, judgment becomes infrastructure." />
     <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of intelligence, authority, economics, trust, and the capacity to change without losing the plot.</p><p class="body-copy mt-7 max-w-2xl">Global Enterprise works at that seam. We bring a calm, senior view across frontier research, data, AI/ML, operating models, and change so leaders can make the next order of complexity governable.</p><a class="ink-link mt-8" href="/about/">Our point of view <span aria-hidden="true"></span></a></div>
   </MediaInterlude>
 
   <StartingPoint mediaSrc="/media/original/home-field-controls.avif" mediaAlt="A field engineer checking an old utility control cabinet with a paper checklist" mediaCaption="Start with the operating condition, not the preferred narrative." mediaRatio="wide" />
 
-  <section class="section-pad bg-paper"><div class="container-site"><IntelligenceStack mediaSrc="/media/original/home-intelligence-workshop.avif" mediaAlt="Two engineers examining an unfinished mechanical component at a scarred workshop bench" mediaCaption="Frontier work earns its place when it can be handled, tested, and carried by people." /></div></section>
+  <section class="bg-paper"><div class="container-site"><IntelligenceStack mediaSrc="/media/original/home-intelligence-workshop.avif" mediaAlt="Two engineers examining an unfinished mechanical component at a scarred workshop bench" mediaCaption="Frontier work earns its place when it can be handled, tested, and carried by people." /></div></section>
 
   <SystemMap mediaSrc="/media/original/home-system-infrastructure.avif" mediaAlt="Rail, utility pipes, and power lines crossing a river at dawn" mediaCaption="The system is not an abstraction. It is a set of physical and human dependencies." />
 
@@ -46,17 +47,17 @@ const cases = await getCollection("caseStudies");
 
   <EvidenceBand eyebrow="Signals worth designing around" title="The public record is moving fast. Your operating model has to keep up." text="We use public evidence to sharpen the question, then work with leaders to turn it into a strategy that fits their mission, risk, and capacity." limit={4} photoSrc="/media/original/home-evidence-archive.avif" photoAlt="A researcher selecting a worn folder from shelves in a quiet archive" photoCaption="The record is not decoration. It changes what a serious leader can responsibly decide." />
 
-  <MediaInterlude src="/media/original/home-consequence-field.avif" alt="A technician standing on a walkway above the basins and pipes of a water treatment facility" eyebrow="Why Global Enterprise" caption="The standard is proximity to the consequence: the place where a strategy becomes someone’s Tuesday." index="02" tone="white" reverse showEyebrow={false} ratio="cinematic">
+  <MediaInterlude src="/media/original/home-consequence-field.avif" alt="A technician standing on a walkway above the basins and pipes of a water treatment facility" eyebrow="Why Global Enterprise" caption="The standard is proximity to the consequence: the place where a strategy becomes someone’s Tuesday." index="02" tone="white" reverse showEyebrow={false} ratio="tall" position="66% 50%">
     <SectionHeading eyebrow="Why Global Enterprise" title="Experience that sits close to the consequence." text="Our perspective comes from working across the places where strategy becomes operational: federal missions, healthcare enterprises, technology platforms, and the people who have to carry change." />
     <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <article class="bg-white p-8 md:p-10"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h3><p class="mt-4 leading-relaxed text-muted">{item.text}</p></article>)}</div>
   </MediaInterlude>
 
-  <MediaInterlude src="/media/original/home-capability-workflow.avif" alt="Two systems technicians comparing a wiring diagram and components beside an open industrial cabinet" eyebrow="Capabilities" caption="Architecture is useful only when the people operating it can see the relationship between the parts." index="03" tone="paper" showEyebrow={false} ratio="wide">
+  <MediaInterlude src="/media/original/home-capability-workflow.avif" alt="Two systems technicians comparing a wiring diagram and components beside an open industrial cabinet" eyebrow="Capabilities" caption="Architecture is useful only when the people operating it can see the relationship between the parts." index="03" tone="paper" showEyebrow={false} ratio="tall" position="54% 50%">
     <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Capabilities" title="A connected view of change." text="Choose the pressure point. We will connect it to the wider system." /><a class="btn-ghost shrink-0" href="/services/">View all capabilities <span aria-hidden="true">↗</span></a></div>
     <div class="mt-14 divide-y divide-line border-y border-line">{services.slice(0, 4).map((service) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_auto] md:items-center" href={`/services/${service.slug}/`}><span class="font-display text-3xl text-cobalt">{service.number}</span><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
   </MediaInterlude>
 
-  <MediaInterlude src="/media/original/home-field-note.avif" alt="A hard hat, notebook, and work gloves resting on a steel railing above an industrial facility" eyebrow="Selected work" caption="A field note begins with what the system leaves on the railing: evidence, residue, and the next question." index="04" tone="white" reverse showEyebrow={false} ratio="cinematic">
+  <MediaInterlude src="/media/original/home-field-note.avif" alt="A hard hat, notebook, and work gloves resting on a steel railing above an industrial facility" eyebrow="Selected work" caption="A field note begins with what the system leaves on the railing: evidence, residue, and the next question." index="04" tone="white" reverse showEyebrow={false} ratio="tall" position="38% 50%">
     <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Selected work" title="Progress that survives the presentation." text="Three field notes, presented as decisions and outcomes—not a gallery of repeated stock scenes." /><a class="btn-ghost shrink-0" href="/case-studies/">View all work <span aria-hidden="true">↗</span></a></div>
     <div class="mt-14 divide-y divide-line border-y border-line">{cases.map((entry, index) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_1.1fr_auto] md:items-center" href={`/case-studies/${entry.id}/`}><span class="font-display text-4xl text-cobalt">0{index + 1}</span><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.service}</p><h3 class="mt-2 font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{entry.data.title}</h3></div><p class="max-w-xl text-sm leading-relaxed text-muted">{entry.data.result}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
   </MediaInterlude>

@@ -57,8 +57,17 @@ for (const path of htmlFiles) {
   requiredMarkup(html, /<script type="application\/ld\+json">/i, "JSON-LD", file);
   requiredMarkup(html, /<body[^>]+data-route-signature="[^"]+"/i, "route signature", file);
   requiredMarkup(html, /<body[^>]+data-route-image="[^"]+"/i, "route image assignment", file);
+  requiredMarkup(html, /data-motion-progress/i, "progressive motion system", file);
+  requiredMarkup(html, /<link rel="preload" href="\/font\/roboto-regular-webfont\.woff" as="font"/i, "primary font preload", file);
+  if (/<section class="[^"]*\bsection-pad\b[^"]*"[^>]*>\s*<div class="container-site"[^>]*>\s*<section class="intelligence-stack\b/i.test(html)) {
+    errors.push(`${file}: intelligence stack is wrapped in duplicate section padding`);
+  }
   const headings = html.match(/<h1\b/gi) ?? [];
   if (headings.length !== 1) errors.push(`${file}: expected one h1, found ${headings.length}`);
+  const ids = [...html.matchAll(/\bid="([^"]+)"/gi)].map((match) => match[1]);
+  for (const id of new Set(ids.filter((value, index) => ids.indexOf(value) !== index))) {
+    errors.push(`${file}: duplicate id ${id}`);
+  }
   const routeImage = html.match(/data-route-image="([^"]+)"/)?.[1] ?? "none";
   if (routeImage !== "none") {
     const owner = routeImages.get(routeImage);

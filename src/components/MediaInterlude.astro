@@ -12,15 +12,16 @@ interface Props {
   showEyebrow?: boolean;
   loading?: "eager" | "lazy";
   ratio?: "standard" | "wide" | "cinematic" | "tall";
+  position?: string;
 }
 
-const { src, alt, eyebrow, caption, index = "01", tone = "paper", reverse = false, showEyebrow = true, loading = "lazy", ratio = "standard" } = Astro.props;
+const { src, alt, eyebrow, caption, index = "01", tone = "paper", reverse = false, showEyebrow = true, loading = "lazy", ratio = "standard", position = "50% 50%" } = Astro.props;
 ---
 
 <section class:list={["media-interlude", `media-interlude-${tone}`, `media-interlude-ratio-${ratio}`, reverse && "media-interlude-reverse"]} data-media-role={eyebrow}>
   <div class="container-site media-interlude-grid">
     <figure class="media-interlude-figure">
-      <div class="media-interlude-image-wrap">
+      <div class="media-interlude-image-wrap" style={`--media-position: ${position}`}>
         <AssetImage src={src} alt={alt} width={1536} height={1024} loading={loading} decoding="async" class="media-interlude-image" />
         <span class="media-interlude-index" aria-hidden="true">{index}</span>
       </div>
@@ -35,7 +36,7 @@ const { src, alt, eyebrow, caption, index = "01", tone = "paper", reverse = fals
 
 <style>
   .media-interlude {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
+    padding-block: var(--space-section);
   }
 
   .media-interlude-paper { background: var(--color-paper); }
@@ -63,20 +64,21 @@ const { src, alt, eyebrow, caption, index = "01", tone = "paper", reverse = fals
     box-shadow: 1.2rem 1.2rem 0 color-mix(in srgb, var(--color-cobalt) 16%, transparent);
   }
 
-  .media-interlude-image {
+  :global(.media-interlude-image) {
     display: block;
     aspect-ratio: 1.5 / 1;
     width: 100%;
     object-fit: cover;
+    object-position: var(--media-position);
     filter: saturate(0.84) contrast(1.04);
     transition: transform 500ms ease, filter 500ms ease;
   }
 
-  .media-interlude-ratio-wide .media-interlude-image { aspect-ratio: 16 / 9; }
-  .media-interlude-ratio-cinematic .media-interlude-image { aspect-ratio: 2.35 / 1; }
-  .media-interlude-ratio-tall .media-interlude-image { aspect-ratio: 4 / 5; }
+  .media-interlude-ratio-wide :global(.media-interlude-image) { aspect-ratio: 16 / 9; }
+  .media-interlude-ratio-cinematic :global(.media-interlude-image) { aspect-ratio: 2.35 / 1; }
+  .media-interlude-ratio-tall :global(.media-interlude-image) { aspect-ratio: 4 / 5; }
 
-  .media-interlude-figure:hover .media-interlude-image {
+  .media-interlude-figure:hover :global(.media-interlude-image) {
     transform: scale(1.025);
     filter: saturate(1) contrast(1.04);
   }
@@ -120,6 +122,6 @@ const { src, alt, eyebrow, caption, index = "01", tone = "paper", reverse = fals
   .media-interlude-ink .media-interlude-content :global(h3) { color: white; }
 
   @media (prefers-reduced-motion: reduce) {
-    .media-interlude-image { transition: none; }
+    :global(.media-interlude-image) { transition: none; }
   }
 </style>

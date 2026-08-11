@@ -1,0 +1,121 @@
+---
+// Progressive enhancement only: the document is complete and visible before this runs.
+---
+
+<div class="site-motion-progress" aria-hidden="true" data-motion-progress>
+  <span></span>
+</div>
+
+<script>
+  type MotionRuntime = {
+    observer?: IntersectionObserver;
+    progressFrame?: number;
+  };
+
+  const motionWindow = window as Window & { __globalEnterpriseMotion?: MotionRuntime };
+  const runtime = motionWindow.__globalEnterpriseMotion ??= {};
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const setVisible = (element: HTMLElement) => {
+    element.dataset.motionState = "visible";
+  };
+
+  const meaningfulChildren = (parent: Element) => Array.from(parent.children).filter((child): child is HTMLElement =>
+    child instanceof HTMLElement && !["SCRIPT", "STYLE", "TEMPLATE"].includes(child.tagName)
+  );
+
+  const sceneItems = (scene: HTMLElement) => {
+    const container = Array.from(scene.children).find((child) => child instanceof HTMLElement && child.classList.contains("container-site")) as HTMLElement | undefined
+      ?? scene.querySelector<HTMLElement>(":scope > .container-site");
+    if (!container) return meaningfulChildren(scene);
+
+    const direct = meaningfulChildren(container);
+    if (direct.length !== 1) return direct;
+
+    const only = direct[0];
+    const nested = meaningfulChildren(only);
+    const isEditorialSplit = only.classList.contains("grid") || only.classList.contains("flex");
+    return isEditorialSplit && nested.length > 1 && nested.length <= 6 ? nested : direct;
+  };
+
+  const markStaggerGroups = (item: HTMLElement) => {
+    const groups = [item, ...item.querySelectorAll<HTMLElement>(".divide-y, [data-motion-list], ul.grid, ol.grid")];
+    groups.forEach((group) => {
+      const children = meaningfulChildren(group);
+      if (children.length < 2 || children.length > 12) return;
+      group.dataset.motionStagger = "";
+      children.forEach((child, index) => child.style.setProperty("--motion-child", String(Math.min(index, 7))));
+    });
+  };
+
+  const updateProgress = () => {
+    runtime.progressFrame = undefined;
+    const indicator = document.querySelector<HTMLElement>("[data-motion-progress] > span");
+    if (!indicator) return;
+    const maximum = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maximum > 0 ? Math.min(1, Math.max(0, window.scrollY / maximum)) : 0;
+    indicator.style.transform = `scaleX(${progress})`;
+  };
+
+  const requestProgressUpdate = () => {
+    if (runtime.progressFrame) return;
+    runtime.progressFrame = window.requestAnimationFrame(updateProgress);
+  };
+
+  const initializeMotion = () => {
+    runtime.observer?.disconnect();
+
+    const scenes = document.querySelectorAll<HTMLElement>("main > section, main > [data-motion-scene], .contextual-next, body > footer");
+    const items: HTMLElement[] = [];
+
+    scenes.forEach((scene, sceneIndex) => {
+      scene.dataset.motionScene = String(sceneIndex + 1).padStart(2, "0");
+      const candidates = sceneItems(scene);
+      candidates.forEach((item, itemIndex) => {
+        if (item.dataset.motionSkip !== undefined) return;
+        item.dataset.motionItem = item.matches("figure, picture") || item.querySelector("img, picture, svg") ? "media" : "content";
+        item.dataset.motionState = reduceMotion.matches ? "visible" : "pending";
+        item.style.setProperty("--motion-order", String(Math.min(itemIndex, 5)));
+        item.querySelectorAll<HTMLElement>("figure, picture, .media-interlude-image-wrap, .architecture-map-canvas, .signal-chart-canvas, .solution-diagram").forEach((media) => {
+          media.dataset.motionMedia = "";
+        });
+        markStaggerGroups(item);
+        items.push(item);
+      });
+    });
+
+    document.documentElement.dataset.motionSystem = reduceMotion.matches ? "reduced" : "active";
+
+    if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+      items.forEach(setVisible);
+      updateProgress();
+      return;
+    }
+
+    runtime.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        setVisible(entry.target as HTMLElement);
+        runtime.observer?.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8%", threshold: 0.01 });
+
+    items.forEach((item) => runtime.observer?.observe(item));
+    window.requestAnimationFrame(() => {
+      items.forEach((item) => {
+        if (item.getBoundingClientRect().top < window.innerHeight * 0.94) setVisible(item);
+      });
+    });
+    updateProgress();
+  };
+
+  if (!document.documentElement.hasAttribute("data-motion-bound")) {
+    document.documentElement.setAttribute("data-motion-bound", "");
+    window.addEventListener("scroll", requestProgressUpdate, { passive: true });
+    window.addEventListener("resize", requestProgressUpdate, { passive: true });
+    reduceMotion.addEventListener("change", initializeMotion);
+    document.addEventListener("astro:page-load", initializeMotion);
+  }
+
+  initializeMotion();
+</script>

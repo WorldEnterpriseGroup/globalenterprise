@@ -8,7 +8,6 @@ export const sitemapGroups = [
       { label: "Our approach", href: "/about/", description: "How we make future complexity governable.", kind: "company" },
       { label: "Selected work", href: "/case-studies/", description: "Field notes from the work.", kind: "proof" },
       { label: "Insights", href: "/insights/", description: "Evidence and original analysis for leaders shaping what comes next.", kind: "thinking" },
-      { label: "Solutions", href: "/solutions/", description: "Strategic pathways for consequential decisions.", kind: "start" },
       { label: "Team", href: "/team/", description: "The disciplines close to the work.", kind: "company" },
       { label: "Contact", href: "/contact/", description: "Request a private principal dialogue.", kind: "start" },
     ],

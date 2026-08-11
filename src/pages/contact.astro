@@ -8,7 +8,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
 <Base title="Principal dialogue | Global Enterprise" description="A private first conversation for leaders shaping high-consequence systems across AI/ML, data, frontier intelligence, and enterprise change." image="/media/original/contact-workbench.avif" keywords={["principal advisory dialogue", "enterprise AI strategy", "AI cost management", "data lab build out", "quantum intelligence", "ITIL change management"]}>
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.65fr_.55fr] lg:items-end">
-      <div>
+      <div class="min-w-0">
         <p class="eyebrow text-lime">When the decision reaches beyond the room</p>
         <h1 class="section-title mt-7 max-w-4xl">Bring the mandate behind the question.</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">We begin where intelligence, economics, trust, and change have to hold at the same time. Not a generic discovery call—an initial conversation about the decision, the system around it, and what would make it move.</p>
@@ -25,7 +25,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
 
   <section class="section-pad bg-white">
     <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
-      <div>
+      <div class="min-w-0">
         <p class="eyebrow">The right level of context</p>
         <h2 class="mt-6 font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Write for the room that will make the decision.</h2>
         <div class="mt-9 border-t border-line pt-7">
@@ -43,7 +43,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
         </div>
       </div>
 
-      <form class="grid gap-6" action={site.formEndpoint} method="POST" data-lead-form data-form-kind="principal-dialogue">
+      <form class="grid min-w-0 gap-6" action={site.formEndpoint} method="POST" data-lead-form data-form-kind="principal-dialogue">
         <input type="hidden" name="_subject" value="Principal dialogue · Global Enterprise" />
         <input type="hidden" name="_next" value={`${site.url}/contact/thanks/`} />
         <input type="hidden" name="_template" value="table" />
@@ -56,11 +56,11 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
           <label class="grid gap-2 text-sm font-bold" for="contact-email">Work email<input id="contact-email" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="email" name="email" autocomplete="email" required /></label>
           <label class="grid gap-2 text-sm font-bold" for="contact-organization">Organization<input id="contact-organization" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="organization" autocomplete="organization" required /></label>
         </div>
-        <label class="grid gap-2 text-sm font-bold" for="contact-context">Conversation context<select id="contact-context" class="min-h-14 border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="conversation_context" required><option value="" selected disabled>Select the closest context</option><option>AI/ML portfolio, lab, or operating model</option><option>Data lab, platform, or AI cost management</option><option>Frontier intelligence, quantum, or advanced systems</option><option>Enterprise transformation and change architecture</option><option>Institutional strategy, modernization, or resilience</option><option>Research partnership or strategic inquiry</option></select></label>
+        <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-context">Conversation context<select id="contact-context" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="conversation_context" required><option value="" selected disabled>Select the closest context</option><option>AI/ML portfolio, lab, or operating model</option><option>Data lab, platform, or AI cost management</option><option>Frontier intelligence, quantum, or advanced systems</option><option>Enterprise transformation and change architecture</option><option>Institutional strategy, modernization, or resilience</option><option>Research partnership or strategic inquiry</option></select></label>
         <label class="grid gap-2 text-sm font-bold" for="contact-mandate">The mandate<textarea id="contact-mandate" class="min-h-44 resize-y border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="mandate" placeholder="State the decision, the horizon, and what is at stake. Please do not include classified, export-controlled, or sensitive information in this form." required></textarea></label>
         <div class="grid gap-6 sm:grid-cols-2">
-          <label class="grid gap-2 text-sm font-bold" for="contact-timing">Decision horizon<select id="contact-timing" class="min-h-14 border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="decision_horizon"><option value="">Select if useful</option><option>Immediate / active decision</option><option>Next 90 days</option><option>2027–2028 horizon</option><option>2030–2035 horizon</option><option>Long-range research</option></select></label>
-          <label class="grid gap-2 text-sm font-bold" for="contact-scale">Scale of the system<select id="contact-scale" class="min-h-14 border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="system_scale"><option value="">Select if useful</option><option>Enterprise / institution</option><option>Portfolio / multi-program</option><option>Mission-critical platform</option><option>Research or emerging capability</option></select></label>
+          <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-timing">Decision horizon<select id="contact-timing" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="decision_horizon"><option value="">Select if useful</option><option>Immediate / active decision</option><option>Next 90 days</option><option>2027–2028 horizon</option><option>2030–2035 horizon</option><option>Long-range research</option></select></label>
+          <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-scale">Scale of the system<select id="contact-scale" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="system_scale"><option value="">Select if useful</option><option>Enterprise / institution</option><option>Portfolio / multi-program</option><option>Mission-critical platform</option><option>Research or emerging capability</option></select></label>
         </div>
         <label class="flex items-start gap-3 text-sm leading-relaxed text-muted" for="contact-consent"><input id="contact-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to be contacted about this inquiry. I understand that this form is not a secure channel for classified or controlled information.</label>
         <button class="btn-dark w-fit" type="submit" data-track="contact_submit">Request the dialogue <span aria-hidden="true">↗</span></button>
@@ -68,7 +68,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
     </div>
   </section>
 
-  <section class="section-pad bg-paper"><div class="container-site"><IntelligenceStack /></div></section>
+  <section class="bg-paper"><div class="container-site"><IntelligenceStack /></div></section>
 
   <section class="section-pad bg-ink text-white">
     <div class="container-site grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
