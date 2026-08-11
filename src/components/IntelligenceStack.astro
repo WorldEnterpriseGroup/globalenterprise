@@ -1,0 +1,261 @@
+---
+import AssetImage from "@/components/AssetImage.astro";
+
+interface Props {
+  mediaSrc?: string;
+  mediaAlt?: string;
+  mediaCaption?: string;
+}
+
+const { mediaSrc, mediaAlt = "", mediaCaption = "" } = Astro.props;
+
+const layers = [
+  {
+    index: "01",
+    label: "Strategic mandate",
+    text: "Mission, board, portfolio, or national priority",
+    tone: "mandate",
+  },
+  {
+    index: "02",
+    label: "Data lab",
+    text: "Trusted data products, lineage, access, and observability",
+    tone: "data",
+  },
+  {
+    index: "03",
+    label: "AI labs",
+    text: "Models, agents, evaluation, red-team, and human review",
+    tone: "ai",
+  },
+  {
+    index: "04",
+    label: "Quantum intelligence",
+    text: "Optimization, sensing, scenarios, and frontier research",
+    tone: "quantum",
+  },
+  {
+    index: "05",
+    label: "Enterprise change system",
+    text: "ITIL cadence, cost control, adoption, and recovery",
+    tone: "change",
+  },
+];
+---
+
+<section class="intelligence-stack" aria-labelledby="intelligence-stack-title">
+  <div class="intelligence-stack-header">
+    <div>
+      <p class="eyebrow text-cobalt">The intelligence stack</p>
+      <h2 id="intelligence-stack-title" class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-5xl">Frontier capability only matters when it survives contact with the enterprise.</h2>
+    </div>
+    <div class="intelligence-stack-header-side">
+      {mediaSrc && <figure class="intelligence-stack-media">
+        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="lazy" decoding="async" class="aspect-[16/9] w-full object-cover" />
+        {mediaCaption && <figcaption>{mediaCaption}</figcaption>}
+      </figure>}
+      <p class="max-w-md text-sm leading-relaxed text-muted">We connect research, data, AI/ML, economics, and change management into one decision system for leaders operating where the consequence compounds.</p>
+    </div>
+  </div>
+
+  <div class="intelligence-stack-visual" role="img" aria-label="A five-layer intelligence stack connecting strategic mandate, data labs, AI labs, quantum intelligence, and enterprise change management">
+    <div class="intelligence-stack-axis" aria-hidden="true"><span>Signal</span><i></i><span>Decision</span><i></i><span>Outcome</span></div>
+    <ol class="intelligence-stack-layers">
+      {layers.map((layer) => (
+        <li class:list={["intelligence-stack-layer", `is-${layer.tone}`]}>
+          <span class="intelligence-stack-index">{layer.index}</span>
+          <div>
+            <strong>{layer.label}</strong>
+            <p>{layer.text}</p>
+          </div>
+          <span class="intelligence-stack-arrow" aria-hidden="true">↗</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <div class="intelligence-stack-footer">
+    <span>Every layer has an owner.</span>
+    <span>Every decision has evidence.</span>
+    <span>Every release has a recovery path.</span>
+  </div>
+</section>
+
+<style>
+  .intelligence-stack {
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    padding-block: clamp(3.5rem, 7vw, 7rem);
+  }
+
+  .intelligence-stack-header {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .intelligence-stack-header-side {
+    display: grid;
+    gap: 1.25rem;
+    align-content: end;
+  }
+
+  .intelligence-stack-media {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    background: var(--color-ink);
+  }
+
+  .intelligence-stack-media figcaption {
+    padding: 0.7rem 0.85rem;
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 768px) {
+    .intelligence-stack-header {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: end;
+      gap: 4rem;
+    }
+  }
+
+  .intelligence-stack-visual {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 1rem;
+    padding: 0.25rem 0;
+  }
+
+  .intelligence-stack-axis {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-cobalt);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .intelligence-stack-axis i {
+    width: 1px;
+    min-height: 2.4rem;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--color-cobalt), var(--color-line));
+  }
+
+  .intelligence-stack-layers {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .intelligence-stack-layer {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    min-height: 5.25rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, white 75%, var(--color-paper));
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .intelligence-stack-layer:hover {
+    transform: translateX(0.35rem);
+    border-color: var(--color-cobalt);
+    background: white;
+  }
+
+  .intelligence-stack-index {
+    color: var(--color-cobalt);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.08em;
+  }
+
+  .intelligence-stack-layer strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2vw, 1.4rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+
+  .intelligence-stack-layer p {
+    margin-top: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .intelligence-stack-arrow {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    color: var(--color-cobalt);
+    font-size: 1rem;
+  }
+
+  .intelligence-stack-layer.is-ai {
+    border-color: color-mix(in srgb, var(--color-cobalt) 45%, var(--color-line));
+    background: color-mix(in srgb, var(--color-lime) 55%, white);
+  }
+
+  .intelligence-stack-layer.is-quantum {
+    border-color: color-mix(in srgb, #7655a8 42%, var(--color-line));
+    background: color-mix(in srgb, #eee9f6 65%, white);
+  }
+
+  .intelligence-stack-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 2rem;
+    margin-top: 2rem;
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .intelligence-stack-footer span::before {
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-right: 0.55rem;
+    border-radius: 999px;
+    background: var(--color-cobalt);
+    content: "";
+  }
+
+  @media (max-width: 480px) {
+    .intelligence-stack-visual {
+      grid-template-columns: 1.25rem 1fr;
+      gap: 0.5rem;
+    }
+
+    .intelligence-stack-layer {
+      grid-template-columns: 2rem 1fr;
+      gap: 0.7rem;
+      padding: 0.85rem;
+    }
+
+    .intelligence-stack-arrow {
+      display: none;
+    }
+  }
+</style>

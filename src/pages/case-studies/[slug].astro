@@ -1,0 +1,19 @@
+---
+import Base from "@/layouts/Base.astro";
+import ArchitectureMap from "@/components/ArchitectureMap.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("caseStudies");
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} type="article" keywords={[entry.data.sector, entry.data.service, "enterprise transformation", "case study"]}>
+  <section class="bg-cobalt py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[.8fr_1.1fr_.7fr] lg:items-end"><div><p class="eyebrow text-lime">{entry.data.eyebrow}</p><p class="mt-10 text-sm font-bold uppercase tracking-[0.12em] text-white/60">{entry.data.sector} · {entry.data.service}</p></div><h1 class="section-title max-w-5xl">{entry.data.title}</h1><div class="border-l border-white/25 pl-6"><p class="eyebrow text-lime">Field note</p><p class="mt-5 max-w-xs text-lg leading-relaxed text-white/75">The useful proof is the operating move that remains after the engagement.</p></div></div></section>
+  <section class="section-pad bg-white"><div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24"><div><p class="eyebrow">The difference</p><p class="mt-6 font-display text-3xl font-bold leading-tight tracking-[-0.06em] text-cobalt">{entry.data.result}</p><a class="btn-dark mt-10" href="/contact/">Discuss a similar challenge <span aria-hidden="true">↗</span></a></div><article class="prose max-w-3xl text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5"><Content /></article></div></section>
+  <section class="section-pad bg-paper"><div class="container-site"><ArchitectureMap variant={`case-${entry.id}`} eyebrow="Field architecture · what changed" title="The result came from reconnecting the system." caption="A field note is more useful when the reader can see the mechanisms behind the outcome: signal, workflow, accountability, and learning." /></div></section>
+</Base>

@@ -5,7 +5,6 @@ sector: "Technology & data"
 service: "Cloud & data foundations"
 result: "A more observable, secure, and decision-ready data environment"
 eyebrow: "Field note · Cloud and data"
-image: "/media/generated/technology-data.avif"
 ---
 
 ## The brief

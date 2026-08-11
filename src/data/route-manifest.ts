@@ -1,6 +1,7 @@
-import { industries, services } from "@/data/site";
+export type VisualKind = "photo" | "diagram" | "none";
 
 export type VisualRecord = {
+  kind: VisualKind;
   src: string;
   imageId: string;
   alt: string;
@@ -8,47 +9,234 @@ export type VisualRecord = {
   focalPoint: string;
   promptIntent: string;
   createdAt: string;
-  source: "generated" | "migrated";
+  source: "generated" | "migrated" | "code-native";
   signature: string;
   modes: string[];
 };
 
-export const imageManifest: Record<string, Omit<VisualRecord, "src" | "imageId" | "signature" | "modes">> = {
-  "ai-governance": { alt: "Leaders reviewing an enterprise AI governance model", role: "evidence and accountability", focalPoint: "people and bright screen at the right third", promptIntent: "quiet executive review of an AI operating model, editorial documentary light", createdAt: "2026-08-10", source: "generated" },
-  circuit: { alt: "A close view of a connected enterprise technology system", role: "systems and infrastructure", focalPoint: "central circuitry with negative space around the edges", promptIntent: "existing brand asset migrated to the Astro image pipeline", createdAt: "2026-08-10", source: "migrated" },
-  cloud: { alt: "Cloud infrastructure represented as a calm architectural landscape", role: "platform architecture", focalPoint: "layered cloud forms across the upper half", promptIntent: "existing brand asset migrated to the Astro image pipeline", createdAt: "2026-08-10", source: "migrated" },
-  consulting: { alt: "A strategy team working together around a table", role: "approach and collaboration", focalPoint: "working hands and notes in the foreground", promptIntent: "existing brand asset migrated to the Astro image pipeline", createdAt: "2026-08-10", source: "migrated" },
-  data: { alt: "Abstract data patterns forming a connected field", role: "data and signal", focalPoint: "bright data field across the center", promptIntent: "existing brand asset migrated to the Astro image pipeline", createdAt: "2026-08-10", source: "migrated" },
-  "education-future": { alt: "Researchers and learners collaborating in a modern space", role: "capability and workforce", focalPoint: "collaborators at the center with open space above", promptIntent: "diverse future-of-work collaboration in a quiet learning environment", createdAt: "2026-08-10", source: "generated" },
-  "energy-grid": { alt: "A resilient energy grid viewed as a connected operating system", role: "energy transition and resilience", focalPoint: "grid lines leading toward the horizon", promptIntent: "future energy infrastructure with human-scale context, restrained editorial palette", createdAt: "2026-08-10", source: "generated" },
-  "enterprise-hero": { alt: "Modern city skyline seen from a strategy room", role: "enterprise orientation", focalPoint: "horizon and city edge in the lower third", promptIntent: "quiet global city at first light, sophisticated consulting editorial image", createdAt: "2026-08-10", source: "generated" },
-  "federal-mission": { alt: "Public service leaders reviewing a mission portfolio", role: "public mission and governance", focalPoint: "leaders and portfolio wall at the center", promptIntent: "public-sector strategy review, composed documentary realism, no logos", createdAt: "2026-08-10", source: "generated" },
-  "healthcare-data": { alt: "A care team reviewing a connected clinical data signal", role: "healthcare and life sciences", focalPoint: "care team and clinical display in the right half", promptIntent: "healthcare operations team reviewing trustworthy data, human and calm", createdAt: "2026-08-10", source: "generated" },
-  "hero-city": { alt: "A global city viewed as a network of systems", role: "global context", focalPoint: "city geometry with open sky", promptIntent: "existing brand asset migrated to the Astro image pipeline", createdAt: "2026-08-10", source: "migrated" },
-  "technology-data": { alt: "A technology team working with a secure data platform", role: "technology and data", focalPoint: "platform display and hands in the lower right", promptIntent: "technology leadership reviewing a secure data foundation, controlled light", createdAt: "2026-08-10", source: "generated" },
+type PhotoDefinition = Omit<VisualRecord, "kind" | "src" | "imageId" | "signature" | "modes"> & { src: string };
+
+export const imageManifest: Record<string, PhotoDefinition> = {
+  "about-workshop": {
+    src: "/media/original/about-workshop.avif",
+    alt: "Three colleagues reviewing printed process maps around a workshop table",
+    role: "working method and collaboration",
+    focalPoint: "people and marked-up papers in the right two-thirds; clear window light at left",
+    promptIntent: "candid documentary workshop photograph with paper, human posture, and natural window light",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "careers-apprentice": {
+    src: "/media/original/careers-apprentice.avif",
+    alt: "An apprentice and an older craftsperson reviewing a wooden prototype at a worn workbench",
+    role: "careers and capability transfer",
+    focalPoint: "hands and prototype in the right half; quiet workshop light at left",
+    promptIntent: "candid documentary photograph of apprenticeship and practical learning",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "contact-workbench": {
+    src: "/media/original/contact-workbench.avif",
+    alt: "Hands arranging working papers and a notebook on a wooden table",
+    role: "conversation and first move",
+    focalPoint: "hands and papers toward the center-right with open wood surface at left",
+    promptIntent: "quiet documentary still life of a real working session before it starts",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "energy-grid": {
+    src: "/media/generated/energy-grid.avif",
+    alt: "Operators watching an energy landscape through a control-room window",
+    role: "infrastructure and resilience",
+    focalPoint: "grid horizon and operators in the lower middle; room edges create depth",
+    promptIntent: "documentary control-room view of energy infrastructure at dusk",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "faq-empty-room": {
+    src: "/media/original/faq-empty-room.avif",
+    alt: "An empty meeting room with two chairs, folders, and morning light",
+    role: "questions before the first conversation",
+    focalPoint: "round table and two chairs in the center; window light opens the left side",
+    promptIntent: "quiet, expectant editorial still life for a serious first conversation",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "hero-city": {
+    src: "/media/original/hero-city.avif",
+    alt: "A global city skyline in clear morning light",
+    role: "global context and orientation",
+    focalPoint: "skyline across the lower third with open sky for the thesis",
+    promptIntent: "migrated city photograph retained as the single home-route image",
+    createdAt: "2026-08-10",
+    source: "migrated",
+  },
+  "home-consequence-field": {
+    src: "/media/original/home-consequence-field.avif",
+    alt: "A technician standing on a walkway above the basins and pipes of a water treatment facility",
+    role: "the consequence in the field",
+    focalPoint: "technician in the right third; pipes and railings create leading lines through the frame",
+    promptIntent: "documentary water infrastructure photograph showing human scale and operating consequence",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-capability-workflow": {
+    src: "/media/original/home-capability-workflow.avif",
+    alt: "Two systems technicians comparing a wiring diagram and components beside an open industrial cabinet",
+    role: "capability and architecture in practice",
+    focalPoint: "technicians and component table on the right; open cabinet provides technical texture at left",
+    promptIntent: "documentary photograph of architecture being checked against physical operation",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-evidence-archive": {
+    src: "/media/original/home-evidence-archive.avif",
+    alt: "A researcher selecting a worn folder from shelves in a quiet archive",
+    role: "evidence and public record",
+    focalPoint: "researcher and folder in the left third; archive shelves create depth to the right",
+    promptIntent: "slow documentary archive photograph with tactile paper and patient investigation",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-field-controls": {
+    src: "/media/original/home-field-controls.avif",
+    alt: "A field engineer checking an old utility control cabinet with a paper checklist",
+    role: "starting from the real operating condition",
+    focalPoint: "engineer and cabinet across the center; worn metal and daylight carry the detail",
+    promptIntent: "close documentary field photograph of physical controls and human judgment",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-field-note": {
+    src: "/media/original/home-field-note.avif",
+    alt: "A hard hat, notebook, and work gloves resting on a steel railing above an industrial facility",
+    role: "field note and operational proof",
+    focalPoint: "notebook and gloves in the lower left; working plant and crew recede into the background",
+    promptIntent: "restrained field-note still life with a real industrial site behind it",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-intelligence-workshop": {
+    src: "/media/original/home-intelligence-workshop.avif",
+    alt: "Two engineers examining an unfinished mechanical component at a scarred workshop bench",
+    role: "frontier intelligence becoming practical",
+    focalPoint: "component and hands in the lower center; task lamp and second engineer create depth",
+    promptIntent: "real materials workshop photograph showing careful experimentation without technology theater",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-listening-room": {
+    src: "/media/original/home-listening-room.avif",
+    alt: "A researcher listening at an analog audio console with printed notes",
+    role: "attention and interpretation",
+    focalPoint: "listener on the right and analog console in the lower left; studio depth remains visible",
+    promptIntent: "intimate documentary listening-room photograph that makes attention physical",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-mandate-briefing": {
+    src: "/media/original/home-mandate-briefing.avif",
+    alt: "A senior planner tracing a route across a large paper map while colleagues watch",
+    role: "mandate and direction",
+    focalPoint: "planner and map in the right half; bright windows leave negative space at left",
+    promptIntent: "candid civic infrastructure planning photograph with paper, posture, and consequence",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "home-system-infrastructure": {
+    src: "/media/original/home-system-infrastructure.avif",
+    alt: "Rail, utility pipes, and power lines crossing a river at dawn",
+    role: "the system view made physical",
+    focalPoint: "rail and pipes lead from foreground toward the horizon; open sky provides scale",
+    promptIntent: "wide documentary infrastructure photograph showing interconnection and resilience",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "insights-field-notes": {
+    src: "/media/original/insights-field-notes.avif",
+    alt: "A marked-up report, notebook, and pen on a researcher’s desk",
+    role: "evidence and interpretation",
+    focalPoint: "annotated report and pen in the lower left; books and window recede to the right",
+    promptIntent: "quiet documentary research desk with tactile paper and restrained color",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "services-control-room": {
+    src: "/media/original/services-control-room.avif",
+    alt: "An operator walking through a real utility control room lined with analog meters",
+    role: "capability in operation",
+    focalPoint: "operator in the middle distance; meters, binders, and windows form a deep corridor",
+    promptIntent: "documentary control-room photograph with physical systems and operational discipline",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "solutions-care-handoff": {
+    src: "/media/original/solutions-care-handoff.avif",
+    alt: "Two hospital staff members comparing a paper checklist beside a supply cart",
+    role: "pathway and handoff",
+    focalPoint: "staff and checklist in the left third; corridor opens toward the right",
+    promptIntent: "candid service handoff photograph showing a consequential workflow",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "team-studio-session": {
+    src: "/media/original/team-studio-session.avif",
+    alt: "An interdisciplinary team reviewing pinned papers in a modest studio",
+    role: "senior bench and shared judgment",
+    focalPoint: "team on the right beyond a doorway edge; daylight and worktable establish context",
+    promptIntent: "intimate documentary team photograph with real working posture",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
+  "work-field-visit": {
+    src: "/media/original/work-field-visit.avif",
+    alt: "An operations team walking through an industrial control room during a site visit",
+    role: "field work and operational proof",
+    focalPoint: "team in the middle distance with equipment and daylight creating a deep path",
+    promptIntent: "documentary site-visit photograph in a real industrial operations environment",
+    createdAt: "2026-08-10",
+    source: "generated",
+  },
 };
 
-const visual = (imageId: string, signature: string, modes: string[]): VisualRecord => {
-  const path = imageId.includes("-") && ["ai-governance", "education-future", "energy-grid", "enterprise-hero", "federal-mission", "healthcare-data", "technology-data"].includes(imageId)
-    ? `/media/generated/${imageId}.avif`
-    : `/media/original/${imageId}.avif`;
-  return { ...imageManifest[imageId], src: path, imageId, signature, modes };
-};
+const photo = (imageId: keyof typeof imageManifest, signature: string, modes: string[]): VisualRecord => ({
+  kind: "photo",
+  ...imageManifest[imageId],
+  imageId,
+  signature,
+  modes,
+});
+
+const route = (signature: string, modes: string[], role = "authored route composition"): VisualRecord => ({
+  kind: "none",
+  src: "",
+  imageId: "none",
+  alt: "",
+  role,
+  focalPoint: "not applicable; this route uses content and code-native visuals",
+  promptIntent: "no photographic visual assigned",
+  createdAt: "2026-08-10",
+  source: "code-native",
+  signature,
+  modes,
+});
 
 const exactVisuals: Record<string, VisualRecord> = {
-  "/": visual("hero-city", "orientation · evidence · diagnostic · connection", ["orientation", "evidence", "diagnostic", "connection"]),
-  "/about/": visual("consulting", "orientation · belief · connection", ["orientation", "belief", "connection"]),
-  "/careers/": visual("education-future", "orientation · participation · connection", ["orientation", "participation", "connection"]),
-  "/team/": visual("cloud", "observation · connection · participation", ["observation", "connection", "participation"]),
-  "/contact/": visual("circuit", "participation · sequence · connection", ["participation", "sequence", "connection"]),
-  "/faq/": visual("data", "orientation · evidence · participation", ["orientation", "evidence", "participation"]),
-  "/privacy/": visual("data", "orientation · boundary · connection", ["orientation", "boundary", "connection"]),
-  "/terms/": visual("cloud", "orientation · boundary · connection", ["orientation", "boundary", "connection"]),
-  "/case-studies/": visual("federal-mission", "orientation · evidence · contrast", ["orientation", "evidence", "contrast"]),
-  "/industries/": visual("federal-mission", "orientation · contrast · connection", ["orientation", "contrast", "connection"]),
-  "/insights/": visual("data", "orientation · evidence · sequence", ["orientation", "evidence", "sequence"]),
-  "/services/": visual("circuit", "orientation · comparison · connection", ["orientation", "comparison", "connection"]),
-  "/solutions/": visual("ai-governance", "orientation · diagnostic · connection", ["orientation", "diagnostic", "connection"]),
+  "/": photo("hero-city", "thesis · proof strip · diagnostic · route chooser", ["orientation", "evidence", "diagnostic", "connection"]),
+  "/about/": photo("about-workshop", "photo-led intro · system map · principles · invitation", ["orientation", "observation", "sequence", "connection"]),
+  "/careers/": photo("careers-apprentice", "photo-led manifesto · role cards · working agreement · invitation", ["orientation", "observation", "participation", "connection"]),
+  "/team/": photo("team-studio-session", "photo-led discipline index · bench note · capability grid · invitation", ["orientation", "observation", "index", "connection"]),
+  "/contact/": photo("contact-workbench", "question stack · workbench photo · engagement path · form", ["orientation", "observation", "participation", "sequence"]),
+  "/contact/thanks/": route("confirmation · next reads · return path", ["orientation", "connection"], "confirmation route"),
+  "/faq/": photo("faq-empty-room", "photo-led question stack · native disclosure · compact action", ["orientation", "observation", "participation", "connection"]),
+  "/privacy/": route("summary · policy sections · escape route", ["orientation", "boundary", "connection"]),
+  "/terms/": route("summary · terms sections · escape route", ["orientation", "boundary", "connection"]),
+  "/case-studies/": photo("work-field-visit", "field photo · proof index · evidence band · invitation", ["orientation", "observation", "evidence", "connection"]),
+  "/industries/": photo("energy-grid", "sector photo · context index · signal chart · invitation", ["orientation", "observation", "comparison", "connection"]),
+  "/insights/": photo("insights-field-notes", "research photo · filterable index · topic rail · evidence", ["orientation", "observation", "participation", "connection"]),
+  "/services/": photo("services-control-room", "photo-led capability index · architecture map · evidence rail", ["orientation", "observation", "index", "diagram", "evidence"]),
+  "/solutions/": photo("solutions-care-handoff", "photo-led question index · solution chooser · compact invitation", ["orientation", "observation", "participation", "connection"]),
+  "/visual-sitemap/": route("site map · numbered directory · route preview", ["orientation", "index", "connection"]),
 };
 
 const generatedPath = (path: string) => path.endsWith("/") ? path : `${path}/`;
@@ -56,21 +244,14 @@ const generatedPath = (path: string) => path.endsWith("/") ? path : `${path}/`;
 export function visualForPath(pathname: string): VisualRecord {
   const normalized = generatedPath(pathname);
   if (exactVisuals[normalized]) return exactVisuals[normalized];
-  const service = services.find((entry) => normalized === `/services/${entry.slug}/`);
-  if (service) {
-    const imageId = service.image.split("/").at(-1)?.replace(".avif", "") ?? "enterprise-hero";
-    return visual(imageId, "orientation · evidence · sequence · connection", ["orientation", "evidence", "sequence", "connection"]);
-  }
-  const industry = industries.find((entry) => normalized === `/industries/${entry.slug}/`);
-  if (industry) {
-    const imageId = industry.image.split("/").at(-1)?.replace(".avif", "") ?? "enterprise-hero";
-    return visual(imageId, "orientation · evidence · contrast · connection", ["orientation", "evidence", "contrast", "connection"]);
-  }
-  if (normalized.startsWith("/insights/topics/")) return visual("energy-grid", "orientation · sequence · comparison", ["orientation", "sequence", "comparison"]);
-  if (normalized.startsWith("/insights/")) return visual("technology-data", "thesis · evidence · counterpoint · next move", ["thesis", "evidence", "counterpoint", "next move"]);
-  if (normalized.startsWith("/case-studies/")) return visual("federal-mission", "context · evidence · consequence", ["context", "evidence", "consequence"]);
+  if (normalized.startsWith("/services/")) return route(`capability detail · ${normalized.split("/")[2]} · technical map · next move`, ["orientation", "prose", "diagram", "connection"], "capability detail");
+  if (normalized.startsWith("/solutions/")) return route(`solution detail · ${normalized.split("/")[2]} · architecture · engagement`, ["orientation", "promise", "diagram", "participation"], "solution detail");
+  if (normalized.startsWith("/industries/")) return route(`industry detail · ${normalized.split("/")[2]} · public signal · sequence`, ["orientation", "evidence", "diagram", "connection"], "industry detail");
+  if (normalized.startsWith("/insights/topics/")) return route(`topic index · ${normalized.split("/")[3]} · argument list · next question`, ["orientation", "index", "connection"], "topic index");
+  if (normalized.startsWith("/insights/")) return route(`article · ${normalized.split("/")[2]} · reading map · evidence visual`, ["thesis", "prose", "diagram", "connection"], "article");
+  if (normalized.startsWith("/case-studies/")) return route(`case study · ${normalized.split("/")[2]} · field note · architecture`, ["context", "prose", "diagram", "consequence"], "case study");
   if (normalized.startsWith("/contact/")) return exactVisuals["/contact/"];
-  return exactVisuals["/"];
+  return route("utility route · summary · next action", ["orientation", "connection"], "utility route");
 }
 
 export const routeVisuals = exactVisuals;

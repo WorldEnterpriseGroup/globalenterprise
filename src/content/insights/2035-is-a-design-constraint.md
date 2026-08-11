@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Enterprise services"
 keywords: ["2035 strategy", "future operating model", "DOE grid strategy", "NATO digital strategy", "UN SDGs", "data governance"]
 related: ["ai-at-scale", "energy-transition-is-an-operating-model", "federal-ai-should-be-a-service"]
-image: "/media/generated/enterprise-hero.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "DOE, Scaling Grid Power for the American Economy"

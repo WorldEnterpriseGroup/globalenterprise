@@ -7,7 +7,7 @@ const linkTone = isHome ? "text-white/85 hover:text-white" : "text-ink/80 hover:
 const panelTone = isHome ? "mega-panel-home" : "";
 ---
 
-<header class:list={["top-0 z-50 w-full", isHome ? "absolute bg-ink/25 text-white backdrop-blur-md" : "sticky border-b border-line/80 bg-paper/95 text-ink backdrop-blur-xl"]} data-site-header>
+<header class:list={["fixed top-0 z-[70] w-full", isHome ? "bg-ink/90 text-white backdrop-blur-md" : "border-b border-line/80 bg-paper/95 text-ink backdrop-blur-xl"]} data-site-header>
   <div class="container-site flex min-h-[5.3rem] items-center justify-between gap-6">
     <a class="group flex items-center gap-3" href="/" aria-label={`${site.name} home`}>
       <span class="grid size-9 place-items-center bg-cobalt text-lg font-bold text-white transition-transform group-hover:rotate-12">GE</span>
@@ -38,7 +38,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
         </li>
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/case-studies") ? "text-cobalt" : ""]} href="/case-studies/" aria-current={currentPath.startsWith("/case-studies") ? "page" : undefined}>Work</a></li>
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/insights") ? "text-cobalt" : ""]} href="/insights/" aria-current={currentPath.startsWith("/insights") ? "page" : undefined}>Insights</a></li>
-        <li class="pt-3 md:pt-0"><a class:list={["btn-primary w-full md:w-auto", isHome ? "bg-white text-ink" : ""]} href="/contact/">Start a conversation <span aria-hidden="true">↗</span></a></li>
+        <li class="pt-3 md:pt-0"><a class:list={["btn-primary w-full md:w-auto", isHome ? "bg-white text-ink" : ""]} href="/contact/">Principal dialogue <span aria-hidden="true">↗</span></a></li>
       </ul>
 
       <div class="mt-7 border-t border-white/15 pt-6 md:hidden" data-mobile-directory>

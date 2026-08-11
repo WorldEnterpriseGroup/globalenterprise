@@ -1,14 +1,14 @@
 ---
-title: "Transformation office"
-description: "Keep momentum after the kickoff with the cadence, measures, and governance that make progress durable."
+title: "ITIL change management"
+description: "Make high-consequence change repeatable with a disciplined, adaptive operating cadence."
 number: "5"
-tags: ["Delivery", "Metrics", "Governance"]
-eyebrow: "Capability · Transformation office"
+tags: ["ITIL", "Change", "Mission"]
+eyebrow: "Capability · ITIL change management"
 ---
 
-Transformation needs a place to live. We help organizations establish the lightweight operating rhythm that keeps priorities visible, decisions moving, and outcomes connected across a portfolio of work.
+Transformation needs a place to live. We bring more than two decades of emerging-technology and ITIL change practice to the operating rhythm that keeps priorities visible, decisions moving, and outcomes connected across a portfolio of work.
 
-That can include portfolio design, delivery governance, outcome measures, executive reporting, and the rituals that turn a one-time program into an ongoing capability.
+That can include portfolio design, release and change governance, outcome measures, executive reporting, AI adoption, and the rituals that turn a one-time program into an ongoing capability.
 
 ## Governance that moves
 

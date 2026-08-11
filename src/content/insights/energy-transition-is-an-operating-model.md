@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Energy & infrastructure"
 keywords: ["energy transition strategy", "grid modernization", "DOE 2035", "operating model consulting", "infrastructure resilience"]
 related: ["ai-at-scale", "third-party-is-your-operating-model", "enterprise-as-a-product"]
-image: "/media/generated/energy-grid.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "DOE, Scaling Grid Power for the American Economy"

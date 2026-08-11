@@ -1,14 +1,14 @@
 ---
-title: "Research & foresight"
-description: "See around the next corner by translating market, technology, and policy signals into decisions."
+title: "Quantum intelligence & foresight"
+description: "Translate frontier research, quantum intelligence, and long-horizon signals into decisions."
 number: "6"
-tags: ["Signals", "Markets", "Scenarios"]
-eyebrow: "Capability · Research and foresight"
+tags: ["Quantum", "Research", "Scenarios"]
+eyebrow: "Capability · Quantum intelligence and foresight"
 ---
 
-The future does not arrive as a single forecast. We help leaders build a habit of sensing what is changing, testing what it could mean, and choosing what to do before the signal becomes noise.
+The future does not arrive as a single forecast. We help leaders build a disciplined habit of sensing what is changing, testing what it could mean, and choosing what to do before the signal becomes noise.
 
-Our work can include market and competitive analysis, technology scouting, scenario planning, customer insight, and decision-ready research for high-consequence choices.
+Our work can include quantum intelligence, advanced optimization, market and competitive analysis, technology scouting, scenario planning, research partnerships, and decision-ready inquiry for high-consequence choices.
 
 ## Research that changes a decision
 

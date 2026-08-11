@@ -1,0 +1,16 @@
+---
+import Base from "@/layouts/Base.astro";
+import EvidenceBand from "@/components/EvidenceBand.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import AssetImage from "@/components/AssetImage.astro";
+import { getCollection } from "astro:content";
+
+const cases = await getCollection("caseStudies");
+---
+
+<Base title="Case studies | Global Enterprise" description="Explore selected Global Enterprise field notes on operating models, cloud and data foundations, and automation at scale." image="/media/original/work-field-visit.avif" keywords={["enterprise consulting case studies", "operating model case study", "cloud data transformation", "automation at scale", "federal IT strategy"]}>
+  <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end"><div><p class="eyebrow text-lime">Selected work</p><h1 class="section-title mt-7 max-w-5xl">The work is the proof.</h1><p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">A field note is useful when it shows the operating move behind the outcome—not a before-and-after decoration.</p></div><figure class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/original/work-field-visit.avif" width={1536} height={1024} loading="eager" decoding="async" alt="An operations team walking through an industrial control room during a site visit" class="aspect-[16/9] w-full object-cover opacity-90" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/70">The field is where the system tells the truth.</figcaption></figure></div></section>
+  <section class="section-pad bg-white"><div class="container-site"><SectionHeading eyebrow="Field notes" title="Patterns that travel." text="Every engagement is different. The underlying moves are often surprisingly consistent." /><div class="mt-14 divide-y divide-line border-y border-line">{cases.map((entry, index) => <a class="group grid gap-5 py-8 md:grid-cols-[4rem_1fr_1fr_auto] md:items-center" href={`/case-studies/${entry.id}/`}><span class="font-display text-4xl text-cobalt">0{index + 1}</span><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.sector} · {entry.data.service}</p><h2 class="mt-3 font-display text-3xl font-medium leading-tight tracking-[-0.05em] transition-colors group-hover:text-cobalt">{entry.data.title}</h2></div><p class="max-w-xl text-sm leading-relaxed text-muted">{entry.data.result}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div></div></section>
+  <EvidenceBand eyebrow="What the field keeps teaching us" title="The real case study is what the organization can do next." text="We write about decisions, measures, and capability because the durable result is rarely the deliverable itself. It is the system that can keep improving after the engagement." limit={4} />
+  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-5xl font-bold tracking-[-0.07em]">Your hard thing could be next.</h2><a class="btn-dark shrink-0" href="/contact/">Bring us the brief <span aria-hidden="true">↗</span></a></div></section>
+</Base>

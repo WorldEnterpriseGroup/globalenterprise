@@ -1,6 +1,5 @@
 ---
 import Base from "@/layouts/Base.astro";
-import AssetImage from "@/components/AssetImage.astro";
 ---
 
 <Base title="You are subscribed | Global Enterprise" description="You are subscribed to The Signal from Global Enterprise." noindex>
@@ -12,7 +11,7 @@ import AssetImage from "@/components/AssetImage.astro";
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">We will send occasional evidence-led notes for the people carrying the next decision.</p>
         <div class="mt-10 flex flex-wrap gap-4"><a class="btn-primary" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a><a class="btn-ghost" href="/">Back to home <span aria-hidden="true">↗</span></a></div>
       </div>
-      <div class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/generated/ai-governance.avif" width={1536} height={1024} loading="eager" decoding="async" alt="Leaders reviewing an enterprise AI governance model" class="aspect-[4/3] w-full object-cover opacity-85" /><div class="absolute inset-x-0 bottom-0 bg-ink/80 p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-lime">Good next read</p><a class="mt-3 block text-2xl font-display font-medium tracking-[-0.04em] hover:text-lime" href="/insights/ai-at-scale/">AI at scale is an operating model decision ↗</a></div></div>
+      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Good next read</p><a class="mt-5 block max-w-sm text-2xl font-display font-medium tracking-[-0.04em] hover:text-lime" href="/insights/ai-at-scale/">AI at scale is an operating model decision ↗</a></div>
     </div>
   </section>
 </Base>

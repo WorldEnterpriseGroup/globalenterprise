@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Technology & data"
 keywords: ["cybersecurity operating model", "CISA cybersecurity performance goals", "digital resilience strategy", "security governance", "third-party risk"]
 related: ["third-party-is-your-operating-model", "platform-teams-are-a-contract", "governance-is-a-product"]
-image: "/media/original/circuit.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "CISA, Cross-Sector Cybersecurity Performance Goals"
@@ -59,4 +58,3 @@ Measure security in terms leaders can manage: time to detect a material change, 
 Not every service needs the same control intensity, and not every CISA goal is equally urgent for every organization. A small, low-consequence internal tool should not inherit the same burden as a public benefit system or a clinical platform. The disciplined approach is proportionality: classify the service, make the consequence visible, select the controls that change that consequence, and revisit the decision as the service or threat changes.
 
 Cybersecurity becomes a source of advantage when it helps leaders move with confidence. That confidence is not produced by saying the organization is secure. It is produced by knowing how the important services behave, how they fail, who can act, and how quickly learning reaches the next decision.
-

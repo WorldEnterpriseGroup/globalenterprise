@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Enterprise services"
 keywords: ["transformation metrics", "enterprise performance management", "change management metrics", "operating model design", "strategy execution"]
 related: ["the-cost-of-unclear", "designing-for-adoption", "enterprise-as-a-product"]
-image: "/media/generated/enterprise-hero.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "UN, The Sustainable Development Goals Report 2026"

@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Federal & public service"
 keywords: ["federal AI strategy", "government AI governance", "public sector modernization", "AI service design", "NIST AI RMF"]
 related: ["ai-at-scale", "responsible-ai-is-management", "legacy-is-a-product-decision"]
-image: "/media/generated/federal-mission.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "Data.gov, Catalog API"

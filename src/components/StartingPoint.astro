@@ -1,10 +1,24 @@
 ---
+import AssetImage from "@/components/AssetImage.astro";
 import { startingPoints } from "@/data/site";
+
+interface Props {
+  mediaSrc?: string;
+  mediaAlt?: string;
+  mediaCaption?: string;
+  mediaRatio?: "standard" | "wide" | "cinematic" | "tall";
+}
+
+const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = Astro.props;
 ---
 
 <section class="section-pad bg-cobalt text-white" data-starting-point>
   <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
     <div>
+      {mediaSrc && <figure class="mb-9 overflow-hidden border border-white/20 bg-ink shadow-[1rem_1rem_0_rgba(16,19,29,.25)]">
+        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="eager" decoding="async" class:list={["starting-point-image", `starting-point-image-ratio-${mediaRatio}`, "w-full", "object-cover", "opacity-90"]} />
+        {mediaCaption && <figcaption class="border-t border-white/15 px-4 py-3 text-xs leading-relaxed text-white/55">{mediaCaption}</figcaption>}
+      </figure>}
       <p class="eyebrow text-lime">Find your starting point</p>
       <h2 class="section-title mt-5">What is most true right now?</h2>
       <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/70">Choose the pressure point that sounds closest to your situation and we will point you to a useful first move.</p>
@@ -13,7 +27,7 @@ import { startingPoints } from "@/data/site";
       <div class="grid gap-3" role="list" aria-label="Starting point choices">
         {startingPoints.map((point, index) => (
           <button class="starting-point-option" type="button" role="listitem" data-starting-point-option={point.id} aria-controls="starting-point-result" aria-expanded={index === 0 ? "true" : "false"}>
-            <span class="eyebrow text-lime">{["Decision", "AI", "Foundation", "Capability"][index]}</span>
+            <span class="eyebrow text-lime">{["Mandate", "Intelligence", "Economics", "Capability"][index]}</span>
             <span class="text-left font-display text-xl font-medium tracking-[-0.03em]">{point.label}</span>
             <span aria-hidden="true">↗</span>
           </button>
@@ -53,3 +67,10 @@ import { startingPoints } from "@/data/site";
   initializeStartingPoint();
   document.addEventListener("astro:page-load", initializeStartingPoint);
 </script>
+
+<style>
+  .starting-point-image { display: block; aspect-ratio: 4 / 3; }
+  .starting-point-image-ratio-wide { aspect-ratio: 16 / 9; }
+  .starting-point-image-ratio-cinematic { aspect-ratio: 2.35 / 1; }
+  .starting-point-image-ratio-tall { aspect-ratio: 4 / 5; }
+</style>

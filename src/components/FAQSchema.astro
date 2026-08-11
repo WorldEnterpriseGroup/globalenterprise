@@ -1,0 +1,15 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const { items } = Astro.props as { items: FAQItem[] };
+const graph = items.map((item) => ({
+  "@type": "Question",
+  name: item.question,
+  acceptedAnswer: { "@type": "Answer", text: item.answer },
+}));
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: graph })}></script>

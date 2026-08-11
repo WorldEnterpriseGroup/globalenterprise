@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Energy & infrastructure"
 keywords: ["infrastructure resilience strategy", "energy transition operating model", "DOE grid modernization", "capital allocation", "system resilience"]
 related: ["energy-transition-is-an-operating-model", "data-center-permitting-is-an-operating-model", "third-party-is-your-operating-model"]
-image: "/media/generated/energy-grid.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "FEMA, National Resilience Guidance"

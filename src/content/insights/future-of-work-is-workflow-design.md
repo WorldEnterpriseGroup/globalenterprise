@@ -11,7 +11,6 @@ author: "Global Enterprise"
 industry: "Education & workforce"
 keywords: ["future of work strategy", "workforce transformation", "skills-based organization", "AI workforce planning", "organizational capability"]
 related: ["skills-are-a-system", "designing-for-adoption", "ai-at-scale"]
-image: "/media/generated/education-future.avif"
 sources:
   - label: "OECD, AI and skills"
     url: "https://www.oecd.org/en/publications/ai-and-skills_f843b352-en/full-report.html"

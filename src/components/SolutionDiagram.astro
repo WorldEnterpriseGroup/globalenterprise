@@ -4,19 +4,7 @@ interface Props {
 }
 
 const { variant } = Astro.props;
-const diagrams: Record<string, { title: string; nodes: string[]; caption: string }> = {
-  "enterprise-ai": { title: "AI as a managed workflow", nodes: ["Signal", "Decision", "Human review", "Action"], caption: "The model is one part of a governed service." },
-  modernization: { title: "Modernization as a portfolio", nodes: ["Mission", "Portfolio", "Release", "Capability"], caption: "Disposition, sequencing, and adoption stay connected." },
-  "operating-model": { title: "Intent translated into action", nodes: ["Intent", "Decision rights", "Handoff", "Measure"], caption: "The operating model keeps resolution as work travels." },
-  "healthcare-transformation": { title: "Signal reaching the care moment", nodes: ["Evidence", "Context", "Clinical decision", "Outcome"], caption: "Exchange becomes valuable when it reaches the point of use." },
-};
-const diagram = diagrams[variant] ?? diagrams["operating-model"];
+import ArchitectureMap from "@/components/ArchitectureMap.astro";
 ---
 
-<section class="solution-diagram" aria-label={diagram.title}>
-  <div class="solution-diagram-header"><p class="eyebrow">The system view</p><p class="text-sm leading-relaxed text-muted">{diagram.caption}</p></div>
-  <svg viewBox="0 0 760 180" role="img" aria-label={`${diagram.title}: ${diagram.nodes.join(", ")}`}>
-    <path class="solution-diagram-line" d="M100 90H660" />
-    {diagram.nodes.map((node, index) => <g class="solution-diagram-node" transform={`translate(${100 + index * 187},90)`}><circle r="42" /><text y="5">{["Question", "Choice", "Judgment", "Outcome"][index]}</text><text class="solution-diagram-label" y="72">{node}</text></g>)}
-  </svg>
-</section>
+<ArchitectureMap variant={variant} />

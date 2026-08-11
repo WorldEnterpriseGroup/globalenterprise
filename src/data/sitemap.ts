@@ -4,13 +4,13 @@ export const sitemapGroups = [
   {
     title: "Start here",
     pages: [
-      { label: "Home", href: "/", description: "Strategy for the next system.", kind: "front door" },
-      { label: "Our approach", href: "/about/", description: "How we make complex change legible.", kind: "company" },
+      { label: "Home", href: "/", description: "The advisory partner for the next order of complexity.", kind: "front door" },
+      { label: "Our approach", href: "/about/", description: "How we make future complexity governable.", kind: "company" },
       { label: "Selected work", href: "/case-studies/", description: "Field notes from the work.", kind: "proof" },
-      { label: "Insights", href: "/insights/", description: "Public evidence and original analysis.", kind: "thinking" },
-      { label: "Solutions", href: "/solutions/", description: "Focused starting points for current enterprise problems.", kind: "start" },
+      { label: "Insights", href: "/insights/", description: "Evidence and original analysis for leaders shaping what comes next.", kind: "thinking" },
+      { label: "Solutions", href: "/solutions/", description: "Strategic pathways for consequential decisions.", kind: "start" },
       { label: "Team", href: "/team/", description: "The disciplines close to the work.", kind: "company" },
-      { label: "Contact", href: "/contact/", description: "Bring us the hard thing.", kind: "start" },
+      { label: "Contact", href: "/contact/", description: "Request a private principal dialogue.", kind: "start" },
     ],
   },
   {
@@ -62,6 +62,8 @@ export const sitemapGroups = [
       { label: "The future of work is workflow design", href: "/insights/future-of-work-is-workflow-design/", description: "Recompose roles, decisions, and learning loops.", kind: "insight" },
       { label: "Governance is a product people have to use", href: "/insights/governance-is-a-product/", description: "Make decisions clearer and safe action faster.", kind: "insight" },
       { label: "Data center growth is a coordination problem", href: "/insights/data-center-permitting-is-an-operating-model/", description: "Coordinate compute, power, permitting, and trust.", kind: "insight" },
+      { label: "Compute is a governance problem before it is a cost problem", href: "/insights/compute-is-a-governance-problem/", description: "Connect every unit of compute to a decision, a control, and an outcome.", kind: "insight" },
+      { label: "Quantum intelligence needs an operating model", href: "/insights/quantum-intelligence-needs-an-operating-model/", description: "Give frontier research a disciplined path into strategy.", kind: "insight" },
       { label: "Enterprise AI topic page", href: "/insights/topics/enterprise-ai/", description: "Follow the AI arguments across the library.", kind: "topic" },
       { label: "Operating model topic page", href: "/insights/topics/operating-model/", description: "Follow the operating model arguments across the library.", kind: "topic" },
       { label: "Leadership topic page", href: "/insights/topics/leadership/", description: "Follow the leadership arguments across the library.", kind: "topic" },
@@ -74,6 +76,8 @@ export const sitemapGroups = [
       { label: "Federal & public service topic page", href: "/insights/topics/federal-and-public-service/", description: "Follow the federal and public service arguments across the library.", kind: "topic" },
       { label: "Technology & data topic page", href: "/insights/topics/technology-and-data/", description: "Follow the technology and data arguments across the library.", kind: "topic" },
       { label: "Workforce topic page", href: "/insights/topics/workforce/", description: "Follow the workforce arguments across the library.", kind: "topic" },
+      { label: "AI Cost Management topic page", href: "/insights/topics/ai-cost-management/", description: "Follow the arguments about compute economics and governance.", kind: "topic" },
+      { label: "Quantum Intelligence topic page", href: "/insights/topics/quantum-intelligence/", description: "Follow the arguments about frontier intelligence and readiness.", kind: "topic" },
     ],
   },
   {

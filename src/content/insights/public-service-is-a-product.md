@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Federal & public service"
 keywords: ["public service transformation", "government product management", "federal modernization strategy", "digital public services", "mission operating model"]
 related: ["federal-ai-should-be-a-service", "legacy-is-a-product-decision", "the-cost-of-unclear"]
-image: "/media/generated/federal-mission.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "OECD, Governing with Artificial Intelligence"

@@ -1,0 +1,30 @@
+---
+import SignalIcon from "@/components/SignalIcon.astro";
+import AssetImage from "@/components/AssetImage.astro";
+
+interface Props {
+  src: string;
+  alt: string;
+  eyebrow?: string;
+  title?: string;
+  icon?: string;
+  dark?: boolean;
+}
+
+const { src, alt, eyebrow = "A clearer system", title = "Better decisions begin with better signal.", icon = "system", dark = false } = Astro.props;
+---
+
+<section class:list={["page-visual", dark ? "page-visual-dark" : ""]} aria-label={eyebrow}>
+  <div class="container-site grid gap-8 md:grid-cols-[.9fr_1.1fr] md:items-center">
+    <div class="flex items-start gap-4">
+      <span class="page-visual-icon"><SignalIcon name={icon} size={25} /></span>
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 class="mt-4 max-w-xl font-display text-2xl font-medium tracking-[-0.04em] md:text-3xl">{title}</h2>
+      </div>
+    </div>
+    <div class="page-visual-frame">
+      <AssetImage src={src} width={1536} height={1024} loading="lazy" decoding="async" alt={alt} />
+    </div>
+  </div>
+</section>

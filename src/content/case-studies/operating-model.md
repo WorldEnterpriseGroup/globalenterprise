@@ -5,7 +5,6 @@ sector: "Enterprise services"
 service: "Operating model design"
 result: "A shared system for decisions, priorities, and accountability"
 eyebrow: "Field note · Operating model"
-image: "/media/generated/enterprise-hero.avif"
 ---
 
 ## The brief

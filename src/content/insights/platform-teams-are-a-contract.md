@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Technology & data"
 keywords: ["platform operating model", "internal developer platform", "enterprise data foundation", "technology strategy", "product operating model"]
 related: ["enterprise-as-a-product", "third-party-is-your-operating-model", "legacy-is-a-product-decision"]
-image: "/media/generated/technology-data.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "NATO, Alliance Digital Strategy"

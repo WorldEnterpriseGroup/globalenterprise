@@ -5,7 +5,6 @@ sector: "Public & regulated"
 service: "Intelligent automation"
 result: "A practical path from pilot to repeatable operating capability"
 eyebrow: "Field note · Intelligent automation"
-image: "/media/generated/ai-governance.avif"
 ---
 
 ## The brief

@@ -1,14 +1,14 @@
 ---
-title: "Intelligent automation"
-description: "Use AI and automation to create better defaults for the work that matters."
+title: "Enterprise AI & ML labs"
+description: "Build governed AI/ML capability that can move from frontier signal to enterprise value."
 number: "2"
-tags: ["AI", "ERP", "Workflow"]
-eyebrow: "Capability · Intelligent automation"
+tags: ["AI/ML", "AI Labs", "Governance"]
+eyebrow: "Capability · Enterprise AI and ML labs"
 ---
 
-We identify the moments where automation can remove friction without removing judgment. Then we design the workflow, controls, and adoption path around the people who will use it.
+We stand up the conditions for enterprise intelligence: the AI lab, model and agent portfolio, evaluation system, workflow, controls, and adoption path around the people who will use it.
 
-That can include AI opportunity mapping, workflow automation, enterprise resource planning, and responsible-use guardrails.
+That can include AI/ML strategy, AI labs, agentic workflow design, AI opportunity mapping, workflow automation, enterprise resource planning, and responsible-use guardrails.
 
 ## From pilot to portfolio
 

@@ -10,7 +10,6 @@ const shared = {
   date: authoredDate.optional(),
   updatedDate: authoredDate.optional(),
   eyebrow: z.string().optional(),
-  image: z.string().optional(),
   author: z.string().default("Global Enterprise"),
   keywords: z.array(z.string()).default([]),
   industry: z.string().optional(),

@@ -11,7 +11,6 @@ author: "Global Enterprise"
 industry: "Enterprise AI"
 keywords: ["enterprise governance", "AI governance operating model", "risk management system", "NIST AI RMF implementation", "decision rights"]
 related: ["responsible-ai-is-management", "federal-ai-should-be-a-service", "third-party-is-your-operating-model"]
-image: "/media/generated/ai-governance.avif"
 sources:
   - label: "NIST, AI Risk Management Framework Core"
     url: "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/"

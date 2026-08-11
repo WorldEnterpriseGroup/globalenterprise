@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join, relative } from "node:path";
 
@@ -7,6 +8,9 @@ const htmlFiles = [];
 const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/"];
 const editorialDirectory = new URL("../src/content/insights/", import.meta.url);
 const freshnessBaseline = "2026-08-10";
+const routeImages = new Map();
+const renderedPhotos = new Map();
+const diagramIds = new Map();
 
 async function walk(directory) {
   for (const name of await readdir(directory)) {
@@ -19,6 +23,11 @@ async function walk(directory) {
 
 function requiredMarkup(html, pattern, label, file) {
   if (!pattern.test(html)) errors.push(`${file}: missing ${label}`);
+}
+
+function imageKey(source) {
+  const filename = source.split("?")[0].split("/").at(-1) ?? source;
+  return filename.replace(/\.[a-z0-9]+$/i, "").replace(/\.[a-z0-9_-]{6,}$/i, "");
 }
 
 async function internalTarget(href) {
@@ -48,15 +57,41 @@ for (const path of htmlFiles) {
   requiredMarkup(html, /<script type="application\/ld\+json">/i, "JSON-LD", file);
   requiredMarkup(html, /<body[^>]+data-route-signature="[^"]+"/i, "route signature", file);
   requiredMarkup(html, /<body[^>]+data-route-image="[^"]+"/i, "route image assignment", file);
-  requiredMarkup(html, /class="page-visual[^"]*"/i, "page visual", file);
   const headings = html.match(/<h1\b/gi) ?? [];
   if (headings.length !== 1) errors.push(`${file}: expected one h1, found ${headings.length}`);
-  if (!file.startsWith("visual-sitemap/") && !html.includes(".avif")) errors.push(`${file}: missing AVIF editorial visual`);
+  const routeImage = html.match(/data-route-image="([^"]+)"/)?.[1] ?? "none";
+  if (routeImage !== "none") {
+    const owner = routeImages.get(routeImage);
+    if (owner && owner !== file) errors.push(`${file}: photo ${routeImage} is already assigned to ${owner}`);
+    routeImages.set(routeImage, file);
+  }
+  const imagesOnRoute = new Map();
   for (const image of html.matchAll(/<img\b[^>]*>/gi)) {
     if (!/\balt="[^"\s][^"]*"/i.test(image[0])) errors.push(`${file}: image missing alt text`);
     if (!/\bwidth="\d+"/i.test(image[0]) || !/\bheight="\d+"/i.test(image[0])) errors.push(`${file}: image missing intrinsic dimensions`);
+    const source = image[0].match(/\bsrc="([^"]+)"/i)?.[1];
+    if (source && /\.avif(?:\?|$)/i.test(source)) {
+      const key = imageKey(source);
+      const count = (imagesOnRoute.get(key) ?? 0) + 1;
+      imagesOnRoute.set(key, count);
+      if (count > 1) errors.push(`${file}: repeated photo or crop ${key} on the same route`);
+      const owner = renderedPhotos.get(key);
+      if (owner && owner !== file) errors.push(`${file}: photo ${key} is rendered on more than one route (${owner})`);
+      renderedPhotos.set(key, file);
+    }
   }
-  if (/^insights\/[^/]+\/index\.html$/.test(file) && !file.includes("/topics/")) {
+  if (routeImage !== "none" && !html.includes(".avif")) errors.push(`${file}: photo route is missing its assigned AVIF image`);
+  for (const match of html.matchAll(/data-diagram-id="([^"]+)"/g)) {
+    const id = match[1];
+    const owner = diagramIds.get(id);
+    if (owner && owner !== file) errors.push(`${file}: technical diagram ${id} is already shown on ${owner}`);
+    diagramIds.set(id, file);
+  }
+  const isDiagramRoute = !file.startsWith("insights/thanks/") && (/^(?:services|solutions|industries|case-studies)\/[^/]+\/index\.html$/.test(file) || /^insights\/[^/]+\/index\.html$/.test(file));
+  if (isDiagramRoute && !file.includes("/topics/") && !html.includes("data-diagram-id=")) {
+    errors.push(`${file}: substantial detail route is missing its one technical visual`);
+  }
+  if (/^insights\/[^/]+\/index\.html$/.test(file) && !file.startsWith("insights/thanks/") && !file.includes("/topics/")) {
     const wordCount = html.replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").trim().split(/\s+/).filter(Boolean).length;
     if (wordCount < 280) errors.push(`${file}: article is too thin (${wordCount} words)`);
     if (!/https:\/\/[^"'<>]+/i.test(html)) errors.push(`${file}: article is missing a public source link`);
@@ -75,6 +110,16 @@ if (!robots.includes("Sitemap: https://globalenterprise.com/sitemap-index.xml"))
 const manifest = await readFile(new URL("../src/data/route-manifest.ts", import.meta.url), "utf8");
 for (const field of ["focalPoint", "role", "promptIntent", "createdAt", "routeVisuals"]) {
   if (!manifest.includes(field)) errors.push(`src/data/route-manifest.ts: missing ${field} metadata`);
+}
+
+const sourceMediaDirectory = new URL("../src/assets/media/", import.meta.url);
+const sourceMediaFiles = (await readdir(sourceMediaDirectory.pathname)).filter((name) => name.endsWith(".avif"));
+const sourceHashes = new Map();
+for (const name of sourceMediaFiles) {
+  const hash = createHash("sha256").update(await readFile(join(sourceMediaDirectory.pathname, name))).digest("hex");
+  const owner = sourceHashes.get(hash);
+  if (owner) errors.push(`src/assets/media: exact duplicate photography ${owner} and ${name}`);
+  sourceHashes.set(hash, name);
 }
 for (const name of await readdir(root)) {
   if (!name.startsWith("sitemap-") || !name.endsWith(".xml")) continue;
@@ -111,4 +156,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`✓ audited ${htmlFiles.length} HTML files, ${insightPages} insight pages, and ${topicPages} topic pages`);
+console.log(`✓ audited ${htmlFiles.length} HTML files, ${routeImages.size} route photo assignments / ${renderedPhotos.size} rendered one-time photos, ${diagramIds.size} one-time diagrams, ${insightPages} insight pages, and ${topicPages} topic pages`);

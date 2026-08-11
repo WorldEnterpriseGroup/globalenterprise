@@ -11,7 +11,6 @@ author: "Global Enterprise"
 industry: "Energy & infrastructure"
 keywords: ["data center strategy", "digital infrastructure", "energy demand planning", "infrastructure permitting", "AI infrastructure"]
 related: ["energy-transition-is-an-operating-model", "platform-teams-are-a-contract", "third-party-is-your-operating-model"]
-image: "/media/generated/technology-data.avif"
 sources:
   - label: "DOE, Artificial Intelligence"
     url: "https://www.energy.gov/topics/artificial-intelligence"

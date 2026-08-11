@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Enterprise services"
 keywords: ["AI productivity strategy", "workflow redesign", "OECD AI adoption", "enterprise AI operating model", "AI transformation"]
 related: ["ai-at-scale", "future-of-work-is-workflow-design", "transformation-metrics-are-management"]
-image: "/media/generated/ai-governance.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "OECD, AI adoption by individuals and firms"

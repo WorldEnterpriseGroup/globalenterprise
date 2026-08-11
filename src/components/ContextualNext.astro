@@ -3,16 +3,16 @@ import SignalIcon from "@/components/SignalIcon.astro";
 
 const path = Astro.url.pathname;
 const context = path.startsWith("/insights")
-  ? { eyebrow: "Carry the signal", title: "Turn a useful idea into a working decision.", text: "A perspective is only valuable when it changes what the organization can do next.", href: "/contact/", label: "Talk through the implication", icon: "compass" }
+  ? { eyebrow: "Carry the signal", title: "Turn a future signal into an institutional decision.", text: "A perspective matters when it changes the choices, investments, or operating model that come next.", href: "/contact/", label: "Request a principal dialogue", icon: "compass" }
   : path.startsWith("/case-studies")
-    ? { eyebrow: "Make the pattern useful", title: "Bring the hard version of this problem.", text: "We connect field-tested patterns to the constraints, people, and decisions in your system.", href: "/contact/", label: "Discuss a similar challenge", icon: "arrow" }
-    : path.startsWith("/solutions")
-      ? { eyebrow: "Choose the next move", title: "The starting point can be specific without being narrow.", text: "Bring the context behind the problem and we will help shape a useful first release.", href: "/contact/", label: "Bring us the brief", icon: "pulse" }
+    ? { eyebrow: "Make the pattern useful", title: "Bring the version of this problem that carries consequence.", text: "We connect field-tested patterns to the constraints, people, and decisions in your system.", href: "/contact/", label: "Discuss the mandate", icon: "arrow" }
+  : path.startsWith("/solutions")
+      ? { eyebrow: "Choose the next move", title: "A focused entry point can still see the whole system.", text: "Bring the context behind the problem and we will help shape the first release of a capability leaders can govern.", href: "/contact/", label: "Bring us the mandate", icon: "pulse" }
       : path.startsWith("/services")
-        ? { eyebrow: "Make the capability travel", title: "A capability becomes valuable when the organization can run it.", text: "We bring the right disciplines close to the decision, then transfer the cadence and capability required to keep improving.", href: "/contact/", label: "Talk through the brief", icon: "system" }
+        ? { eyebrow: "Make the capability travel", title: "A capability becomes valuable when the institution can carry it.", text: "We bring the right disciplines close to the decision, then transfer the economics, cadence, and capability required to keep improving.", href: "/contact/", label: "Request a principal dialogue", icon: "system" }
         : path.startsWith("/industries")
-          ? { eyebrow: "Start with context", title: "The answer changes when the consequence changes.", text: "Bring the mission, constraint, and ambition; we will connect the signal to a sequence leaders can run.", href: "/contact/", label: "Bring the context", icon: "pulse" }
-          : { eyebrow: "Start with the real question", title: "Clarity is a competitive advantage when the world is changing quickly.", text: "The first useful move is often making the system legible enough to choose what comes next.", href: "/contact/", label: "Start a conversation", icon: "system" };
+          ? { eyebrow: "Start with context", title: "The answer changes when the consequence changes.", text: "Bring the horizon, constraint, and ambition; we will connect the signal to a sequence leaders can govern.", href: "/contact/", label: "Request a principal dialogue", icon: "pulse" }
+          : { eyebrow: "Start with the real question", title: "Composure is a competitive advantage when the world is changing quickly.", text: "The first useful move is making the system legible enough to choose what comes next without creating unnecessary motion.", href: "/contact/", label: "Request a principal dialogue", icon: "system" };
 ---
 
 <section class="contextual-next">
@@ -21,6 +21,6 @@ const context = path.startsWith("/insights")
       <span class="page-visual-icon"><SignalIcon name={context.icon} size={25} /></span>
       <div><p class="eyebrow">{context.eyebrow}</p><h2 class="mt-4 max-w-xl font-display text-2xl font-medium tracking-[-0.04em] md:text-3xl">{context.title}</h2><p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">{context.text}</p></div>
     </div>
-    <div class="flex flex-col gap-5 border-t border-line pt-6 md:items-end md:border-l md:border-t-0 md:pl-9 md:pt-0"><p class="max-w-sm text-sm leading-relaxed text-muted md:text-right">The work begins with the decision, not the perfect brief.</p><a class="btn-dark" href={context.href} data-track="contextual_next" data-track-label={context.label}>{context.label} <span aria-hidden="true">↗</span></a></div>
+    <div class="flex flex-col gap-5 border-t border-line pt-6 md:items-end md:border-l md:border-t-0 md:pl-9 md:pt-0"><p class="max-w-sm text-sm leading-relaxed text-muted md:text-right">The work begins with the decision, not a perfect brief.</p><a class="btn-dark" href={context.href} data-track="contextual_next" data-track-label={context.label}>{context.label} <span aria-hidden="true">↗</span></a></div>
   </div>
 </section>

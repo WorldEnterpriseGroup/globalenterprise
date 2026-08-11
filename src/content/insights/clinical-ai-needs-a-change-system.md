@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Healthcare & life sciences"
 keywords: ["clinical AI strategy", "healthcare transformation", "healthcare change management", "AI governance healthcare", "care workflow design"]
 related: ["interoperability-is-a-workflow", "responsible-ai-is-management", "designing-for-adoption"]
-image: "/media/generated/healthcare-data.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "AHRQ, Workflow Assessment for Health IT Toolkit"

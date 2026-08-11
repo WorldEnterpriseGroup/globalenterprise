@@ -10,7 +10,6 @@ author: "Global Enterprise"
 industry: "Healthcare & life sciences"
 keywords: ["clinical AI evidence", "healthcare AI governance", "FDA AI ML action plan", "real world performance monitoring", "clinical workflow design"]
 related: ["clinical-ai-needs-a-change-system", "interoperability-is-a-workflow", "responsible-ai-is-management"]
-image: "/media/generated/healthcare-data.avif"
 lastReviewed: 2026-08-10
 sources:
   - label: "FDA, Real-World Performance of AI-Enabled Medical Devices"

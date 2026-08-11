@@ -3,7 +3,6 @@ import { ClientRouter } from "astro:transitions";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import ContextualNext from "@/components/ContextualNext.astro";
-import PageVisual from "@/components/PageVisual.astro";
 import { site } from "@/data/site";
 import { visualForPath } from "@/data/route-manifest";
 import "@/styles/global.css";
@@ -56,8 +55,8 @@ const graph = [
   email: site.email,
   telephone: site.phone,
   areaServed: "Worldwide",
-  serviceType: ["Business consulting", "Enterprise architecture", "Intelligent automation"],
-  knowsAbout: ["Operating model design", "Enterprise AI", "Cloud and data foundations", "Transformation governance"],
+  serviceType: ["Strategic consulting", "Enterprise AI and ML", "Data lab build-out", "AI cost management", "Quantum intelligence", "ITIL change management"],
+  knowsAbout: ["AI-native operating models", "Enterprise AI labs", "Data and compute economics", "Quantum intelligence", "Frontier systems", "Institutional change"],
   ...(site.social.linkedin ? { sameAs: [site.social.linkedin] } : {}),
   },
   { "@type": "WebSite", "@id": `${site.url}/#website`, name: site.name, url: site.url, description: site.description, publisher: { "@id": `${site.url}/#organization` } },
@@ -97,7 +96,7 @@ const graph = [
     <meta name="twitter:image" content={socialImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />
-    {pathname === "/" && <link rel="preload" as="image" href="/media/generated/enterprise-hero.avif" type="image/avif" fetchpriority="high" />}
+    {pathname === "/" && <link rel="preload" as="image" href="/media/hero-city.avif" type="image/avif" fetchpriority="high" />}
     <link rel="alternate" type="application/rss+xml" title={`${site.name} insights`} href="/rss.xml" />
     {site.analytics.plausibleDomain && <script is:inline defer data-domain={site.analytics.plausibleDomain} src="https://plausible.io/js/script.js"></script>}
     <script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": graph })}></script>
@@ -106,10 +105,9 @@ const graph = [
   <body data-route-signature={pageVisual.signature} data-route-image={pageVisual.imageId}>
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-lime focus:px-4 focus:py-3 focus:text-ink" href="#main-content">Skip to content</a>
     <Header />
-    <main id="main-content">
+    <main id="main-content" class:list={[pathname === "/" ? "" : "site-main-with-header"]}>
       <slot />
     </main>
-    <PageVisual src={pageVisual.src} alt={pageVisual.alt} eyebrow={pageVisual.role} title={pageVisual.signature} icon={pageVisual.imageId === "healthcare-data" ? "pulse" : pageVisual.imageId === "energy-grid" ? "compass" : "system"} />
     <ContextualNext />
     <Footer />
     <script>

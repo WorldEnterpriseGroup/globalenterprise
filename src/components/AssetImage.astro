@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+import { media } from "@/data/media";
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: "eager" | "lazy";
+  decoding?: "async" | "sync" | "auto";
+}
+
+const { src, alt, width = 1536, height = 1024, class: className, loading = "lazy", decoding = "async" } = Astro.props;
+const asset = media[src as keyof typeof media];
+---
+
+{asset ? <Image src={asset} alt={alt} width={width} height={height} format="avif" quality={78} loading={loading} decoding={decoding} class={className} /> : <img src={src} alt={alt} width={width} height={height} loading={loading} decoding={decoding} class={className} />}
