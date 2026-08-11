@@ -1,0 +1,56 @@
+---
+import Base from "@/layouts/Base.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { site } from "@/data/site";
+---
+
+<Base title="Vendor and trust pack | Global Enterprise" description="A public procurement and trust snapshot for Global Enterprise Standard Corporation, including identity, data boundaries, delivery controls, and open diligence items." noindex keywords={["Global Enterprise vendor pack", "consulting procurement", "supplier security questionnaire", "S corporation"]}>
+  <section class="bg-ink py-20 text-white md:py-28">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
+      <div>
+        <p class="eyebrow text-lime">Vendor &amp; trust pack</p>
+        <h1 class="section-title mt-7 max-w-5xl">The facts a procurement conversation should not have to guess.</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">This public snapshot is designed to make the first diligence conversation faster. It states the company identity, public-site boundary, current delivery controls, evidence standards, and the items that require engagement-specific confirmation.</p>
+      </div>
+      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Reviewed</p><p class="mt-5 max-w-sm text-lg leading-relaxed text-white/75">August 11, 2026 · public website boundary only</p></div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <SectionHeading eyebrow="Legal identity" title="Start with the responsible entity." text="The brand is Global Enterprise. The legal identity below is the starting point for contracting and vendor records." />
+      <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Legal name</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.legalName}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Entity type</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.entityType}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Jurisdiction</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.jurisdiction}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Public contact</p><a class="mt-5 block break-all font-display text-2xl font-medium tracking-[-0.04em] text-cobalt hover:text-ink" href={`mailto:${site.email}`}>{site.email}</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-paper">
+    <div class="container-site">
+      <SectionHeading eyebrow="Current public-site controls" title="What is true of the public channel today." text="These statements describe this static website and its public intake path. They are not a claim about an engagement environment that has not yet been scoped." />
+      <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2">
+        <article class="bg-paper p-8 md:p-10"><p class="font-display text-3xl text-cobalt">01</p><h2 class="mt-12 font-display text-3xl font-medium tracking-[-0.05em]">Static delivery</h2><p class="mt-5 leading-relaxed text-muted">The website is built as a static Astro site and released through a GitHub Pages workflow. The repository includes build, content, evidence, route, and live audits. Production edge behavior still depends on the configured CDN/DNS layer.</p></article>
+        <article class="bg-paper p-8 md:p-10"><p class="font-display text-3xl text-cobalt">02</p><h2 class="mt-12 font-display text-3xl font-medium tracking-[-0.05em]">Public intake boundary</h2><p class="mt-5 leading-relaxed text-muted">Contact, report, Signal, and Global Brief forms are for routing and context only. They use {site.publicFormProvider} to route messages to {site.email}. Do not submit secrets, credentials, classified, export-controlled, patient, or otherwise sensitive information.</p></article>
+        <article class="bg-paper p-8 md:p-10"><p class="font-display text-3xl text-cobalt">03</p><h2 class="mt-12 font-display text-3xl font-medium tracking-[-0.05em]">Privacy-focused analytics</h2><p class="mt-5 leading-relaxed text-muted">Plausible is used for aggregate page and interaction measurement. The privacy notice describes the current data categories, form provider, analytics boundary, and deletion request path.</p></article>
+        <article class="bg-paper p-8 md:p-10"><p class="font-display text-3xl text-cobalt">04</p><h2 class="mt-12 font-display text-3xl font-medium tracking-[-0.05em]">Vulnerability reporting</h2><p class="mt-5 leading-relaxed text-muted">A public security.txt file provides the reporting route and policy link. Engagement-specific incident contacts, escalation, recovery, and notification obligations must be agreed before sensitive work begins.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <SectionHeading eyebrow="Diligence map" title="What is public, what is scoped, and what needs confirmation." text="A mature procurement process distinguishes a public website statement from an engagement control. This table makes the boundary explicit." />
+      <div class="overflow-x-auto border border-line"><table class="w-full min-w-[680px] border-collapse text-left text-sm"><thead class="bg-paper text-xs uppercase tracking-[0.1em] text-cobalt"><tr><th class="border-b border-line p-4">Topic</th><th class="border-b border-line p-4">Public statement</th><th class="border-b border-line p-4">Engagement diligence</th></tr></thead><tbody><tr><td class="border-b border-line p-4 font-bold">Identity</td><td class="border-b border-line p-4 text-muted">Legal entity, jurisdiction, public contact.</td><td class="border-b border-line p-4 text-muted">Contracting entity, tax/vendor records, authorized signatory.</td></tr><tr><td class="border-b border-line p-4 font-bold">Data handling</td><td class="border-b border-line p-4 text-muted">Public forms are not a secure channel; data is minimized.</td><td class="border-b border-line p-4 text-muted">Classification, residency, retention, access roles, transfer, deletion, and DPA terms.</td></tr><tr><td class="border-b border-line p-4 font-bold">Security</td><td class="border-b border-line p-4 text-muted">Public headers and vulnerability-reporting path are configured in the repository.</td><td class="border-b border-line p-4 text-muted">Control requirements, evidence, incident SLA, testing, audit rights, and environment boundary.</td></tr><tr><td class="border-b border-line p-4 font-bold">Subprocessors</td><td class="border-b border-line p-4 text-muted">Plausible, FormSubmit, static hosting and edge delivery support the public site.</td><td class="border-b border-line p-4 text-muted">Approved supplier list, contract flow-down, location, access, change notification, and exit plan.</td></tr><tr><td class="border-b border-line p-4 font-bold">Assurance</td><td class="border-b border-line p-4 text-muted">No public certification or client endorsement claim is made.</td><td class="border-b border-line p-4 text-muted">Current certifications, insurance, references, security questionnaire, and continuity evidence where applicable.</td></tr><tr><td class="p-4 font-bold">Accessibility</td><td class="p-4 text-muted">The site is designed for keyboard access, semantic structure, responsive use, and reduced motion.</td><td class="p-4 text-muted">Client-specific accessibility standard, test evidence, assistive technology coverage, and remediation SLA.</td></tr></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-cobalt text-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div><p class="eyebrow text-lime">Request the diligence pack</p><h2 class="section-title mt-5 max-w-3xl">Bring the questionnaire. We will make the boundary legible.</h2></div>
+      <div class="space-y-7 text-lg leading-relaxed text-white/70"><p>For a qualified procurement conversation, ask for the current principal profile, permissioned reference path, security questionnaire response, insurance and continuity materials where applicable, and the engagement-specific data and subcontractor terms. Those materials should be current, relevant to the proposed work, and shared through the appropriate channel.</p><div class="flex flex-wrap gap-4"><a class="btn-primary" href="/contact/">Start procurement dialogue <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/trust/">Back to trust center <span aria-hidden="true">↗</span></a></div></div>
+    </div>
+  </section>
+</Base>

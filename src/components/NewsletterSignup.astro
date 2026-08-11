@@ -23,9 +23,9 @@ const { dark = false } = Astro.props;
       <label class="sr-only" for="signal-email">Work email</label>
       <div class="flex flex-col gap-3 sm:flex-row">
         <input id="signal-email" class="min-h-[3.25rem] min-w-0 flex-1 border border-line bg-white px-5 text-base outline-none transition-colors focus:border-cobalt" type="email" name="email" autocomplete="email" placeholder="Work email" required />
-        <button class="btn-dark shrink-0" type="submit" data-track="newsletter_submit">Subscribe <span aria-hidden="true">↗</span></button>
+        <button class="btn-dark shrink-0" type="submit" data-track="newsletter_submit">Request The Signal <span aria-hidden="true">↗</span></button>
       </div>
-      <label class="flex items-start gap-3 text-xs text-muted"><input class="mt-0.5 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to receive occasional notes and can unsubscribe at any time.</label>
+      <label class="flex items-start gap-3 text-xs text-muted"><input class="mt-0.5 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to receive occasional notes. The public form routes the request for review; I can unsubscribe at any time.</label>
     </form>
   </div>
 </section>

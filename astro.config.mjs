@@ -17,7 +17,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/"].includes(new URL(page).pathname),
+      filter: (page) => !["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/trust/vendor-pack/"].includes(new URL(page).pathname),
     }),
   ],
   vite: {

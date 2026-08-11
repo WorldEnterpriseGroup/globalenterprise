@@ -243,6 +243,7 @@ const exactVisuals: Record<string, VisualRecord> = {
   "/privacy/": route("summary · policy sections · escape route", ["orientation", "boundary", "connection"]),
   "/terms/": route("summary · terms sections · escape route", ["orientation", "boundary", "connection"]),
   "/trust/": route("identity · discretion · delivery assurance · data boundary · procurement", ["orientation", "evidence", "boundary", "connection", "action"], "trust center", "Global Enterprise trust center and public delivery boundaries"),
+  "/trust/vendor-pack/": route("legal identity · public controls · diligence map · procurement path", ["orientation", "comparison", "boundary", "action"], "vendor and trust pack", "Public procurement and trust snapshot"),
   "/case-studies/": photo("work-field-visit", "field photo · proof index · evidence band · invitation", ["orientation", "observation", "evidence", "connection"]),
   "/industries/": photo("energy-grid", "sector photo · context index · signal chart · invitation", ["orientation", "observation", "comparison", "connection"]),
   "/insights/": photo("insights-field-notes", "research photo · filterable index · topic rail · evidence", ["orientation", "observation", "participation", "connection"]),

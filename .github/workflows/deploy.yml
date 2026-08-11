@@ -18,6 +18,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # GitHub Actions repository variable; leave empty for local/static builds.
+      # Production should point at the Front Door-backed brief Function route.
+      PUBLIC_BRIEF_API_URL: ${{ vars.PUBLIC_BRIEF_API_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,6 +32,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Security configuration audit
+        run: npm run audit:security
       - name: Type and content checks
         run: npm run check
       - name: Evidence audit

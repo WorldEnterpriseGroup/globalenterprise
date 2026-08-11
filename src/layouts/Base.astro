@@ -21,13 +21,36 @@ interface Props {
   serviceSchema?: { name: string; description: string };
 }
 
-const { title, description, image = "/og-image.svg", type = "website", noindex = false, keywords = [], author = site.name, publishedTime, modifiedTime, serviceSchema } = Astro.props;
+const { title, description, image, type = "website", noindex = false, keywords = [], author = site.name, publishedTime, modifiedTime, serviceSchema } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const pathname = Astro.url.pathname;
 const pageVisual = visualForPath(pathname);
 const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/");
-const socialImagePath = image === "/og-image.svg" ? "/og-image.png" : image;
+const truncateForMetadata = (value: string, limit: number) => {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  if (normalized.length <= limit) return normalized;
+  const candidate = normalized.slice(0, limit - 1).trimEnd();
+  const boundary = candidate.lastIndexOf(" ");
+  const clipped = boundary > Math.floor(limit * 0.6) ? candidate.slice(0, boundary) : candidate;
+  return `${clipped}…`;
+};
+const seoTitle = truncateForMetadata(title, 60);
+const seoDescription = truncateForMetadata(description, 160);
+const socialFamilyFallbacks = [
+  { match: (path: string) => path.startsWith("/services/"), src: "/media/original/services-control-room.avif", alt: "Operators reviewing an enterprise systems control room" },
+  { match: (path: string) => path.startsWith("/solutions/"), src: "/media/original/solutions-care-handoff.avif", alt: "A careful handoff between people working on a complex service" },
+  { match: (path: string) => path.startsWith("/industries/"), src: "/media/generated/energy-grid.avif", alt: "Operators watching an energy landscape through a control-room window" },
+  { match: (path: string) => path.startsWith("/case-studies/"), src: "/media/original/work-field-visit.avif", alt: "An operations team walking through an industrial control room" },
+  { match: (path: string) => path.startsWith("/insights/"), src: "/media/original/insights-field-notes.avif", alt: "A marked-up report, notebook, and pen on a researcher’s desk" },
+  { match: (path: string) => path.startsWith("/resources/"), src: "/media/original/home-evidence-archive.avif", alt: "A researcher selecting a folder from a quiet archive" },
+];
+const socialFamilyFallback = socialFamilyFallbacks.find((item) => item.match(pathname));
+const fallbackImage = pageVisual.src || socialFamilyFallback?.src || "/og-image.png";
+const socialImagePath = (image?.trim() || fallbackImage) === "/og-image.svg" ? "/og-image.png" : image?.trim() || fallbackImage;
 const socialImage = new URL(socialImagePath, site.url).toString();
+const socialImageExtension = socialImagePath.split("?")[0].toLowerCase();
+const socialImageType = socialImageExtension.endsWith(".svg") ? "image/svg+xml" : socialImageExtension.endsWith(".png") ? "image/png" : socialImageExtension.endsWith(".webp") ? "image/webp" : "image/avif";
+const socialImageAlt = pageVisual.imageId === "none" ? socialFamilyFallback?.alt ?? seoTitle : pageVisual.alt;
 const logo = new URL("/favicon.svg", site.url).toString();
 const breadcrumbLabels: Record<string, string> = {
   about: "Approach",
@@ -81,26 +104,26 @@ const graph = [
     <meta name="theme-color" content="#315b8e" />
     <link rel="preload" href="/font/roboto-regular-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
     <link rel="preload" href="/font/robotocondensed-regular-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
     <meta name="author" content={author} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <meta property="og:type" content={type} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content={pageVisual.alt} />
-    <meta property="og:image:type" content={socialImage.endsWith(".svg") ? "image/svg+xml" : socialImage.endsWith(".png") ? "image/png" : "image/avif"} />
-    <meta name="twitter:image:alt" content={pageVisual.alt} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:image:type" content={socialImageType} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={seoTitle} />
+    <meta name="twitter:description" content={seoDescription} />
     <meta name="twitter:image" content={socialImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />

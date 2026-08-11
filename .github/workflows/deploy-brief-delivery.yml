@@ -1,0 +1,128 @@
+name: Provision gated brief delivery
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type PROVISION to create/update the brief-delivery resources"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: brief-delivery-production
+  cancel-in-progress: false
+
+jobs:
+  provision:
+    if: inputs.confirm == 'PROVISION'
+    runs-on: ubuntu-latest
+    environment: brief-delivery-production
+    env:
+      AZURE_SUBSCRIPTION_ID: ${{ vars.BRIEF_AZURE_SUBSCRIPTION_ID }}
+      RESOURCE_GROUP: rg-globalenterprise-briefs
+      LOCATION: eastus
+      DEPLOYMENT_NAME: globalenterprise-briefs-${{ github.run_id }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.BRIEF_AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.BRIEF_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.BRIEF_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Validate deployment secret
+        env:
+          UNSUBSCRIBE_TOKEN_KEY: ${{ secrets.BRIEF_UNSUBSCRIBE_TOKEN_KEY }}
+        run: test -n "$UNSUBSCRIBE_TOKEN_KEY"
+
+      - name: Install Function dependencies
+        working-directory: infra/brief-delivery/function
+        run: npm ci --omit=dev
+
+      - name: Deploy Azure foundation
+        env:
+          UNSUBSCRIBE_TOKEN_KEY: ${{ secrets.BRIEF_UNSUBSCRIBE_TOKEN_KEY }}
+        run: |
+          az deployment sub create \
+            --name "$DEPLOYMENT_NAME" \
+            --location "$LOCATION" \
+            --template-file infra/brief-delivery/main.bicep \
+            --parameters @infra/brief-delivery/parameters.example.json \
+              unsubscribeTokenKey="$UNSUBSCRIBE_TOKEN_KEY" \
+              turnstileRequired=false
+
+      - name: Read deployment outputs
+        id: outputs
+        run: |
+          outputs="$(az deployment sub show --name "$DEPLOYMENT_NAME" --query properties.outputs -o json)"
+          echo "function_app=$(jq -r '.functionAppName.value' <<<"$outputs")" >> "$GITHUB_OUTPUT"
+          echo "function_host=$(jq -r '.functionHostname.value' <<<"$outputs")" >> "$GITHUB_OUTPUT"
+          echo "storage_account=$(jq -r '.storageAccountName.value' <<<"$outputs")" >> "$GITHUB_OUTPUT"
+          echo "communication_service=$(jq -r '.communicationServiceName.value' <<<"$outputs")" >> "$GITHUB_OUTPUT"
+
+      - name: Package Function for Flex one-deploy
+        working-directory: infra/brief-delivery/function
+        run: |
+          zip -qr "$RUNNER_TEMP/globalenterprise-brief-delivery.zip" . \
+            -x 'node_modules/*' 'test/*' '.git/*' '*.log' 'local.settings.json'
+
+      - name: Deploy Function package
+        run: |
+          az functionapp deployment source config-zip \
+            --subscription "$AZURE_SUBSCRIPTION_ID" \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "${{ steps.outputs.outputs.function_app }}" \
+            --src "$RUNNER_TEMP/globalenterprise-brief-delivery.zip" \
+            --build-remote true
+
+      - name: Configure Azure-managed sender
+        env:
+          ACS_SENDER_LOCALPART: ${{ vars.BRIEF_ACS_SENDER_LOCALPART || 'donotreply' }}
+        run: |
+          sender_domain="$(az communication email domain show \
+            --subscription "$AZURE_SUBSCRIPTION_ID" \
+            --resource-group "$RESOURCE_GROUP" \
+            --email-service-name "${{ steps.outputs.outputs.communication_service }}" \
+            --domain-name AzureManagedDomain \
+            --query fromSenderDomain -o tsv)"
+          test -n "$sender_domain"
+          sender_address="${ACS_SENDER_LOCALPART}@${sender_domain}"
+          az functionapp config appsettings set \
+            --subscription "$AZURE_SUBSCRIPTION_ID" \
+            --resource-group "$RESOURCE_GROUP" \
+            --name "${{ steps.outputs.outputs.function_app }}" \
+            --settings ACS_SENDER_ADDRESS="$sender_address"
+
+      - name: Upload private PDFs
+        env:
+          RESOURCE_GROUP: ${{ env.RESOURCE_GROUP }}
+          STORAGE_ACCOUNT: ${{ steps.outputs.outputs.storage_account }}
+          AZURE_SUBSCRIPTION_ID: ${{ env.AZURE_SUBSCRIPTION_ID }}
+        run: infra/brief-delivery/upload-pdfs.sh
+
+      - name: Wait for configured health
+        env:
+          FUNCTION_HOST: ${{ steps.outputs.outputs.function_host }}
+        run: |
+          for attempt in $(seq 1 12); do
+            health="$(curl --fail --silent --show-error "${FUNCTION_HOST}/api/health" || true)"
+            if jq -e '.configured == true' <<<"$health" >/dev/null 2>&1; then
+              echo "Brief delivery is configured"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Function health did not become configured" >&2
+          exit 1
+
+      - name: Print next integration endpoint
+        run: |
+          echo "Function smoke endpoint: ${{ steps.outputs.outputs.function_host }}/api/brief-request"
+          echo "Next required shared-infrastructure step: add the Terraform-managed taodoor route and briefs.globalenterprise.com custom domain."

@@ -33,13 +33,13 @@ const steps = [
     </div>
     <div class="system-map-canvas">
       <div class="system-map-sequence">
-        <div class="system-map-nodes" role="tablist" aria-label="The Global Enterprise system view">
-          {steps.map((step, index) => <button class:list={["system-map-node", index === 0 ? "is-active" : ""]} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`system-map-panel-${step.id}`} data-system-map-tab={step.id}><span>{step.marker}</span><strong>{step.title}</strong></button>)}
+        <div class="system-map-nodes" role="tablist" aria-label="The Global Enterprise system view" aria-orientation="horizontal">
+          {steps.map((step, index) => <button class:list={["system-map-node", index === 0 ? "is-active" : ""]} id={`system-map-tab-${step.id}`} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls="system-map-panel" tabindex={index === 0 ? 0 : -1} data-system-map-tab={step.id}><span>{step.marker}</span><strong>{step.title}</strong></button>)}
         </div>
         <p class="system-map-instructions mt-4 text-xs uppercase tracking-[0.1em] text-muted">Select any stage to refresh the operational reading.</p>
       </div>
       <div class="system-map-panel-wrap">
-        <div class="system-map-panel" role="tabpanel" id="system-map-panel-mandate" data-system-map-panel="mandate" aria-live="polite">
+        <div class="system-map-panel" role="tabpanel" id="system-map-panel" data-system-map-panel="mandate" aria-labelledby="system-map-tab-mandate" aria-live="polite" tabindex="0">
           <div class="system-map-panel-lead">
             <p class="eyebrow">Mandate</p>
             <p class="mt-4 text-2xl font-medium leading-tight tracking-[-0.04em]" data-system-map-text>{steps[0].text}</p>
@@ -74,28 +74,56 @@ const steps = [
         capability: { marker: "Capability", title: "Capability", text: "Give people the roles, skills, and decision rights required to carry the change.", href: "/services/leadership-talent/", label: "Explore leadership and talent" },
         evidence: { marker: "Evidence", title: "Evidence", text: "Make progress observable through measures, feedback, and a cadence that can adapt.", href: "/insights/", label: "Explore the signal" },
       } as Record<string, { marker: string; title: string; text: string; href: string; label: string }>;
+      const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-system-map-tab]"));
       const panel = root.querySelector<HTMLElement>("[data-system-map-panel]");
       const text = root.querySelector<HTMLElement>("[data-system-map-text]");
       const eyebrow = panel?.querySelector<HTMLElement>(".eyebrow");
       const link = panel?.querySelector<HTMLAnchorElement>("a");
       const cards = root.querySelectorAll<HTMLElement>("[data-system-map-insight]");
-      root.querySelectorAll<HTMLButtonElement>("[data-system-map-tab]").forEach((tab) => tab.addEventListener("click", () => {
+
+      const activateTab = (tab: HTMLButtonElement) => {
         const step = steps[tab.dataset.systemMapTab ?? "mandate"];
-        root.querySelectorAll("[data-system-map-tab]").forEach((candidate) => {
-          candidate.classList.toggle("is-active", candidate === tab);
-          candidate.setAttribute("aria-selected", String(candidate === tab));
+        if (!step) return;
+
+        tabs.forEach((candidate) => {
+          const isSelected = candidate === tab;
+          candidate.classList.toggle("is-active", isSelected);
+          candidate.setAttribute("aria-selected", String(isSelected));
+          candidate.tabIndex = isSelected ? 0 : -1;
         });
         cards.forEach((card) => {
           card.classList.toggle("is-active", card.dataset.systemMapInsight === tab.dataset.systemMapTab);
         });
         if (panel && text && eyebrow && link) {
-          panel.id = `system-map-panel-${tab.dataset.systemMapTab}`;
+          panel.setAttribute("aria-labelledby", tab.id);
           eyebrow.textContent = step.marker;
           text.textContent = step.text;
           link.href = step.href;
-          link.innerHTML = `${step.label} <span aria-hidden="true"></span>`;
+          const arrow = link.querySelector("span");
+          link.textContent = step.label;
+          if (arrow) link.append(arrow);
         }
-      }));
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => activateTab(tab));
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex = index;
+          if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+          if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+          if (event.key === "Home") nextIndex = 0;
+          if (event.key === "End") nextIndex = tabs.length - 1;
+
+          if (nextIndex === index) return;
+          event.preventDefault();
+          const nextTab = tabs[nextIndex];
+          activateTab(nextTab);
+          nextTab.focus();
+        });
+      });
+
+      const selectedTab = tabs.find((tab) => tab.getAttribute("aria-selected") === "true") ?? tabs[0];
+      if (selectedTab) activateTab(selectedTab);
     });
   };
 

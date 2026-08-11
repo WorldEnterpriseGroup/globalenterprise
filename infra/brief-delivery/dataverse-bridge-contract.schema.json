@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://globalenterprise.com/infra/brief-delivery/dataverse-bridge-contract.schema.json",
+  "title": "Global Enterprise Dataverse bridge canonical event",
+  "description": "Minimal projected payload accepted by the Dataverse bridge. The source Function event must be projected into this shape before any CRM write.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "eventType", "eventId", "occurredAt", "person", "engagement"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "eventType": { "const": "brief.requested" },
+    "eventId": { "type": "string", "format": "uuid", "maxLength": 80 },
+    "occurredAt": { "type": "string", "format": "date-time", "maxLength": 40 },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["email", "emailHash"],
+      "properties": {
+        "email": { "type": "string", "format": "email", "maxLength": 320 },
+        "emailHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "name": { "type": ["string", "null"], "maxLength": 160 },
+        "organization": { "type": ["string", "null"], "maxLength": 200 }
+      }
+    },
+    "engagement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requestId", "reportKey", "reportTitle", "consent", "delivery"],
+      "properties": {
+        "requestId": { "type": "string", "format": "uuid", "maxLength": 80 },
+        "reportKey": { "type": "string", "pattern": "^[a-z0-9-]{1,80}$" },
+        "reportTitle": { "type": "string", "maxLength": 200 },
+        "context": { "type": ["string", "null"], "maxLength": 200 },
+        "qualification": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "role": { "type": ["string", "null"], "maxLength": 120 },
+            "decisionStage": { "type": ["string", "null"], "maxLength": 120 },
+            "decisionHorizon": { "type": ["string", "null"], "maxLength": 120 },
+            "organizationSize": { "type": ["string", "null"], "maxLength": 80 },
+            "industry": { "type": ["string", "null"], "maxLength": 120 },
+            "primaryChallenge": { "type": ["string", "null"], "maxLength": 300 },
+            "preferredNextStep": { "type": ["string", "null"], "maxLength": 120 }
+          }
+        },
+        "sourceUrl": { "type": ["string", "null"], "format": "uri", "maxLength": 500 },
+        "sourceCampaign": { "type": ["string", "null"], "maxLength": 160 },
+        "formKind": { "type": ["string", "null"], "maxLength": 80 },
+        "consent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["granted", "scope", "capturedAt"],
+          "properties": {
+            "granted": { "const": true },
+            "scope": { "const": "report-specific-follow-up" },
+            "capturedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+          }
+        },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["pending", "sent", "failed", "bounced", "expired"] },
+            "sentAt": { "type": ["string", "null"], "format": "date-time", "maxLength": 40 }
+          }
+        }
+      }
+    }
+  }
+}

@@ -38,11 +38,12 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
   <section class="bg-ink py-16 text-white md:py-24">
     <div class="container-site grid gap-12 lg:grid-cols-[.88fr_1.12fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">{report.eyebrow}</p>
+        <p class="eyebrow text-lime">{report.eyebrow} · {report.format}</p>
         <h1 class="section-title mt-7 max-w-4xl">{report.title}</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">{report.description}</p>
         <div class="mt-9 flex flex-wrap gap-4">
-          <a class="btn-primary" href="#request-report">Request the report <span aria-hidden="true">↓</span></a>
+          <a class="btn-primary" href="#request-report">Get the full field guide <span aria-hidden="true">↓</span></a>
+          <a class="btn-ghost text-white" href={report.htmlFile}>Read in browser <span aria-hidden="true">↗</span></a>
           <a class="btn-ghost text-white" href="#inside-report">Preview what is inside <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -56,7 +57,12 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
   <section id="inside-report" class="section-pad bg-paper">
     <div class="container-site grid gap-14 lg:grid-cols-[.92fr_1.08fr] lg:gap-20">
       <div class="report-preview">
-        <SectionHeading eyebrow="What this report contains" title="A practical operating brief." text={report.summary} />
+        <SectionHeading eyebrow="What this report contains" title="A report worth putting in the room." text={report.summary} />
+        <div class="report-depth mt-8 grid gap-4 sm:grid-cols-3">
+          <div><span>Read time</span><strong>{report.readingTime}</strong></div>
+          <div><span>Format</span><strong>{report.format}</strong></div>
+          <div><span>Includes</span><strong>{report.depth}</strong></div>
+        </div>
         <div class="mt-10 border-y border-line">
           {report.highlights.map((item, index) => (
             <div class="report-preview-row"><span>0{index + 1}</span><p>{item}</p></div>
@@ -79,38 +85,90 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
       </div>
 
       <div id="request-report" class="report-request">
-        <p class="eyebrow text-lime">Request the complete report</p>
-        <h2>Put the brief in the hands of the team carrying the decision.</h2>
-        <p class="report-request-intro">Tell us where the report will be used. We will send the file and a short note on the most relevant starting point.</p>
-        <form class="mt-9 grid gap-5" action={site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`}>
+        <p class="eyebrow text-lime">Request the complete field guide</p>
+        <h2>Put the working document in the hands of the team carrying the decision.</h2>
+        <p class="report-request-intro">Tell us where the report will be used. The download includes the full framework, practical worksheet, source notes, and limitations—not a one-page teaser.</p>
+        <form class="mt-9 grid gap-5" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`} aria-describedby={`resource-form-notice-${report.slug}`}>
           <input type="hidden" name="_subject" value={`${report.title} request · Global Enterprise`} />
           <input type="hidden" name="_next" value={`${site.url}/resources/thanks/?resource=${report.slug}`} />
           <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="report" value={report.slug} />
+          <input type="hidden" name="form_kind" value={`resource_${report.slug}`} />
+          <input type="hidden" name="source_url" value={`${site.url}/resources/${report.slug}/`} />
           <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
-          <label class="grid gap-2 text-sm font-bold" for="resource-name">Name
-            <input id="resource-name" type="text" name="name" autocomplete="name" required />
-          </label>
-          <label class="grid gap-2 text-sm font-bold" for="resource-email">Work email
-            <input id="resource-email" type="email" name="email" autocomplete="email" required />
-          </label>
-          <label class="grid gap-2 text-sm font-bold" for="resource-org">Organization
-            <input id="resource-org" type="text" name="organization" autocomplete="organization" required />
-          </label>
-          <label class="grid gap-2 text-sm font-bold" for="resource-context">Use case
-            <select id="resource-context" name="use_case" required>
-              <option value="" selected disabled>Pick what you are evaluating</option>
-              <option>AI rollout and governance</option>
-              <option>Data platform and cost controls</option>
-              <option>Legacy modernization and migration</option>
-              <option>Executive operating model review</option>
-              <option>Public sector systems modernization</option>
-            </select>
-          </label>
-          <label class="flex items-start gap-3 text-sm leading-relaxed text-white/65" for="resource-consent">
-            <input id="resource-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />
-            I agree to be contacted about this report. I understand this form is not for sensitive information.
-          </label>
-          <button class="btn-primary w-fit" type="submit" data-track="resource_download_submit" data-track-label={report.slug}>Send the report <span aria-hidden="true">↗</span></button>
+          <p id={`resource-form-notice-${report.slug}`} class="form-notice">{site.publicFormNotice} The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
+          <fieldset class="form-fieldset">
+            <legend>Delivery details</legend>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-label" for={`resource-name-${report.slug}`}>Name <span class="required-note">Required</span>
+                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="field-label" for={`resource-email-${report.slug}`}>Work email <span class="required-note">Required</span>
+                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="field-label" for={`resource-org-${report.slug}`}>Organization <span class="required-note">Required</span>
+                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" required />
+              </label>
+              <label class="field-label" for={`resource-context-${report.slug}`}>Use case <span class="required-note">Required</span>
+                <select id={`resource-context-${report.slug}`} name="use_case" required>
+                  <option value="" selected disabled>Pick what you are evaluating</option>
+                  <option>AI rollout and governance</option>
+                  <option>Data platform and cost controls</option>
+                  <option>Legacy modernization and migration</option>
+                  <option>Executive operating model review</option>
+                  <option>Public sector systems modernization</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="form-fieldset" aria-describedby={`resource-routing-help-${report.slug}`}>
+            <legend>Optional routing context</legend>
+            <p id={`resource-routing-help-${report.slug}`} class="form-helper">These short choices help us understand the decision context without asking for sensitive operating details. The planning horizon is optional.</p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="field-label" for={`resource-role-${report.slug}`}>Role in the decision <span class="required-note">Required</span>
+                <select id={`resource-role-${report.slug}`} name="role" required>
+                  <option value="" selected disabled>Choose a role</option>
+                  <option>Executive leadership</option>
+                  <option>Operations or transformation</option>
+                  <option>Technology, data, or security</option>
+                  <option>Finance, procurement, or risk</option>
+                  <option>Policy, strategy, or research</option>
+                  <option>Other / cross-functional</option>
+                </select>
+              </label>
+              <label class="field-label" for={`resource-stage-${report.slug}`}>Decision stage <span class="required-note">Required</span>
+                <select id={`resource-stage-${report.slug}`} name="decision_stage" required>
+                  <option value="" selected disabled>Choose a stage</option>
+                  <option>Exploring the problem</option>
+                  <option>Building the case</option>
+                  <option>Comparing approaches</option>
+                  <option>Planning a transition</option>
+                  <option>Operating and learning</option>
+                </select>
+              </label>
+              <label class="field-label" for={`resource-horizon-${report.slug}`}>Useful horizon <span class="optional-note">Optional</span>
+                <select id={`resource-horizon-${report.slug}`} name="decision_horizon">
+                  <option value="" selected>Choose a horizon</option>
+                  <option>Next 90 days</option>
+                  <option>This planning year</option>
+                  <option>Longer-term portfolio planning</option>
+                  <option>Research only</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="form-fieldset contact-preferences">
+            <legend>Contact preferences</legend>
+            <label class="checkbox-label" for={`resource-consent-${report.slug}`}>
+              <input id={`resource-consent-${report.slug}`} class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="consent" value="yes" required />
+              <span>I agree to receive this report and be contacted about it. I understand this public form is not for sensitive information. <span class="required-note">Required</span></span>
+            </label>
+            <label class="checkbox-label" for={`resource-signal-opt-in-${report.slug}`}>
+              <input id={`resource-signal-opt-in-${report.slug}`} class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="signal_opt_in" value="yes" />
+              <span>Also send me occasional evidence-led notes. I can unsubscribe at any time. <span class="optional-note">Optional</span></span>
+            </label>
+          </fieldset>
+          <button class="btn-primary w-fit" type="submit" data-track="resource_download_submit" data-track-label={report.slug}>Send the full field guide <span aria-hidden="true">↗</span></button>
         </form>
       </div>
     </div>
@@ -120,7 +178,7 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
     <div class="container-site">
       <p class="eyebrow text-cobalt">Continue the working set</p>
       <div class="mt-8 grid border-y border-line md:grid-cols-2 md:divide-x md:divide-line">
-        {others.map((item) => <a class="related-report" href={`/resources/${item.slug}/`}><span>{item.eyebrow}</span><strong>{item.title}</strong><small>{item.summary}</small><b>Preview report ↗</b></a>)}
+        {others.map((item) => <a class="related-report" href={`/resources/${item.slug}/`}><span>{item.eyebrow} · {item.readingTime}</span><strong>{item.title}</strong><small>{item.summary}</small><b>See report contents ↗</b></a>)}
       </div>
     </div>
   </section>
@@ -135,12 +193,28 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
   .report-preview-row:last-child { border-bottom: 0; }
   .report-preview-row span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.3rem; }
   .report-preview-row p { color: var(--color-muted); font-size: 0.9rem; line-height: 1.55; }
+  .report-depth { border-block: 1px solid var(--color-line); }
+  .report-depth > div { padding: 1rem 0; border-bottom: 1px solid var(--color-line); }
+  .report-depth > div:last-child { border-bottom: 0; }
+  .report-depth span { display: block; color: var(--color-cobalt); font-size: 0.67rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .report-depth strong { display: block; margin-top: 0.45rem; color: var(--color-ink); font-family: var(--font-display); font-size: 1.05rem; font-weight: 500; line-height: 1.2; }
   .report-request { align-self: start; padding: clamp(1.75rem, 4vw, 3.5rem); background: var(--color-ink); color: white; box-shadow: 1rem 1rem 0 rgb(49 91 142 / 18%); }
   .report-request h2 { margin-top: 1.25rem; font-family: var(--font-display); font-size: clamp(2.15rem, 4vw, 3.55rem); font-weight: 400; letter-spacing: -0.045em; line-height: 1.02; }
   .report-request-intro { margin-top: 1.25rem; color: rgb(255 255 255 / 66%); line-height: 1.65; }
+  .report-request .form-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .report-request .form-fieldset + .form-fieldset { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgb(255 255 255 / 16%); }
+  .report-request legend { color: rgb(255 255 255 / 88%); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .report-request .field-label { display: grid; gap: 0.45rem; color: rgb(255 255 255 / 82%); font-size: 0.82rem; font-weight: 700; }
+  .report-request .required-note, .report-request .optional-note { margin-left: 0.35rem; color: var(--color-lime); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .report-request .optional-note { color: rgb(255 255 255 / 48%); }
+  .report-request .form-notice, .report-request .form-helper { max-width: 46rem; color: rgb(255 255 255 / 62%); font-size: 0.78rem; line-height: 1.55; }
+  .report-request .form-notice { margin-bottom: 1.75rem; padding-left: 0.85rem; border-left: 2px solid var(--color-lime); }
+  .report-request .form-helper { margin-top: 0.65rem; margin-bottom: 1.25rem; }
   .report-request input:not([type="checkbox"]), .report-request select { width: 100%; min-height: 3.4rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; outline: none; }
   .report-request select { color-scheme: dark; }
   .report-request input:focus, .report-request select:focus { border-color: var(--color-lime); }
+  .report-request .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; color: rgb(255 255 255 / 66%); font-size: 0.82rem; font-weight: 400; line-height: 1.55; }
+  .report-request .checkbox-label:first-of-type { margin-top: 1.15rem; }
   .related-report { display: grid; align-content: start; min-height: 18rem; padding: clamp(1.5rem, 4vw, 3rem); }
   .related-report > span { color: var(--color-cobalt); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .related-report strong { max-width: 32rem; margin-top: 1rem; font-family: var(--font-display); font-size: clamp(1.65rem, 3vw, 2.5rem); font-weight: 400; letter-spacing: -0.04em; line-height: 1.05; }

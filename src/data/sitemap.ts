@@ -99,6 +99,7 @@ export const sitemapGroups = [
       { label: "Careers", href: "/careers/", description: "Bring your point of view to the hard stuff.", kind: "company" },
       { label: "FAQ", href: "/faq/", description: "Useful before the first meeting.", kind: "guidance" },
       { label: "Trust center", href: "/trust/", description: "Identity, discretion, delivery assurance, and data boundaries.", kind: "company" },
+      { label: "Vendor and trust pack", href: "/trust/vendor-pack/", description: "Public procurement facts, controls, and diligence boundaries.", kind: "company" },
       { label: "Privacy", href: "/privacy/", description: "How information is handled.", kind: "legal" },
       { label: "Terms", href: "/terms/", description: "Site terms and conditions.", kind: "legal" },
     ],

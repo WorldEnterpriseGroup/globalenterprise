@@ -31,8 +31,11 @@ The build is fully prerendered and deploys to GitHub Pages through `.github/work
 - Focused solution pages at `/solutions/` for enterprise AI, modernization, operating model, and healthcare transformation
 - Privacy-first Plausible analytics with CTA, form, diagnostic, insight, and solution events
 - Visual sitemap at `/visual-sitemap/` plus a live-preview compact map at `/visual-sitemap/compact.html`
-- Public proof and trust surfaces at `/proof/` and `/trust/`, with abstract portfolio evidence and explicit data boundaries
-- Edge-ready security headers in `public/_headers` and a public vulnerability-reporting path at `/.well-known/security.txt`; GitHub Pages requires these headers to be mirrored in the production edge/CDN
+- Public proof and trust surfaces at `/proof/`, `/trust/`, and `/trust/vendor-pack/`, with abstract portfolio evidence, procurement facts, and explicit data boundaries
+- Four deep PDF field guides, each with a browser-readable HTML edition, generated editorial photography, technical diagrams, practical frameworks, worksheets, source notes, and explicit limitations. The private PDF source files live in `infra/brief-delivery/source-pdfs/` for upload to Blob Storage; the public site carries only the HTML editions.
+- Rebuild the PDF editions with `npm run reports:pdf`; the workflow uses the local production build and installed Google Chrome, with no external network dependency, and writes outside the public build
+- Report and Global Brief forms use the `PUBLIC_BRIEF_API_URL` GitHub Actions repository variable when configured. Set it to the Front Door-backed Function route before promoting the gated workflow; contact and newsletter forms remain on the legacy public routing path until their CRM workflow is approved.
+- Edge-ready security headers in `public/_headers`, an auditable `npm run audit:security` check, and a public vulnerability-reporting path at `/.well-known/security.txt`; GitHub Pages requires these headers to be mirrored in the production edge/CDN (see `docs/production-edge-security.md`)
 
 ## Rendering and motion
 

@@ -1,7 +1,10 @@
 const formEndpoint = "https://formsubmit.co/info@globalenterprise.com";
+const briefEndpoint = import.meta.env.PUBLIC_BRIEF_API_URL?.trim() || "";
 
 export const site = {
   name: "Global Enterprise",
+  legalName: "Global Enterprise Standard Corporation",
+  entityType: "S Corporation",
   shortName: "Global",
   url: "https://globalenterprise.com",
   description:
@@ -12,6 +15,10 @@ export const site = {
   jurisdiction: "Delaware, USA",
   operatingModel: "Remote-first delivery across time zones and operating contexts",
   formEndpoint,
+  briefEndpoint,
+  briefDeliveryReady: Boolean(briefEndpoint),
+  publicFormProvider: "FormSubmit",
+  publicFormNotice: "Public forms are for routing and context only; do not submit sensitive, classified, export-controlled, patient, or credential information.",
   analytics: {
     plausibleDomain: "globalenterprise.com",
   },
@@ -318,10 +325,15 @@ export const businessReports = [
       "This evergreen operating report keeps the focus on public evidence. It helps leaders separate a genuine bottleneck from an avoidable delay, then sequence decisions that improve execution speed without adding fragility.",
     highlights: ["Mandate definition, ownership, and escalation mechanics", "Evidence pathways for operational decisions", "Where AI and human review should remain explicitly coupled", "How capability gaps show up before cost or compliance gaps"],
     takeaways: ["A decision stack is legible when owners are explicit.", "Most modernization risk sits in handoffs, not the code stack.", "Data is only useful when it is governed to the point of work."],
-    file: "/reports/enterprise-decision-readiness.txt",
+    storageObject: "enterprise-decision-readiness.pdf",
+    htmlFile: "/reports/enterprise-decision-readiness.html",
+    format: "PDF field guide",
+    readingTime: "45-minute working read",
+    depth: "5,700-word thesis, diagnostic, horizon table, decision worksheet, and source notes",
     sources: [
       { label: "UN SDG Report 2026", url: "https://unstats.un.org/sdgs/report/2026/" },
       { label: "Data.gov catalog", url: "https://data.gov/" },
+      { label: "World Economic Forum · Future of Jobs 2025", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/" },
     ],
   },
   {
@@ -333,10 +345,15 @@ export const businessReports = [
       "Use this report to move from tool-level questions to workflow-level control. It translates publicly observed interoperability and security expectations into a practical operating rhythm.",
     highlights: ["Signals for API and interoperability readiness", "Control boundaries for human-in-the-loop workflows", "Measure, monitor, and recovery patterns that keep trust intact"],
     takeaways: ["Control design should be anchored in the workflow, not the model stack.", "Governance should preserve useful authority at every layer.", "Public institutions and enterprise systems both need a deliberate exception process."],
-    file: "/reports/ai-governance-controls.txt",
+    storageObject: "ai-governance-controls.pdf",
+    htmlFile: "/reports/ai-governance-controls.html",
+    format: "PDF field guide",
+    readingTime: "40-minute working read",
+    depth: "4,900-word thesis, control model, architecture diagram, implementation worksheet, and source notes",
     sources: [
       { label: "ONC API access brief", url: "https://healthit.gov/data/data-briefs/hospital-use-of-apis-to-enable-data-sharing-between-ehrs-and-third-party-technology/" },
       { label: "NATO Digital Strategy 2026", url: "https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy" },
+      { label: "CISA et al. · Secure by Design for AI systems", url: "https://www.cisa.gov/resources-tools/resources/shifting-balance-cybersecurity-risk-principles-and-approaches-secure-design-software" },
     ],
   },
   {
@@ -348,9 +365,14 @@ export const businessReports = [
       "The report converts complex modernization choices into a staged sequence. It helps teams spot what should be retired, wrapped, replaced, or redesigned first.",
     highlights: ["Portfolio-level sequencing across mission, systems, and skills", "Cost, dependency, and continuity risks in one view", "Capital-to-operations transition plans that preserve capability"],
     takeaways: ["Modernization is a management problem before it is a technology problem.", "Resilience starts with explicit transition design between legacy and new systems.", "The first durable win is usually in decision rights, not tooling."],
-    file: "/reports/modernization-investment-priority.txt",
+    storageObject: "modernization-investment-priority.pdf",
+    htmlFile: "/reports/modernization-investment-priority.html",
+    format: "PDF field guide",
+    readingTime: "40-minute working read",
+    depth: "4,100-word thesis, portfolio screen, transition gates, investment worksheet, and source notes",
     sources: [
       { label: "DOE AI-enabled grid planning context", url: "https://www.energy.gov/undersecretaryforscience/genesis-mission/scaling-grid-power-american-economy" },
+      { label: "International Energy Agency · Energy and AI", url: "https://www.iea.org/reports/energy-and-ai" },
       { label: "NIST AI risk and reliability work", url: "https://www.nist.gov/" },
     ],
   },
@@ -358,7 +380,7 @@ export const businessReports = [
 
 export const experienceHighlights = [
   { number: "20+", label: "years at the frontier of change", text: "Our work has evolved with emerging technology and ITIL change practice for more than two decades, always translating new capability into durable operating advantage." },
-  { number: "AI", label: "award-recognized AI leadership", text: "Our founders have been recognized repeatedly for AI leadership. We bring that research posture to enterprise AI/ML, AI cost management, and governed adoption." },
+  { number: "AI", label: "frontier AI research posture", text: "We bring a research posture to enterprise AI/ML, AI cost management, and governed adoption—while keeping named profiles and permissioned recognition claims in the diligence path." },
   { number: "501c3", label: "research institute partnership", text: "Through our partnership with INSTAR Lab Inc, a 501(c)(3) research institute, we contribute to cutting-edge research across frontier intelligence and emerging systems." },
 ];
 

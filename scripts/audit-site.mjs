@@ -5,13 +5,21 @@ import { join, relative } from "node:path";
 const root = new URL("../dist/", import.meta.url);
 const errors = [];
 const htmlFiles = [];
-const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/global/"];
+const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/trust/vendor-pack/", "/global/"];
 const redirectFiles = new Set(["global/index.html"]);
 const editorialDirectory = new URL("../src/content/insights/", import.meta.url);
+const sourcePdfDirectory = new URL("../infra/brief-delivery/source-pdfs/", import.meta.url);
 const freshnessBaseline = "2026-08-10";
 const routeImages = new Map();
 const renderedPhotos = new Map();
 const diagramIds = new Map();
+const reportDocuments = [
+  "reports/enterprise-decision-readiness.html",
+  "reports/ai-governance-controls.html",
+  "reports/modernization-investment-priority.html",
+  "reports/global-operating-model-brief.html",
+];
+const reportPdfs = reportDocuments.map((report) => report.replace(/^reports\//, "").replace(/\.html$/, ".pdf"));
 
 async function walk(directory) {
   for (const name of await readdir(directory)) {
@@ -51,6 +59,7 @@ for (const path of htmlFiles) {
   const file = relative(root.pathname, path) || "index.html";
   const html = await readFile(path, "utf8");
   if (file === "visual-sitemap/compact.html" || file === "404.html" || redirectFiles.has(file)) continue;
+  if (file.startsWith("reports/")) continue;
   requiredMarkup(html, /<title>[^<]+<\/title>/i, "title", file);
   requiredMarkup(html, /<meta name="description" content="[^"]+"/i, "meta description", file);
   requiredMarkup(html, /<link rel="canonical" href="https:\/\/globalenterprise\.com\//i, "canonical", file);
@@ -115,6 +124,32 @@ for (const path of htmlFiles) {
   }
 }
 
+for (const report of reportDocuments) {
+  const path = join(root.pathname, report);
+  const html = await readFile(path, "utf8").catch(() => "");
+  if (!html) {
+    errors.push(`${report}: missing deep report document`);
+    continue;
+  }
+  if (!/<h1\b/i.test(html)) errors.push(`${report}: missing report title`);
+  if ((html.match(/<h2\b/gi) ?? []).length < 4) errors.push(`${report}: deep report needs at least four structured sections`);
+  if (!/<(?:div|section)\b[^>]*class="[^"]*\breport-worksheet\b/i.test(html)) errors.push(`${report}: missing reusable worksheet`);
+  if (!/https:\/\/[^"'<>]+/i.test(html)) errors.push(`${report}: missing public source links`);
+  const wordCount = html.replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").trim().split(/\s+/).filter(Boolean).length;
+  if (wordCount < 1000) errors.push(`${report}: report is too thin (${wordCount} words)`);
+}
+
+for (const report of reportPdfs) {
+  const path = join(sourcePdfDirectory.pathname, report);
+  const info = await stat(path).catch(() => null);
+  if (!info?.isFile() || info.size < 100_000) {
+    errors.push(`infra/brief-delivery/source-pdfs/${report}: missing or unusually small generated PDF`);
+  }
+  const publicPath = join(root.pathname, "reports", report);
+  const publicInfo = await stat(publicPath).catch(() => null);
+  if (publicInfo?.isFile()) errors.push(`reports/${report}: PDF must remain outside the public build`);
+}
+
 const robots = await readFile(new URL("../public/robots.txt", import.meta.url), "utf8");
 if (!robots.includes("Sitemap: https://globalenterprise.com/sitemap-index.xml")) errors.push("public/robots.txt: missing production sitemap declaration");
 const manifest = await readFile(new URL("../src/data/route-manifest.ts", import.meta.url), "utf8");
@@ -166,4 +201,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`✓ audited ${htmlFiles.length} HTML files, ${routeImages.size} route photo assignments / ${renderedPhotos.size} rendered one-time photos, ${diagramIds.size} one-time diagrams, ${insightPages} insight pages, and ${topicPages} topic pages`);
+console.log(`✓ audited ${htmlFiles.length} HTML files, ${reportDocuments.length} deep report documents and ${reportPdfs.length} private PDFs, ${routeImages.size} route photo assignments / ${renderedPhotos.size} rendered one-time photos, ${diagramIds.size} one-time diagrams, ${insightPages} insight pages, and ${topicPages} topic pages`);

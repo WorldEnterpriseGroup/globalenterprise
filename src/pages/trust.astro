@@ -23,7 +23,7 @@ import { site } from "@/data/site";
     <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
       <SectionHeading eyebrow="Identity" title="The company behind the conversation." text="The public brand, operating jurisdiction, and delivery model are stated here so procurement, privacy, and contracting conversations start from the same facts." />
       <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
-        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Public identity</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.name}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Public identity</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.name}</p><p class="mt-2 text-sm leading-relaxed text-muted">{site.legalName} · {site.entityType}</p></div>
         <div class="bg-white p-8"><p class="eyebrow text-cobalt">Jurisdiction</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.jurisdiction}</p></div>
         <div class="bg-white p-8"><p class="eyebrow text-cobalt">Operating model</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.operatingModel}</p></div>
         <div class="bg-white p-8"><p class="eyebrow text-cobalt">Public contact</p><a class="mt-5 block font-display text-2xl font-medium tracking-[-0.04em] text-cobalt hover:text-ink" href={`mailto:${site.email}`}>{site.email}</a><a class="mt-2 block text-sm text-muted hover:text-cobalt" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a></div>
@@ -57,6 +57,12 @@ import { site } from "@/data/site";
     <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
       <div><p class="eyebrow text-lime">Procurement and fit</p><h2 class="section-title mt-5 max-w-3xl">The right next question is welcome.</h2></div>
       <div class="space-y-6 text-lg leading-relaxed text-white/70"><p>We can begin with a private mandate conversation, a targeted diagnostic, or a longer transformation partnership. We will tell you what we can support, what needs a different specialist, and what information belongs in a protected channel.</p><a class="btn-primary" href="/contact/">Start a private dialogue <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+  <section class="section-pad bg-paper">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <SectionHeading eyebrow="Procurement" title="A public starting point for vendor diligence." text="Use the vendor and trust pack to see what is public, what is engagement-specific, and what should be confirmed before contracting." />
+      <div class="space-y-6 text-lg leading-relaxed text-muted"><p>The pack covers legal identity, public-site controls, data and security boundaries, third-party services, accessibility posture, and open diligence items. It does not substitute for a current questionnaire response or a scoped security review.</p><a class="btn-dark" href="/trust/vendor-pack/">Open the vendor &amp; trust pack <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 </Base>

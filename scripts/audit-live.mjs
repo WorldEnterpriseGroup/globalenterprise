@@ -1,5 +1,23 @@
 const base = (process.env.LIVE_SITE_URL ?? "https://globalenterprise.com").replace(/\/$/, "");
-const routes = ["/", "/services/", "/global/", "/proof/", "/trust/", "/case-studies/", "/insights/", "/resources/", "/contact/", "/sitemap-index.xml", "/.well-known/security.txt"];
+const routes = [
+  "/",
+  "/services/",
+  "/global/",
+  "/proof/",
+  "/trust/",
+  "/trust/vendor-pack/",
+  "/case-studies/",
+  "/insights/",
+  "/resources/",
+  "/reports/enterprise-decision-readiness.html",
+  "/reports/ai-governance-controls.html",
+  "/reports/modernization-investment-priority.html",
+  "/reports/global-operating-model-brief.html",
+  "/reports/report.css",
+  "/contact/",
+  "/sitemap-index.xml",
+  "/.well-known/security.txt",
+];
 const failures = [];
 
 for (const route of routes) {
