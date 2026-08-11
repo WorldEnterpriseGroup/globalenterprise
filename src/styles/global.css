@@ -249,7 +249,7 @@
   .home-compact .newsletter-signup,
   .home-compact .contextual-next,
   .home-compact .page-visual {
-    padding-block: clamp(3rem, 5.8vw, 5rem);
+    padding-block: clamp(2.75rem, 4.8vw, 4.75rem);
   }
 
   .home-compact .media-interlude-grid {
@@ -494,9 +494,24 @@
     padding: 1rem 0 1rem 1.25rem;
   }
 
+  .system-map-intro {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: end;
+  }
+
+  .system-map-photo {
+    margin: 0;
+  }
+
+  .system-map-photo img {
+    display: block;
+  }
+
   .system-map-canvas {
     display: grid;
-    gap: 1.2rem;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    margin-top: clamp(3rem, 6vw, 5.5rem);
   }
 
   .system-map-nodes {
@@ -564,13 +579,17 @@
   }
 
   .system-map-panel {
-    border-top: 1px solid var(--color-line);
-    padding-top: 1.5rem;
+    display: grid;
+    gap: 1.5rem;
     min-height: 11rem;
     background: white;
     border: 1px solid var(--color-line);
-    padding: 1.25rem;
-    margin-bottom: 1rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .system-map-panel-lead,
+  .system-map-panel-support {
+    min-width: 0;
   }
 
   .system-map-insight-grid {
@@ -598,9 +617,13 @@
     display: inline-block;
   }
 
-  @media (min-width: 1024px) {
-    .system-map-canvas {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  @media (min-width: 768px) {
+    .system-map-intro {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    }
+
+    .system-map-panel {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       align-items: start;
     }
 
@@ -608,18 +631,18 @@
       display: block;
     }
 
-    .system-map-nodes {
-      grid-template-columns: repeat(5, 1fr);
-    }
-
-    .system-map-panel-wrap {
-      display: grid;
-      grid-template-rows: auto 1fr;
-    }
-
     .system-map-insight-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-content: start;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .system-map-insight-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .system-map-nodes {
+      grid-template-columns: repeat(5, 1fr);
     }
   }
 
