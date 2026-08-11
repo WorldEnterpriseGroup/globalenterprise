@@ -22,7 +22,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
     <nav id="site-navigation" aria-label="Primary navigation" class:list={["absolute left-0 top-full hidden w-full px-5 py-5 md:static md:block md:w-auto md:border-0 md:bg-transparent md:p-0", isHome ? "border-b border-white/20 bg-ink" : "border-b border-line bg-paper"]} data-navigation>
       <ul class="flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
         <li>
-          <button class:list={["flex w-full cursor-pointer items-center gap-2 py-2 text-left text-sm transition-colors md:w-auto", linkTone]} type="button" aria-expanded="false" aria-haspopup="true" aria-controls="mega-navigation" data-mega-toggle>
+          <button class:list={["flex w-full cursor-pointer items-center gap-2 py-2 text-left text-sm transition-colors md:w-auto", linkTone]} type="button" aria-expanded="false" aria-haspopup="true" aria-controls="mega-navigation mobile-directory" data-mega-toggle>
             Explore <span class="text-xs transition-transform" data-mega-chevron>⌄</span>
           </button>
         </li>
@@ -42,7 +42,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
         <li class="pt-3 md:pt-0"><a class:list={["btn-primary w-full md:w-auto", isHome ? "bg-white text-ink" : ""]} href="/contact/">Principal dialogue <span aria-hidden="true">↗</span></a></li>
       </ul>
 
-      <div class="mt-7 border-t border-white/15 pt-6 md:hidden" data-mobile-directory>
+      <div id="mobile-directory" class="mt-7 hidden border-t border-white/15 pt-6 md:hidden" data-mobile-directory data-state="closed" aria-hidden="true">
         <p class="mega-kicker">Capabilities</p>
         <div class="mt-3 grid gap-1">
           <a class="mobile-mega-link" href="/services/">All capabilities</a>
@@ -102,6 +102,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
     const navigation = header?.querySelector("[data-navigation]");
     const megaToggle = header?.querySelector("[data-mega-toggle]");
     const megaPanel = header?.querySelector("[data-mega-panel]");
+    const mobileDirectory = header?.querySelector<HTMLElement>("[data-mobile-directory]");
     const megaChevron = header?.querySelector("[data-mega-chevron]");
     const industryToggle = header?.querySelector("[data-industry-toggle]");
     const industryDropdown = header?.querySelector("[data-industry-dropdown]");
@@ -112,10 +113,14 @@ const panelTone = isHome ? "mega-panel-home" : "";
     header.setAttribute("data-header-bound", "true");
 
     const setMega = (open: boolean) => {
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
       megaToggle?.setAttribute("aria-expanded", String(open));
       megaPanel?.setAttribute("aria-hidden", String(!open));
       megaPanel?.setAttribute("data-state", open ? "open" : "closed");
       megaPanel?.classList.toggle("is-open", open);
+      mobileDirectory?.setAttribute("aria-hidden", String(!open || !isMobile));
+      mobileDirectory?.setAttribute("data-state", open && isMobile ? "open" : "closed");
+      mobileDirectory?.classList.toggle("hidden", !open || !isMobile);
       megaChevron?.classList.toggle("rotate-180", open);
     };
 
@@ -144,6 +149,8 @@ const panelTone = isHome ? "mega-panel-home" : "";
     });
     navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
       if (window.innerWidth < 768) {
+        setMega(false);
+        setIndustries(false);
         menuToggle?.setAttribute("aria-expanded", "false");
         menuToggle?.setAttribute("aria-label", "Open navigation");
         if (menuLabel) menuLabel.textContent = "Open navigation";

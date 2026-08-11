@@ -19,18 +19,20 @@ const steps = [
 ---
 
 <section class="section-pad bg-paper" data-system-map data-diagram-id="home-system-map">
-  <div class="container-site grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
-    <div>
-      <p class="eyebrow">The system view</p>
-      <h2 class="section-title mt-5">Change holds when the parts reinforce each other.</h2>
-      <p class="body-copy mt-6 max-w-xl">Move through the system to see the questions we keep connected when a problem crosses strategy, technology, and organizational life.</p>
-      {mediaSrc && <figure class="mt-10 overflow-hidden border border-line bg-white shadow-[1rem_1rem_0_rgba(16,19,29,.08)]">
-        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="lazy" decoding="async" class="aspect-[16/9] w-full object-cover" />
+  <div class="container-site">
+    <div class="system-map-intro">
+      <div>
+        <p class="eyebrow">The system view</p>
+        <h2 class="section-title mt-5">Change holds when the parts reinforce each other.</h2>
+        <p class="body-copy mt-6 max-w-xl">Move through the system to see the questions we keep connected when a problem crosses strategy, technology, and organizational life.</p>
+      </div>
+      {mediaSrc && <figure class="system-map-photo overflow-hidden border border-line bg-white shadow-[1rem_1rem_0_rgba(16,19,29,.08)]">
+        <AssetImage src={mediaSrc} alt={mediaAlt} width={1774} height={887} loading="lazy" decoding="async" class="aspect-[2/1] w-full object-cover" />
         {mediaCaption && <figcaption class="border-t border-line px-4 py-3 text-xs leading-relaxed text-muted">{mediaCaption}</figcaption>}
       </figure>}
     </div>
     <div class="system-map-canvas">
-      <div>
+      <div class="system-map-sequence">
         <div class="system-map-nodes" role="tablist" aria-label="The Global Enterprise system view">
           {steps.map((step, index) => <button class:list={["system-map-node", index === 0 ? "is-active" : ""]} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`system-map-panel-${step.id}`} data-system-map-tab={step.id}><span>{step.marker}</span><strong>{step.title}</strong></button>)}
         </div>
@@ -38,10 +40,14 @@ const steps = [
       </div>
       <div class="system-map-panel-wrap">
         <div class="system-map-panel" role="tabpanel" id="system-map-panel-mandate" data-system-map-panel="mandate" aria-live="polite">
-          <p class="eyebrow">Mandate</p>
-          <p class="mt-4 text-2xl font-medium leading-tight tracking-[-0.04em]" data-system-map-text>{steps[0].text}</p>
-          <p class="mt-5 text-sm leading-relaxed text-muted">The map is a practical sequence: align what matters, sequence what is uncertain, then secure what cannot be skipped.</p>
-          <a class="ink-link mt-7" href="/about/">See our approach <span aria-hidden="true"></span></a>
+          <div class="system-map-panel-lead">
+            <p class="eyebrow">Mandate</p>
+            <p class="mt-4 text-2xl font-medium leading-tight tracking-[-0.04em]" data-system-map-text>{steps[0].text}</p>
+          </div>
+          <div class="system-map-panel-support">
+            <p class="text-sm leading-relaxed text-muted">The map is a practical sequence: align what matters, sequence what is uncertain, then secure what cannot be skipped.</p>
+            <a class="ink-link mt-7" href="/about/">See our approach <span aria-hidden="true"></span></a>
+          </div>
         </div>
         <div class="system-map-insight-grid" data-system-map-insights>
           {steps.map((step, index) => (
