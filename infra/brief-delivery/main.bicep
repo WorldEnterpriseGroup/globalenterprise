@@ -32,13 +32,8 @@ param turnstileSecret string = ''
 @description('Optional HMAC-protected Logic App or Dynamics bridge URL.')
 param nurtureWebhookUrl string = ''
 
-@description('Secret used to sign events sent to the optional nurture bridge.')
-@secure()
-param nurtureWebhookSecret string = ''
-
-@description('A random secret used to encrypt unsubscribe tokens at rest. Supply with the deployment secret store.')
-@secure()
-param unsubscribeTokenKey string = ''
+@description('Key Vault URI containing the brief-delivery secrets.')
+param keyVaultUri string = 'https://omlab-secrets.${environment().suffixes.keyvaultDns}'
 
 @description('Enable Turnstile validation only after the corresponding site widget is present in the forms.')
 param turnstileRequired bool = false
@@ -69,10 +64,17 @@ module briefInfrastructure 'briefs.bicep' = {
     acsSenderAddress: acsSenderAddress
     turnstileSecret: turnstileSecret
     nurtureWebhookUrl: nurtureWebhookUrl
-    nurtureWebhookSecret: nurtureWebhookSecret
-    unsubscribeTokenKey: unsubscribeTokenKey
+    keyVaultUri: keyVaultUri
     turnstileRequired: turnstileRequired
     tags: tags
+  }
+}
+
+module keyVaultAccess 'keyvault-access.bicep' = {
+  name: 'globalenterprise-briefs-keyvault-access'
+  scope: resourceGroup('Om-Labs')
+  params: {
+    functionPrincipalId: briefInfrastructure.outputs.functionPrincipalId
   }
 }
 

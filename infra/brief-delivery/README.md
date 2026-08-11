@@ -22,15 +22,17 @@ Change the subscription explicitly if Finance or platform ownership says the Glo
 
 ## Deployment sequence
 
-Run the following from the infrastructure repository after review. Use `what-if` first; the normal infrastructure workflow should own the apply. This site repository now includes a manual GitHub Actions workflow at `.github/workflows/deploy-brief-delivery.yml` for the foundation, Function package, sender configuration, and private PDF upload. It requires OIDC variables `BRIEF_AZURE_CLIENT_ID`, `BRIEF_AZURE_TENANT_ID`, and `BRIEF_AZURE_SUBSCRIPTION_ID`, plus the environment secret `BRIEF_UNSUBSCRIBE_TOKEN_KEY`; it runs only when the operator types `PROVISION` and the production environment allows it.
+Run the following from the infrastructure repository after review. Use `what-if` first; the normal infrastructure workflow should own the apply. This site repository now includes a manual GitHub Actions workflow at `.github/workflows/deploy-brief-delivery.yml` for the foundation, Function package, sender configuration, and private PDF upload. It requires OIDC variables `BRIEF_AZURE_CLIENT_ID`, `BRIEF_AZURE_TENANT_ID`, and `BRIEF_AZURE_SUBSCRIPTION_ID`; it runs only when the operator types `PROVISION` and the production environment allows it.
 
 ```bash
 az deployment sub what-if \
+  --subscription 6e60a8fd-9992-4ff7-8a3e-db96b4dfed4f \
   --location eastus \
   --template-file infra/brief-delivery/main.bicep \
   --parameters infra/brief-delivery/parameters.example.json
 
 az deployment sub create \
+  --subscription 6e60a8fd-9992-4ff7-8a3e-db96b4dfed4f \
   --location eastus \
   --template-file infra/brief-delivery/main.bicep \
   --parameters infra/brief-delivery/parameters.example.json
@@ -44,7 +46,7 @@ Build and publish the Function from `function/` with the repository's approved A
 ./upload-pdfs.sh
 ```
 
-The deployment must receive a random `unsubscribeTokenKey` through the approved secret store or CI secret. The Function encrypts unsubscribe tokens in the private lead record; an empty value intentionally keeps the health check unready. `turnstileRequired` remains `false` until a matching Turnstile widget and site key are added to the forms.
+The Function retrieves the named unsubscribe and nurture secrets from `omlab-secrets` through the Key Vault SDK using its user-assigned managed identity; secret values are never copied into app settings or the deployment payload. The Function encrypts unsubscribe tokens in the private lead record. `turnstileRequired` remains `false` until a matching Turnstile widget and site key are added to the forms.
 
 The uploader intentionally does not upload the HTML report editions, generated images, source notes, or site files.
 

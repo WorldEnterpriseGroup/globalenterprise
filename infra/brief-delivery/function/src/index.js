@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import { app } from "@azure/functions";
 import { EmailClient } from "@azure/communication-email";
 import { DefaultAzureCredential } from "@azure/identity";
+import { SecretClient } from "@azure/keyvault-secrets";
 import {
   BlobServiceClient,
   BlobSASPermissions,
@@ -55,6 +56,11 @@ const SAS_HOURS = boundedInteger(process.env.SAS_HOURS, 1, 72, 48);
 // controls still apply. Set TURNSTILE_REQUIRED=true only with a matching site key.
 const TURNSTILE_REQUIRED = parseBoolean(process.env.TURNSTILE_REQUIRED, false);
 const credential = new DefaultAzureCredential();
+const KEY_VAULT_URI = process.env.KEY_VAULT_URI ? normalizeSiteUrl(process.env.KEY_VAULT_URI).replace(/\/$/, "") : "";
+const UNSUBSCRIBE_TOKEN_SECRET_NAME = clean(process.env.UNSUBSCRIBE_TOKEN_SECRET_NAME, 128);
+const NURTURE_WEBHOOK_SECRET_NAME = clean(process.env.NURTURE_WEBHOOK_SECRET_NAME, 128);
+const keyVault = KEY_VAULT_URI ? new SecretClient(KEY_VAULT_URI, credential) : null;
+const secretCache = new Map();
 const blobService = STORAGE_ACCOUNT ? new BlobServiceClient(`https://${STORAGE_ACCOUNT}.blob.core.windows.net`, credential) : null;
 const container = blobService?.getContainerClient(CONTAINER_NAME);
 const emailClient = ACS_ENDPOINT ? new EmailClient(ACS_ENDPOINT, credential) : null;
@@ -126,28 +132,45 @@ function sign(value, secret) {
   return crypto.createHmac("sha256", secret).update(value).digest("hex");
 }
 
-function tokenKey() {
-  const material = process.env.UNSUBSCRIBE_TOKEN_KEY || process.env.NURTURE_WEBHOOK_SECRET;
+async function secretValue(name, fallbackSetting) {
+  if (keyVault && name) {
+    if (secretCache.has(name)) return secretCache.get(name);
+    try {
+      const result = await withTimeout(keyVault.getSecret(name), EXTERNAL_TIMEOUT_MS, "key_vault_secret_timeout");
+      if (result.value) {
+        secretCache.set(name, result.value);
+        return result.value;
+      }
+    } catch {
+      // Health and request paths fail closed below if the vault is unavailable.
+    }
+  }
+  const fallback = clean(process.env[fallbackSetting], 4096);
+  return fallback.startsWith("@Microsoft.KeyVault(") ? "" : fallback;
+}
+
+async function tokenKey() {
+  const material = await secretValue(UNSUBSCRIBE_TOKEN_SECRET_NAME, "UNSUBSCRIBE_TOKEN_KEY") || await secretValue(NURTURE_WEBHOOK_SECRET_NAME, "NURTURE_WEBHOOK_SECRET");
   if (!material) throw new Error("unsubscribe_key_not_configured");
   return crypto.createHash("sha256").update(`globalenterprise-unsubscribe:${material}`).digest();
 }
 
-function encryptToken(value) {
+async function encryptToken(value) {
   const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv("aes-256-gcm", tokenKey(), iv);
+  const cipher = crypto.createCipheriv("aes-256-gcm", await tokenKey(), iv);
   const ciphertext = Buffer.concat([cipher.update(value, "utf8"), cipher.final()]);
   return [iv, cipher.getAuthTag(), ciphertext].map((part) => part.toString("base64url")).join(".");
 }
 
-function decryptToken(value) {
+async function decryptToken(value) {
   const [ivValue, tagValue, ciphertextValue] = String(value || "").split(".");
   if (!ivValue || !tagValue || !ciphertextValue) throw new Error("invalid_unsubscribe_token_ciphertext");
-  const decipher = crypto.createDecipheriv("aes-256-gcm", tokenKey(), Buffer.from(ivValue, "base64url"));
+  const decipher = crypto.createDecipheriv("aes-256-gcm", await tokenKey(), Buffer.from(ivValue, "base64url"));
   decipher.setAuthTag(Buffer.from(tagValue, "base64url"));
   return Buffer.concat([decipher.update(Buffer.from(ciphertextValue, "base64url")), decipher.final()]).toString("utf8");
 }
 
-function getUnsubscribeToken(record) {
+async function getUnsubscribeToken(record) {
   if (record?.unsubscribeTokenCiphertext) return decryptToken(record.unsubscribeTokenCiphertext);
   // Existing records may predate encrypted token storage. Do not write this legacy field back.
   return clean(record?.unsubscribeToken, 200);
@@ -367,10 +390,10 @@ async function sendEmail({ to, name, report, link, stage = 0, unsubscribeUrl }) 
   return result.id || null;
 }
 
-function nurtureWebhookConfig() {
+async function nurtureWebhookConfig() {
   const endpoint = process.env.NURTURE_WEBHOOK_URL;
-  const secret = process.env.NURTURE_WEBHOOK_SECRET;
   if (!endpoint) return null;
+  const secret = await secretValue(NURTURE_WEBHOOK_SECRET_NAME, "NURTURE_WEBHOOK_SECRET");
   if (!secret) throw new Error("nurture_bridge_not_configured");
   let url;
   try {
@@ -404,7 +427,7 @@ function buildNurturePayload(record) {
 }
 
 async function notifyNurtureBridge(record) {
-  const config = nurtureWebhookConfig();
+  const config = await nurtureWebhookConfig();
   if (!config) return null;
   const body = JSON.stringify({ eventType: "brief.requested", eventId: record.id, occurredAt: record.createdAt, record: buildNurturePayload(record) });
   const signature = sign(body, config.secret);
@@ -447,7 +470,12 @@ async function briefRequest(request, context) {
   const remoteIp = clientIp(request);
 
   if (!report || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") return response(400, "Please provide a valid email, resource, and consent.", headers);
-  if (!process.env.UNSUBSCRIBE_TOKEN_KEY && !process.env.NURTURE_WEBHOOK_SECRET) return response(503, "Brief delivery is not configured", headers);
+  try {
+    await tokenKey();
+  } catch (error) {
+    context.error("Secret store unavailable", { error: safeErrorCode(error) });
+    return response(503, "Brief delivery is not configured", headers);
+  }
   if (!(await verifyTurnstile(clean(body["cf-turnstile-response"], 4096), remoteIp))) return response(400, "Please complete the verification challenge.", headers);
   try {
     if (!(await enforceRateLimit(`ip:${remoteIp || "unknown"}`)) || !(await enforceRateLimit(`email:${email}`))) return response(429, "Please try again later.", headers);
@@ -490,7 +518,7 @@ async function briefRequest(request, context) {
       nextStage: 1,
       stages: report.followUps.map((_, index) => ({ stage: index + 1, dueAt: new Date(Date.now() + [3, 10, 21][index] * DAY_MS).toISOString(), sentAt: null })),
     },
-    unsubscribeTokenCiphertext: encryptToken(unsubscribeToken),
+    unsubscribeTokenCiphertext: await encryptToken(unsubscribeToken),
   };
 
   await writeJson(leadPath, record);
@@ -553,10 +581,16 @@ async function unsubscribe(request) {
 }
 
 async function health() {
+  let hasSecret = false;
+  try {
+    hasSecret = Boolean(await tokenKey());
+  } catch {
+    hasSecret = false;
+  }
   return response(200, JSON.stringify({
     ok: true,
     service: "globalenterprise-brief-delivery",
-    configured: Boolean(container && emailClient && ACS_SENDER_ADDRESS && (process.env.UNSUBSCRIBE_TOKEN_KEY || process.env.NURTURE_WEBHOOK_SECRET)),
+    configured: Boolean(container && emailClient && ACS_SENDER_ADDRESS && hasSecret),
   }), { "content-type": "application/json" });
 }
 
@@ -576,7 +610,7 @@ async function nurtureSweep(context) {
       if (!report) return;
       try {
         const link = await signedPdfUrl(report);
-        const unsubscribeUrl = `${API_URL}/api/unsubscribe?token=${encodeURIComponent(getUnsubscribeToken(record))}`;
+        const unsubscribeUrl = `${API_URL}/api/unsubscribe?token=${encodeURIComponent(await getUnsubscribeToken(record))}`;
         await sendEmail({ to: record.email, name: record.name, report, link, stage: stage.stage, unsubscribeUrl });
         stage.sentAt = new Date().toISOString();
         record.nurture.nextStage += 1;

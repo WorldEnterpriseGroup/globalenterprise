@@ -37,25 +37,14 @@ jobs:
           tenant-id: ${{ vars.BRIEF_AZURE_TENANT_ID }}
           subscription-id: ${{ vars.BRIEF_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Validate deployment secret
-        env:
-          UNSUBSCRIBE_TOKEN_KEY: ${{ secrets.BRIEF_UNSUBSCRIBE_TOKEN_KEY }}
-        run: test -n "$UNSUBSCRIBE_TOKEN_KEY"
-
-      - name: Install Function dependencies
-        working-directory: infra/brief-delivery/function
-        run: npm ci --omit=dev
-
       - name: Deploy Azure foundation
-        env:
-          UNSUBSCRIBE_TOKEN_KEY: ${{ secrets.BRIEF_UNSUBSCRIBE_TOKEN_KEY }}
         run: |
           az deployment sub create \
             --name "$DEPLOYMENT_NAME" \
+            --subscription "$AZURE_SUBSCRIPTION_ID" \
             --location "$LOCATION" \
             --template-file infra/brief-delivery/main.bicep \
             --parameters @infra/brief-delivery/parameters.example.json \
-              unsubscribeTokenKey="$UNSUBSCRIBE_TOKEN_KEY" \
               turnstileRequired=false
 
       - name: Read deployment outputs

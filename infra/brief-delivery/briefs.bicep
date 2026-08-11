@@ -7,10 +7,7 @@ param acsSenderAddress string
 @secure()
 param turnstileSecret string
 param nurtureWebhookUrl string
-@secure()
-param nurtureWebhookSecret string
-@secure()
-param unsubscribeTokenKey string
+param keyVaultUri string
 param turnstileRequired bool = false
 param tags object
 
@@ -148,6 +145,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
     serverFarmId: plan.id
     httpsOnly: true
     publicNetworkAccess: 'Enabled'
+    keyVaultReferenceIdentity: functionIdentity.id
     functionAppConfig: {
       deployment: {
         storage: {
@@ -241,8 +239,20 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: string(turnstileRequired)
         }
         {
+          name: 'KEY_VAULT_URI'
+          value: keyVaultUri
+        }
+        {
+          name: 'UNSUBSCRIBE_TOKEN_SECRET_NAME'
+          value: 'globalenterprise-briefs-unsubscribe-token-key'
+        }
+        {
+          name: 'NURTURE_WEBHOOK_SECRET_NAME'
+          value: 'globalenterprise-briefs-nurture-webhook-secret'
+        }
+        {
           name: 'UNSUBSCRIBE_TOKEN_KEY'
-          value: unsubscribeTokenKey
+          value: ''
         }
         {
           name: 'NURTURE_WEBHOOK_URL'
@@ -250,7 +260,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
         }
         {
           name: 'NURTURE_WEBHOOK_SECRET'
-          value: nurtureWebhookSecret
+          value: ''
         }
         {
           name: 'RATE_LIMIT_PER_HOUR'

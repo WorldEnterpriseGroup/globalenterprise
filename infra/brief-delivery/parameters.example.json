@@ -35,11 +35,8 @@
     "nurtureWebhookUrl": {
       "value": ""
     },
-    "nurtureWebhookSecret": {
-      "value": ""
-    },
-    "unsubscribeTokenKey": {
-      "value": ""
+    "keyVaultUri": {
+      "value": "https://omlab-secrets.vault.azure.net"
     }
   }
 }
