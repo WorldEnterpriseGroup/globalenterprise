@@ -769,6 +769,9 @@ async function briefRequest(request, context) {
   const parsedBody = await parseBody(request);
   if (parsedBody.error) return response(parsedBody.error === "body_too_large" ? 413 : 400, "Please submit a valid form.", headers);
   const body = parsedBody.data;
+  if (clean(body.form_kind || body["form-kind"], 80) === "principal-dialogue") {
+    return contactRequest(request, context, parsedBody);
+  }
   if (clean(body._honey, 50)) return response(400, "Unable to process this request", headers);
   const email = clean(body.email, 320).toLowerCase();
   const report = reports[clean(body.report || body.resource, 80)];
@@ -868,14 +871,14 @@ async function briefRequest(request, context) {
   return response(303, "", { ...headers, Location: next });
 }
 
-async function contactRequest(request, context) {
+async function contactRequest(request, context, parsedBodyOverride = null) {
   const headers = originHeaders(request);
   if (request.method === "OPTIONS") return response(204, "", headers);
   if (request.method !== "POST") return response(405, "Method not allowed", headers);
   if (rejectOrigin(request)) return response(403, "Origin not allowed", headers);
   if (!container || !blobService || !emailClient || !ACS_SENDER_ADDRESS) return response(503, "Contact delivery is not configured", headers);
 
-  const parsedBody = await parseBody(request);
+  const parsedBody = parsedBodyOverride || await parseBody(request);
   if (parsedBody.error) return response(parsedBody.error === "body_too_large" ? 413 : 400, "Please submit a valid form.", headers);
   const body = parsedBody.data;
   if (clean(body._honey, 50)) return response(400, "Unable to process this request", headers);

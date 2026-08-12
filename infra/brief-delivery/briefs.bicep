@@ -173,7 +173,9 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       }
       scaleAndConcurrency: {
         maximumInstanceCount: 40
-        instanceMemoryMB: 2048
+        // Lowest supported Flex Consumption size; this workload is I/O-bound
+        // and intentionally has no always-ready instances.
+        instanceMemoryMB: 512
       }
       runtime: {
         name: 'node'

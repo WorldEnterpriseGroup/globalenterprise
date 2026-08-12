@@ -3,7 +3,7 @@
 // route until its native subscription workflow is enabled separately.
 const formEndpoint = "https://formsubmit.co/info@globalenterprise.com";
 const briefEndpoint = import.meta.env.PUBLIC_BRIEF_API_URL?.trim() || "https://briefs.globalenterprise.com/api/brief-request";
-const contactEndpoint = import.meta.env.PUBLIC_CONTACT_API_URL?.trim() || briefEndpoint.replace(/\/brief-request\/?$/, "/contact-request");
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_API_URL?.trim() || briefEndpoint;
 
 export const site = {
   name: "Global Enterprise",

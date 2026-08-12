@@ -58,7 +58,7 @@ Set the GitHub Pages build variable `PUBLIC_BRIEF_API_URL` to the final same-bra
 https://briefs.globalenterprise.com/api/brief-request
 ```
 
-The production site uses `https://briefs.globalenterprise.com/api/brief-request` for report requests and derives `https://briefs.globalenterprise.com/api/contact-request` for the principal-dialogue form. `PUBLIC_CONTACT_API_URL` may override the derived route for another deployment. The Signal newsletter remains a separate manual-review form until a native subscription route is enabled.
+The production site uses `https://briefs.globalenterprise.com/api/brief-request` for report requests and principal-dialogue intake. The Function also exposes the explicit `https://briefs.globalenterprise.com/api/contact-request` route; `PUBLIC_CONTACT_API_URL` may opt the site into that dedicated route after the shared Front Door route is deployed. The existing brief route dispatches principal-dialogue submissions during edge rollout so the public contact form remains available. The Signal newsletter remains a separate manual-review form until a native subscription route is enabled.
 
 ## Front Door integration
 
