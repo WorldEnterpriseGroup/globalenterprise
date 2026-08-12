@@ -378,19 +378,115 @@ async function signedPdfUrl(report) {
   return `${container.getBlockBlobClient(report.blob).url}?${sas}`;
 }
 
-async function sendEmail({ to, name, report, link, stage = 0, unsubscribeUrl }) {
-  if (!emailClient || !ACS_SENDER_ADDRESS) throw new Error("email_not_configured");
+function renderEmail({ name, report, link, stage, unsubscribeUrl }) {
   const isInitial = stage === 0;
   const followUp = report.followUps[stage - 1];
-  const subject = isInitial ? report.subject : `${report.title}: one practical next step`;
   const greeting = name ? `Hi ${escapeHtml(name)},` : "Hello,";
+  const preheader = isInitial
+    ? `Your ${report.title} field guide is ready to read.`
+    : `One practical next step from your ${report.title} field guide.`;
   const intro = isInitial
-    ? `Thanks for requesting the <strong>${escapeHtml(report.title)}</strong>. The complete PDF field guide is ready below.`
+    ? `Thanks for requesting the <strong>${escapeHtml(report.title)}</strong>. We made the complete field guide available for you below.`
     : `A small prompt from the <strong>${escapeHtml(report.title)}</strong>: ${escapeHtml(followUp)}`;
   const plainIntro = isInitial
     ? `Thanks for requesting the ${report.title}. Your complete PDF field guide is ready: ${link}`
     : `A small prompt from the ${report.title}: ${followUp}\n\nOpen the field guide: ${link}`;
-  const html = `<!doctype html><html><body style="margin:0;background:#f4f1ea;color:#122033;font-family:Arial,sans-serif;line-height:1.6"><div style="max-width:640px;margin:0 auto;padding:40px 24px"><p style="color:#315b8e;font-size:12px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase">Global Enterprise</p><h1 style="font-size:32px;line-height:1.1;font-weight:500">${escapeHtml(report.title)}</h1><p>${greeting}</p><p>${intro}</p><p style="margin:32px 0"><a href="${escapeHtml(link, 4096)}" style="display:inline-block;background:#315b8e;color:#fff;text-decoration:none;padding:15px 20px;font-weight:bold">Open the PDF field guide ↗</a></p><p style="font-size:13px;color:#5b6673">This private link expires in ${SAS_HOURS} hours. It is intended for the person who requested the guide. Please do not submit sensitive, classified, patient, credential, or regulated information through the public form.</p>${isInitial ? `<p style="font-size:13px;color:#5b6673">You may receive a few report-specific follow-ups with a worksheet prompt or practical next step. No unrelated outreach.</p>` : ""}<p style="font-size:12px;color:#5b6673"><a href="${escapeHtml(unsubscribeUrl, 2048)}" style="color:#315b8e">Stop these follow-ups</a></p></div></body></html>`;
+  const html = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="color-scheme" content="light dark">
+    <title>${escapeHtml(report.title)}</title>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        .email-shell { background:#101820 !important; }
+        .email-card { background:#182532 !important; }
+        .email-copy, .email-heading { color:#f5f7fa !important; }
+        .email-muted, .email-footer { color:#b7c3cf !important; }
+        .email-note { background:#223342 !important; border-color:#385064 !important; }
+      }
+      @media screen and (max-width: 640px) {
+        .email-pad { padding-left:20px !important; padding-right:20px !important; }
+        .email-heading { font-size:34px !important; }
+        .email-button { display:block !important; text-align:center !important; }
+      }
+    </style>
+  </head>
+  <body style="margin:0;padding:0;background:#e8eef3;-webkit-text-size-adjust:100%;font-family:Arial,Helvetica,sans-serif;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(preheader)}</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="email-shell" style="width:100%;background:#e8eef3;">
+      <tr>
+        <td align="center" class="email-pad" style="padding:28px 16px 44px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:640px;width:100%;">
+            <tr>
+              <td style="padding:8px 4px 18px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="font-size:12px;line-height:18px;font-weight:bold;letter-spacing:2px;color:#16324f;">
+                      <span style="display:inline-block;width:24px;height:24px;line-height:24px;margin-right:8px;border-radius:6px;background:#16324f;color:#ffffff;text-align:center;font-size:12px;letter-spacing:0;vertical-align:middle;">GE</span>
+                      GLOBAL ENTERPRISE
+                    </td>
+                    <td align="right" style="font-size:11px;line-height:18px;color:#647587;letter-spacing:1px;">FIELD GUIDE</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="email-card" style="background:#ffffff;border:1px solid #d9e2e9;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(22,50,79,.08);">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr><td style="height:7px;background:#2d74b8;font-size:0;line-height:0;">&nbsp;</td></tr>
+                  <tr>
+                    <td class="email-pad" style="padding:42px 48px 18px;">
+                      <p style="margin:0 0 16px;font-size:12px;line-height:18px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;color:#2d74b8;">${isInitial ? "Your requested guide" : "A practical prompt"}</p>
+                      <h1 class="email-heading" style="margin:0;color:#16324f;font-size:40px;line-height:1.08;font-weight:700;letter-spacing:-.8px;">${escapeHtml(report.title)}</h1>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="email-pad email-copy" style="padding:0 48px;color:#33485a;font-size:16px;line-height:26px;">
+                      <p style="margin:0 0 18px;">${greeting}</p>
+                      <p style="margin:0 0 24px;">${intro}</p>
+                      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;">
+                        <tr>
+                          <td bgcolor="#2d74b8" style="border-radius:8px;background:#2d74b8;">
+                            <a class="email-button" href="${escapeHtml(link, 4096)}" style="display:inline-block;padding:15px 22px;border:1px solid #2d74b8;border-radius:8px;color:#ffffff;font-size:15px;line-height:20px;font-weight:bold;text-decoration:none;">Open the PDF field guide&nbsp; <span aria-hidden="true">→</span></a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="email-pad" style="padding:0 48px 12px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="email-note" style="background:#f1f6fa;border:1px solid #d7e4ed;border-radius:10px;">
+                        <tr><td style="padding:16px 18px;color:#40566a;font-size:13px;line-height:20px;"><strong style="color:#16324f;">Private link</strong><br>This link expires in ${SAS_HOURS} hours and is intended for the person who requested the guide. Please do not submit sensitive, classified, patient, credential, or regulated information through the public form.</td></tr>
+                      </table>
+                    </td>
+                  </tr>
+                  ${isInitial ? `<tr><td class="email-pad email-muted" style="padding:14px 48px 28px;color:#647587;font-size:13px;line-height:21px;">You may receive a few report-specific follow-ups with a worksheet prompt or practical next step. No unrelated outreach.</td></tr>` : `<tr><td class="email-pad" style="height:16px;padding:0 48px 28px;font-size:0;line-height:0;">&nbsp;</td></tr>`}
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="email-footer" style="padding:22px 8px 0;color:#647587;font-size:12px;line-height:19px;">
+                <p style="margin:0 0 8px;"><strong style="color:#16324f;">Global Enterprise</strong><br>Making complex decisions clearer, more durable, and easier to move.</p>
+                <p style="margin:0;"><a href="${escapeHtml(unsubscribeUrl, 2048)}" style="color:#2d74b8;text-decoration:underline;">Stop these follow-ups</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+  return { html, plainIntro };
+}
+
+async function sendEmail({ to, name, report, link, stage = 0, unsubscribeUrl }) {
+  if (!emailClient || !ACS_SENDER_ADDRESS) throw new Error("email_not_configured");
+  const isInitial = stage === 0;
+  const subject = isInitial ? report.subject : `${report.title}: one practical next step`;
+  const { html, plainIntro } = renderEmail({ name, report, link, stage, unsubscribeUrl });
   const poller = await emailClient.beginSend({
     senderAddress: ACS_SENDER_ADDRESS,
     replyTo: [{ address: REPLY_TO }],
@@ -806,4 +902,4 @@ app.http("unsubscribe", { methods: ["GET", "POST", "OPTIONS"], authLevel: "anony
 app.http("health", { methods: ["GET"], authLevel: "anonymous", route: "health", handler: health });
 app.timer("nurtureSweep", { schedule: "0 0 * * *", handler: nurtureSweep, runOnStartup: false, useMonitor: true });
 
-export { briefRequest, health, nurtureSweep, unsubscribe };
+export { briefRequest, health, nurtureSweep, renderEmail, unsubscribe };

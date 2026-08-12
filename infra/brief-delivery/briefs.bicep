@@ -98,6 +98,17 @@ resource emailDomain 'Microsoft.Communication/emailServices/domains@2025-09-01' 
   }
 }
 
+// Keep the sender identity declarative so inboxes show the company name rather
+// than Azure Communication Services' default "DoNotReply" label.
+resource senderUsername 'Microsoft.Communication/emailServices/domains/senderUsernames@2025-09-01' = {
+  name: 'DoNotReply'
+  parent: emailDomain
+  properties: {
+    username: 'DoNotReply'
+    displayName: 'Global Enterprise'
+  }
+}
+
 resource communicationService 'Microsoft.Communication/communicationServices@2025-09-01' = {
   name: communicationServiceName
   location: 'global'
