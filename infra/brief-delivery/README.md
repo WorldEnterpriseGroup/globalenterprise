@@ -5,7 +5,7 @@ This package is the low-cost delivery boundary for the long-form PDF field guide
 It creates one resource group containing:
 
 - a private, Standard LRS StorageV2 account and `briefs` container;
-- a Linux Flex Consumption Function App for form validation, lead capture, signed PDF links, unsubscribe handling, and the small consented follow-up sequence; and
+- a Linux Flex Consumption Function App for form validation, principal-dialogue intake, lead capture, signed PDF links, unsubscribe handling, and the small consented follow-up sequence; and
 - Azure Communication Services Email, using an Azure-managed sender domain until the Global Enterprise domain is verified.
 
 The PDFs are not served from GitHub Pages by this design. The site form posts to the Function, the Function stores a minimal request record, creates a short-lived read-only user-delegation SAS, and emails the link. The Blob container remains private and directory listing is disabled.
@@ -58,13 +58,14 @@ Set the GitHub Pages build variable `PUBLIC_BRIEF_API_URL` to the final same-bra
 https://briefs.globalenterprise.com/api/brief-request
 ```
 
-Until this variable is set, the static site retains its FormSubmit fallback so local builds do not point at a nonexistent service. The production switch should happen only after the Function, email sender, and Front Door route have passed a test submission.
+The production site uses `https://briefs.globalenterprise.com/api/brief-request` for report requests and derives `https://briefs.globalenterprise.com/api/contact-request` for the principal-dialogue form. `PUBLIC_CONTACT_API_URL` may override the derived route for another deployment. The Signal newsletter remains a separate manual-review form until a native subscription route is enabled.
 
 ## Front Door integration
 
 `taodoor-standard` is shared production infrastructure and is tagged as Terraform-managed. Do not add an origin or route by hand. Add the Function hostname as a new origin in the existing infrastructure workflow, add a dedicated `briefs.globalenterprise.com` custom domain, and apply the smallest route possible:
 
 - `/api/brief-request` → Function origin, no caching;
+- `/api/contact-request` → Function origin, no caching; stores a minimal contact event, sends a branded internal notification, and resolves the requester to the Global Enterprise Account in Dream Dataverse;
 - `/api/unsubscribe` → Function origin, no caching; GET shows a confirmation page and POST performs the opt-out so mail scanners cannot unsubscribe someone accidentally;
 - `/api/health` → Function origin, no caching and preferably restricted to monitoring;
 - no Blob origin is needed for the first release because the emailed SAS points directly to private Blob Storage.

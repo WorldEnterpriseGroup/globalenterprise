@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { briefRequest, health, renderEmail, unsubscribe } from "../src/index.js";
+import { briefRequest, contactRequest, health, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
 
 test("health response is safe before provider configuration", async () => {
   const result = await health();
@@ -25,6 +25,42 @@ test("unsubscribe fails closed before storage configuration", async () => {
   const result = await unsubscribe(request);
   assert.equal(result.status, 503);
   assert.match(result.body, /not configured/i);
+});
+
+test("contact request fails closed before provider configuration", async () => {
+  const request = new Request("https://briefs.example.com/api/contact-request", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      name: "Test Reader",
+      title: "Operations lead",
+      email: "test@example.com",
+      organization: "Example Organization",
+      conversation_context: "Enterprise transformation and change architecture",
+      mandate: "We need to make a consequential operating decision legible to the teams carrying it.",
+      consent: "yes",
+    }),
+  });
+  const result = await contactRequest(request, { error() {} });
+  assert.equal(result.status, 503);
+  assert.match(result.body, /not configured/i);
+});
+
+test("contact email template is branded, escaped, and reply-ready", () => {
+  const { html, plain } = renderContactEmail({
+    name: "A <reader>",
+    title: "COO",
+    email: "reader@example.com",
+    organization: "Example & Co",
+    context: "Enterprise transformation",
+    mandate: "Make the operating decision clear.\nThen move it.",
+    sourceUrl: "https://globalenterprise.com/contact/",
+  });
+  assert.match(html, /GLOBAL ENTERPRISE|Global Enterprise/);
+  assert.match(html, /A &lt;reader&gt;/);
+  assert.match(html, /Example &amp; Co/);
+  assert.match(html, /Make the operating decision clear\.<br>Then move it\./);
+  assert.match(plain, /reader@example\.com/);
 });
 
 test("branded email template is responsive, escaped, and includes both delivery links", () => {

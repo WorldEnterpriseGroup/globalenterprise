@@ -132,8 +132,16 @@ function clean(value, max = 500) {
   return String(value ?? "").trim().replace(/[\u0000-\u001f\u007f]/g, "").slice(0, max);
 }
 
+function cleanMultiline(value, max = 4000) {
+  return String(value ?? "").replace(/\r\n?/g, "\n").replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "").trim().slice(0, max);
+}
+
 function escapeHtml(value, max = 500) {
   return clean(value, max).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
+}
+
+function escapeHtmlMultiline(value, max = 4000) {
+  return cleanMultiline(value, max).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 }
 
 function hash(value) {
@@ -499,6 +507,55 @@ async function sendEmail({ to, name, report, link, stage = 0, unsubscribeUrl }) 
   return result.id || null;
 }
 
+function renderContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
+  const safeMandate = escapeHtmlMultiline(mandate, 4000).replace(/\n/g, "<br>");
+  const rows = [
+    ["Name", name],
+    ["Title / role", title],
+    ["Work email", email],
+    ["Organization", organization],
+    ["Conversation context", context],
+    ["Decision horizon", decisionHorizon],
+    ["System scale", systemScale],
+  ].filter(([, value]) => value);
+  const htmlRows = rows.map(([label, value]) => `<tr><td style="padding:10px 0;border-bottom:1px solid #d9e2e9;color:#647587;font-size:12px;font-weight:bold;letter-spacing:.08em;text-transform:uppercase;vertical-align:top;width:38%;">${escapeHtml(label)}</td><td style="padding:10px 0;border-bottom:1px solid #d9e2e9;color:#20384e;font-size:15px;line-height:22px;">${escapeHtml(value, 500)}</td></tr>`).join("");
+  const plain = [
+    "New principal dialogue request",
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+    "",
+    `Mandate: ${mandate}`,
+    `Source: ${sourceUrl || "unknown"}`,
+  ].join("\n");
+  const html = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New principal dialogue · Global Enterprise</title></head>
+<body style="margin:0;padding:24px;background:#e8eef3;font-family:Arial,Helvetica,sans-serif;color:#20384e;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:680px;background:#fff;border:1px solid #d9e2e9;border-radius:16px;overflow:hidden;">
+      <tr><td style="height:7px;background:#2d74b8;font-size:0;line-height:0;">&nbsp;</td></tr>
+      <tr><td style="padding:34px 40px 12px;"><p style="margin:0;color:#2d74b8;font-size:12px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;">Global Enterprise · principal dialogue</p><h1 style="margin:14px 0 0;color:#16324f;font-size:34px;line-height:1.1;">A new mandate has arrived.</h1></td></tr>
+      <tr><td style="padding:8px 40px 34px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${htmlRows}</table><h2 style="margin:28px 0 10px;color:#16324f;font-size:18px;">The mandate</h2><p style="margin:0;padding:18px;background:#f1f6fa;border-left:3px solid #b9db45;color:#33485a;font-size:16px;line-height:26px;">${safeMandate}</p><p style="margin:24px 0 0;color:#647587;font-size:12px;line-height:19px;">Reply directly to this message to continue with ${escapeHtml(name || "the requester")}. Source: <a href="${escapeHtml(sourceUrl || SITE_URL, 1000)}" style="color:#2d74b8;">${escapeHtml(sourceUrl || SITE_URL, 1000)}</a></p></td></tr>
+      <tr><td style="padding:18px 40px;background:#16324f;color:#fff;font-size:12px;line-height:19px;">Global Enterprise · Making complex decisions clearer, more durable, and easier to move.</td></tr>
+    </table>
+  </td></tr></table>
+</body></html>`;
+  return { html, plain };
+}
+
+async function sendContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
+  if (!emailClient || !ACS_SENDER_ADDRESS) throw new Error("email_not_configured");
+  const { html, plain } = renderContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl });
+  const poller = await emailClient.beginSend({
+    senderAddress: ACS_SENDER_ADDRESS,
+    replyTo: [{ address: email, displayName: name || undefined }],
+    content: { subject: `New principal dialogue · ${organization || name}`, plainText: plain, html },
+    recipients: { to: [{ address: REPLY_TO }] },
+  });
+  const result = await withTimeout(poller.pollUntilDone(), EXTERNAL_TIMEOUT_MS, "email_send_timeout");
+  if (result.status !== "Succeeded") throw new Error(`email_send_${result.status || "failed"}`);
+  return result.id || null;
+}
+
 async function nurtureWebhookConfig() {
   const endpoint = process.env.NURTURE_WEBHOOK_URL;
   if (!endpoint) return null;
@@ -811,6 +868,82 @@ async function briefRequest(request, context) {
   return response(303, "", { ...headers, Location: next });
 }
 
+async function contactRequest(request, context) {
+  const headers = originHeaders(request);
+  if (request.method === "OPTIONS") return response(204, "", headers);
+  if (request.method !== "POST") return response(405, "Method not allowed", headers);
+  if (rejectOrigin(request)) return response(403, "Origin not allowed", headers);
+  if (!container || !blobService || !emailClient || !ACS_SENDER_ADDRESS) return response(503, "Contact delivery is not configured", headers);
+
+  const parsedBody = await parseBody(request);
+  if (parsedBody.error) return response(parsedBody.error === "body_too_large" ? 413 : 400, "Please submit a valid form.", headers);
+  const body = parsedBody.data;
+  if (clean(body._honey, 50)) return response(400, "Unable to process this request", headers);
+
+  const email = clean(body.email, 320).toLowerCase();
+  const name = clean(body.name, 160);
+  const title = clean(body.title, 160);
+  const organization = clean(body.organization, 200);
+  const contextValue = clean(body.conversation_context || body.context, 200);
+  const mandate = cleanMultiline(body.mandate, 4000);
+  const decisionHorizon = clean(body.decision_horizon, 120);
+  const systemScale = clean(body.system_scale, 120);
+  const consent = clean(body.consent, 20).toLowerCase();
+  const sourceUrl = sanitizeSourceUrl(body.source_url || request.headers.get("referer"));
+  const remoteIp = clientIp(request);
+
+  if (!name || !title || !organization || !contextValue || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
+    return response(400, "Please provide the required dialogue context and consent.", headers);
+  }
+  if (!(await verifyTurnstile(clean(body["cf-turnstile-response"], 4096), remoteIp))) return response(400, "Please complete the verification challenge.", headers);
+  try {
+    if (!(await enforceRateLimit(`contact-ip:${remoteIp || "unknown"}`)) || !(await enforceRateLimit(`contact-email:${email}`))) return response(429, "Please try again later.", headers);
+  } catch (error) {
+    context.error("Contact rate limit unavailable", { error: safeErrorCode(error) });
+    return response(error?.message === "rate_limit_lock_busy" ? 429 : 503, "Please try again later.", headers);
+  }
+
+  const id = crypto.randomUUID();
+  const now = new Date();
+  const contactPath = `contacts/${now.toISOString().slice(0, 7)}/${id}.json`;
+  const record = {
+    id,
+    createdAt: now.toISOString(),
+    kind: "principal-dialogue",
+    email,
+    name,
+    title,
+    organization,
+    context: contextValue,
+    mandate,
+    decisionHorizon,
+    systemScale,
+    sourceUrl,
+    consent: { value: true, capturedAt: now.toISOString(), scope: "principal-dialogue" },
+    delivery: { status: "pending" },
+  };
+  await writeJson(contactPath, record);
+
+  try {
+    record.delivery = { status: "sent", sentAt: new Date().toISOString(), messageId: await sendContactEmail(record) };
+  } catch (error) {
+    context.error("Contact delivery failed", { id, error: safeErrorCode(error) });
+    record.delivery = { status: "failed", failedAt: new Date().toISOString(), reason: "provider_unavailable" };
+    await writeJson(contactPath, record);
+    return response(503, "We received the request but could not route the email yet. Please try again shortly.", headers);
+  }
+
+  if (dataverseConfigured()) {
+    try {
+      record.dataverseContactId = await upsertDataverseContact({ email, name, qualification: { role: title } });
+    } catch (error) {
+      context.error("Contact Dataverse sync failed", { id, error: safeErrorCode(error) });
+    }
+  }
+  await writeJson(contactPath, record);
+  return response(303, "", { ...headers, Location: `${SITE_URL}/contact/thanks/` });
+}
+
 async function unsubscribe(request, context) {
   const headers = originHeaders(request);
   if (request.method === "OPTIONS") return response(204, "", headers);
@@ -899,8 +1032,9 @@ async function nurtureSweep(context) {
 }
 
 app.http("briefRequest", { methods: ["POST", "OPTIONS"], authLevel: "anonymous", route: "brief-request", handler: briefRequest });
+app.http("contactRequest", { methods: ["POST", "OPTIONS"], authLevel: "anonymous", route: "contact-request", handler: contactRequest });
 app.http("unsubscribe", { methods: ["GET", "POST", "OPTIONS"], authLevel: "anonymous", route: "unsubscribe", handler: unsubscribe });
 app.http("health", { methods: ["GET"], authLevel: "anonymous", route: "health", handler: health });
 app.timer("nurtureSweep", { schedule: "0 0 * * *", handler: nurtureSweep, runOnStartup: false, useMonitor: true });
 
-export { briefRequest, health, nurtureSweep, renderEmail, unsubscribe };
+export { briefRequest, contactRequest, health, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };

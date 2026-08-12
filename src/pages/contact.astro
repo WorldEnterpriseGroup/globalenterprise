@@ -43,10 +43,9 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
         </div>
       </div>
 
-      <form class="grid min-w-0 gap-6" action={site.formEndpoint} method="POST" data-lead-form data-form-kind="principal-dialogue">
-        <input type="hidden" name="_subject" value="Principal dialogue · Global Enterprise" />
-        <input type="hidden" name="_next" value={`${site.url}/contact/thanks/`} />
-        <input type="hidden" name="_template" value="table" />
+      <form class="grid min-w-0 gap-6" action={site.contactEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind="principal-dialogue">
+        <input type="hidden" name="form_kind" value="principal-dialogue" />
+        <input type="hidden" name="source_url" value={`${site.url}/contact/`} />
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
         <div class="grid gap-6 sm:grid-cols-2">
           <label class="grid gap-2 text-sm font-bold" for="contact-name">Name<input id="contact-name" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="name" autocomplete="name" required /></label>
@@ -64,7 +63,7 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
         </div>
         <label class="flex items-start gap-3 text-sm leading-relaxed text-muted" for="contact-consent"><input id="contact-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to be contacted about this inquiry. I understand that this form is not a secure channel for classified or controlled information.</label>
         <button class="btn-dark w-fit" type="submit" data-track="contact_submit">Request the dialogue <span aria-hidden="true">↗</span></button>
-        <p class="max-w-2xl text-xs leading-relaxed text-muted">This public form is for routing and context only. Review our <a class="underline decoration-cobalt underline-offset-4" href="/trust/">Trust center</a> and <a class="underline decoration-cobalt underline-offset-4" href="/privacy/">privacy notice</a> before sharing information.</p>
+        <p class="max-w-2xl text-xs leading-relaxed text-muted">This first-party public form is for routing and context only. Do not include classified, export-controlled, patient, credential, or otherwise sensitive information. Review our <a class="underline decoration-cobalt underline-offset-4" href="/trust/">Trust center</a> and <a class="underline decoration-cobalt underline-offset-4" href="/privacy/">privacy notice</a> before sharing information.</p>
       </form>
     </div>
   </section>

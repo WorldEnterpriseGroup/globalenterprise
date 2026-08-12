@@ -1,5 +1,9 @@
+// The production delivery boundary is first-party and keeps report/contact
+// intake on the same Azure Function. The Signal still uses the legacy form
+// route until its native subscription workflow is enabled separately.
 const formEndpoint = "https://formsubmit.co/info@globalenterprise.com";
-const briefEndpoint = import.meta.env.PUBLIC_BRIEF_API_URL?.trim() || "";
+const briefEndpoint = import.meta.env.PUBLIC_BRIEF_API_URL?.trim() || "https://briefs.globalenterprise.com/api/brief-request";
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_API_URL?.trim() || briefEndpoint.replace(/\/brief-request\/?$/, "/contact-request");
 
 export const site = {
   name: "Global Enterprise",
@@ -16,8 +20,10 @@ export const site = {
   operatingModel: "Remote-first delivery across time zones and operating contexts",
   formEndpoint,
   briefEndpoint,
+  contactEndpoint,
   briefDeliveryReady: Boolean(briefEndpoint),
-  publicFormProvider: "FormSubmit",
+  contactDeliveryReady: Boolean(contactEndpoint),
+  publicFormProvider: "Global Enterprise delivery service",
   publicFormNotice: "Public forms are for routing and context only; do not submit sensitive, classified, export-controlled, patient, or credential information.",
   analytics: {
     plausibleDomain: "globalenterprise.com",
