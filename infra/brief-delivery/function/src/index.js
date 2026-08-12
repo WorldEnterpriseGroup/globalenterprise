@@ -470,6 +470,7 @@ function renderEmail({ name, report, link, stage, unsubscribeUrl }) {
             <tr>
               <td class="email-footer" style="padding:22px 8px 0;color:#647587;font-size:12px;line-height:19px;">
                 <p style="margin:0 0 8px;"><strong style="color:#16324f;">Global Enterprise</strong><br>Making complex decisions clearer, more durable, and easier to move.</p>
+                <p style="margin:0 0 8px;"><a href="https://globalenterprise.com/contact/" style="color:#2d74b8;text-decoration:underline;">Request a principal dialogue</a> · <a href="mailto:info@globalenterprise.com" style="color:#2d74b8;text-decoration:underline;">info@globalenterprise.com</a> · <a href="tel:+19292292918" style="color:#2d74b8;text-decoration:underline;">+1 929 229 2918</a></p>
                 <p style="margin:0;"><a href="${escapeHtml(unsubscribeUrl, 2048)}" style="color:#2d74b8;text-decoration:underline;">Stop these follow-ups</a></p>
               </td>
             </tr>

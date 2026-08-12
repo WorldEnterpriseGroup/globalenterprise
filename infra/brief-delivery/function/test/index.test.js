@@ -44,6 +44,9 @@ test("branded email template is responsive, escaped, and includes both delivery 
   assert.match(html, /Open the PDF field guide/);
   assert.match(html, /href="https:\/\/briefs\.example\.com\/file\.pdf\?sig=a&amp;se=b"/);
   assert.match(html, /A &lt;reader&gt;/);
+  assert.match(html, /Request a principal dialogue/);
+  assert.match(html, /info@globalenterprise\.com/);
+  assert.match(html, /tel:\+19292292918/);
   assert.match(html, /Stop these follow-ups/);
   assert.match(plainIntro, /https:\/\/briefs\.example\.com\/file\.pdf\?sig=a&se=b/);
 });
