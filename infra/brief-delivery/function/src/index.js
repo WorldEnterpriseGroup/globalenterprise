@@ -40,6 +40,18 @@ const CONTAINER_NAME = process.env.BRIEF_CONTAINER_NAME || "briefs";
 const ACS_ENDPOINT = process.env.ACS_ENDPOINT;
 const ACS_SENDER_ADDRESS = process.env.ACS_SENDER_ADDRESS;
 const REPLY_TO = process.env.ACS_REPLY_TO || "info@globalenterprise.com";
+const DATAVERSE_URL = (() => {
+  try {
+    const url = new URL(process.env.DATAVERSE_URL || "");
+    if (url.protocol !== "https:" || url.username || url.password || url.pathname !== "/" || url.search || url.hash) return "";
+    return url.origin;
+  } catch {
+    return "";
+  }
+})();
+const DATAVERSE_ACCOUNT_ID = clean(process.env.DATAVERSE_ACCOUNT_ID, 64).toLowerCase();
+const DATAVERSE_TEAM_ID = clean(process.env.DATAVERSE_TEAM_ID, 64).toLowerCase();
+const DATAVERSE_ENTITY_SET = "ge_briefengagements";
 const ALLOWED_ORIGINS = new Set((process.env.ALLOWED_ORIGINS || `${SITE_URL},https://www.globalenterprise.com`).split(",").map((value) => {
   try {
     const url = new URL(value.trim());
@@ -417,6 +429,7 @@ function buildNurturePayload(record) {
     report: record.report,
     reportSlug: record.reportSlug,
     formKind: record.formKind,
+    sourceCampaign: record.sourceCampaign,
     sourceUrl: record.sourceUrl,
     consent: record.consent,
     delivery: {
@@ -426,9 +439,160 @@ function buildNurturePayload(record) {
   };
 }
 
+function dataverseId(value) {
+  // Dataverse record ids are GUID-shaped, but platform-generated ids do not
+  // have to use RFC 4122 version/variant bits.
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(value) ? value : "";
+}
+
+function odataString(value) {
+  return `'${String(value ?? "").replace(/'/g, "''")}'`;
+}
+
+function dataverseConfigured() {
+  return Boolean(DATAVERSE_URL && dataverseId(DATAVERSE_ACCOUNT_ID) && dataverseId(DATAVERSE_TEAM_ID));
+}
+
+async function dataverseRequest(path, options = {}) {
+  if (!DATAVERSE_URL) throw new Error("dataverse_not_configured");
+  const accessToken = await withTimeout(credential.getToken(`${DATAVERSE_URL}/.default`), EXTERNAL_TIMEOUT_MS, "dataverse_token_timeout");
+  if (!accessToken?.token) throw new Error("dataverse_token_unavailable");
+  const result = await fetch(`${DATAVERSE_URL}/api/data/v9.2/${path}`, {
+    ...options,
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken.token}`,
+      ...(options.headers || {}),
+    },
+    signal: AbortSignal.timeout(EXTERNAL_TIMEOUT_MS),
+  });
+  if (!result.ok) throw new Error(`dataverse_${result.status}`);
+  return result;
+}
+
+function splitName(value) {
+  const parts = clean(value, 160).split(/\s+/).filter(Boolean);
+  return {
+    firstName: parts.shift() || "Global Enterprise",
+    lastName: parts.join(" ") || "Reader",
+  };
+}
+
+async function findDataverseContact(email) {
+  const params = new URLSearchParams({
+    "$select": "contactid,fullname,emailaddress1,_parentcustomerid_value,_owningbusinessunit_value",
+    "$filter": `emailaddress1 eq ${odataString(email)}`,
+    "$top": "1",
+  });
+  const result = await dataverseRequest(`contacts?${params}`);
+  return (await result.json()).value?.[0] || null;
+}
+
+async function upsertDataverseContact(record) {
+  const existing = await findDataverseContact(record.email);
+  const { firstName, lastName } = splitName(record.name);
+  const fields = {
+    firstname: firstName,
+    lastname: lastName,
+    emailaddress1: record.email,
+    jobtitle: record.qualification?.role || undefined,
+    "parentcustomerid_account@odata.bind": `accounts(${DATAVERSE_ACCOUNT_ID})`,
+  };
+  Object.keys(fields).forEach((key) => fields[key] === undefined && delete fields[key]);
+  if (existing?.contactid) {
+    await dataverseRequest(`contacts(${existing.contactid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(fields) });
+    return existing.contactid;
+  }
+  const result = await dataverseRequest("contacts", { method: "POST", body: JSON.stringify(fields) });
+  const entityId = result.headers.get("odata-entityid") || "";
+  const match = entityId.match(/contacts\(([^)]+)\)/i);
+  if (!match) throw new Error("dataverse_contact_id_missing");
+  return match[1];
+}
+
+function buildDataverseEngagement(record, initial) {
+  const q = record.qualification || {};
+  const fields = {
+    ge_name: clean(`${record.report} · ${record.name || record.email}`, 200),
+    ge_requestid: record.id,
+    ge_reportkey: record.reportSlug,
+    ge_reporttitle: record.report,
+    ge_emailhash: hash(record.email),
+    ge_organization: record.organization,
+    ge_context: record.context,
+    ge_role: q.role,
+    ge_decisionstage: q.decisionStage,
+    ge_decisionhorizon: q.decisionHorizon,
+    ge_organizationsize: q.organizationSize,
+    ge_industry: q.industry,
+    ge_primarychallenge: q.primaryChallenge,
+    ge_preferrednextstep: q.preferredNextStep,
+    ge_sourceurl: record.sourceUrl,
+    ge_sourcecampaign: record.sourceCampaign || record.formKind,
+    ge_consentscope: record.consent?.scope || "report-specific-follow-up",
+    ge_deliverystatus: record.delivery?.status || "pending",
+  };
+  if (initial) {
+    fields.ge_nurturestage = 0;
+    fields.ge_suppressionstatus = "active";
+  }
+  // Contact is the native relationship record attached to Account. The event
+  // ledger intentionally avoids copying the raw email; the resolved Contact
+  // can be joined by the deterministic email hash/request id in the bridge.
+  return Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== undefined && value !== ""));
+}
+
+async function syncDataverse(record) {
+  if (!dataverseConfigured()) return null;
+  const contactId = await upsertDataverseContact(record);
+  const params = new URLSearchParams({ "$select": "ge_briefengagementid,ge_nurturestage,ge_suppressionstatus", "$filter": `ge_requestid eq ${odataString(record.id)}`, "$top": "1" });
+  const existingResult = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
+  const existing = (await existingResult.json()).value?.[0] || null;
+  const body = buildDataverseEngagement(record, !existing);
+  if (existing?.ge_briefengagementid) {
+    await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${existing.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(body) });
+    return { contactId, engagementId: existing.ge_briefengagementid, created: false };
+  }
+  try {
+    const result = await dataverseRequest(DATAVERSE_ENTITY_SET, { method: "POST", body: JSON.stringify(body) });
+    const entityId = result.headers.get("odata-entityid") || "";
+    const match = entityId.match(new RegExp(`${DATAVERSE_ENTITY_SET}\\(([^)]+)\\)`, "i"));
+    return { contactId, engagementId: match?.[1] || null, created: true };
+  } catch (error) {
+    // The alternate key on ge_requestid makes retries idempotent. If another
+    // invocation won the create race, update that row rather than duplicating it.
+    if (String(error?.message || "").includes("dataverse_412")) {
+      const retryResult = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
+      const retry = (await retryResult.json()).value?.[0];
+      if (retry?.ge_briefengagementid) {
+        await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${retry.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(buildDataverseEngagement(record, false)) });
+        return { contactId, engagementId: retry.ge_briefengagementid, created: false };
+      }
+    }
+    throw error;
+  }
+}
+
+async function updateDataverseEngagement(record, fields) {
+  if (!dataverseConfigured()) return null;
+  const params = new URLSearchParams({ "$select": "ge_briefengagementid", "$filter": `ge_requestid eq ${odataString(record.id)}`, "$top": "1" });
+  let result = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
+  let existing = (await result.json()).value?.[0] || null;
+  if (!existing?.ge_briefengagementid) {
+    await syncDataverse(record);
+    result = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
+    existing = (await result.json()).value?.[0] || null;
+  }
+  if (!existing?.ge_briefengagementid) throw new Error("dataverse_engagement_not_found");
+  await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${existing.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(fields) });
+  return existing.ge_briefengagementid;
+}
+
 async function notifyNurtureBridge(record) {
+  const dataverse = await syncDataverse(record);
   const config = await nurtureWebhookConfig();
-  if (!config) return null;
+  if (!config) return dataverse;
   const body = JSON.stringify({ eventType: "brief.requested", eventId: record.id, occurredAt: record.createdAt, record: buildNurturePayload(record) });
   const signature = sign(body, config.secret);
   const result = await fetch(config.endpoint, {
@@ -438,7 +602,7 @@ async function notifyNurtureBridge(record) {
     signal: AbortSignal.timeout(EXTERNAL_TIMEOUT_MS),
   });
   if (!result.ok) throw new Error(`nurture_bridge_${result.status}`);
-  return true;
+  return { dataverse, webhook: true };
 }
 
 async function briefRequest(request, context) {
@@ -465,6 +629,7 @@ async function briefRequest(request, context) {
   const industry = clean(body.industry, 120);
   const primaryChallenge = clean(body.primary_challenge, 300);
   const preferredNextStep = clean(body.preferred_next_step, 120);
+  const sourceCampaign = clean(body.source_campaign || body.utm_campaign, 160);
   const signalOptIn = clean(body.signal_opt_in, 20).toLowerCase() === "yes";
   const consent = clean(body.consent, 20).toLowerCase();
   const remoteIp = clientIp(request);
@@ -500,6 +665,7 @@ async function briefRequest(request, context) {
     report: report.title,
     reportSlug: Object.keys(reports).find((slug) => reports[slug] === report),
     formKind,
+    sourceCampaign,
     sourceUrl: sanitizeSourceUrl(body.source_url || request.headers.get("referer")),
     qualification: {
       role,
@@ -548,7 +714,7 @@ async function briefRequest(request, context) {
   return response(303, "", { ...headers, Location: next });
 }
 
-async function unsubscribe(request) {
+async function unsubscribe(request, context) {
   const headers = originHeaders(request);
   if (request.method === "OPTIONS") return response(204, "", headers);
   if (!container) return response(503, "Unsubscribe is not configured", headers);
@@ -577,6 +743,12 @@ async function unsubscribe(request) {
     return true;
   });
   if (updated === null) return response(409, "Please try again.", headers);
+  try {
+    const record = await readJson(pointer.leadPath);
+    if (record) await updateDataverseEngagement(record, { ge_suppressionstatus: "opted-out" });
+  } catch (error) {
+    context?.error?.("Dataverse suppression update failed", { error: safeErrorCode(error) });
+  }
   return response(200, "<main style=\"font:16px system-ui;max-width:42rem;margin:4rem auto;padding:0 1rem\"><h1>You are unsubscribed.</h1><p>No further report-specific follow-ups will be sent for this request.</p></main>", { "content-type": "text/html; charset=utf-8", ...headers });
 }
 
@@ -590,7 +762,8 @@ async function health() {
   return response(200, JSON.stringify({
     ok: true,
     service: "globalenterprise-brief-delivery",
-    configured: Boolean(container && emailClient && ACS_SENDER_ADDRESS && hasSecret),
+    configured: Boolean(container && emailClient && ACS_SENDER_ADDRESS && hasSecret && dataverseConfigured()),
+    dataverse: dataverseConfigured(),
   }), { "content-type": "application/json" });
 }
 
@@ -616,6 +789,11 @@ async function nurtureSweep(context) {
         record.nurture.nextStage += 1;
         if (record.nurture.nextStage > record.nurture.stages.length) record.nurture.status = "complete";
         await writeJson(item.name, record, { leaseId });
+        try {
+          await updateDataverseEngagement(record, { ge_nurturestage: stage.stage });
+        } catch (bridgeError) {
+          context.error("Dataverse nurture update failed", { id: record.id, stage: stage.stage, error: safeErrorCode(bridgeError) });
+        }
       } catch (error) {
         context.error("Nurture stage failed", { id: record.id, stage: stage.stage, error: safeErrorCode(error) });
       }

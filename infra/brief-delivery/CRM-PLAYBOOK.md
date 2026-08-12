@@ -2,22 +2,22 @@
 
 ## Recommendation
 
-Use Dynamics 365 or Dataverse as the relationship system once the correct environment and licensing are confirmed. Do not use it as the PDF store and do not make it the public download gate.
+Use Dream Dataverse as the relationship and engagement system. Do not use it as the PDF store and do not make it the public download gate.
 
 The public boundary should stay deliberately small:
 
 1. A person requests a named report and gives report-specific consent.
 2. The Function validates the request, writes a minimal event to private Blob Storage, and emails a short-lived PDF link.
-3. The optional HMAC-protected bridge sends a sanitized `brief.requested` event to a Logic App or Dataverse integration.
-4. Dynamics resolves the person and account, assigns an owner, records campaign source and consent, and runs the explicit follow-up playbook.
+3. The Function’s managed identity sends a sanitized `brief.requested` projection directly to Dream Dataverse; an optional HMAC-protected webhook can fan out a separately reviewed event.
+4. Dataverse resolves or creates the native Contact under the Global Enterprise Account, records campaign source and consent, and runs the explicit follow-up playbook.
 
-The exact projection, idempotency, consent, suppression, and secret-handling rules are defined in [`CRM-BRIDGE-CONTRACT.md`](./CRM-BRIDGE-CONTRACT.md). The machine-readable canonical payload is [`dataverse-bridge-contract.schema.json`](./dataverse-bridge-contract.schema.json). The bridge must project the current Function event into that payload before writing Dataverse; the Function source does not need to change for this first contract.
+The exact projection, idempotency, consent, suppression, and secret-handling rules are defined in [`CRM-BRIDGE-CONTRACT.md`](./CRM-BRIDGE-CONTRACT.md). The machine-readable canonical payload is [`dataverse-bridge-contract.schema.json`](./dataverse-bridge-contract.schema.json). The live Function implements this projection directly with its managed identity; the optional HMAC webhook uses the same contract when enabled.
 
 This separates three things that are often mixed together: content delivery, relationship management, and marketing permission.
 
 ## Dataverse shape
 
-Create one custom table called `GE Brief Engagement` rather than forcing every resource request into an unstructured note. Use the native Lead, Contact, Account, Campaign, Activity, and Marketing List tables where the existing Dynamics environment already has them.
+Create one custom table called `GE Brief Engagement` rather than forcing every resource request into an unstructured note. Use the native Contact and Account tables for identity and organization. The live table logical name is `ge_briefengagement`, entity set `ge_briefengagements`, and `ge_requestid` is the alternate key.
 
 Recommended `GE Brief Engagement` fields:
 
@@ -27,8 +27,8 @@ Recommended `GE Brief Engagement` fields:
 | `ge_report_key` | Choice/text | Stable report slug, not a public URL. |
 | `ge_report_title` | Text | Human-readable report name. |
 | `ge_email_hash` | Text | Deterministic deduplication aid; do not use as the only identity key. |
-| `ge_contact` | Lookup | Resolved Contact when a match is safe. |
-| `ge_account` | Lookup | Resolved organization or Account. |
+| `ge_contact` | Native Contact join | The bridge resolves the native Contact by email and attaches that Contact to the Global Enterprise Account. |
+| `ge_account` | Account association | The fixed Global Enterprise Account is the parent customer for the native Contact. |
 | `ge_name` | Text | Name supplied in the form. |
 | `ge_organization` | Text | Organization supplied in the form. |
 | `ge_context` | Text/choice | Use case, region, or operating lens supplied in the form. |
@@ -136,6 +136,6 @@ Keep the public delivery telemetry separate from commercial conversion reporting
 
 ## Environment boundary
 
-The current Azure discovery did not establish a Dynamics/Dataverse environment, license, or existing custom table. Dynamics is a SaaS/Power Platform surface and may not appear as an Azure Resource Manager resource, so the absence of an ARM result is not proof that no environment exists. Before enabling the bridge, confirm the environment URL, tenant, service account or managed connection, data residency requirement, existing Lead/Contact ownership rules, and whether Customer Insights or another marketing product already controls suppression.
+The environment is live and confirmed: Dream (`https://dream.crm.dynamics.com`) in the focushive tenant, organization `52d2ebbc-9fc5-4cbc-854c-15c861e95020`. Global Enterprise uses BU `34888b00-f595-f111-8075-7ced8d6f5115`, default owner team `0df89b06-f595-f111-8075-7ced8d6f5115`, and Account `e9aec63e-f595-f111-8075-00224803c40c`. The application user is the Function’s UAI `14e5316d-8131-4c12-b9b3-b00ea9a098e7` and is assigned only the custom `Global Enterprise Brief Delivery` role.
 
-Until that is confirmed, the Function’s private Blob event record is the durable low-cost system of record for delivery and the HMAC webhook is disabled. That is safer than silently creating a second CRM silo.
+The private Blob record remains the durable low-cost delivery ledger. Dataverse is the relationship and engagement system of record. Raw email is stored only on the native Contact; the engagement row stores a SHA-256 email hash, request id, qualification fields, report, campaign, delivery state, nurture stage, and suppression state. PDF binaries, SAS links, unsubscribe tokens, and private Blob paths are never written to Dataverse.

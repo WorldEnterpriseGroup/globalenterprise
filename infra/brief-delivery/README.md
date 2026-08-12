@@ -73,9 +73,15 @@ The Front Door WAF should receive a rate-limit rule for the brief POST route. Ke
 
 ## Dynamics 365 recommendation
 
-The Function writes a minimal lead event and consented nurture state to Blob Storage and can POST the same event to an HMAC-protected `NURTURE_WEBHOOK_URL`. That seam is intentional: once the Dynamics/Dataverse environment and table design are confirmed, the webhook should create or update a Lead/Contact plus a `Brief Engagement` row and campaign source.
+The Function writes a minimal lead event and consented nurture state to Blob Storage, then projects the accepted event directly into Dream Dataverse with its user-assigned managed identity. `NURTURE_WEBHOOK_URL` remains an optional HMAC extension for a separately reviewed downstream workflow; it is not required for the CRM write path.
 
-Dynamics should own identity resolution, owner assignment, pipeline stage, tasks, suppression, and reporting. It should not own the PDF binary or be the public download gate. The first nurture stages are explicit and report-specific: immediate delivery, a worksheet prompt after three days, a decision-room prompt after ten days, and a working-session invitation after twenty-one days. Every message carries an unsubscribe link and the sequence stops on opt-out.
+Dream Dataverse owns the native Contact relationship, the Global Enterprise Account association, engagement history, owner BU, pipeline stage, tasks, suppression, and reporting. It does not own the PDF binary or act as the public download gate. The first nurture stages are explicit and report-specific: immediate delivery, a worksheet prompt after three days, a decision-room prompt after ten days, and a working-session invitation after twenty-one days. Every message carries an unsubscribe link and the sequence stops on opt-out.
+
+The live bridge is configured with `DATAVERSE_URL=https://dream.crm.dynamics.com`, the Global Enterprise account id, and the default team id. The Function identity is a managed-identity application user in the `Global Enterprise` BU with a custom role named `Global Enterprise Brief Delivery`; the role is limited to Local Create/Read/Write/Append/AppendTo on `GE Brief Engagement`, Local Contact resolution/write privileges, and Local Account read/AppendTo. No client secret or Dataverse token is stored in app settings.
+
+The environment boundary is confirmed: Dream (`https://dream.crm.dynamics.com`) is in the focushive tenant, organization `52d2ebbc-9fc5-4cbc-854c-15c861e95020`. The `Global Enterprise` BU is `34888b00-f595-f111-8075-7ced8d6f5115`, its default owner team is `0df89b06-f595-f111-8075-7ced8d6f5115`, the parent Account is `e9aec63e-f595-f111-8075-00224803c40c`, and the custom solution is `globalenterprise_briefs` / `Global Enterprise Briefs`.
+
+The production create-path test was verified on 2026-08-12 UTC: the public squeeze POST returned 303, the managed identity created a native Contact attached to the Global Enterprise Account, and it created a `ge_briefengagements` row in the new BU with delivery `sent`, nurture stage `0`, suppression `active`, the selected report, role, organization, and campaign source. The private Blob event remains the durable delivery ledger; Dataverse is the relationship and engagement system of record.
 
 ## Cost posture
 

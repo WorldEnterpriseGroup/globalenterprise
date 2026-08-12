@@ -7,6 +7,9 @@ param acsSenderAddress string
 @secure()
 param turnstileSecret string
 param nurtureWebhookUrl string
+param dataverseUrl string
+param dataverseAccountId string
+param dataverseTeamId string
 param keyVaultUri string
 param turnstileRequired bool = false
 param tags object
@@ -257,6 +260,18 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
         {
           name: 'NURTURE_WEBHOOK_URL'
           value: nurtureWebhookUrl
+        }
+        {
+          name: 'DATAVERSE_URL'
+          value: dataverseUrl
+        }
+        {
+          name: 'DATAVERSE_ACCOUNT_ID'
+          value: dataverseAccountId
+        }
+        {
+          name: 'DATAVERSE_TEAM_ID'
+          value: dataverseTeamId
         }
         {
           name: 'NURTURE_WEBHOOK_SECRET'

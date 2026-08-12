@@ -35,6 +35,15 @@
     "nurtureWebhookUrl": {
       "value": ""
     },
+    "dataverseUrl": {
+      "value": "https://dream.crm.dynamics.com"
+    },
+    "dataverseAccountId": {
+      "value": "e9aec63e-f595-f111-8075-00224803c40c"
+    },
+    "dataverseTeamId": {
+      "value": "0df89b06-f595-f111-8075-7ced8d6f5115"
+    },
     "keyVaultUri": {
       "value": "https://omlab-secrets.vault.azure.net"
     }

@@ -1,12 +1,12 @@
 # Dataverse bridge contract
 
-Status: implementation-ready contract for the optional `NURTURE_WEBHOOK_URL` bridge.
+Status: live contract for the direct managed-identity bridge; also used by the optional `NURTURE_WEBHOOK_URL` extension.
 
-This contract is intentionally outside the Function source. The Function remains the delivery system of record and continues to emit its existing HMAC-protected `brief.requested` event. A private bridge or Logic App must validate the event, project only the fields below, and upsert Dataverse by request ID.
+This contract is intentionally separate from the delivery ledger. The Function remains the delivery system of record and projects the accepted `brief.requested` event directly to Dream Dataverse with its UAI. When `NURTURE_WEBHOOK_URL` is configured, it also emits the HMAC-protected event below for a private downstream bridge. Every consumer must validate the event, project only the fields below, and write Dataverse by request ID.
 
 ## Boundary and assumptions
 
-The current Function posts this shape after the email send succeeds:
+The optional webhook posts this shape after the email send succeeds and the direct Dataverse projection has been attempted:
 
 ```json
 {
@@ -104,7 +104,7 @@ The projection deliberately excludes `delivery.messageId`, `delivery.expiresAt`,
 
 ## Dataverse mapping
 
-The logical table and publisher-prefixed column names must be confirmed in the target environment. The mapping below uses the logical names from `CRM-PLAYBOOK.md`.
+The live table logical name is `ge_briefengagement`, entity set `ge_briefengagements`, and the publisher-prefixed logical names are confirmed in Dream. The mapping below retains the readable contract names; Dataverse removes underscores from the publisher-prefixed logical column names (for example, `ge_request_id` is `ge_requestid`).
 
 | Canonical source | Dataverse target | Transform and ownership |
 | --- | --- | --- |
@@ -156,7 +156,7 @@ The current producer records one explicit consent scope: `report-specific-follow
 - write the unsubscribe URL or token to Dataverse; or
 - reactivate a CRM record already marked opted out, bounced, or manual hold.
 
-The current Function does not emit a bridge event when `/api/unsubscribe` is called. That is an explicit integration gap, not permission to infer suppression from the absence of a later event. Until a `brief.suppressed` event or a private suppression-sync process exists, the Function remains the source of truth for its own report-specific nurture state and Dataverse must not independently send that sequence. If Dataverse/Customer Insights will send follow-ups, add a separately reviewed suppression event or synchronization path before enabling it.
+The Function does not emit a public webhook event when `/api/unsubscribe` is called. Instead, its direct managed-identity bridge updates the matching Dataverse engagement to `ge_suppressionstatus = opted-out` after the private Blob record is marked opted out. Dataverse must not independently send the sequence unless a separately reviewed suppression event or synchronization path is enabled.
 
 ## Data that must never cross the bridge
 

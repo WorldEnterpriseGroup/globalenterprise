@@ -32,6 +32,15 @@ param turnstileSecret string = ''
 @description('Optional HMAC-protected Logic App or Dynamics bridge URL.')
 param nurtureWebhookUrl string = ''
 
+@description('Dream Dataverse environment used for the Global Enterprise relationship record.')
+param dataverseUrl string = 'https://dream.crm.dynamics.com'
+
+@description('Global Enterprise Standard Corporation account id in Dream Dataverse.')
+param dataverseAccountId string = 'e9aec63e-f595-f111-8075-00224803c40c'
+
+@description('Global Enterprise BU default owner team id in Dream Dataverse.')
+param dataverseTeamId string = '0df89b06-f595-f111-8075-7ced8d6f5115'
+
 @description('Key Vault URI containing the brief-delivery secrets.')
 param keyVaultUri string = 'https://omlab-secrets.${environment().suffixes.keyvaultDns}'
 
@@ -64,6 +73,9 @@ module briefInfrastructure 'briefs.bicep' = {
     acsSenderAddress: acsSenderAddress
     turnstileSecret: turnstileSecret
     nurtureWebhookUrl: nurtureWebhookUrl
+    dataverseUrl: dataverseUrl
+    dataverseAccountId: dataverseAccountId
+    dataverseTeamId: dataverseTeamId
     keyVaultUri: keyVaultUri
     turnstileRequired: turnstileRequired
     tags: tags
