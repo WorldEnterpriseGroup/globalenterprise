@@ -8,7 +8,7 @@ import SystemMap from "@/components/SystemMap.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import { getCollection } from "astro:content";
 import { businessReports, experienceHighlights, regionContexts, services, site } from "@/data/site";
-import { resolveEvidenceSource } from "@/data/evidence-routes";
+import { type EvidenceSource, resolveEvidenceSource } from "@/data/evidence-routes";
 
 const insightEntries = await getCollection("insights");
 const serviceEntries = await getCollection("servicePages");
@@ -19,6 +19,7 @@ const horizonInsight = insightEntries.find((entry) => entry.id === "the-path-to-
 const integrationService = serviceEntries.find((entry) => entry.id === "mergers-acquisitions");
 const mnaService = services.find((service) => service.slug === "mergers-acquisitions");
 const changeService = services.find((service) => service.slug === "transformation-office");
+type SourceInput = Pick<EvidenceSource, "url" | "label">;
 
 const integrationSurfaces = [
   {
@@ -63,8 +64,8 @@ const scorecardMeasures = [
   { measure: "Capital deployed against the constraint that limits growth", question: "Is global finance moving capital to the actual bottleneck?" },
 ];
 
-const sourceLinks = [...(horizonInsight?.data.sources ?? []), ...(integrationService?.data.sources ?? [])];
-const mappedSourceLinks = sourceLinks.map(resolveEvidenceSource).filter(
+const sourceLinks = [...(horizonInsight?.data.sources ?? []), ...(integrationService?.data.sources ?? [])] as SourceInput[];
+const mappedSourceLinks = sourceLinks.map((source) => resolveEvidenceSource(source)).filter(
   (source, index, sources) => sources.findIndex((candidate) => candidate.displayUrl === source.displayUrl) === index,
 );
 const decisionHubs = [

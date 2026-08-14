@@ -1,0 +1,294 @@
+---
+interface PlatformNode {
+  label: string;
+  text: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+
+const {
+  eyebrow = "The global platform",
+  title = "An international business system is more than a technology stack.",
+  text = "Institutions, capital, infrastructure, digital systems, supply networks, and workforce capacity reinforce one another. The outcome is the operating system leaders have to make governable.",
+} = Astro.props;
+
+const platformGroups: { label: string; nodes: PlatformNode[] }[] = [
+  {
+    label: "Authority",
+    nodes: [
+      { label: "Institutions", text: "Public, civic, and enterprise mandates set the outcome and the boundary." },
+      { label: "Capital", text: "Funding, investment, and risk choices determine what can move and when." },
+    ],
+  },
+  {
+    label: "Foundations",
+    nodes: [
+      { label: "Infrastructure", text: "Energy, transport, facilities, and physical assets carry the work." },
+      { label: "Cloud / data / AI", text: "Digital platforms, information, models, and controls turn signal into action." },
+    ],
+  },
+  {
+    label: "Execution",
+    nodes: [
+      { label: "Supply networks", text: "Partners, suppliers, and logistics connect decisions across borders." },
+      { label: "Workforce", text: "Roles, skills, leadership, and trust make new capability usable." },
+    ],
+  },
+];
+
+const outcome: PlatformNode = {
+  label: "Outcomes",
+  text: "Services, resilience, public value, and durable performance are the test of the system.",
+};
+---
+
+<section class="platform-landscape section-pad bg-white" aria-labelledby="platform-landscape-title">
+  <div class="container-site">
+    <div class="platform-landscape-heading">
+      <div class="max-w-3xl">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id="platform-landscape-title" class="section-title mt-5">{title}</h2>
+        <p class="body-copy mt-6 max-w-2xl">{text}</p>
+      </div>
+      <p id="platform-landscape-description" class="platform-landscape-description">
+        Read from authority to outcome. Each layer changes the conditions for the next, so a decision made in one place can become a dependency somewhere else.
+      </p>
+    </div>
+
+    <div class="platform-landscape-visual" aria-describedby="platform-landscape-description">
+      <ol class="platform-landscape-groups" aria-label="Layers of an international business system">
+        {platformGroups.map((group, groupIndex) => (
+          <li class:list={["platform-landscape-group", `platform-landscape-group-${groupIndex + 1}`]}>
+            <p class="platform-landscape-group-label">{group.label}</p>
+            <ol class="platform-landscape-nodes">
+              {group.nodes.map((node) => (
+                <li class="platform-landscape-node">
+                  <span class="platform-landscape-node-marker" aria-hidden="true"></span>
+                  <div>
+                    <h3>{node.label}</h3>
+                    <p>{node.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))}
+      </ol>
+
+      <div class="platform-landscape-outcome">
+        <p class="platform-landscape-group-label">The test</p>
+        <div class="platform-landscape-node platform-landscape-node-outcome">
+          <span class="platform-landscape-node-marker" aria-hidden="true"></span>
+          <div>
+            <h3>{outcome.label}</h3>
+            <p>{outcome.text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="platform-landscape-actions">
+      <p>Scale changes the question. Start with the dependency that is making the decision harder to carry.</p>
+      <div class="flex flex-wrap gap-4">
+        <a class="btn-dark" href="/operations/">Explore operating contexts <span aria-hidden="true">↗</span></a>
+        <a class="btn-ghost" href="/contact/">Bring the mandate <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .platform-landscape-heading {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .platform-landscape-description {
+    max-width: 32rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .platform-landscape-visual {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .platform-landscape-groups {
+    display: grid;
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-line);
+    list-style: none;
+  }
+
+  .platform-landscape-group {
+    min-width: 0;
+    padding: 1.25rem;
+    background: var(--color-paper);
+  }
+
+  .platform-landscape-group-label {
+    margin: 0 0 1rem;
+    color: var(--color-cobalt);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .platform-landscape-nodes {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .platform-landscape-node {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid var(--color-line);
+    background: white;
+  }
+
+  .platform-landscape-node-marker {
+    display: block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-top: 0.35rem;
+    border-radius: 999px;
+    background: var(--color-cobalt);
+    box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--color-cobalt) 13%, transparent);
+  }
+
+  .platform-landscape-node h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .platform-landscape-node p {
+    max-width: 28rem;
+    margin: 0.55rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .platform-landscape-group-2 {
+    background: color-mix(in srgb, var(--color-lime) 28%, var(--color-paper));
+  }
+
+  .platform-landscape-group-2 .platform-landscape-node-marker {
+    background: var(--color-ink);
+    box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--color-ink) 11%, transparent);
+  }
+
+  .platform-landscape-group-3 {
+    background: color-mix(in srgb, var(--color-cobalt) 7%, var(--color-paper));
+  }
+
+  .platform-landscape-outcome {
+    position: relative;
+    padding: 1.25rem;
+    border: 1px solid var(--color-ink);
+    background: var(--color-ink);
+    color: white;
+  }
+
+  .platform-landscape-outcome .platform-landscape-group-label {
+    color: var(--color-lime);
+  }
+
+  .platform-landscape-node-outcome {
+    border-color: color-mix(in srgb, white 25%, transparent);
+    background: transparent;
+  }
+
+  .platform-landscape-node-outcome .platform-landscape-node-marker {
+    background: var(--color-lime);
+    box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--color-lime) 18%, transparent);
+  }
+
+  .platform-landscape-node-outcome p {
+    color: color-mix(in srgb, white 70%, transparent);
+  }
+
+  .platform-landscape-actions {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .platform-landscape-actions > p {
+    max-width: 38rem;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    .platform-landscape-heading,
+    .platform-landscape-actions {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
+    }
+
+    .platform-landscape-groups {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .platform-landscape-outcome {
+      width: min(52%, 38rem);
+      margin-inline: auto;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .platform-landscape-visual::before,
+    .platform-landscape-visual::after {
+      position: absolute;
+      top: 50%;
+      width: 2rem;
+      height: 1px;
+      background: var(--color-cobalt);
+      content: "";
+    }
+
+    .platform-landscape-visual::before {
+      left: 33.33%;
+    }
+
+    .platform-landscape-visual::after {
+      right: 33.33%;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .platform-landscape-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+</style>
