@@ -98,8 +98,11 @@
 
 @layer components {
   .container-site {
-    width: min(100% - 2.5rem, 1240px);
-    margin-inline: auto;
+    width: min(100%, 100vw);
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: clamp(0.9rem, 2vw, 2.25rem);
+    box-sizing: border-box;
   }
 
   .site-main-with-header {
@@ -438,9 +441,7 @@
   }
 
   .mega-service {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.7rem;
+    display: block;
     padding-block: 0.55rem;
     color: var(--color-ink);
     transition: color 180ms ease, transform 180ms ease;
@@ -448,19 +449,6 @@
 
   .mega-service:hover {
     transform: translateX(3px);
-  }
-
-  .mega-icon {
-    display: grid;
-    width: 2.15rem;
-    height: 2.15rem;
-    flex: 0 0 auto;
-    place-items: center;
-    border-radius: 0.55rem;
-    background: var(--color-mist);
-    color: var(--color-cobalt);
-    font-size: 0.7rem;
-    font-weight: 700;
   }
 
   .mega-feature {
@@ -925,14 +913,6 @@
     padding-left: 0.75rem;
   }
 
-  .architecture-map-columns i {
-    display: block;
-    margin-bottom: 0.35rem;
-    color: var(--color-cobalt);
-    font-size: 0.58rem;
-    font-style: normal;
-  }
-
   .architecture-map-row {
     margin-top: 0.65rem;
     align-items: stretch;
@@ -996,14 +976,6 @@
     border-bottom: 3px solid transparent;
     border-left: 4px solid var(--color-cobalt);
     content: "";
-  }
-
-  .architecture-map-node-index {
-    margin-bottom: 0.7rem;
-    color: var(--color-muted);
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
   }
 
   .architecture-map-node strong {
@@ -1316,7 +1288,11 @@ html[data-motion-system="ready"] [data-motion-media] img {
 
 @media (max-width: 767px) {
   .container-site {
-    width: min(100% - 2rem, 1240px);
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: clamp(0.75rem, 4vw, 1.2rem);
+    box-sizing: border-box;
   }
 
   .hero-home {
@@ -1421,4 +1397,26 @@ html[data-motion-system="ready"] [data-motion-media] img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.corporate-email-error {
+  display: block;
+  margin-top: 0.45rem;
+  padding: 0.55rem 0.7rem;
+  border-left: 3px solid var(--color-lime);
+  background: rgb(255 255 255 / 8%);
+  color: rgb(255 255 255 / 88%);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.corporate-email-error[hidden] {
+  display: none;
+}
+
+form[data-corporate-email-only] input[aria-invalid="true"] {
+  border-bottom-color: var(--color-lime);
 }
