@@ -21,14 +21,15 @@ function normalize(value) {
 
 for (const file of files) {
   const markdown = await readFile(new URL(file, insightRoot), "utf8");
-  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(markdown)) staleFiles.push(file);
+  const body = withoutFrontmatter(markdown);
+  const bodyWithoutUrls = body.replace(/https?:\/\/\S+/g, "");
+  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(bodyWithoutUrls)) staleFiles.push(file);
   const uniqueUrls = new Set([...markdown.matchAll(/https?:\/\/[^\s)"']+/g)].map((match) => match[0].replace(/[.,]+$/, "")));
   for (const url of uniqueUrls) {
     if (!sourceFiles.has(url)) sourceFiles.set(url, new Set());
     sourceFiles.get(url).add(file);
   }
 
-  const body = withoutFrontmatter(markdown);
   for (const sentence of body.split(/(?<=[.!?])\s+(?=[A-Z0-9])/).map((value) => value.trim())) {
     if (!/(?:\d+(?:\.\d+)?\s*%|\b\d{2,3}(?:,\d{3})*\b|one in (?:four|three|five)|nine in ten)/i.test(sentence)) continue;
     const claim = normalize(sentence);
