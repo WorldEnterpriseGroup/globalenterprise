@@ -2,6 +2,7 @@
 title: "Mergers & acquisitions"
 description: "Design the integration thesis that turns a transaction into a more capable cross-border operating system."
 tags: ["M&A", "Integration", "Corporate strategy", "ITIL change"]
+number: "4"
 eyebrow: "Capability · M&A and operating integration"
 sources:
   - label: "UN DESA, Future in Focus: Preparing for What Lies Ahead"
