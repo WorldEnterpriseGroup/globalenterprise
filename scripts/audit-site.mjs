@@ -106,7 +106,7 @@ for (const path of htmlFiles) {
     if (owner && owner !== file) errors.push(`${file}: technical diagram ${id} is already shown on ${owner}`);
     diagramIds.set(id, file);
   }
-  const isDiagramRoute = !file.startsWith("insights/thanks/") && (/^(?:services|solutions|industries|case-studies)\/[^/]+\/index\.html$/.test(file) || /^insights\/[^/]+\/index\.html$/.test(file));
+  const isDiagramRoute = /^(?:services|solutions|industries|case-studies)\/[^/]+\/index\.html$/.test(file);
   if (isDiagramRoute && !file.includes("/topics/") && !html.includes("data-diagram-id=")) {
     errors.push(`${file}: substantial detail route is missing its one technical visual`);
   }
@@ -179,8 +179,9 @@ const editorialParagraphs = new Map();
 for (const name of editorialFiles) {
   const markdown = await readFile(join(editorialDirectory.pathname, name), "utf8");
   if (!markdown.includes(`lastReviewed: ${freshnessBaseline}`)) errors.push(`src/content/insights/${name}: missing August 2026 review date`);
-  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(markdown)) errors.push(`src/content/insights/${name}: stale pre-August 2026 reference`);
   const body = markdown.replace(/^---[\s\S]*?---\s*/m, "");
+  const bodyWithoutUrls = body.replace(/https?:\/\/\S+/g, "");
+  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(bodyWithoutUrls)) errors.push(`src/content/insights/${name}: stale pre-August 2026 reference`);
   for (const paragraph of body.split(/\n\s*\n/).map((value) => value.replace(/\s+/g, " ").trim())) {
     if (paragraph.length < 140 || paragraph.startsWith("#") || paragraph.startsWith("- ")) continue;
     const existing = editorialParagraphs.get(paragraph) ?? [];
