@@ -19,7 +19,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
       <span class="flex w-5 flex-col gap-1.5" aria-hidden="true"><i class="block h-px w-full bg-current"></i><i class="block h-px w-3/4 bg-current"></i><i class="block h-px w-full bg-current"></i></span>
     </button>
 
-    <nav id="site-navigation" aria-label="Primary navigation" class:list={["absolute left-0 top-full hidden w-full px-5 py-5 md:static md:block md:w-auto md:border-0 md:bg-transparent md:p-0", isHome ? "border-b border-white/20 bg-ink" : "border-b border-line bg-paper"]} data-navigation>
+    <nav id="site-navigation" aria-label="Primary navigation" class:list={["absolute left-0 top-full hidden w-full px-0 py-5 md:static md:block md:w-auto md:border-0 md:bg-transparent md:p-0", isHome ? "border-b border-white/20 bg-ink" : "border-b border-line bg-paper"]} data-navigation>
       <ul class="flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
         <li>
           <button class:list={["flex w-full cursor-pointer items-center gap-2 py-2 text-left text-sm transition-colors md:w-auto", linkTone]} type="button" aria-expanded="false" aria-haspopup="true" aria-controls="mega-navigation mobile-directory" data-mega-toggle>
@@ -39,7 +39,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/case-studies") ? "text-cobalt" : ""]} href="/case-studies/" aria-current={currentPath.startsWith("/case-studies") ? "page" : undefined}>Work</a></li>
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/insights") ? "text-cobalt" : ""]} href="/insights/" aria-current={currentPath.startsWith("/insights") ? "page" : undefined}>Insights</a></li>
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/resources") ? "text-cobalt" : ""]} href="/resources/" aria-current={currentPath.startsWith("/resources") ? "page" : undefined}>Resources</a></li>
-        <li class="pt-3 md:pt-0"><a class:list={["btn-primary w-full md:w-auto", isHome ? "bg-white text-ink" : ""]} href="/contact/">Principal dialogue <span aria-hidden="true">↗</span></a></li>
+        <li class="pt-3 md:pt-0"><a class:list={["btn-primary w-full md:w-auto", isHome ? "bg-white text-ink" : ""]} href="/contact/">Leadership engagement <span aria-hidden="true">↗</span></a></li>
       </ul>
 
       <div id="mobile-directory" class="mt-7 hidden border-t border-white/15 pt-6 md:hidden" data-mobile-directory data-state="closed" aria-hidden="true">
@@ -76,7 +76,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
       <div class="lg:border-l lg:border-line lg:pl-9">
         <div class="flex items-end justify-between gap-4"><div><p class="mega-kicker">Capabilities</p><p class="mt-2 text-sm text-muted">The disciplines we bring together when the problem crosses boundaries.</p></div><a class="mega-view-all" href="/services/">View all ↗</a></div>
         <div class="mt-5 grid gap-x-7 gap-y-2 sm:grid-cols-2">
-          {navigationPanel.capabilities.map((item) => <a class="mega-service" href={item.href}><span class="mega-icon" aria-hidden="true">{item.number}</span><span><strong>{item.title}</strong><small>{item.short}</small></span></a>)}
+          {navigationPanel.capabilities.map((item) => <a class="mega-service" href={item.href}><span><strong>{item.title}</strong><small>{item.short}</small></span></a>)}
         </div>
         <p class="mega-kicker mt-8">Industries</p>
         <div class="mt-3 grid grid-cols-2 gap-x-5 gap-y-2">

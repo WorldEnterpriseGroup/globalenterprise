@@ -90,8 +90,8 @@ const decisionHubs = [
   {
     city: "Latin America & Caribbean",
     region: "Latin America & the Caribbean",
-    image: "/media/original/home-field-note.avif",
-    imageAlt: "A global coastal skyline and transit network in evening light",
+    image: "/media/original/home-listening-room.avif",
+    imageAlt: "A global planning room with infrastructure and mobility maps spanning regional corridors",
   },
   {
     city: "South America",
@@ -109,7 +109,7 @@ const decisionHubs = [
 ---
 
 <Base title="Global Enterprise | Global operating systems for infrastructure and public missions" description={site.description} image="/media/hero-city.avif">
-  <div class="home-compact home-homepage-3k">
+<div class="home-compact home-homepage-3k">
   <section class="hero-home">
     <AssetImage src="/media/original/hero-city.avif" width={1600} height={900} loading="eager" fetchpriority="high" decoding="async" sizes="100vw" alt="A global city skyline in clear morning light" class="hero-home-image" />
     <div class="hero-home-content container-site relative z-10 flex min-h-[min(38rem,calc(100vh-1rem))] items-center py-14">
@@ -186,6 +186,10 @@ const decisionHubs = [
             ))}
           </div>
           <p class="mt-6 text-xs leading-relaxed text-muted">Context note: the hub names identify operating perspectives used in this narrative. They do not establish physical offices. Representatives and advisory channels are active across Africa, the Caribbean, Latin America, South America, and the broader global network.</p>
+          <div class="home-hub-footnote mt-6 flex flex-wrap gap-3">
+            <a class="btn-dark" href="/operations/">Explore region-driven operations <span aria-hidden="true">↗</span></a>
+            <a class="btn-ghost" href="/services/mergers-acquisitions/">View M&amp;A integration routes <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
       </section>
 
@@ -392,6 +396,7 @@ const decisionHubs = [
 .home-homepage-3k {
     --home-page-landing-surge: clamp(3rem, 7vh, 5rem);
     padding-bottom: var(--home-page-landing-surge);
+    min-height: clamp(2500px, calc(100vh + 1700px), 3000px);
     background:
       linear-gradient(
         to bottom,
