@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8"><title>Stripe Donate API browser test</title></head>
+  <body>
+    <main>
+      <h1>Stripe Donate browser/API test</h1>
+      <p id="browser-result" data-status="pending">Running safe validation request…</p>
+    </main>
+    <script>
+      const apiUrl = "__API_URL__";
+      const result = document.querySelector("#browser-result");
+      async function run() {
+        try {
+          const health = await fetch(`${apiUrl}/healthz`);
+          const invalid = await fetch(`${apiUrl}/api/StripeHttpTrigger`, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: "{}"
+          });
+          const body = await invalid.json();
+          // A successful cross-origin fetch is the browser-level CORS assertion.
+          // Access-Control-Allow-Origin itself is not a CORS-safelisted response header.
+          const passed = health.status === 200 && invalid.status === 400 && /payment_method_id/.test(body.error || "");
+          result.dataset.status = passed ? "pass" : "fail";
+          result.textContent = JSON.stringify({ health: health.status, validation: invalid.status, cors: "browser fetch succeeded", error: body.error });
+        } catch (error) {
+          result.dataset.status = "fail";
+          result.textContent = `browser test error: ${error.message}`;
+        }
+      }
+      run();
+    </script>
+  </body>
+</html>

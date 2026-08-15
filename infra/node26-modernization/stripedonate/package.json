@@ -1,0 +1,19 @@
+{
+  "name": "@globalenterprise/stripedonate-node26",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=26.5.0"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "test:browser": "node test/browser.e2e.mjs",
+    "test:stripe:e2e": "node test/stripe-testmode.e2e.mjs",
+    "test:coverage": "npm test && npm run test:browser"
+  },
+  "dependencies": {
+    "stripe": "22.5.0"
+  }
+}

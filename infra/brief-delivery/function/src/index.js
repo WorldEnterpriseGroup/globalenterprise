@@ -132,6 +132,25 @@ function clean(value, max = 500) {
   return String(value ?? "").trim().replace(/[\u0000-\u001f\u007f]/g, "").slice(0, max);
 }
 
+const CONSUMER_EMAIL_ROOTS = new Set(["gmail.com", "googlemail.com", "hotmail.com", "outlook.com", "yahoo.com"]);
+const CONSUMER_EMAIL_VARIANTS = new Set([
+  "hotmail.co.uk", "hotmail.fr", "hotmail.de", "hotmail.it", "hotmail.es", "hotmail.com.au", "hotmail.co.jp", "hotmail.co.in", "hotmail.com.br", "hotmail.com.mx",
+  "outlook.co.uk", "outlook.fr", "outlook.de", "outlook.it", "outlook.es", "outlook.com.au", "outlook.co.jp", "outlook.co.in", "outlook.com.br",
+  "yahoo.co.uk", "yahoo.ca", "yahoo.com.au", "yahoo.co.in", "yahoo.fr", "yahoo.de", "yahoo.es", "yahoo.it", "yahoo.co.jp", "yahoo.com.br", "yahoo.com.mx", "yahoo.co.nz", "yahoo.com.sg", "yahoo.com.hk", "yahoo.com.ar", "yahoo.com.tr",
+]);
+
+function isConsumerEmailDomain(domain) {
+  const normalized = String(domain || "").trim().toLowerCase().replace(/\.+$/, "");
+  return CONSUMER_EMAIL_ROOTS.has(normalized) || CONSUMER_EMAIL_VARIANTS.has(normalized) || [...CONSUMER_EMAIL_ROOTS].some((root) => normalized.endsWith(`.${root}`));
+}
+
+function isCorporateEmail(value) {
+  const email = clean(value, 320).toLowerCase();
+  const at = email.lastIndexOf("@");
+  if (at <= 0 || at === email.length - 1) return false;
+  return !isConsumerEmailDomain(email.slice(at + 1));
+}
+
 function cleanMultiline(value, max = 4000) {
   return String(value ?? "").replace(/\r\n?/g, "\n").replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "").trim().slice(0, max);
 }
@@ -792,6 +811,7 @@ async function briefRequest(request, context) {
   const remoteIp = clientIp(request);
 
   if (!report || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") return response(400, "Please provide a valid email, resource, and consent.", headers);
+  if (!isCorporateEmail(email)) return response(400, "Please use your company email address. Gmail, Yahoo, Hotmail, and Outlook.com accounts are not eligible for this brief.", headers);
   try {
     await tokenKey();
   } catch (error) {
@@ -1040,4 +1060,4 @@ app.http("unsubscribe", { methods: ["GET", "POST", "OPTIONS"], authLevel: "anony
 app.http("health", { methods: ["GET"], authLevel: "anonymous", route: "health", handler: health });
 app.timer("nurtureSweep", { schedule: "0 0 * * *", handler: nurtureSweep, runOnStartup: false, useMonitor: true });
 
-export { briefRequest, contactRequest, health, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };
+export { briefRequest, contactRequest, health, isCorporateEmail, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };

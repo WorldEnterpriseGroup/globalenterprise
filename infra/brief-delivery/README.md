@@ -10,6 +10,8 @@ It creates one resource group containing:
 
 The PDFs are not served from GitHub Pages by this design. The site form posts to the Function, the Function stores a minimal request record, creates a short-lived read-only user-delegation SAS, and emails the link. The Blob container remains private and directory listing is disabled.
 
+Brief requests require a company email address. The Function rejects public mailbox domains including Gmail, Google Mail, Hotmail, Outlook.com, Yahoo, and their supported country variants before writing the delivery ledger, sending email, or projecting the request into Dataverse. Custom company domains hosted by Google or Microsoft remain eligible. The separate principal-dialogue route is not a brief download and follows its own intake policy.
+
 ## Target Azure placement
 
 The discovered `taodoor` Front Door profile belongs to the `focushive` tenant, Microsoft Partner Network subscription `6e60a8fd-9992-4ff7-8a3e-db96b4dfed4f`, in resource group `tli_interest`. The default deployment target for this package is therefore:
@@ -87,3 +89,17 @@ The production create-path test was verified on 2026-08-12 UTC: the public squee
 ## Cost posture
 
 This is intentionally Flex Consumption (`FC1`) + Standard LRS + no always-ready instances. At low lead volume the principal recurring costs are email sends and small Function/Blob transactions. Application Insights is not provisioned by default; add it when the workflow earns enough volume to justify centralized telemetry. Do not add Cosmos DB, a dedicated App Service plan, Redis, or a second Front Door profile for this use case.
+
+## Runtime policy (August 2026)
+
+The production Function App is pinned to the newest Azure Functions-supported
+GA Node runtime, Node 24, in `functionAppConfig.runtime`. Node 26 is a current
+Node release but is not an Azure Functions-supported production runtime yet;
+do not force it through an app setting. Azure Functions also does not provide
+an Alpine base image for this managed Flex runtime. Keep the official managed
+Linux runtime and the 512 MB minimum Flex instance size for this low-volume,
+I/O-bound service.
+
+The deployment package uses the same Node 24 floor in `function/package.json`.
+Run `npm ci` from `infra/brief-delivery/function` before packaging so the
+checked-in lockfile remains the source of truth.

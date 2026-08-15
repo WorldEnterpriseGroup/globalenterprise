@@ -1,6 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { briefRequest, contactRequest, health, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
+import { briefRequest, contactRequest, health, isCorporateEmail, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
+
+test("corporate email policy rejects consumer mailboxes but allows custom company domains", () => {
+  for (const email of ["reader@gmail.com", "reader@googlemail.com", "reader@hotmail.com", "reader@hotmail.co.uk", "reader@outlook.com", "reader@yahoo.com", "reader@yahoo.co.uk"]) {
+    assert.equal(isCorporateEmail(email), false, email);
+  }
+  assert.equal(isCorporateEmail("reader@company.com"), true);
+  assert.equal(isCorporateEmail("reader@company.onmicrosoft.com"), true);
+});
 
 test("health response is safe before provider configuration", async () => {
   const result = await health();

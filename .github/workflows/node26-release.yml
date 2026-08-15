@@ -1,0 +1,144 @@
+name: Node 26 modernization release
+
+on:
+  pull_request:
+    paths:
+      - "infra/node26-modernization/**"
+      - ".github/workflows/node26-release.yml"
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "ACR input tag, verified against the captured digest"
+        required: false
+        type: string
+      deploy:
+        description: "Request the protected Container Apps deployment and smoke gate"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: node26-production
+  cancel-in-progress: false
+
+env:
+  NODE26_IMAGE: node:26.5.0-alpine@sha256:e88a35be04478413b7c71c455cd9865de9b9360e1f43456be5951032d7ac1a66
+  ACR_NAME: acrglobalapps
+  ACR_RESOURCE_GROUP: rg-hm-proxy
+  AZURE_RESOURCE_GROUP: RingoMeet
+  AZURE_SUBSCRIPTION_ID: ${{ vars.NODE26_AZURE_SUBSCRIPTION_ID }}
+
+jobs:
+  verify:
+    name: Test ${{ matrix.service }} on Node 26
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: true
+      matrix:
+        service: [ringomeet, stripedonate]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+      - name: Run tests and dependency audit in pinned Alpine
+        run: bash infra/node26-modernization/ci/test-node26.sh ${{ matrix.service }}
+
+  browser-e2e:
+    name: RingoMeet browser E2E
+    needs: verify
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+      - name: Set up Node 26
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 26.5.0
+          cache: npm
+          cache-dependency-path: infra/node26-modernization/ringomeet/package-lock.json
+      - name: Install RingoMeet browser test dependencies
+        working-directory: infra/node26-modernization/ringomeet
+        run: npm ci --ignore-scripts
+      - name: Install Chromium for Playwright
+        working-directory: infra/node26-modernization/ringomeet
+        run: npx playwright install --with-deps chromium
+      - name: Run non-writing browser E2E
+        working-directory: infra/node26-modernization/ringomeet
+        run: npm run test:browser -- --workers=1 --grep-invert "creates a thread"
+
+  publish:
+    name: Build and push ${{ matrix.service }}
+    needs: [verify, browser-e2e]
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: true
+      matrix:
+        service: [ringomeet, stripedonate]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+      - name: Sign in to Azure with workload identity
+        uses: azure/login@f5d393ae46f8fde4be8b75f32e3fc50e654ad0ca # v3.0.1
+        with:
+          client-id: ${{ secrets.NODE26_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.NODE26_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.NODE26_AZURE_SUBSCRIPTION_ID }}
+      - name: Build pinned image, push ACR tag, and resolve manifest digest
+        env:
+          IMAGE_TAG: ${{ inputs.image_tag || github.sha }}
+          DIGEST_FILE: ${{ runner.temp }}/${{ matrix.service }}.digest
+        run: bash infra/node26-modernization/ci/build-and-push.sh "${{ matrix.service }}" "$IMAGE_TAG"
+      - name: Upload immutable digest handoff
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: node26-${{ matrix.service }}-digest
+          path: ${{ runner.temp }}/${{ matrix.service }}.digest
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy and smoke ${{ matrix.service }}
+    needs: publish
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.deploy == true
+    runs-on: ubuntu-24.04
+    environment:
+      name: node26-production
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        service: [ringomeet, stripedonate]
+    env:
+      DEPLOY_APPROVED: "true"
+      IMAGE_TAG: ${{ inputs.image_tag || github.sha }}
+      STATE_FILE: ${{ runner.temp }}/${{ matrix.service }}.state
+    steps:
+      - name: Check out source
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+      - name: Sign in to Azure with workload identity
+        uses: azure/login@f5d393ae46f8fde4be8b75f32e3fc50e654ad0ca # v3.0.1
+        with:
+          client-id: ${{ secrets.NODE26_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.NODE26_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.NODE26_AZURE_SUBSCRIPTION_ID }}
+      - name: Download published digest
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: node26-${{ matrix.service }}-digest
+          path: ${{ runner.temp }}/digest
+      - name: Deploy by digest, wait for Ready, smoke test, and rollback on failure
+        run: |
+          digest="$(tr -d '\r\n' < "${RUNNER_TEMP}/digest/${{ matrix.service }}.digest")"
+          bash infra/node26-modernization/ci/deploy-and-smoke.sh "${{ matrix.service }}" "$digest"
