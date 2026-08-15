@@ -1,25 +1,145 @@
 ---
 import Base from "@/layouts/Base.astro";
-import EvidenceBand from "@/components/EvidenceBand.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import AssetImage from "@/components/AssetImage.astro";
-import ArchitectureMap from "@/components/ArchitectureMap.astro";
-import IntelligenceStack from "@/components/IntelligenceStack.astro";
-import { experienceHighlights, principles } from "@/data/site";
+import { principles } from "@/data/site";
+
+const thesis = [
+  {
+    marker: "Consequence",
+    title: "Start with what has to hold.",
+    text: "We name the service, mission, or promise that cannot be allowed to drift before we choose an intervention.",
+  },
+  {
+    marker: "System",
+    title: "Make the dependencies visible.",
+    text: "Authority, workflow, architecture, economics, and capability are read together so the design fits the conditions around it.",
+  },
+  {
+    marker: "Transfer",
+    title: "Leave behind a stronger rhythm.",
+    text: "The result is a decision cadence, evidence loop, and ownership model that can keep learning after the engagement changes shape.",
+  },
+];
+
+const practiceAreas = [
+  {
+    marker: "Service management",
+    title: "Promises, ownership, recovery",
+    text: "We make the service explicit: who owns the promise, how work is supported, where controls sit, and what happens when the system is under stress.",
+  },
+  {
+    marker: "Agile / lean",
+    title: "Feedback before ceremony",
+    text: "We use short learning loops, visible flow, and small releases when they reduce uncertainty—without turning a method into a substitute for judgment.",
+  },
+  {
+    marker: "Portfolio / program delivery",
+    title: "Sequence the whole bet",
+    text: "We connect initiatives, dependencies, funding, risk, and decision rights so leaders can choose what to advance, pause, or retire.",
+  },
+  {
+    marker: "Workforce strategy",
+    title: "Capability at the point of work",
+    text: "We align roles, skills, leadership, incentives, and adoption with the workflow that has to improve—not with an abstract future-state chart.",
+  },
+];
+
+const workingSequence = [
+  { marker: "Frame", text: "Clarify the mandate, the decision, and the boundary around sensitive context." },
+  { marker: "Test", text: "Use evidence, prototypes, and operating observation to separate signal from assumption." },
+  { marker: "Transfer", text: "Install the ownership, cadence, and measures that let the institution carry the next move." },
+];
 ---
 
-<Base title="About Global Enterprise | A future-facing advisory house" description="Global Enterprise is a senior strategy, AI/ML, data, research, and enterprise change partner for institutions carrying consequential decisions." image="/media/original/about-workshop.avif" keywords={["future-facing strategy partner", "enterprise AI advisory", "AI cost management", "data lab build out", "ITIL change management", "quantum intelligence"]}>
-  <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end"><div><p class="eyebrow text-lime">About Global Enterprise</p><h1 class="section-title mt-7 max-w-5xl">A calm, senior view of the next order of complexity.</h1><p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">We work where frontier intelligence, enterprise systems, economics, and institutional change meet. The result is not more motion; it is a more capable organization with a clearer hand on the future.</p></div><figure class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/original/about-workshop.avif" width={1536} height={1024} loading="eager" decoding="async" alt="Three colleagues reviewing printed process maps around a workshop table" class="aspect-[4/3] w-full object-cover opacity-90" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/70">Composure is a capability when the system is changing.</figcaption></figure></div></section>
-  <section class="section-pad bg-white"><div class="container-site grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-24"><SectionHeading eyebrow="Our point of view" title="Intelligence only matters when an institution can absorb it." /><div class="space-y-6 text-lg leading-relaxed text-muted"><p>When an institution is ready, new intelligence does not arrive as theater. It enters the decision, the operating model, the platform, the control environment, and the ordinary day.</p><p>That is the standard we hold: more signal without more noise, more capability without less judgment, and transformation that compounds rather than resets at the next quarter.</p><p>We work with complex enterprises, public systems, advanced technology, infrastructure, and human capability where the decision has to travel beyond the room.</p><p>Our work pairs a frontier research posture with more than two decades of emerging-technology and ITIL change-management practice, so the future can be designed with both imagination and control. Named leadership profiles and permissioned recognition or reference materials are handled through the diligence path described on our <a class="text-cobalt underline underline-offset-4" href="/team/">team page</a>.</p></div></div></section>
+<Base title="About Global Enterprise | Cross-border M&A and operating systems" description="Global Enterprise is a strategy and technology partner for corporate and institutional leaders assembling cross-border capabilities across infrastructure, communications, finance, AI, and enterprise change." image="/media/original/about-workshop.avif" keywords={["cross-border M&A", "corporate integration", "future-facing strategy partner", "satellite infrastructure", "telecommunications strategy", "enterprise AI advisory", "ITIL change management", "quantum intelligence"]}>
+  <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end"><div><p class="eyebrow text-lime">About Global Enterprise</p><h1 class="section-title mt-7 max-w-5xl">A calm, senior view of the next order of complexity.</h1><p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">We are a global consulting firm for corporations, public agencies, and mission institutions where frontier intelligence, enterprise systems, economics, and institutional change meet. The result is not more motion; it is a more capable organization with a clearer hand on the future.</p></div><figure class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/original/about-workshop.avif" width={1536} height={1024} loading="eager" decoding="async" alt="Three colleagues reviewing printed process maps around a workshop table" class="aspect-[4/3] w-full object-cover opacity-90" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/70">Composure is a capability when the system is changing.</figcaption></figure></div></section>
+  <section class="section-pad bg-white">
+    <div class="container-site">
+      <div class="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
+        <SectionHeading eyebrow="Our operating thesis" title="Make the system legible before asking it to move." />
+        <div class="space-y-6 text-lg leading-relaxed text-muted">
+          <p>Good strategy is not a document that sits above the work. It is a set of choices that people can see, use, and revisit when conditions change.</p>
+          <p>We work across research, technology, operating design, economics, and organizational life because the consequence rarely belongs to one discipline. The useful answer is the one that can travel from the executive question to the point of work.</p>
+          <p>Beyond transaction work, we also provide solution strategy for enterprise and government contexts: federal modernization advisory, mission systems redesign, ITIL-led civic continuity, and FEAF-aligned architecture programs for institutions operating at a national scale.</p>
+        </div>
+      </div>
+      <ol class="mt-16 grid gap-px border border-line bg-line md:grid-cols-3" aria-label="Global Enterprise operating thesis">
+        {thesis.map((item) => (
+          <li class="bg-paper p-8 md:p-10">
+            <p class="eyebrow text-cobalt">{item.marker}</p>
+            <h2 class="mt-10 font-display text-3xl font-medium tracking-[-0.05em]">{item.title}</h2>
+            <p class="mt-5 leading-relaxed text-muted">{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
-  <section class="bg-paper"><div class="container-site"><IntelligenceStack /></div></section>
+  <section class="section-pad bg-cobalt text-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div>
+        <p class="eyebrow text-lime">Our 2050 thesis</p>
+        <h2 class="section-title mt-5 max-w-3xl">Civilizational capability is an integration problem.</h2>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/70">We advise on the transactions, infrastructure, and operating systems that have to work across borders. A more capable society is built when energy, computation, communications, capital, and human judgment compound without becoming ungovernable.</p>
+        <a class="btn-primary mt-8" href="/insights/the-path-to-2050-is-an-operating-model/">Read the 2050 thesis <span aria-hidden="true">↗</span></a>
+      </div>
+      <div>
+        <div class="grid gap-px border border-white/20 bg-white/20 md:grid-cols-3">
+          <article class="bg-cobalt p-7"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-lime">9.6B</p><h3 class="mt-8 font-display text-2xl font-medium tracking-[-0.04em]">people in 2050</h3><p class="mt-3 text-sm leading-relaxed text-white/65">UN DESA medium projection. The system has to serve more people as infrastructure becomes more interconnected.</p><a class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-lime underline decoration-lime/40 underline-offset-4" href="/insights/un-desa-population-scale-is-an-operating-constraint/">UN DESA ↗</a></article>
+          <article class="bg-cobalt p-7"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-lime">6B / 2.2B</p><h3 class="mt-8 font-display text-2xl font-medium tracking-[-0.04em]">online / offline</h3><p class="mt-3 text-sm leading-relaxed text-white/65">ITU latest estimate. Reach is not the same as reliable, affordable, meaningful access.</p><a class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-lime underline decoration-lime/40 underline-offset-4" href="/insights/itu-connectivity-is-not-access/">ITU ↗</a></article>
+          <article class="bg-cobalt p-7"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-lime">945 TWh</p><h3 class="mt-8 font-display text-2xl font-medium tracking-[-0.04em]">data-centre demand</h3><p class="mt-3 text-sm leading-relaxed text-white/65">IEA projection for 2030. Digital growth is also a power, grid, and permitting decision.</p><a class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-lime underline decoration-lime/40 underline-offset-4" href="/insights/iea-energy-and-ai-grid-capacity/">IEA ↗</a></article>
+        </div>
+        <p class="mt-8 max-w-3xl border-l-2 border-lime pl-5 text-lg leading-relaxed text-white/75"><strong class="text-white">Our opinion:</strong> the Kardashev scale is useful only as a forcing question—can the system turn more energy into more useful, resilient, and widely available capability without losing human control? M&amp;A is one of the mechanisms for assembling that capability; ITIL discipline is one of the mechanisms for operating it.</p>
+        <p class="mt-8 max-w-3xl text-sm leading-relaxed text-white/55"><strong class="text-white/80">Global operating network.</strong> We work through representatives across Africa, the Caribbean, Latin America, South America, North America, Europe, and Asia-Pacific, with active points in London, New York, Hong Kong, and Dubai. City names can be useful lenses, but they are not the story; the story is continuous regional advisory depth across those operating contexts.</p>
+      </div>
+    </div>
+  </section>
 
-  <section class="section-pad bg-paper"><div class="container-site"><ArchitectureMap variant="about-architecture" eyebrow="How we think · system architecture" title="The work connects the layers leaders usually inherit separately." caption="Mandate, workflow, platform, capability, and evidence are designed together so the operating model can carry the strategy." /></div></section>
+  <section class="section-pad bg-paper">
+    <div class="container-site">
+      <SectionHeading eyebrow="Multidisciplinary practice" title="Different disciplines. One accountable thread." text="We are fluent in the working languages that help complex organizations make change useful. The method is selected for the conditions, not imposed as a badge." />
+      <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2">
+        {practiceAreas.map((area) => (
+          <article class="bg-white p-8 md:p-10">
+            <p class="eyebrow text-cobalt">{area.marker}</p>
+            <h2 class="mt-8 font-display text-3xl font-medium tracking-[-0.05em]">{area.title}</h2>
+            <p class="mt-5 max-w-xl leading-relaxed text-muted">{area.text}</p>
+          </article>
+        ))}
+      </div>
+      <aside class="mt-10 border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted">
+        Our use of these practices is independent. References to service management, agile/lean, portfolio or program delivery, and workforce strategy describe working fluencies—not endorsements, certifications, or affiliations with a framework owner, vendor, or standards body.
+      </aside>
+    </div>
+  </section>
 
-  <EvidenceBand eyebrow="The world we are helping leaders navigate" title="Evidence makes the conversation more honest." text="Public research gives leaders a common starting point. The consulting work is understanding what the evidence means for this organization, this service, and this decision." limit={3} />
+  <section class="section-pad bg-ink text-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:items-start lg:gap-24">
+      <div>
+        <p class="eyebrow text-lime">How the practice moves</p>
+        <h2 class="section-title mt-5 max-w-3xl">A clear handoff is part of the work.</h2>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/65">The engagement should make the next decision easier for the people who own it, with enough evidence and control to keep improving.</p>
+      </div>
+      <ol class="grid gap-px border border-white/20 bg-white/20 md:grid-cols-3">
+        {workingSequence.map((step) => (
+          <li class="bg-ink p-7 md:p-8">
+            <h3 class="mt-10 font-display text-2xl font-medium tracking-[-0.04em]">{step.marker}</h3>
+            <p class="mt-4 leading-relaxed text-white/65">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
-  <section class="section-pad bg-white"><div class="container-site"><SectionHeading eyebrow="The experience behind the method" title="We have learned to stay close to the consequence." /><div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <article class="bg-white p-8 md:p-10"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h2 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h2><p class="mt-4 leading-relaxed text-muted">{item.text}</p></article>)}</div></div></section>
-  <section class="section-pad bg-paper"><div class="container-site"><SectionHeading eyebrow="Our principles" title="A few things we will not compromise." /><div class="mt-16 grid border-y border-line md:grid-cols-3">{principles.map((principle) => <div class="border-b border-line py-8 md:border-b-0 md:border-r md:p-9 md:first:pl-0 md:last:border-r-0"><p class="font-display text-2xl font-bold tracking-[-0.04em] text-cobalt">{principle.marker}</p><h2 class="mt-10 font-display text-3xl font-bold tracking-[-0.06em]">{principle.title}</h2><p class="mt-4 leading-relaxed text-muted">{principle.text}</p></div>)}</div></div></section>
-  <section class="section-pad bg-cobalt text-white"><div class="container-site grid gap-10 lg:grid-cols-[1fr_.9fr] lg:items-end"><div><p class="eyebrow text-lime">The partner you get</p><h2 class="section-title mt-5 max-w-3xl">Senior thinking. Frontier fluency. Institutional calm.</h2></div><p class="text-lg leading-relaxed text-white/70">We are comfortable at the level where a strategic question becomes architecture, economics, policy, operating rhythm, and change. The work has to remain coherent in every room.</p></div></section>
-  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-5xl font-bold tracking-[-0.07em]">Let’s design the institution that can carry what comes next.</h2><a class="btn-dark shrink-0" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div></section>
+  <section class="section-pad bg-white">
+    <div class="container-site">
+      <SectionHeading eyebrow="Working commitments" title="A few things we will not compromise." />
+      <div class="mt-16 grid border-y border-line md:grid-cols-3">
+        {principles.map((principle) => <div class="border-b border-line py-8 md:border-b-0 md:border-r md:p-9 md:first:pl-0 md:last:border-r-0"><p class="font-display text-2xl font-bold tracking-[-0.04em] text-cobalt">{principle.marker}</p><h2 class="mt-10 font-display text-3xl font-bold tracking-[-0.06em]">{principle.title}</h2><p class="mt-4 leading-relaxed text-muted">{principle.text}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-5xl font-bold tracking-[-0.07em]">Let’s design the institution that can carry what comes next.</h2><a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a></div></section>
 </Base>

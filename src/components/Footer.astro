@@ -1,5 +1,6 @@
 ---
 import { footerColumns, site } from "@/data/site";
+import TrademarkNotice from "@/components/TrademarkNotice.astro";
 ---
 
 <footer class="border-t border-line bg-ink text-white">
@@ -9,8 +10,9 @@ import { footerColumns, site } from "@/data/site";
         <span class="grid size-9 place-items-center bg-lime text-lg font-bold text-ink">GE</span>
         <span class="font-display text-lg font-bold uppercase tracking-[-0.04em]">Global <span class="text-lime">Enterprise</span></span>
       </a>
-      <p class="max-w-sm text-lg leading-relaxed text-white/65">Where intelligence meets the institution, the work has to hold.</p>
+      <p class="max-w-sm text-lg leading-relaxed text-white/65">Global consulting for infrastructure-scale programs: M&amp;A integration, solution strategy, enterprise architecture, and ITIL-led modernization. We support corporations, public agencies, and national-level transformation programs through enterprise-grade operating systems.</p>
       <p class="mt-6 text-sm text-white/55">{site.location}</p>
+      <p class="mt-2 text-xs uppercase tracking-[0.12em] text-white/40">Global operating network · Africa · Europe · North America · Latin America · Caribbean · South America · Asia-Pacific</p>
       <div class="mt-6 flex flex-col gap-2 text-sm font-bold"><a class="text-lime underline decoration-lime/40 underline-offset-4 hover:decoration-lime" href={`mailto:${site.email}`}>{site.email}</a><a class="text-white/75 hover:text-lime" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a></div>
     </div>
     {footerColumns.map((column) => (
@@ -21,6 +23,9 @@ import { footerColumns, site } from "@/data/site";
         </ul>
       </div>
     ))}
+  </div>
+  <div class="container-site pb-6">
+    <TrademarkNotice compact />
   </div>
   <div class="container-site flex flex-col gap-4 border-t border-white/15 py-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
     <p>© {new Date().getFullYear()} Global Enterprise. Built for what comes next.</p>

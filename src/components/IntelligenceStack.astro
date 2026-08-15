@@ -11,31 +11,26 @@ const { mediaSrc, mediaAlt = "", mediaCaption = "" } = Astro.props;
 
 const layers = [
   {
-    index: "01",
     label: "Strategic mandate",
     text: "Mission, board, portfolio, or national priority",
     tone: "mandate",
   },
   {
-    index: "02",
     label: "Data lab",
     text: "Trusted data products, lineage, access, and observability",
     tone: "data",
   },
   {
-    index: "03",
     label: "AI labs",
     text: "Models, agents, evaluation, red-team, and human review",
     tone: "ai",
   },
   {
-    index: "04",
     label: "Quantum intelligence",
     text: "Optimization, sensing, scenarios, and frontier research",
     tone: "quantum",
   },
   {
-    index: "05",
     label: "Enterprise change system",
     text: "ITIL cadence, cost control, adoption, and recovery",
     tone: "change",
@@ -64,7 +59,6 @@ const layers = [
     <ol class="intelligence-stack-layers">
       {layers.map((layer) => (
         <li class:list={["intelligence-stack-layer", `is-${layer.tone}`]}>
-          <span class="intelligence-stack-index">{layer.index}</span>
           <div>
             <strong>{layer.label}</strong>
             <p>{layer.text}</p>
@@ -169,7 +163,7 @@ const layers = [
 
   .intelligence-stack-layer {
     display: grid;
-    grid-template-columns: 2.5rem 1fr auto;
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 1rem;
     min-height: 5.25rem;
@@ -183,14 +177,6 @@ const layers = [
     transform: translateX(0.35rem);
     border-color: var(--color-cobalt);
     background: white;
-  }
-
-  .intelligence-stack-index {
-    color: var(--color-cobalt);
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.08em;
   }
 
   .intelligence-stack-layer strong {
@@ -258,7 +244,7 @@ const layers = [
     }
 
     .intelligence-stack-layer {
-      grid-template-columns: 2rem 1fr;
+      grid-template-columns: 1fr auto;
       gap: 0.7rem;
       padding: 0.85rem;
     }

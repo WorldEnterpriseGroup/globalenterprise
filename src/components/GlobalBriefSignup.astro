@@ -15,12 +15,12 @@ const { dark = true } = Astro.props;
       <h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">One standard. Translated for the system in front of you.</h2>
       <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/65">A substantial field guide for leaders coordinating AI, infrastructure, data, and capability across regions, partners, and time zones—with a translation framework, context lens, management artifacts, worksheet, source notes, and explicit limitations.</p>
       <ul class="mt-7 grid gap-3 text-sm text-white/65 sm:grid-cols-3 lg:grid-cols-1">
-        <li><span class="text-lime">01</span> A cross-border decision frame and context lens</li>
-        <li><span class="text-lime">02</span> Management artifacts for local adaptation</li>
-        <li><span class="text-lime">03</span> A worksheet, source notes, and practical first move</li>
+        <li>A cross-border decision frame and context lens</li>
+        <li>Management artifacts for local adaptation</li>
+        <li>A worksheet, source notes, and practical first move</li>
       </ul>
     </div>
-    <form class="global-brief-form" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind="global_brief" aria-describedby="global-brief-form-notice">
+    <form class="global-brief-form" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind="global_brief" data-corporate-email-only aria-describedby="global-brief-form-notice">
       <input type="hidden" name="_subject" value="Request the Global Brief" />
       <input type="hidden" name="_next" value={`${site.url}/insights/thanks/?source=global-brief`} />
       <input type="hidden" name="_template" value="table" />
@@ -28,7 +28,7 @@ const { dark = true } = Astro.props;
       <input type="hidden" name="form_kind" value="global_brief" />
       <input type="hidden" name="source_url" value={`${site.url}/`} />
       <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
-      <p id="global-brief-form-notice" class="form-notice">{site.publicFormNotice} The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
+      <p id="global-brief-form-notice" class="form-notice">{site.publicFormNotice} Company email required: Gmail, Yahoo, Hotmail, and Outlook.com accounts are not eligible for this brief. The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
       <fieldset>
         <legend>Delivery details</legend>
         <div class="grid gap-6 sm:grid-cols-2">

@@ -1,0 +1,30 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<aside class:list={["trademark-notice", compact && "is-compact"]} aria-label="Third-party names and frameworks">
+  <p>
+    Third-party framework, product, and company names identify environments and practices a client may ask us to assess, integrate, or operate.
+    Global Enterprise is independent and does not imply affiliation, sponsorship, endorsement, certification, or authorization unless expressly documented.
+    All trademarks belong to their respective owners.
+  </p>
+</aside>
+
+<style>
+  .trademark-notice {
+    border-inline-start: 2px solid currentColor;
+    padding-inline-start: 1rem;
+    color: var(--color-muted);
+    font-size: 0.74rem;
+    line-height: 1.65;
+  }
+
+  .trademark-notice.is-compact {
+    color: rgb(255 255 255 / 45%);
+    font-size: 0.68rem;
+  }
+</style>

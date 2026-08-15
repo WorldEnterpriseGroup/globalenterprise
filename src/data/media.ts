@@ -16,6 +16,13 @@ import homeIntelligenceWorkshop from "@/assets/media/home-intelligence-workshop.
 import homeListeningRoom from "@/assets/media/home-listening-room.avif";
 import homeMandateBriefing from "@/assets/media/home-mandate-briefing.avif";
 import homeSystemInfrastructure from "@/assets/media/home-system-infrastructure.avif";
+import homeGlobalDigitalInfrastructureV2 from "@/assets/media/home-global-digital-infrastructure-v2.avif";
+import homeGlobalInstitutionV2 from "@/assets/media/home-global-institution-v2.avif";
+import homeGlobalInstitutionsV2 from "@/assets/media/home-global-institutions-v2.avif";
+import homeGlobalMandateV2 from "@/assets/media/home-mandate-global-v2.avif";
+import homeGlobalNexusV2 from "@/assets/media/home-global-nexus-v2.avif";
+import homeGlobalOutlookV2 from "@/assets/media/home-global-outlook-v2.avif";
+import homeGlobalPortV2 from "@/assets/media/home-global-port-v2.avif";
 import insightsFieldNotes from "@/assets/media/insights-field-notes.avif";
 import servicesControlRoom from "@/assets/media/services-control-room.avif";
 import solutionsCareHandoff from "@/assets/media/solutions-care-handoff.avif";
@@ -43,6 +50,13 @@ export const media = {
   "/media/original/home-listening-room.avif": homeListeningRoom,
   "/media/original/home-mandate-briefing.avif": homeMandateBriefing,
   "/media/original/home-system-infrastructure.avif": homeSystemInfrastructure,
+  "/media/original/home-global-digital-infrastructure-v2.avif": homeGlobalDigitalInfrastructureV2,
+  "/media/original/home-global-institution-v2.avif": homeGlobalInstitutionV2,
+  "/media/original/home-global-institutions-v2.avif": homeGlobalInstitutionsV2,
+  "/media/original/home-mandate-global-v2.avif": homeGlobalMandateV2,
+  "/media/original/home-global-nexus-v2.avif": homeGlobalNexusV2,
+  "/media/original/home-global-outlook-v2.avif": homeGlobalOutlookV2,
+  "/media/original/home-global-port-v2.avif": homeGlobalPortV2,
   "/media/original/insights-field-notes.avif": insightsFieldNotes,
   "/media/original/services-control-room.avif": servicesControlRoom,
   "/media/original/solutions-care-handoff.avif": solutionsCareHandoff,

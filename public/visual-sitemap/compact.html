@@ -30,7 +30,6 @@
     .card:hover,.card:focus-visible { border-color:var(--accent); outline:2px solid var(--accent); outline-offset:1px; }
     .card.is-selected { outline:3px solid var(--accent); outline-offset:-3px; }
     .card-preview { display:flex; min-height:110px; flex-direction:column; justify-content:space-between; padding:9px; background:linear-gradient(135deg,#10131d,#18315d 58%,#315b8e); color:white; }
-    .number { align-self:flex-start; min-width:19px; padding:2px 3px; border:1px solid #fff; border-radius:2px; background:var(--accent); color:#fff; box-shadow:0 1px 3px #0006; font-size:8px; font-weight:800; line-height:1; text-align:center; }
     .card-name { margin-top:13px; font-size:12px; font-weight:700; line-height:1.2; }
     .caption { padding:7px 8px 8px; border-top:1px solid var(--line); }
     .filename { font-size:11px; font-weight:750; word-break:break-word; }
@@ -61,7 +60,7 @@
         <div class="summary" id="summary"></div>
       </header>
       <nav class="directory-wrap" aria-label="Page directory">
-        <h2>Numbered page directory</h2>
+        <h2>Page directory</h2>
         <ol class="directory" id="directory"></ol>
       </nav>
       <main id="main"></main>
@@ -148,20 +147,32 @@
       {group:'Site tools',url:'/visual-sitemap/',file:'visual-sitemap/index.html',title:'The full site architecture.',kind:'site tool'},
       {group:'Site tools',url:'/visual-sitemap/compact.html',file:'visual-sitemap/compact.html',title:'Compact sitemap with live preview.',kind:'site tool'}
     ];
-    const numberFor = (index) => String(index + 1);
+    pages.push(
+      {group:'Start here',url:'/global/',file:'global/index.html',title:'Global operating contexts.',kind:'global'},
+      {group:'Start here',url:'/contact/thanks/',file:'contact/thanks/index.html',title:'Contact confirmation.',kind:'confirmation'},
+      {group:'Solutions',url:'/solutions/',file:'solutions/index.html',title:'Decision-led pathways.',kind:'solution'},
+      ...['enterprise-ai','modernization','operating-model','healthcare-transformation','data-labs-ai-cost-management','quantum-intelligence','digital-infrastructure-resilience','supply-network-operations','portfolio-delivery'].map((slug) => ({group:'Solutions',url:`/solutions/${slug}/`,file:`solutions/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'solution'})),
+      {group:'Industries',url:'/industries/frontier-intelligence-autonomous-systems/',file:'industries/frontier-intelligence-autonomous-systems/index.html',title:'Frontier intelligence & autonomous systems.',kind:'industry'},
+      {group:'Industries',url:'/industries/logistics-and-supply-networks/',file:'industries/logistics-and-supply-networks/index.html',title:'Logistics & supply networks.',kind:'industry'},
+      ...['2035-is-a-design-constraint','clinical-ai-needs-real-world-evidence','compute-is-a-governance-problem','cybersecurity-is-an-operating-outcome','productivity-is-a-workflow-outcome','public-service-is-a-product','quantum-intelligence-needs-an-operating-model','resilience-is-a-capital-allocation-decision'].map((slug) => ({group:'Insights',url:`/insights/${slug}/`,file:`insights/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'insight'})),
+      ...['ai-cost-management','quantum-intelligence','research-and-foresight'].map((slug) => ({group:'Insights',url:`/insights/topics/${slug}/`,file:`insights/topics/${slug}/index.html`,title:`${slug.replaceAll('-',' ')} topic`,kind:'topic'})),
+      {group:'Insights',url:'/insights/thanks/',file:'insights/thanks/index.html',title:'Insights confirmation.',kind:'confirmation'},
+      {group:'Resources',url:'/resources/',file:'resources/index.html',title:'Business reports.',kind:'resource'},
+      ...['ai-governance-controls','enterprise-decision-readiness','modernization-investment-priority'].map((slug) => ({group:'Resources',url:`/resources/${slug}/`,file:`resources/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'resource'})),
+      {group:'Resources',url:'/resources/thanks/',file:'resources/thanks/index.html',title:'Resource confirmation.',kind:'confirmation'},
+      {group:'Company & guidance',url:'/trust/vendor-pack/',file:'trust/vendor-pack/index.html',title:'Vendor and trust pack.',kind:'company'}
+    );
     const directory = document.querySelector('#directory');
     const main = document.querySelector('#main');
     const summary = document.querySelector('#summary');
-    const previewNumber = document.querySelector('#preview-number');
     const previewName = document.querySelector('#preview-name');
     const previewFrame = document.querySelector('#preview-frame');
     const groups = [...new Set(pages.map((page) => page.group))];
-    summary.replaceChildren(...[`${pages.length} numbered pages`, `${groups.length} architecture groups`, 'all routes live'].map((text) => Object.assign(document.createElement('span'), {textContent:text})));
+    summary.replaceChildren(...[`${pages.length} pages`, `${groups.length} architecture groups`, 'all routes live'].map((text) => Object.assign(document.createElement('span'), {textContent:text})));
 
-    function select(entry, index, card) {
+    function select(entry, card) {
       document.querySelectorAll('.card.is-selected').forEach((item) => item.classList.remove('is-selected'));
       card.classList.add('is-selected');
-      previewNumber.textContent = `Page ${numberFor(index)}`;
       previewName.replaceChildren();
       const link = document.createElement('a');
       link.href = entry.url;
@@ -182,23 +193,22 @@
       const grid = document.createElement('div');
       grid.className = 'grid';
       groupPages.forEach((entry) => {
-        const index = pages.indexOf(entry);
         const card = document.createElement('article');
         card.className = 'card';
-        card.id = `page-${numberFor(index)}`;
+        card.id = `page-${entry.url.replaceAll('/', '-') || 'home'}`;
         card.tabIndex = 0;
-        card.setAttribute('aria-label', `${numberFor(index)}: ${entry.file}`);
-        card.innerHTML = `<div class="card-preview"><span class="number">${numberFor(index)}</span><span class="card-name">${entry.title}</span></div><div class="caption"><div class="filename">${entry.file}</div><div class="title">${entry.kind}</div></div>`;
-        ['click','focus'].forEach((eventName) => card.addEventListener(eventName, () => select(entry, index, card)));
+        card.setAttribute('aria-label', entry.file);
+        card.innerHTML = `<div class="card-preview"><span class="card-name">${entry.title}</span></div><div class="caption"><div class="filename">${entry.file}</div><div class="title">${entry.kind}</div></div>`;
+        ['click','focus'].forEach((eventName) => card.addEventListener(eventName, () => select(entry, card)));
         grid.append(card);
         const item = document.createElement('li');
-        item.innerHTML = `<a href="#page-${numberFor(index)}"><span>${numberFor(index)}</span>${entry.file}</a>`;
+        item.innerHTML = `<a href="#page-${entry.url.replaceAll('/', '-') || 'home'}">${entry.file}</a>`;
         directory.append(item);
       });
       section.append(grid);
       main.append(section);
     });
-    select(pages[0], 0, document.querySelector('.card'));
+    select(pages[0], document.querySelector('.card'));
 
     const splitter = document.querySelector('.splitter');
     let isResizing = false;

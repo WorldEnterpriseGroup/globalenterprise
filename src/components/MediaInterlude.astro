@@ -6,7 +6,6 @@ interface Props {
   alt: string;
   eyebrow: string;
   caption: string;
-  index?: string;
   tone?: "paper" | "white" | "ink";
   className?: string;
   reverse?: boolean;
@@ -21,7 +20,6 @@ const {
   alt,
   eyebrow,
   caption,
-  index = "01",
   tone = "paper",
   className = "",
   reverse = false,
@@ -35,14 +33,12 @@ const {
 <section class:list={["media-interlude", `media-interlude-${tone}`, `media-interlude-ratio-${ratio}`, reverse && "media-interlude-reverse", className]} data-media-role={eyebrow}>
   <div class="container-site media-interlude-marker" aria-hidden="true">
     <span class="media-interlude-marker-rule"></span>
-    <span class="media-interlude-marker-index">{index}</span>
     <span class="media-interlude-marker-label">{eyebrow}</span>
   </div>
   <div class="container-site media-interlude-grid">
     <figure class="media-interlude-figure">
       <div class="media-interlude-image-wrap" style={`--media-position: ${position}`}>
         <AssetImage src={src} alt={alt} width={1536} height={1024} loading={loading} decoding="async" sizes="(min-width: 900px) 52vw, 100vw" class="media-interlude-image" />
-        <span class="media-interlude-index" aria-hidden="true">{index}</span>
       </div>
       <figcaption>{caption}</figcaption>
     </figure>
@@ -124,14 +120,6 @@ const {
     background: currentColor;
   }
 
-  .media-interlude-marker-index {
-    color: var(--color-muted);
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    font-weight: 400;
-    letter-spacing: 0;
-  }
-
   .media-interlude-image-wrap {
     position: relative;
     overflow: hidden;
@@ -156,21 +144,6 @@ const {
   .media-interlude-figure:hover :global(.media-interlude-image) {
     transform: scale(1.025);
     filter: saturate(1) contrast(1.04);
-  }
-
-  .media-interlude-index {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    display: grid;
-    width: 2.75rem;
-    height: 2.75rem;
-    place-items: center;
-    border: 1px solid rgb(255 255 255 / 45%);
-    background: rgb(16 19 29 / 68%);
-    color: white;
-    font-family: var(--font-display);
-    font-size: 1.05rem;
   }
 
   .media-interlude-figure figcaption {

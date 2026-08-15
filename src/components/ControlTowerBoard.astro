@@ -1,0 +1,176 @@
+---
+const headingId = "supply-network-control-tower-heading";
+const descriptionId = "supply-network-control-tower-description";
+
+const lanes = [
+  {
+    label: "Design",
+    title: "Network and 3PL strategy",
+    visible: "Service promise · nodes · capacity · cost-to-serve",
+    decision: "Choose the network shape, node roles, and partner model that can carry the promise.",
+  },
+  {
+    label: "Sense",
+    title: "Inventory, transport, and order visibility",
+    visible: "Stock · milestones · orders · warehouse events",
+    decision: "Turn shared events into a common operating picture without pretending every signal is equally reliable.",
+  },
+  {
+    label: "Steer",
+    title: "Exception and partner governance",
+    visible: "Carrier · warehouse · 3PL · customs and trade boundaries",
+    decision: "Set triage thresholds, owners, escalation paths, and evidence for decisions that cross organizational boundaries.",
+  },
+  {
+    label: "Recover",
+    title: "Continuity and reverse logistics",
+    visible: "Alternate nodes · disruption · returns · recovery",
+    decision: "Keep continuity and reverse flows usable when the normal route, partner, or service assumption fails.",
+  },
+];
+---
+
+<figure class="control-tower-board" data-diagram-id="supply-network-control-tower" aria-labelledby={headingId} aria-describedby={descriptionId}>
+  <figcaption class="control-tower-board-header">
+    <div>
+      <p class="eyebrow text-cobalt">Supply network operations · control tower</p>
+      <h2 id={headingId} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">A control tower is a decision system, not another dashboard.</h2>
+      <p id={descriptionId} class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">The operating picture is useful when network design, event visibility, partner governance, and recovery decisions share a clear owner and an exception path.</p>
+    </div>
+    <div class="control-tower-board-status"><span aria-hidden="true"></span><span>Conceptual operating pattern</span></div>
+  </figcaption>
+
+  <div class="control-tower-board-table-wrap" role="region" aria-label="Scrollable supply network control-tower table" tabindex="0">
+    <table class="control-tower-board-table">
+      <caption class="sr-only">Supply network control tower decision lanes</caption>
+      <thead>
+        <tr><th scope="col">Lane</th><th scope="col">Operating surface</th><th scope="col">Visible signals</th><th scope="col">Decision to govern</th></tr>
+      </thead>
+      <tbody>
+        {lanes.map((lane) => (
+          <tr>
+            <th scope="row"><span>{lane.label}</span></th>
+            <td><strong>{lane.title}</strong></td>
+            <td>{lane.visible}</td>
+            <td>{lane.decision}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="control-tower-board-note">The board is intentionally not a live metric display. It is an accessible design reference for deciding which signals, partner boundaries, and recovery choices belong in the same management rhythm.</p>
+</figure>
+
+<style>
+  .control-tower-board {
+    margin: 0;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+  }
+
+  .control-tower-board-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .control-tower-board-status {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .control-tower-board-status span:first-child {
+    display: block;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 999px;
+    background: var(--color-lime);
+    box-shadow: 0 0 0 0.25rem rgb(183 232 67 / 18%);
+  }
+
+  .control-tower-board-table-wrap {
+    margin-top: clamp(2rem, 5vw, 4rem);
+    overflow-x: auto;
+    border: 1px solid var(--color-line);
+    background: var(--color-line);
+  }
+
+  .control-tower-board-table {
+    width: 100%;
+    min-width: 55rem;
+    border-collapse: collapse;
+    background: var(--color-paper);
+    text-align: left;
+  }
+
+  .control-tower-board-table th,
+  .control-tower-board-table td {
+    padding: 1.15rem 1.25rem;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .control-tower-board-table tr:last-child th,
+  .control-tower-board-table tr:last-child td { border-bottom: 0; }
+
+  .control-tower-board-table th:last-child,
+  .control-tower-board-table td:last-child { border-right: 0; }
+
+  .control-tower-board-table thead th {
+    color: var(--color-muted);
+    background: var(--color-white, #fff);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .control-tower-board-table tbody th {
+    width: 8rem;
+    color: var(--color-cobalt);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+  }
+
+  .control-tower-board-table tbody td { color: var(--color-muted); }
+  .control-tower-board-table tbody td strong { color: var(--color-ink); font-weight: 700; }
+
+  .control-tower-board-index {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: var(--color-cobalt);
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  .control-tower-board-note {
+    max-width: 58rem;
+    margin: 1.25rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 600px) {
+    .control-tower-board-header { display: block; }
+    .control-tower-board-status { margin-top: 1.5rem; }
+    .control-tower-board-table-wrap::after { display: block; padding: 0.6rem 0.8rem; content: "Swipe horizontally to inspect every decision lane →"; color: var(--color-muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  }
+</style>

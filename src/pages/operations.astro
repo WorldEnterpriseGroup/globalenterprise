@@ -2,34 +2,157 @@
 import Base from "@/layouts/Base.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import GlobalBriefSignup from "@/components/GlobalBriefSignup.astro";
+import GlobalOperatingFabric from "@/components/GlobalOperatingFabric.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { globalOperatingModel, regionContexts } from "@/data/site";
+import { regionContexts } from "@/data/site";
+
+const decisionHubs = [
+  {
+    name: "Africa",
+    lens: "Infrastructure and delivery continuity",
+    text: "A context for testing whether integration assumptions hold when grid quality, satellite routes, and talent distribution differ materially by market.",
+  },
+  {
+    name: "North America",
+    lens: "Finance, telecom, and institutional rhythm",
+    text: "A context for balancing capital scale, operating continuity, and partner ecosystems where execution time compresses quickly.",
+  },
+  {
+    name: "Europe",
+    lens: "Regulation and evidence translation",
+    text: "A context for testing how governance, privacy, data, and institutional trust shape speed and continuity.",
+  },
+  {
+    name: "Latin America & Caribbean",
+    lens: "Scale, language, and institutional trust",
+    text: "A context for testing whether a capability can convert strategic intent into local relevance without overpromising service or reliability.",
+  },
+  {
+    name: "South America",
+    lens: "Infrastructure adaptation and operations",
+    text: "A context for assessing transport, connectivity, capital, and governance constraints before an integration is assumed to be enterprise-ready.",
+  },
+  {
+    name: "Asia-Pacific",
+    lens: "Speed and interoperability",
+    text: "A context for pressure-testing handoffs, supplier complexity, and communication paths across dense, multi-jurisdiction markets.",
+  },
+] as const;
+
+const integrationSequence = [
+  {
+    label: "01 · Frame",
+    title: "Name the promise before the synergy.",
+    text: "Start with the service, mission, or customer promise the combined organization must protect. A deal thesis that names only revenue, cost, or footprint leaves the operating consequence implicit.",
+  },
+  {
+    label: "02 · Map",
+    title: "Draw the interfaces that carry the deal.",
+    text: "Map decision rights, identity, data, platforms, suppliers, energy, connectivity, finance, marketing, and local obligations. The legal boundary is one fact; the dependency boundary is the one people experience.",
+  },
+  {
+    label: "03 · Integrate",
+    title: "Make the common layer deliberate.",
+    text: "Decide what becomes shared, what stays regional, what remains local, and what must be jointly governed. Bounded autonomy is a design choice, not a temporary exception to central control.",
+  },
+  {
+    label: "04 · Transfer",
+    title: "Leave behind a system that can learn.",
+    text: "Set the owners, evidence, recovery paths, and review cadence before the integration is called complete. The goal is an operating system the institution can run after the transaction team leaves.",
+  },
+] as const;
+
+const interfaceRows = [
+  {
+    interface: "Finance ↔ operations",
+    question: "What capital, capacity, resilience, and transition work does the service promise require?",
+    artifact: "Capital-to-service map",
+  },
+  {
+    interface: "Marketing ↔ operations",
+    question: "What can the brand promise across regions, and what local mechanism makes that promise true?",
+    artifact: "Promise-to-capability map",
+  },
+  {
+    interface: "ITIL practice ↔ change",
+    question: "What can change safely, who can stop it, and how does the organization learn when the path fails?",
+    artifact: "Service transition and recovery note",
+  },
+  {
+    interface: "Center ↔ local edge",
+    question: "Which decisions need a shared control surface, and which need proximity to the signal?",
+    artifact: "Boundary and decision-rights register",
+  },
+] as const;
+
+const thesisRows = [
+  {
+    label: "Transactions",
+    text: "M&A diligence will treat the target as a set of capabilities and interfaces to connect—not only a set of assets and financial statements.",
+  },
+  {
+    label: "Infrastructure",
+    text: "Energy, facilities, cloud, fiber, telecom, satellite, and recovery paths will be part of the service case because the digital promise depends on physical conditions.",
+  },
+  {
+    label: "Commercial system",
+    text: "Finance, marketing, product, and operations will share one view of the promise, the capacity behind it, the cost of resilience, and the evidence that should change the plan.",
+  },
+  {
+    label: "Management system",
+    text: "Service management, human judgment, and machine assistance will work as a learning loop: observe, decide, change, recover, and improve across regions without flattening them.",
+  },
+] as const;
 ---
 
-<Base title="International operations | Global Enterprise" description="How Global Enterprise coordinates strategy, delivery, and operating contexts across regions, partners, and time zones." image="/media/generated/federal-mission.avif" keywords={["international operations consulting", "cross-border transformation", "regional operating model", "global AI governance", "multi-region operating model"]}>
+<Base title="Cross-border M&amp;A and international operations | Global Enterprise" description="How Global Enterprise helps leaders design cross-border M&amp;A and coordinate energy, infrastructure, communications, capital, and AI across operating contexts." image="/media/generated/federal-mission.avif" keywords={["cross-border M&A", "international operations consulting", "global enterprise integration", "cross-border transformation", "regional operating model", "global AI governance", "multi-region operating model"]}>
   <section class="operations-hero bg-ink text-white">
     <div class="container-site grid gap-12 py-20 md:py-28 lg:grid-cols-[.9fr_1.1fr] lg:items-end lg:gap-20">
       <div>
-        <p class="eyebrow text-lime">Global Enterprise · international operations</p>
-        <h1 class="section-title mt-7 max-w-4xl">One standard. Many operating contexts.</h1>
-        <p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/70">The same ambition changes shape when it crosses a regulator, a language, a time zone, a supply chain, or a community. We help leaders keep the strategic thread while making the work locally useful.</p>
+        <p class="eyebrow text-lime">Global Enterprise · cross-border M&amp;A</p>
+        <h1 class="section-title mt-7 max-w-4xl">Build the enterprise that can integrate the world.</h1>
+        <p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/70">For global enterprises, M&amp;A is not only a capital event. It is the design of a shared operating system across energy, infrastructure, satellite and telecommunications, finance, marketing, and AI—translated into the local contexts where the promise has to hold.</p>
         <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary" href="#contexts">Explore the context lenses <span aria-hidden="true">↓</span></a><a class="btn-ghost text-white" href="/contact/">Bring an international mandate <span aria-hidden="true">↗</span></a></div>
       </div>
       <figure class="operations-hero-figure">
         <AssetImage src="/media/generated/federal-mission.avif" width={1536} height={1024} loading="eager" fetchpriority="high" decoding="async" sizes="(min-width: 1024px) 54vw, 100vw" alt="A briefing room with maps and working papers arranged around a shared mission" class="operations-hero-image" />
-        <figcaption><span>Field note</span> An international mandate becomes executable when the local decision, owner, and consequence are visible.</figcaption>
+        <figcaption><span>Field note</span> A cross-border deal becomes executable when the shared decision, local owner, and operating consequence are visible.</figcaption>
       </figure>
+    </div>
+  </section>
+
+  <section id="hubs" class="section-pad bg-white">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-20">
+        <SectionHeading eyebrow="Global decision hubs" title="Bring world ideas together without flattening the context." text="Decision lenses are used across regions where capital, infrastructure, communications, and regulation interact differently. Africa, the Caribbean, Latin America, South America, Europe, and Asia-Pacific are represented through our global advisory network." />
+        <div class="space-y-6 text-lg leading-relaxed text-muted">
+          <p>The question is not whether one center can export a playbook. It is whether an idea, capability, or acquisition can travel between contexts without losing the evidence, authority, service promise, or local legitimacy that make it useful.</p>
+          <p>These are operating contexts and representative presence zones, not claims of physical office inventories. They help leadership teams bring different world views into the same M&amp;A conversation while keeping the boundary between what is known, what is inferred, and what must be validated locally.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {decisionHubs.map((hub) => (
+          <article class="bg-paper p-7 md:p-8">
+            <p class="eyebrow text-cobalt">Decision hub · {hub.name}</p>
+            <h2 class="mt-8 font-display text-2xl font-medium tracking-[-0.05em]">{hub.lens}</h2>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{hub.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-8 border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted"><strong class="text-ink">The global-enterprise test:</strong> can a capability learned in one hub be integrated elsewhere through a clear boundary, a local owner, and a service path that survives a different language, regulator, infrastructure route, or customer expectation?</p>
     </div>
   </section>
 
   <section id="contexts" class="section-pad bg-paper">
     <div class="container-site">
       <div class="grid gap-10 lg:grid-cols-[.62fr_1.38fr] lg:gap-20">
-        <SectionHeading eyebrow="Context lenses" title="The question changes with the system." text="These are not office claims or a list of locations. They are the operating conditions we put into the room when a mandate crosses borders, partners, or institutions." />
+        <SectionHeading eyebrow="Regional operating contexts" title="The integration thesis travels. The mechanism changes." text="These are not office claims or a list of locations. They are the operating conditions we put into the room when an M&amp;A mandate crosses borders, partners, institutions, and the systems that carry a service promise." />
         <div class="operations-context-index">
           {regionContexts.map((context) => (
             <article id={context.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")} class="operations-context-row scroll-mt-24">
-              <div class="operations-context-code">{context.code}</div>
+
               <div>
                 <p class="eyebrow text-cobalt">{context.name}</p>
                 <h2>{context.title}</h2>
@@ -45,17 +168,139 @@ import { globalOperatingModel, regionContexts } from "@/data/site";
 
   <section class="section-pad bg-white">
     <div class="container-site">
-      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="The delivery model" title="Translation is the capability." text="An international engagement is not a central template copied into local markets. It is a shared management system with enough room for context, language, law, and lived experience." /><p class="max-w-xs border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted">Shared standards create coherence. Local intelligence creates usefulness.</p></div>
-      <div class="operations-model mt-14" data-diagram-id="international-operating-model" aria-labelledby="operations-model-title">
-        <h2 id="operations-model-title" class="sr-only">International operations sequence</h2>
-        {globalOperatingModel.map((step, index) => <article class="operations-model-step"><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.text}</p></div>{index < globalOperatingModel.length - 1 && <i aria-hidden="true">→</i>}</article>)}
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="The delivery model" title="M&amp;A creates value when translation becomes capability." text="An international integration is not a central template copied into local markets. It is a shared management system with enough room for context, language, law, and lived experience—and enough discipline to keep the combined enterprise coherent." /><p class="max-w-xs border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted">Shared standards create coherence. Local intelligence creates usefulness.</p></div>
+      <div class="mt-14"><GlobalOperatingFabric /></div>
+    </div>
+  </section>
+
+  <section id="integration" class="section-pad bg-paper">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-20">
+        <SectionHeading eyebrow="Cross-border M&amp;A" title="Treat the transaction as operating-system design." text="A cross-border acquisition is not complete when the legal entities are aligned. It becomes useful when the combined organization can make decisions, keep promises, and recover across the boundaries the deal creates." />
+        <div class="space-y-6 text-lg leading-relaxed text-muted">
+          <p>The integration thesis should be explicit about what becomes common, what remains local, and what must be jointly governed. That includes decision rights and data, but also customer promises, supplier dependencies, energy and connectivity, language, workforce practice, and the service paths people rely on.</p>
+          <p>The long view is not one center making every context identical. It is a federation of regional service systems linked by shared evidence, control intent, and learning—so an acquisition can add capability to the whole without erasing the conditions that made the capability work.</p>
+          <p>The practical test is simple: can a leader trace the shared ambition to a local decision, an accountable owner, the evidence behind it, and a recovery path when the preferred route is unavailable? If not, the integration is transferring ambiguity faster than it is transferring capability.</p>
+        </div>
+      </div>
+
+      <ol class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4" aria-label="Cross-border M&amp;A operating-system design sequence">
+        {integrationSequence.map((step) => (
+          <li class="bg-white p-7 md:p-8">
+            <p class="eyebrow text-cobalt">{step.label}</p>
+            <h2 class="mt-10 font-display text-2xl font-medium tracking-[-0.05em]">{step.title}</h2>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+
+      <aside class="mt-10 border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted">
+        <strong class="text-ink">The diligence question:</strong> which interfaces would fail first if the acquired business had to operate through a new identity boundary, a different provider, a disrupted route, or a regional decision that the center did not anticipate?
+      </aside>
+    </div>
+  </section>
+
+  <section id="constraints" class="section-pad bg-ink text-white">
+    <div class="container-site">
+      <div class="grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+        <div>
+          <p class="eyebrow text-lime">The physical and communications layer</p>
+          <h2 class="section-title mt-5 max-w-3xl">Global reach is bounded by energy, infrastructure, and the path a signal can travel.</h2>
+        </div>
+        <div class="space-y-6 text-lg leading-relaxed text-white/70">
+          <p>Digital platforms depend on power, cooling, connectivity, identity, data, people, and contracts. A corporate operating model that treats those conditions as back-office details will discover them as service failures, delayed decisions, or stranded investment.</p>
+          <p>Energy availability, facilities, permitting, cloud regions, terrestrial fiber, cellular and telecom providers, and satellite links each shape the feasible route. The work is to map the dependency, the authority, the alternate path, and the degraded-mode service promise before the incident makes the design for you. That is the infrastructure discipline a 2050 enterprise will need: not a promise of perfect continuity, but a system that can make a bounded choice and recover across contexts.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 grid gap-px border border-white/20 bg-white/20 md:grid-cols-2">
+        <article class="bg-ink p-8 md:p-10">
+          <p class="eyebrow text-lime">Energy and infrastructure</p>
+          <h2 class="mt-8 font-display text-3xl font-medium tracking-[-0.05em]">Make capacity part of the operating case.</h2>
+          <p class="mt-5 leading-relaxed text-white/65">Capital programs, grid or utility dependencies, data-center and facilities constraints, supply chains, workforce coverage, security, and community or regulatory interfaces should be read as one service chain. Finance can then see transition and resilience requirements; operations can see what it must be able to run; leadership can see which assumptions would change the investment.</p>
+        </article>
+        <article class="bg-ink p-8 md:p-10">
+          <p class="eyebrow text-lime">Satellite, telecom, and global communications</p>
+          <h2 class="mt-8 font-display text-3xl font-medium tracking-[-0.05em]">Design the route, not just the channel.</h2>
+          <p class="mt-5 leading-relaxed text-white/65">Satellite and telecom paths can extend reach or provide an alternate route, but they also introduce their own latency, coverage, bandwidth, provider, terminal, identity, and regulatory conditions. A global communications plan therefore needs approved channels, message authority, multilingual terminology, time-zone handoffs, crisis fallback, and a clear point where local operators can act without waiting for the center.</p>
+        </article>
+      </div>
+
+      <p class="mt-10 max-w-3xl border-l-2 border-lime pl-5 text-sm leading-relaxed text-white/65">Continuity is a network property. The objective is not to pretend every route is equivalent; it is to make the choice, the limit, and the recovery owner visible before a regional constraint becomes an enterprise surprise.</p>
+    </div>
+  </section>
+
+  <section id="interfaces" class="section-pad bg-white">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-20">
+        <SectionHeading eyebrow="The commercial and service interfaces" title="Finance, marketing, and ITIL practices keep the promise honest." text="The global operating system is tested at the seam between what the enterprise funds, what the market is promised, and what teams can support and improve." />
+        <div class="space-y-6 text-lg leading-relaxed text-muted">
+          <p>Finance should see more than a synergy case. It should see the capital, capacity, transition work, resilience option, and operating ownership required for the service to hold. Marketing should see more than a launch calendar. It should see the local mechanism, language, partner path, and delivery capacity behind the promise.</p>
+          <p>ITIL practices give the service side a useful grammar: incident and request handling, problem learning, configuration and knowledge visibility, change and release control, service transition, and continual improvement. We use those practices to make change safer and more learnable, not to create method theater or claim a certification. In the long view, this is how the enterprise turns every release, failure, and recovery into portable operating knowledge.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 overflow-x-auto border-y border-line">
+        <table class="w-full min-w-[48rem] border-collapse text-left">
+          <caption class="border-b border-line py-4 text-left text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Interfaces to make explicit in an international operating model</caption>
+          <thead>
+            <tr class="border-b border-line text-xs uppercase tracking-[0.12em] text-muted">
+              <th scope="col" class="px-3 py-4 font-bold">Interface</th>
+              <th scope="col" class="px-3 py-4 font-bold">Question</th>
+              <th scope="col" class="px-3 py-4 font-bold">Useful artifact</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm leading-relaxed">
+            {interfaceRows.map((row) => (
+              <tr class="border-b border-line last:border-b-0">
+                <th scope="row" class="px-3 py-5 font-display text-xl font-medium tracking-[-0.03em]">{row.interface}</th>
+                <td class="px-3 py-5 text-muted">{row.question}</td>
+                <td class="px-3 py-5 font-bold text-ink">{row.artifact}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-10 flex flex-col gap-5 border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted md:flex-row md:gap-10">
+        <p class="max-w-xl"><strong class="text-ink">Working boundary:</strong> References to ITIL practices here describe independent working fluency—not endorsements, certifications, or affiliations with a framework owner, vendor, or standards body. The language remains subordinate to the service promise, risk boundary, evidence, and people who operate the change.</p>
+        <a class="ink-link shrink-0 md:mt-1" href="/services/transformation-office/">Inspect the service and change practice <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="thesis-2050" class="section-pad bg-paper">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-20">
+        <div>
+          <p class="eyebrow text-cobalt">A concrete 2050 thesis</p>
+          <h2 class="section-title mt-5 max-w-3xl">The advantage will belong to organizations that can recover at the interface.</h2>
+        </div>
+        <div class="space-y-6 text-lg leading-relaxed text-muted">
+          <p>By 2050, the durable multinational will be a federation of regional service systems linked by a common evidence spine. Africa, North America, Europe, Asia-Pacific, Latin America, and South America are not copies of a central playbook; they are distributed sources of idea, capital, infrastructure insight, market intelligence, and operating practice that must be translated back into one coherent execution model.</p>
+          <p>This is a design thesis, not a forecast or a footprint claim. It is concrete enough to test now: ask whether the next deal, platform, communications path, capital decision, and service change makes the organization more able to observe, decide, act, recover, and learn across boundaries.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2">
+        {thesisRows.map((row) => (
+          <article class="bg-white p-8 md:p-10">
+            <p class="eyebrow text-cobalt">{row.label}</p>
+            <p class="mt-8 max-w-xl font-display text-2xl font-medium leading-tight tracking-[-0.04em]">{row.text}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-10 flex flex-col gap-5 border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted md:flex-row md:items-start md:justify-between md:gap-10">
+        <p class="max-w-3xl"><strong class="text-ink">How to use the thesis:</strong> turn it into a boundary register, a dependency map, a service transition plan, and a review cadence. If an artifact does not make a decision, recovery path, or ownership boundary clearer, it is not yet earning its place.</p>
+        <p class="max-w-md shrink-0"><a class="text-cobalt underline underline-offset-4" href="/insights/global-operating-model-is-translation/">Read the translation system perspective</a><br /><a class="text-cobalt underline underline-offset-4" href="/insights/resilience-crosses-borders/">Read the cross-border resilience perspective</a></p>
       </div>
     </div>
   </section>
 
   <section class="section-pad bg-cobalt text-white">
     <div class="container-site grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:gap-24">
-      <div><p class="eyebrow text-lime">What we keep constant</p><h2 class="section-title mt-5 max-w-3xl">The standard is not a template. It is a way of deciding.</h2></div>
+      <div><p class="eyebrow text-lime">What a 2050 enterprise keeps constant</p><h2 class="section-title mt-5 max-w-3xl">The standard is not a template. It is a way of deciding together.</h2></div>
       <div class="grid gap-8 text-lg leading-relaxed text-white/70 md:grid-cols-2">
         <p><strong class="block text-white">Evidence over theater.</strong> Make the source, caveat, and owner visible before a recommendation travels.</p>
         <p><strong class="block text-white">Context over shorthand.</strong> Let local operating reality change the mechanism without losing the outcome.</p>
@@ -74,17 +319,9 @@ import { globalOperatingModel, regionContexts } from "@/data/site";
   .operations-hero-figure figcaption { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid rgb(255 255 255 / 15%); color: rgb(255 255 255 / 66%); font-size: 0.72rem; line-height: 1.5; }
   .operations-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .operations-context-index { border-top: 1px solid var(--color-line); }
-  .operations-context-row { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding-block: clamp(1.75rem, 4vw, 3.25rem); border-bottom: 1px solid var(--color-line); }
+  .operations-context-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding-block: clamp(1.75rem, 4vw, 3.25rem); border-bottom: 1px solid var(--color-line); }
   .operations-context-code { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.75rem; line-height: 1; }
   .operations-context-row h2 { margin-top: 0.75rem; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; letter-spacing: -0.045em; line-height: 1.05; }
   .operations-context-row li { padding: 0.55rem 0.75rem; border: 1px solid var(--color-line); color: var(--color-muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-  .operations-model { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--color-line); }
-  .operations-model-step { position: relative; display: grid; gap: 2rem; min-height: 18rem; padding: 1.5rem; border-right: 1px solid var(--color-line); }
-  .operations-model-step:last-child { border-right: 0; }
-  .operations-model-step > span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 2.25rem; }
-  .operations-model-step h3 { font-family: var(--font-display); font-size: 2rem; font-weight: 400; letter-spacing: -0.04em; }
-  .operations-model-step p { margin-top: 0.7rem; color: var(--color-muted); font-size: 0.9rem; line-height: 1.6; }
-  .operations-model-step i { position: absolute; top: 1.5rem; right: -0.75rem; z-index: 1; display: grid; width: 1.5rem; height: 1.5rem; place-items: center; background: var(--color-paper); color: var(--color-cobalt); font-style: normal; }
-  @media (max-width: 900px) { .operations-model { grid-template-columns: repeat(2, minmax(0, 1fr)); } .operations-model-step:nth-child(2) { border-right: 0; } .operations-model-step:nth-child(-n + 2) { border-bottom: 1px solid var(--color-line); } .operations-model-step:nth-child(2) i { display: none; } }
-  @media (max-width: 560px) { .operations-hero-figure figcaption { grid-template-columns: 1fr; } .operations-context-row { grid-template-columns: 2.5rem minmax(0, 1fr); } .operations-model { grid-template-columns: 1fr; } .operations-model-step, .operations-model-step:nth-child(2) { min-height: 0; border-right: 0; border-bottom: 1px solid var(--color-line); } .operations-model-step:last-child { border-bottom: 0; } .operations-model-step i { display: none; } }
+  @media (max-width: 560px) { .operations-hero-figure figcaption { grid-template-columns: 1fr; } .operations-context-row { grid-template-columns: minmax(0, 1fr); } }
 </style>

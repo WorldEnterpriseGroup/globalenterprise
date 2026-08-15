@@ -8,7 +8,7 @@ readingTime: "7 min read"
 eyebrow: "Perspective · Distributed leadership"
 author: "Global Enterprise"
 industry: "Enterprise services"
-keywords: ["distributed leadership", "global teams", "time zone operating model", "remote-first transformation", "future of work"]
+keywords: ["distributed leadership", "global teams", "time zone operating model", "distributed workforce transformation", "future of work"]
 related: ["future-of-work-is-workflow-design", "skills-are-a-system", "designing-for-adoption"]
 lastReviewed: 2026-08-10
 sources:

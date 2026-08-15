@@ -1,0 +1,325 @@
+---
+interface MatrixRow {
+  lane: string;
+  platforms: string[];
+  question: string;
+  boundary: string;
+}
+
+interface MatrixDefinition {
+  id: string;
+  eyebrow: string;
+  title: string;
+  caption: string;
+  rows: MatrixRow[];
+}
+
+interface Props {
+  variant: string;
+}
+
+const definitions: Record<string, MatrixDefinition> = {
+  "ai-portfolio": {
+    id: "solution-enterprise-ai-platform-ecosystem",
+    eyebrow: "Platform ecosystem · AI portfolio",
+    title: "Compare the environment before choosing the model lane.",
+    caption: "A model or cloud name is not an operating decision. We evaluate, design, and operate client environments against the workflow, data boundary, control surface, and service promise around it.",
+    rows: [
+      {
+        lane: "Model and interaction",
+        platforms: ["Anthropic Claude", "OpenAI", "Google Cloud/Gemini"],
+        question: "How will task fit, evaluation, human review, and recovery be tested?",
+        boundary: "The workflow owner keeps the decision right; the model remains one component of the service.",
+      },
+      {
+        lane: "Cloud and control",
+        platforms: ["Azure", "OCI", "Alibaba Cloud", "Tencent Cloud", "ByteDance Volcano Engine"],
+        question: "Which identity, region, integration, latency, and cost constraints shape the design?",
+        boundary: "The client environment sets the data, access, residency, and support boundary.",
+      },
+      {
+        lane: "Frontier extension",
+        platforms: ["IBM Quantum", "AWS/Amazon Braket", "Google Quantum AI/Cirq"],
+        question: "Is an advanced capability relevant to a defined decision, or only interesting in isolation?",
+        boundary: "A bounded experiment needs a reversible path and an explicit evidence threshold.",
+      },
+    ],
+  },
+  "data-labs": {
+    id: "solution-data-labs-ai-cost-management-economics",
+    eyebrow: "Platform ecosystem · data lab economics",
+    title: "Make every platform choice legible in the unit economics.",
+    caption: "The data lab is a governed capability when data products, models, compute, and access can be traced to a decision, an owner, and a reason to spend.",
+    rows: [
+      {
+        lane: "Data products and access",
+        platforms: ["Azure", "OCI", "Alibaba Cloud", "Tencent Cloud", "ByteDance Volcano Engine"],
+        question: "Where do lineage, identity, regional constraints, and product ownership live?",
+        boundary: "Stewardship and access are designed with the data product, not added after the platform is chosen.",
+      },
+      {
+        lane: "Models and inference",
+        platforms: ["Anthropic Claude", "OpenAI", "Google Cloud/Gemini"],
+        question: "What is the cost, quality, latency, and exception profile for each use case?",
+        boundary: "Inference economics are visible by workflow, with a human and service owner for exceptions.",
+      },
+      {
+        lane: "Compute and frontier tests",
+        platforms: ["AWS/Amazon Braket", "IBM Quantum", "Azure"],
+        question: "What evidence would justify a new compute lane, and what can be tested without lock-in?",
+        boundary: "Evaluation, not provider preference, determines whether an experiment enters the portfolio.",
+      },
+    ],
+  },
+};
+
+const definition = definitions[Astro.props.variant];
+const pendingId = `solution-platform-ecosystem-${Astro.props.variant.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}`;
+---
+
+{definition ? (
+  <section class="platform-matrix" data-diagram-id={definition.id} aria-labelledby={`${definition.id}-heading`}>
+    <header class="platform-matrix-header">
+      <div>
+        <p class="eyebrow text-cobalt">{definition.eyebrow}</p>
+        <h2 id={`${definition.id}-heading`} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-5xl">{definition.title}</h2>
+        <p class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">{definition.caption}</p>
+      </div>
+      <div class="platform-matrix-index" aria-label={`${definition.rows.length} platform decision lanes`}><span aria-hidden="true">↗</span><small>decision<br />lanes</small></div>
+    </header>
+
+    <div class="platform-matrix-table-wrap" tabindex="0" role="region" aria-label="Platform ecosystem matrix. Scroll horizontally on narrow screens to inspect each column.">
+      <table class="platform-matrix-table">
+        <caption>Reference ecosystem and decision boundaries for this client environment.</caption>
+        <thead>
+          <tr><th scope="col">Environment lane</th><th scope="col">Reference ecosystem</th><th scope="col">Question to evaluate</th><th scope="col">Operating boundary</th></tr>
+        </thead>
+        <tbody>
+          {definition.rows.map((row) => (
+            <tr>
+              <th scope="row">{row.lane}</th>
+              <td><ul class="platform-matrix-platforms">{row.platforms.map((platform) => <li>{platform}</li>)}</ul></td>
+              <td>{row.question}</td>
+              <td>{row.boundary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="platform-matrix-scroll-note">Swipe or shift-scroll to inspect every decision column →</p>
+    <footer class="platform-matrix-footer">
+      <p>Provider names are an evaluation set for client environments. They do not imply a partner relationship, certification, preferred status, or endorsement.</p>
+      <span aria-hidden="true">Evaluate · Design · Operate</span>
+    </footer>
+  </section>
+) : (
+  <section class="platform-matrix platform-matrix--pending" data-diagram-id={pendingId} aria-labelledby={`${pendingId}-heading`}>
+    <p class="eyebrow text-cobalt">Platform ecosystem · authorship pending</p>
+    <h2 id={`${pendingId}-heading`} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em]">A client-environment matrix is not authored for this pathway yet.</h2>
+    <p class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">No generic provider map is substituted. The route remains useful through its decision sequence until an evidence-led ecosystem view is written for this specific context.</p>
+  </section>
+)}
+
+<style>
+  .platform-matrix {
+    border: 1px solid var(--color-line);
+    background: #fff;
+    padding: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .platform-matrix-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 2rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 1.6rem;
+  }
+
+  .platform-matrix-index {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    border-left: 2px solid var(--color-lime);
+    padding-left: 0.9rem;
+    color: var(--color-cobalt);
+  }
+
+  .platform-matrix-index span {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+  }
+
+  .platform-matrix-index small {
+    color: var(--color-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .platform-matrix-table-wrap {
+    margin-top: 1.6rem;
+    overflow: auto;
+    border: 1px solid var(--color-line);
+    background: #f7f8fb;
+    scrollbar-color: var(--color-cobalt) var(--color-mist);
+  }
+
+  .platform-matrix-table-wrap:focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 3px;
+  }
+
+  .platform-matrix-table {
+    width: 100%;
+    min-width: 62rem;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .platform-matrix-table caption {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+
+  .platform-matrix-table th,
+  .platform-matrix-table td {
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    padding: 1.1rem 1rem;
+    vertical-align: top;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .platform-matrix-table th:last-child,
+  .platform-matrix-table td:last-child {
+    border-right: 0;
+  }
+
+  .platform-matrix-table thead th {
+    background: var(--color-ink);
+    border-color: rgb(255 255 255 / 20%);
+    color: #fff;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .platform-matrix-table thead th:nth-child(1) { width: 18%; }
+  .platform-matrix-table thead th:nth-child(2) { width: 25%; }
+  .platform-matrix-table thead th:nth-child(3) { width: 28%; }
+  .platform-matrix-table thead th:nth-child(4) { width: 29%; }
+
+  .platform-matrix-table tbody tr:last-child th,
+  .platform-matrix-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .platform-matrix-table tbody th {
+    color: var(--color-ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .platform-matrix-table tbody th span {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-cobalt);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+  }
+
+  .platform-matrix-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .platform-matrix-platforms li {
+    border: 1px solid color-mix(in srgb, var(--color-cobalt) 28%, var(--color-line));
+    background: #fff;
+    padding: 0.35rem 0.48rem;
+    color: var(--color-ink);
+    font-size: 0.66rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .platform-matrix-scroll-note {
+    display: none;
+    margin-top: 0.55rem;
+    color: var(--color-cobalt);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .platform-matrix-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 1.25rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 1.25rem;
+  }
+
+  .platform-matrix-footer p {
+    max-width: 42rem;
+    color: var(--color-muted);
+    font-size: 0.74rem;
+    line-height: 1.5;
+  }
+
+  .platform-matrix-footer span {
+    color: var(--color-cobalt);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .platform-matrix--pending {
+    min-height: 18rem;
+  }
+
+  @media (max-width: 760px) {
+    .platform-matrix-header {
+      grid-template-columns: 1fr;
+    }
+
+    .platform-matrix-index {
+      justify-self: start;
+    }
+
+    .platform-matrix-scroll-note {
+      display: block;
+    }
+
+    .platform-matrix-footer {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .platform-matrix-footer span {
+      white-space: normal;
+    }
+  }
+</style>

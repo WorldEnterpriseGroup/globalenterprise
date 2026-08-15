@@ -1,6 +1,5 @@
 ---
 import Base from "@/layouts/Base.astro";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import { businessReports } from "@/data/site";
@@ -19,7 +18,7 @@ const keyReports = businessReports.slice(0, 3);
       </div>
       <figure class="resource-hero-figure">
         <AssetImage src="/media/original/home-intelligence-workshop.avif" width={1536} height={1024} sizes="(min-width: 1024px) 54vw, 100vw" loading="eager" fetchpriority="high" alt="Two engineers examining an unfinished mechanical component at a scarred workshop bench" class="resource-hero-image" />
-        <figcaption><span>Field note 01</span> Research earns its place when a team can handle it, test it, and use it to choose.</figcaption>
+        <figcaption><span>Field note</span> Research earns its place when a team can handle it, test it, and use it to choose.</figcaption>
       </figure>
     </div>
   </section>
@@ -35,9 +34,8 @@ const keyReports = businessReports.slice(0, 3);
           </div>
         </div>
         <div class="border-y border-line">
-          {keyReports.map((report, index) => (
+          {keyReports.map((report) => (
             <article class="resource-row">
-              <p class="resource-row-number">0{index + 1}</p>
               <div>
                 <p class="eyebrow text-cobalt">{report.eyebrow}</p>
                 <h2>{report.title}</h2>
@@ -55,7 +53,6 @@ const keyReports = businessReports.slice(0, 3);
     </div>
   </section>
 
-  <NewsletterSignup dark />
 </Base>
 
 <style>
@@ -65,9 +62,8 @@ const keyReports = businessReports.slice(0, 3);
   .resource-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .resource-proof { padding: 1.5rem; background: var(--color-cobalt); color: white; }
   .resource-proof p:last-child { margin-top: 1.25rem; font-family: var(--font-display); font-size: clamp(1.65rem, 3vw, 2.4rem); line-height: 1.05; letter-spacing: -0.035em; }
-  .resource-row { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1.5rem; padding-block: clamp(2rem, 4vw, 3.25rem); border-bottom: 1px solid var(--color-line); }
+  .resource-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: clamp(2rem, 4vw, 3.25rem); border-bottom: 1px solid var(--color-line); }
   .resource-row:last-child { border-bottom: 0; }
-  .resource-row-number { color: var(--color-cobalt); font-family: var(--font-display); font-size: 2rem; line-height: 1; }
   .resource-row h2 { margin-top: 0.7rem; max-width: 42rem; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 400; letter-spacing: -0.045em; line-height: 1.02; }
   .resource-row-summary { max-width: 46rem; margin-top: 1rem; color: var(--color-muted); line-height: 1.65; }
   .resource-row-meta { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; margin-top: 1rem; color: var(--color-cobalt); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -77,6 +73,6 @@ const keyReports = businessReports.slice(0, 3);
 
   @media (max-width: 520px) {
     .resource-hero-figure figcaption { grid-template-columns: 1fr; }
-    .resource-row { grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.75rem; }
+    .resource-row { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
   }
 </style>

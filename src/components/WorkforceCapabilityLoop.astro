@@ -1,0 +1,98 @@
+<figure class="wcl-diagram" data-diagram-id="service-leadership-talent-workforce-capability-loop" aria-labelledby="wcl-title" aria-describedby="wcl-caption wcl-note">
+  <div class="wcl-header">
+    <div>
+      <p class="eyebrow text-cobalt">Route artifact · leadership and talent</p>
+      <h2 id="wcl-title" class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">Build capability where the work changes.</h2>
+      <p id="wcl-caption" class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">Workforce planning becomes useful when role demand, practice, leadership signals, and outcomes inform one another. The loop is deliberately small enough to run in a team and legible enough to govern at enterprise scale.</p>
+    </div>
+    <div class="wcl-stamp" aria-hidden="true"><span>W / C</span><small>CONTINUOUS CAPABILITY</small></div>
+  </div>
+
+  <div class="wcl-visual" aria-hidden="true">
+    <svg viewBox="0 0 760 270" role="presentation">
+      <path class="wcl-ring" d="M380 38a97 97 0 1 1 0 194 97 97 0 0 1 0-194Z" />
+      <path class="wcl-arrow" d="M469 88 l21 -3 -8 19" />
+      <path class="wcl-arrow" d="M302 220 l-18 11 3 -21" />
+      <circle class="wcl-core" cx="380" cy="135" r="48" />
+      <text class="wcl-core-label" x="380" y="130">CAPABILITY</text><text class="wcl-core-sub" x="380" y="147">IN THE WORK</text>
+      <g><circle cx="380" cy="38" r="25" /><text x="380" y="43">SEE</text></g>
+      <g><circle cx="477" cy="135" r="25" /><text x="477" y="140">SHP</text></g>
+      <g><circle cx="380" cy="232" r="25" /><text x="380" y="237">ENB</text></g>
+      <g><circle cx="283" cy="135" r="25" /><text x="283" y="140">LRN</text></g>
+    </svg>
+  </div>
+
+  <ol class="wcl-stages" aria-label="Four stages of the workforce capability loop" tabindex="0">
+    <li>
+      <span class="wcl-number">Demand signal</span>
+      <h3>Sense demand</h3>
+      <p>Map the work, role changes, scarce skills, and decisions that the strategy creates.</p>
+      <strong>Artifact · capability heatmap</strong>
+    </li>
+    <li>
+      <span class="wcl-number">Practice design</span>
+      <h3>Design practice</h3>
+      <p>Turn a future role into routines, decision rights, coaching, and a safe place to rehearse.</p>
+      <strong>Artifact · role operating agreement</strong>
+    </li>
+    <li>
+      <span class="wcl-number">Leadership enablement</span>
+      <h3>Enable leaders</h3>
+      <p>Give managers the signals, language, and forums needed to make the new behavior normal.</p>
+      <strong>Artifact · leadership cadence</strong>
+    </li>
+    <li>
+      <span class="wcl-number">Transfer evidence</span>
+      <h3>Measure transfer</h3>
+      <p>Watch adoption, quality, mobility, and service outcomes; adjust the capability plan.</p>
+      <strong>Artifact · workforce review</strong>
+    </li>
+  </ol>
+
+  <div class="wcl-footer">
+    <p id="wcl-note"><strong>Accessible reading:</strong> the loop is presented as a four-step sequence so no meaning depends on the circular drawing or color.</p>
+    <p class="wcl-legend"><span><i class="is-cobalt"></i>role signal</span><span><i class="is-lime"></i>practice</span><span><i class="is-ink"></i>leadership control</span></p>
+  </div>
+</figure>
+
+<style>
+  .wcl-diagram { border: 1px solid var(--color-line); background: var(--color-paper); padding: clamp(1.25rem, 4vw, 3rem); }
+  .wcl-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 2rem; border-bottom: 1px solid var(--color-line); padding-bottom: 1.5rem; }
+  .wcl-stamp { display: grid; gap: 0.35rem; border-left: 2px solid var(--color-cobalt); padding: 0.2rem 0 0.2rem 0.8rem; color: var(--color-cobalt); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; line-height: 1; text-transform: uppercase; }
+  .wcl-stamp span { font-size: 1.5rem; letter-spacing: -0.05em; }
+  .wcl-stamp small { color: var(--color-muted); font-size: 0.55rem; }
+  .wcl-visual { display: grid; place-items: center; margin-top: 1.5rem; border: 1px solid var(--color-line); background: white; padding: 1rem; }
+  .wcl-visual svg { display: block; width: min(100%, 48rem); }
+  .wcl-ring { fill: none; stroke: var(--color-line); stroke-width: 2; stroke-dasharray: 3 8; }
+  .wcl-arrow { fill: none; stroke: var(--color-cobalt); stroke-width: 2; }
+  .wcl-core { fill: var(--color-ink); }
+  .wcl-visual g circle { fill: white; stroke: var(--color-cobalt); stroke-width: 2; }
+  .wcl-visual g text { fill: var(--color-cobalt); font-family: Roboto, sans-serif; font-size: 12px; font-weight: 700; text-anchor: middle; }
+  .wcl-core-label, .wcl-core-sub { fill: white; font-family: Roboto, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-anchor: middle; }
+  .wcl-core-sub { fill: var(--color-lime); font-size: 8px; font-weight: 400; }
+  .wcl-stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.65rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+  .wcl-stages li { display: flex; min-height: 12.2rem; flex-direction: column; border: 1px solid var(--color-line); background: white; padding: 1rem; }
+  .wcl-stages li:nth-child(2n) { border-top: 3px solid #9dbd74; }
+  .wcl-stages li:nth-child(2n + 1) { border-top: 3px solid var(--color-cobalt); }
+  .wcl-number { color: var(--color-cobalt); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; }
+  .wcl-stages h3 { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; letter-spacing: -0.04em; }
+  .wcl-stages p { margin-top: 0.55rem; color: var(--color-muted); font-size: 0.78rem; line-height: 1.45; }
+  .wcl-stages strong { margin-top: auto; padding-top: 1rem; color: var(--color-ink); font-size: 0.63rem; line-height: 1.35; }
+  .wcl-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--color-line); margin-top: 1rem; padding-top: 1.2rem; }
+  .wcl-footer > p:first-child { max-width: 39rem; color: var(--color-muted); font-size: 0.78rem; line-height: 1.55; }
+  .wcl-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem 1.1rem; color: var(--color-muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4; text-transform: uppercase; }
+  .wcl-legend span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+  .wcl-legend i { width: 0.55rem; height: 0.55rem; border-radius: 999px; background: var(--color-line); }
+  .wcl-legend i.is-cobalt { background: var(--color-cobalt); }
+  .wcl-legend i.is-lime { background: #9dbd74; }
+  .wcl-legend i.is-ink { background: var(--color-ink); }
+  @media (max-width: 767px) {
+    .wcl-header { grid-template-columns: 1fr; gap: 1rem; }
+    .wcl-stamp { justify-self: start; }
+    .wcl-visual { overflow-x: auto; }
+    .wcl-visual svg { min-width: 38rem; }
+    .wcl-stages { grid-template-columns: repeat(4, minmax(12rem, 1fr)); overflow-x: auto; padding-bottom: 0.25rem; }
+    .wcl-footer { flex-direction: column; gap: 1rem; }
+    .wcl-legend { justify-content: flex-start; }
+  }
+</style>

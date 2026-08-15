@@ -47,7 +47,6 @@ const servicePages = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/services" }),
   schema: z.object({
     ...shared,
-    number: z.string(),
     tags: z.array(z.string()),
   }),
 });

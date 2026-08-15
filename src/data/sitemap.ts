@@ -11,7 +11,7 @@ export const sitemapGroups = [
       { label: "Selected work", href: "/case-studies/", description: "Field notes from the work.", kind: "proof" },
       { label: "Insights", href: "/insights/", description: "Evidence and original analysis for leaders shaping what comes next.", kind: "thinking" },
       { label: "Team", href: "/team/", description: "The disciplines close to the work.", kind: "company" },
-      { label: "Contact", href: "/contact/", description: "Request a private principal dialogue.", kind: "start" },
+      { label: "Contact", href: "/contact/", description: "Request a leadership engagement.", kind: "start" },
     ],
   },
   {
@@ -47,6 +47,7 @@ export const sitemapGroups = [
     title: "Insights",
     pages: [
       { label: "2035 is a design constraint, not a forecast", href: "/insights/2035-is-a-design-constraint/", description: "Design for the convergence of energy, data, security, and public value.", kind: "insight" },
+      { label: "The path to 2050 is an operating model", href: "/insights/the-path-to-2050-is-an-operating-model/", description: "Treat M&A, energy, communications, and intelligence as one infrastructure question.", kind: "insight" },
       { label: "AI at scale is an operating model decision", href: "/insights/ai-at-scale/", description: "Adoption is no longer the scarce resource.", kind: "insight" },
       { label: "AI sovereignty is an operating-model question", href: "/insights/ai-sovereignty-is-an-operating-model/", description: "Make data, identity, compute, and decision rights governable.", kind: "insight" },
       { label: "Clinical AI needs a real-world evidence loop", href: "/insights/clinical-ai-needs-real-world-evidence/", description: "Keep safety, usefulness, drift, and judgment observable after deployment.", kind: "insight" },

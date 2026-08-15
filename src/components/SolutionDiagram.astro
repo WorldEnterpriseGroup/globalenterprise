@@ -1,10 +1,331 @@
 ---
+import PlatformEcosystemMatrix from "@/components/PlatformEcosystemMatrix.astro";
+import QuantumReadinessPath from "@/components/QuantumReadinessPath.astro";
+
+interface SequenceItem {
+  label: string;
+  title: string;
+  text: string;
+}
+
+interface VisualDefinition {
+  slug: string;
+  kind: "portfolio" | "operating" | "care";
+  eyebrow: string;
+  title: string;
+  caption: string;
+  stages: SequenceItem[];
+  sideLabel: string;
+  sideItems: string[];
+}
+
 interface Props {
   variant: string;
 }
 
-const { variant } = Astro.props;
-import ArchitectureMap from "@/components/ArchitectureMap.astro";
+const visuals: Record<string, VisualDefinition> = {
+  "digital-infrastructure-resilience": {
+    slug: "digital-infrastructure-resilience", kind: "operating", eyebrow: "Resilience visual · dependency mesh", title: "Design recovery around the service that must continue.", caption: "Architecture, suppliers, controls, runbooks, investment, and accountable operators become one inspectable resilience path.",
+    stages: [
+      { label: "Service", title: "Name what must continue", text: "Define the public, customer, or enterprise promise and the tolerance for interruption." },
+      { label: "Dependency", title: "Expose the critical mesh", text: "Trace platforms, data, identities, facilities, suppliers, and people behind that promise." },
+      { label: "Recovery", title: "Engineer credible options", text: "Design continuity patterns, recovery priorities, manual paths, and decision authority." },
+      { label: "Rehearsal", title: "Turn recovery into practice", text: "Exercise runbooks, observe weak seams, fund corrections, and carry learning into operations." },
+    ], sideLabel: "Resilience controls", sideItems: ["Recovery objectives follow service consequence.", "Third-party dependencies have named owners and exit paths.", "Exercises produce investment decisions, not only findings."],
+  },
+  "supply-network-operations": {
+    slug: "supply-network-operations", kind: "portfolio", eyebrow: "Supply network visual · exception flow", title: "Steer the network through the exceptions that matter.", caption: "A useful control tower connects events across nodes and partners to an owner, a decision window, and a recovery option.",
+    stages: [
+      { label: "Network", title: "Model the service promise", text: "Connect demand, inventory, nodes, lanes, carriers, warehouses, and trade boundaries." },
+      { label: "Signal", title: "See the material event", text: "Normalize milestones and confidence so teams can distinguish noise from consequence." },
+      { label: "Exception", title: "Route a decision", text: "Assign severity, owner, response window, and partner coordination to each exception class." },
+      { label: "Recovery", title: "Learn across the network", text: "Rebalance flow, protect the promise, and use recurrence to reshape network policy." },
+    ], sideLabel: "Control-tower tests", sideItems: ["Every signal changes a decision or is retired.", "3PL and carrier handoffs have explicit accountability.", "Reverse and recovery flows are designed before disruption."],
+  },
+  "portfolio-delivery": {
+    slug: "portfolio-delivery", kind: "portfolio", eyebrow: "Portfolio visual · investment logic", title: "Make every release answer the next investment question.", caption: "Mandate, architecture, dependencies, capacity, and evidence belong in the same portfolio conversation.",
+    stages: [
+      { label: "Mandate", title: "Define the portfolio choice", text: "Translate strategy into outcomes, constraints, decision rights, and explicit non-goals." },
+      { label: "Sequence", title: "Make dependencies negotiable", text: "Link programs, architecture, suppliers, funding, and workforce capacity around value." },
+      { label: "Release", title: "Create evidence safely", text: "Choose increments that test the hardest assumptions without sacrificing service continuity." },
+      { label: "Reallocate", title: "Act on what was learned", text: "Advance, reshape, pause, or retire work through a transparent governance cadence." },
+    ], sideLabel: "Portfolio disciplines", sideItems: ["Funding follows decisions and evidence.", "Capacity is treated as a constraint, not an afterthought.", "Benefits, risk, and service health share one review rhythm."],
+  },
+  modernization: {
+    slug: "modernization",
+    kind: "portfolio",
+    eyebrow: "Modernization visual · portfolio sequence",
+    title: "Sequence the estate as an investment portfolio.",
+    caption: "A modernization decision becomes safer when every disposition, release, and operating capability is visible before the funding gate.",
+    stages: [
+      { label: "Map", title: "Make dependencies visible", text: "Inventory the estate, service promise, ownership, continuity risk, and seams that shape the options." },
+      { label: "Choose", title: "Give each system a disposition", text: "Retire, wrap, re-platform, redesign, or hold—then name the evidence that would change the choice." },
+      { label: "Release", title: "Create a proving slice", text: "Start with the smallest release that tests architecture, migration, user value, and support readiness together." },
+      { label: "Stabilize", title: "Transfer the run rhythm", text: "Use observability, runbooks, funding cadence, and ownership to keep the future state operable." },
+    ],
+    sideLabel: "Portfolio guardrails",
+    sideItems: ["Mission continuity travels with the target architecture.", "Funding gates follow evidence, not a fixed technology calendar.", "The team that operates the release helps define its exit criteria."],
+  },
+  "operating-model": {
+    slug: "operating-model",
+    kind: "operating",
+    eyebrow: "Operating model visual · decision circuit",
+    title: "Make decision rights visible in the flow of work.",
+    caption: "A model holds when promise, handoff, authority, and feedback can be followed by the people who carry the service—not only by the leadership team that approved it.",
+    stages: [
+      { label: "Promise", title: "Name the service outcome", text: "Start with what a customer, resident, patient, or colleague should be able to count on." },
+      { label: "Handoff", title: "Design the work path", text: "Trace queues, dependencies, context loss, and ownership across the moments where work actually travels." },
+      { label: "Decision", title: "Place authority at the signal", text: "Clarify which choices belong close to the work, which require a forum, and which need a guardrail." },
+      { label: "Cadence", title: "Learn in the operating rhythm", text: "Make measures, escalation, and review specific enough to improve the system without flattening judgment." },
+    ],
+    sideLabel: "Circuit checks",
+    sideItems: ["A promise has an owner and a visible measure.", "A handoff carries context, not just a ticket.", "An escalation path protects both speed and accountability."],
+  },
+  "healthcare-transformation": {
+    slug: "healthcare-transformation",
+    kind: "care",
+    eyebrow: "Healthcare visual · signal to care",
+    title: "Carry safe context to the care moment.",
+    caption: "Interoperability matters when identity, evidence, safety, and human judgment arrive together at the point where someone has to decide.",
+    stages: [
+      { label: "Source", title: "Find the signal at origin", text: "Trace clinical, administrative, device, and operational information to the source and its permissions." },
+      { label: "Reconcile", title: "Make context usable", text: "Resolve identity, provenance, consent, and quality issues before the care team is asked to interpret the signal." },
+      { label: "Decide", title: "Protect human judgment", text: "Design workflow, explanation, review, and exception paths around the person responsible for the care decision." },
+      { label: "Follow through", title: "Learn without adding drag", text: "Monitor outcomes, safety signals, adoption, and recovery so improvement belongs inside the operating model." },
+    ],
+    sideLabel: "Safety boundary",
+    sideItems: ["Minimum necessary access is designed into the information path.", "Clinical and administrative workflows share a clear escalation boundary.", "A new capability remains reviewable, reversible, and accountable."],
+  },
+};
+
+const slug = Astro.props.variant.replace(/^solution-/, "");
+const visual = visuals[slug];
+const pendingId = `solution-visual-${slug.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}`;
 ---
 
-<ArchitectureMap variant={variant} />
+{slug === "enterprise-ai" ? (
+  <PlatformEcosystemMatrix variant="ai-portfolio" />
+) : slug === "data-labs-ai-cost-management" ? (
+  <PlatformEcosystemMatrix variant="data-labs" />
+) : slug === "quantum-intelligence" ? (
+  <QuantumReadinessPath />
+) : visual ? (
+  <section class:list={["solution-visual", `solution-visual--${visual.kind}`]} data-diagram-id={`solution-${visual.slug}-${visual.kind}`} aria-labelledby={`solution-${visual.slug}-heading`}>
+    <header class="solution-visual-header">
+      <div>
+        <p class="eyebrow text-cobalt">{visual.eyebrow}</p>
+        <h2 id={`solution-${visual.slug}-heading`} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-5xl">{visual.title}</h2>
+        <p class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">{visual.caption}</p>
+      </div>
+      <div class="solution-visual-index" aria-label={`${visual.stages.length} stages`}><span aria-hidden="true">↗</span><small>linked<br />stages</small></div>
+    </header>
+
+    <div class="solution-visual-body">
+      <ol class="solution-visual-stages" aria-label={`${visual.eyebrow} sequence`}>
+        {visual.stages.map((stage) => (
+          <li class="solution-visual-stage">
+            <div class="solution-visual-stage-marker"><strong>{stage.label}</strong></div>
+            <div><h3>{stage.title}</h3><p>{stage.text}</p></div>
+          </li>
+        ))}
+      </ol>
+      <aside class="solution-visual-side">
+        <p class="eyebrow text-cobalt">{visual.sideLabel}</p>
+        <ul>{visual.sideItems.map((item) => <li>{item}</li>)}</ul>
+      </aside>
+    </div>
+
+    {visual.kind === "portfolio" && <p class="solution-visual-footer">Each release should answer a portfolio question and leave an operating capability behind.</p>}
+    {visual.kind === "operating" && <p class="solution-visual-footer">The circuit closes when feedback changes the next decision, not only the next report.</p>}
+    {visual.kind === "care" && <p class="solution-visual-footer">The measure of the system is the quality of the care moment, including when the signal is incomplete.</p>}
+  </section>
+) : (
+  <section class="solution-visual solution-visual--pending" data-diagram-id={pendingId} aria-labelledby={`${pendingId}-heading`}>
+    <p class="eyebrow text-cobalt">Solution visual · authorship pending</p>
+    <h2 id={`${pendingId}-heading`} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-5xl">A pathway-specific visual is not authored for this slug yet.</h2>
+    <p class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">No enterprise diagram is substituted. The route can still be read through its decision, focus areas, and operating moves while a visual is authored from verified context.</p>
+  </section>
+)}
+
+<style>
+  .solution-visual {
+    border: 1px solid var(--color-line);
+    background: #fff;
+    padding: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .solution-visual-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 2rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 1.6rem;
+  }
+
+  .solution-visual-index {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    border-left: 2px solid var(--color-lime);
+    padding-left: 0.9rem;
+    color: var(--color-cobalt);
+  }
+
+  .solution-visual-index span {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+  }
+
+  .solution-visual-index small {
+    color: var(--color-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .solution-visual-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.55fr);
+    gap: 1.6rem;
+    margin-top: 1.6rem;
+  }
+
+  .solution-visual-stages {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .solution-visual-stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    min-height: 7.7rem;
+    border: 1px solid var(--color-line);
+    padding: 1.2rem;
+  }
+
+  .solution-visual--portfolio .solution-visual-stage:nth-child(2) { margin-left: 1.75rem; }
+  .solution-visual--portfolio .solution-visual-stage:nth-child(3) { margin-left: 3.5rem; }
+  .solution-visual--portfolio .solution-visual-stage:nth-child(4) { margin-left: 5.25rem; }
+
+  .solution-visual--operating .solution-visual-stage:nth-child(odd) { background: #f7f8fb; }
+  .solution-visual--care .solution-visual-stage { border-left: 4px solid var(--color-cobalt); }
+  .solution-visual--care .solution-visual-stage:nth-child(even) { border-left-color: var(--color-lime); }
+
+  .solution-visual-stage-marker {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .solution-visual-stage-marker span {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid var(--color-cobalt);
+    border-radius: 999px;
+    color: var(--color-cobalt);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .solution-visual-stage-marker strong {
+    color: var(--color-cobalt);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .solution-visual-stage h3 {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .solution-visual-stage h3 + p {
+    margin-top: 0.55rem;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .solution-visual-side {
+    align-self: stretch;
+    border-left: 1px solid var(--color-line);
+    padding: 0.5rem 0 0.5rem 1.4rem;
+  }
+
+  .solution-visual-side ul {
+    display: grid;
+    gap: 0.9rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .solution-visual-side li {
+    border-top: 2px solid var(--color-lime);
+    padding-top: 0.65rem;
+    color: var(--color-ink);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .solution-visual-footer {
+    margin-top: 1.6rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 1.2rem;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .solution-visual--pending {
+    min-height: 18rem;
+  }
+
+  @media (max-width: 760px) {
+    .solution-visual-header,
+    .solution-visual-body {
+      grid-template-columns: 1fr;
+    }
+
+    .solution-visual-index {
+      justify-self: start;
+    }
+
+    .solution-visual--portfolio .solution-visual-stage:nth-child(n) {
+      margin-left: 0;
+    }
+
+    .solution-visual-stage {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .solution-visual-side {
+      border-top: 1px solid var(--color-line);
+      border-left: 0;
+      padding-top: 1.25rem;
+      padding-left: 0;
+    }
+  }
+</style>

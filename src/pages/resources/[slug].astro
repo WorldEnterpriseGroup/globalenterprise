@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import { businessReports, site } from "@/data/site";
+import { resolveEvidenceSource } from "@/data/evidence-routes";
 
 export function getStaticPaths() {
   return businessReports.map((report) => ({ params: { slug: report.slug }, props: { report } }));
@@ -10,7 +11,6 @@ export function getStaticPaths() {
 
 const { report } = Astro.props;
 const others = businessReports.filter((item) => item.slug !== report.slug).slice(0, 2);
-const sourceLinks = report.sources ?? [];
 const reportMedia = {
   "enterprise-decision-readiness": {
     src: "/media/generated/enterprise-hero.avif",
@@ -32,6 +32,7 @@ const reportMedia = {
   },
 } as const;
 const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? reportMedia["enterprise-decision-readiness"];
+const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source)) ?? [];
 ---
 
 <Base title={`${report.title} | Global Enterprise`} description={report.summary} image={leadMedia.src} keywords={["enterprise report", "operating model", "AI governance", "modernization planning"]}>
@@ -64,8 +65,8 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
           <div><span>Includes</span><strong>{report.depth}</strong></div>
         </div>
         <div class="mt-10 border-y border-line">
-          {report.highlights.map((item, index) => (
-            <div class="report-preview-row"><span>0{index + 1}</span><p>{item}</p></div>
+          {report.highlights.map((item) => (
+            <div class="report-preview-row"><p>{item}</p></div>
           ))}
         </div>
         <div class="mt-10 grid gap-8 md:grid-cols-2">
@@ -78,7 +79,7 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
           <div>
             <p class="eyebrow">Research basis</p>
             <ul class="mt-5 space-y-3 text-sm">
-              {sourceLinks.map((source) => <li><a class="text-cobalt underline decoration-cobalt/35 underline-offset-4 hover:text-ink" href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a></li>)}
+              {sourceLinks.map((source) => <li><a class="text-cobalt underline decoration-cobalt/35 underline-offset-4 hover:text-ink" href={source.displayUrl}>{source.label} ↗</a></li>)}
             </ul>
           </div>
         </div>
@@ -88,7 +89,7 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
         <p class="eyebrow text-lime">Request the complete field guide</p>
         <h2>Put the working document in the hands of the team carrying the decision.</h2>
         <p class="report-request-intro">Tell us where the report will be used. The download includes the full framework, practical worksheet, source notes, and limitations—not a one-page teaser.</p>
-        <form class="mt-9 grid gap-5" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`} aria-describedby={`resource-form-notice-${report.slug}`}>
+        <form class="mt-9 grid gap-5" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`} data-corporate-email-only aria-describedby={`resource-form-notice-${report.slug}`}>
           <input type="hidden" name="_subject" value={`${report.title} request · Global Enterprise`} />
           <input type="hidden" name="_next" value={`${site.url}/resources/thanks/?resource=${report.slug}`} />
           <input type="hidden" name="_template" value="table" />
@@ -96,7 +97,7 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
           <input type="hidden" name="form_kind" value={`resource_${report.slug}`} />
           <input type="hidden" name="source_url" value={`${site.url}/resources/${report.slug}/`} />
           <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
-          <p id={`resource-form-notice-${report.slug}`} class="form-notice">{site.publicFormNotice} The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
+          <p id={`resource-form-notice-${report.slug}`} class="form-notice">{site.publicFormNotice} Company email required: Gmail, Yahoo, Hotmail, and Outlook.com accounts are not eligible for this brief. The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
           <fieldset class="form-fieldset">
             <legend>Delivery details</legend>
             <div class="grid gap-5 sm:grid-cols-2">

@@ -1,7 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { proofOfPractice as proofSignals, proofStandards } from "@/data/proof";
+import { capabilityBoundaries, proofOfPractice as proofSignals, proofStandards } from "@/data/proof";
 ---
 
 <Base title="Proof of practice | Global Enterprise" description="Confidential, abstract proof of Global Enterprise’s work forming ventures, building products, and operating AI, data, and secure infrastructure systems." image="/media/original/work-field-visit.avif" keywords={["consulting proof of practice", "confidential transformation work", "AI product development", "enterprise operating systems"]}>
@@ -23,7 +23,7 @@ import { proofOfPractice as proofSignals, proofStandards } from "@/data/proof";
     <div class="container-site">
       <SectionHeading eyebrow="What we have built and grown" title="Repeated delivery across the whole system." text={`The evidence basis is the operating history of ventures and products formed, built, and grown through our Delaware-based company. Identifiers remain private; the mechanisms remain inspectable.`} />
       <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2">
-        {proofSignals.map((signal) => <article class="bg-white p-8 md:min-h-[24rem] md:p-10"><p class="font-display text-4xl text-cobalt">{signal.number}</p><p class="mt-10 text-xs font-bold uppercase tracking-[0.14em] text-cobalt">{signal.eyebrow}</p><h2 class="mt-4 font-display text-3xl font-medium leading-tight tracking-[-0.05em]">{signal.title}</h2><p class="mt-5 leading-relaxed text-muted">{signal.summary}</p></article>)}
+        {proofSignals.map((signal) => <article class="bg-white p-8 md:min-h-[24rem] md:p-10"><p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">{signal.eyebrow}</p><h2 class="mt-4 font-display text-3xl font-medium leading-tight tracking-[-0.05em]">{signal.title}</h2><p class="mt-5 leading-relaxed text-muted">{signal.summary}</p></article>)}
       </div>
     </div>
   </section>
@@ -37,6 +37,13 @@ import { proofOfPractice as proofSignals, proofStandards } from "@/data/proof";
     </div>
   </section>
 
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
+      <div><p class="eyebrow text-cobalt">Capability boundaries</p><h2 class="section-title mt-5 max-w-3xl">Useful range, stated precisely.</h2><p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">These are areas we can help a qualified team examine. The boundary matters: readiness, planning, and delivery support are not substitutes for the client’s evidence, authority, or operating decisions.</p></div>
+      <div class="grid gap-px border border-line bg-line md:grid-cols-2">{capabilityBoundaries.map((capability) => <article class="bg-white p-7 md:p-8"><p class="eyebrow text-cobalt">{capability.label}</p><h3 class="mt-8 font-display text-2xl font-medium leading-tight tracking-[-0.04em]">{capability.title}</h3><p class="mt-4 text-sm leading-relaxed text-muted">{capability.text}</p></article>)}</div>
+    </div>
+  </section>
+
   <section class="section-pad bg-cobalt text-white">
     <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
       <div><p class="eyebrow text-lime">Our publishing standard</p><h2 class="section-title mt-5 max-w-3xl">Discretion increases the burden of precision.</h2></div>
@@ -47,9 +54,9 @@ import { proofOfPractice as proofSignals, proofStandards } from "@/data/proof";
   <section class="section-pad bg-white">
     <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
       <div><p class="eyebrow text-cobalt">Diligence path</p><h2 class="section-title mt-5 max-w-3xl">A serious buyer should be able to go deeper.</h2></div>
-      <div class="space-y-6 text-lg leading-relaxed text-muted"><p>The public portfolio is abstract because identifiers and permissions are not public. For a qualified conversation, we can establish the appropriate path for a proof pack: the engagement or venture scope, timeframe, operating move, deliverables, evidence available, outcome measures, and confidentiality boundary.</p><p>That path may include a private principal profile, permissioned references, a redacted artifact, or an NDA discussion. We will not turn a private relationship into a public logo wall or imply a client endorsement where none exists.</p><a class="btn-dark" href="/contact/">Request the proof path <span aria-hidden="true">↗</span></a></div>
+        <div class="space-y-6 text-lg leading-relaxed text-muted"><p>The public portfolio is abstract because identifiers and permissions are not public. For a qualified conversation, we can establish the appropriate path for a proof pack: the engagement or venture scope, timeframe, operating move, deliverables, evidence available, outcome measures, and confidentiality boundary.</p><p>That path may include a private leadership qualification dossier, permissioned references, a redacted artifact, or an NDA discussion. We will not turn a private relationship into a public logo wall or imply a client endorsement where none exists.</p><a class="btn-dark" href="/contact/">Request a diligence engagement <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 
-  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring us the version of the problem that cannot be published yet.</h2><a class="btn-dark shrink-0" href="/contact/">Request a private dialogue <span aria-hidden="true">↗</span></a></div></section>
+  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring us the version of the problem that cannot be published yet.</h2><a class="btn-dark shrink-0" href="/contact/">Request a private diligence engagement <span aria-hidden="true">↗</span></a></div></section>
 </Base>
