@@ -23,6 +23,14 @@ import homeGlobalMandateV2 from "@/assets/media/home-mandate-global-v2.avif";
 import homeGlobalNexusV2 from "@/assets/media/home-global-nexus-v2.avif";
 import homeGlobalOutlookV2 from "@/assets/media/home-global-outlook-v2.avif";
 import homeGlobalPortV2 from "@/assets/media/home-global-port-v2.avif";
+import homePressurePoint from "@/assets/media/home-pressure-point.avif";
+import homePlatformConvergence from "@/assets/media/home-platform-convergence.avif";
+import homeHubMea from "@/assets/media/home-hub-mea.avif";
+import homeHubNa from "@/assets/media/home-hub-na.avif";
+import homeHubEu from "@/assets/media/home-hub-eu.avif";
+import homeHubLatam from "@/assets/media/home-hub-latam.avif";
+import homeHubSa from "@/assets/media/home-hub-sa.avif";
+import homeHubAsia from "@/assets/media/home-hub-asia.avif";
 import insightsFieldNotes from "@/assets/media/insights-field-notes.avif";
 import servicesControlRoom from "@/assets/media/services-control-room.avif";
 import solutionsCareHandoff from "@/assets/media/solutions-care-handoff.avif";
@@ -57,6 +65,14 @@ export const media = {
   "/media/original/home-global-nexus-v2.avif": homeGlobalNexusV2,
   "/media/original/home-global-outlook-v2.avif": homeGlobalOutlookV2,
   "/media/original/home-global-port-v2.avif": homeGlobalPortV2,
+  "/media/original/home-pressure-point.avif": homePressurePoint,
+  "/media/original/home-platform-convergence.avif": homePlatformConvergence,
+  "/media/original/home-hub-mea.avif": homeHubMea,
+  "/media/original/home-hub-na.avif": homeHubNa,
+  "/media/original/home-hub-eu.avif": homeHubEu,
+  "/media/original/home-hub-latam.avif": homeHubLatam,
+  "/media/original/home-hub-sa.avif": homeHubSa,
+  "/media/original/home-hub-asia.avif": homeHubAsia,
   "/media/original/insights-field-notes.avif": insightsFieldNotes,
   "/media/original/services-control-room.avif": servicesControlRoom,
   "/media/original/solutions-care-handoff.avif": solutionsCareHandoff,

@@ -6,6 +6,7 @@ import GlobalPlatformLandscape from "@/components/GlobalPlatformLandscape.astro"
 import MediaInterlude from "@/components/MediaInterlude.astro";
 import SystemMap from "@/components/SystemMap.astro";
 import AssetImage from "@/components/AssetImage.astro";
+import RegionalOperatingMap from "@/components/RegionalOperatingMap.astro";
 import { getCollection } from "astro:content";
 import { businessReports, experienceHighlights, regionContexts, services, site } from "@/data/site";
 import { type EvidenceSource, resolveEvidenceSource } from "@/data/evidence-routes";
@@ -78,38 +79,38 @@ const decisionHubs = [
   {
     city: "Africa",
     region: "Middle East & Africa",
-    image: "/media/original/home-global-digital-infrastructure-v2.avif",
-    imageAlt: "A hyperscale digital infrastructure campus connected to the energy and skyline of a major city",
+    image: "/media/original/home-hub-mea.avif",
+    imageAlt: "Local technicians beside a solar and water infrastructure corridor at dawn",
   },
   {
     city: "North America",
     region: "North America",
-    image: "/media/original/home-global-institution-v2.avif",
-    imageAlt: "The grand interior of an international institution overlooking a global city",
+    image: "/media/original/home-hub-na.avif",
+    imageAlt: "An operations crew reviewing a route map beside layered rail, road, and public infrastructure",
   },
   {
     city: "Europe",
     region: "Europe",
-    image: "/media/original/home-global-institutions-v2.avif",
-    imageAlt: "A major international capital where government institutions, corporate towers, transit, bridges, and waterways meet",
+    image: "/media/original/home-hub-eu.avif",
+    imageAlt: "A researcher annotating a systems diagram beside a European tram and civic building",
   },
   {
     city: "Latin America & Caribbean",
     region: "Latin America & the Caribbean",
-    image: "/media/original/home-mandate-global-v2.avif",
-    imageAlt: "A monumental international government and corporate district in morning light",
+    image: "/media/original/home-hub-latam.avif",
+    imageAlt: "A public-service team walking through a wet hillside service corridor after rain",
   },
   {
     city: "South America",
     region: "South America",
-    image: "/media/original/home-global-nexus-v2.avif",
-    imageAlt: "A major international transport nexus connecting an airport, rail corridors, and a global city",
+    image: "/media/original/home-hub-sa.avif",
+    imageAlt: "A field technician checking a communications relay above a South American mountain logistics corridor",
   },
   {
     city: "Asia-Pacific",
     region: "Asia-Pacific",
-    image: "/media/original/home-global-port-v2.avif",
-    imageAlt: "A vast international container port and intermodal logistics network beside a global city",
+    image: "/media/original/home-hub-asia.avif",
+    imageAlt: "Two port operators reviewing a route board beside containers and intermodal equipment at dawn",
   },
 ].map((hub) => ({ ...hub, context: regionContexts.find((context) => context.name === hub.region) }));
 ---
@@ -147,29 +148,29 @@ const decisionHubs = [
   </MediaInterlude>
 
   <details class="home-collapse-block" open>
-    <summary class="home-collapse-summary">
-      <div class="container-site section-pad">
-        <p class="eyebrow text-cobalt">Operating design</p>
-        <h2 class="section-title mt-5 max-w-4xl">The standard travels. The context changes.</h2>
-        <p class="mt-7 max-w-3xl">The full operating-model narrative is right here, but collapsible. Expand only what your team needs now, or continue into each route for deeper context.</p>
-        <div class="home-collapse-cta-wrap">
-          <a class="btn-dark" href="/operations/" data-track="home_collapsed_cta" data-track-label="operations">Explore operations <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost" href="/services/" data-track="home_collapsed_cta" data-track-label="services">Explore services <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost" href="/about/" data-track="home_collapsed_cta" data-track-label="about">About the operating thesis <span aria-hidden="true">↗</span></a>
+    <summary class="home-collapse-summary home-collapse-summary-operating">
+      <div class="container-site home-operating-summary">
+        <div class="home-operating-summary-copy">
+          <div class="home-summary-folio"><span>01</span><span>Operating design</span></div>
+          <p class="eyebrow text-lime">The standard travels. The context changes.</p>
+          <h2 class="section-title mt-5 max-w-3xl">One discipline. Six ways to make it useful.</h2>
+          <p class="mt-6 max-w-2xl">A shared operating standard creates coherence; local intelligence turns it into decisions, services, and trust.</p>
+          <div class="home-operating-summary-signal"><span>6 contexts</span><span>1 shared standard</span><span>Open the operating design ↘</span></div>
         </div>
       </div>
     </summary>
     <div class="home-collapse-content">
       <section class="section-pad bg-white" aria-labelledby="home-hubs-title">
         <div class="container-site">
-          <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end lg:gap-24">
+          <div class="home-context-lede">
             <div>
               <p class="eyebrow text-cobalt">Global decision hubs</p>
               <h2 id="home-hubs-title" class="section-title mt-5 max-w-3xl">Regional operating contexts. One integration thesis.</h2>
+              <p class="body-copy mt-7 max-w-3xl">We read cross-border transformation through the regions where capital, infrastructure, regulation, communications, and customer demand meet differently. The map is a strategic lens, not a claim about office footprint.</p>
             </div>
-            <p class="body-copy max-w-3xl">We read cross-border transformation through the regions where capital, infrastructure, regulation, communications, and customer demand meet differently. Africa, the Caribbean, Latin America, and South America are represented directly through our global network, with representative channels in London, New York, Hong Kong, and Dubai. City names are perspective inputs, not claims of physical office footprint.</p>
+            <RegionalOperatingMap />
           </div>
-          <div class="mt-14 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          <div class="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {decisionHubs.map((hub) => (
               <a class="home-hub-card bg-white" href={hub.context ? `/region/${hub.context.slug}/` : "/operations/"}>
                 <div class="home-hub-media">
@@ -192,23 +193,21 @@ const decisionHubs = [
         </div>
       </section>
 
-      <StartingPoint mediaSrc="/media/original/home-global-nexus-v2.avif" mediaAlt="A major international transport nexus connecting an airport, rail corridors, and a global city" mediaCaption="Start with the whole operating system: institutions, infrastructure, capital, and movement at metropolitan scale." mediaRatio="wide" />
+      <StartingPoint mediaSrc="/media/original/home-pressure-point.avif" mediaAlt="A field engineer checking a weathered utility control cabinet with a paper checklist at dusk" mediaCaption="When the preferred path fails, the operating truth lives in the physical control, the person who can act, and the evidence they can trust." mediaRatio="wide" />
 
       <GlobalPlatformLandscape />
     </div>
   </details>
 
   <details class="home-collapse-block">
-    <summary class="home-collapse-summary">
-      <div class="container-site section-pad">
-        <p class="eyebrow text-cobalt">Thesis and integration</p>
-        <h2 class="section-title mt-5 max-w-4xl">Capability emerges where strategy, systems, and operations are integrated.</h2>
-        <p class="mt-7 max-w-3xl">Expand this block when you want the full thesis and M&amp;A architecture context, or continue straight to route pages with deeper evidence and implementation detail.</p>
-        <div class="home-collapse-cta-wrap">
-          <a class="btn-dark" href="/insights/" data-track="home_collapsed_cta" data-track-label="insights">Explore insights <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost" href="/services/mergers-acquisitions/" data-track="home_collapsed_cta" data-track-label="ma">Explore M&amp;A operating integration <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost" href="/services/transformation-office/" data-track="home_collapsed_cta" data-track-label="transformation">Explore change operating model <span aria-hidden="true">↗</span></a>
+    <summary class="home-collapse-summary home-collapse-summary-thesis">
+      <div class="container-site home-thesis-summary">
+        <div class="home-summary-folio"><span>02</span><span>Thesis and integration</span></div>
+        <div>
+          <p class="eyebrow text-cobalt">Capability is the combined system</p>
+          <h2 class="section-title mt-5 max-w-3xl">Make the integration thesis visible before the integration plan.</h2>
         </div>
+        <div class="home-thesis-summary-index"><strong>2050</strong><span>What can the combined system make reliable?</span><span>Open the thesis ↘</span></div>
       </div>
     </summary>
     <div class="home-collapse-content">
@@ -328,16 +327,14 @@ const decisionHubs = [
   </details>
 
   <details class="home-collapse-block">
-    <summary class="home-collapse-summary">
-      <div class="container-site section-pad">
-        <p class="eyebrow text-cobalt">Evidence and perspectives</p>
-        <h2 class="section-title mt-5 max-w-4xl">Decision-ready proof points, case work, and perspective capsules.</h2>
-        <p class="mt-7 max-w-3xl">Keep this block open for the full evidence stack, or use the route buttons to jump to deeper exploration.</p>
-        <div class="home-collapse-cta-wrap">
-          <a class="btn-dark" href="/resources/" data-track="home_collapsed_cta" data-track-label="resources">Browse reports <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost" href="/work/" data-track="home_collapsed_cta" data-track-label="work">View selected work <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost" href="/insights/" data-track="home_collapsed_cta" data-track-label="insights-all">See all insights <span aria-hidden="true">↗</span></a>
+    <summary class="home-collapse-summary home-collapse-summary-evidence">
+      <div class="container-site home-evidence-summary">
+        <div class="home-summary-folio"><span>03</span><span>Evidence and perspectives</span></div>
+        <div>
+          <p class="eyebrow text-lime">Proof, field notes, and perspective</p>
+          <h2 class="section-title mt-5 max-w-3xl">See how the thesis behaves in the world.</h2>
         </div>
+        <div class="home-evidence-summary-rail"><span><b>03</b> reports</span><span><b>{cases.length}</b> field notes</span><span><b>∞</b> questions to carry</span><span>Open the evidence ↘</span></div>
       </div>
     </summary>
     <div class="home-collapse-content">
@@ -439,6 +436,123 @@ const decisionHubs = [
   .home-collapse-summary:focus-visible {
     outline: 3px solid var(--color-cobalt);
     outline-offset: 4px;
+  }
+
+  .home-collapse-summary-operating {
+    background: var(--color-ink);
+    color: white;
+  }
+
+  .home-operating-summary,
+  .home-thesis-summary,
+  .home-evidence-summary {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .home-summary-folio {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    color: var(--color-cobalt);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .home-summary-folio span:first-child {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: 0;
+  }
+
+  .home-collapse-summary-operating .home-summary-folio,
+  .home-collapse-summary-evidence .home-summary-folio { color: var(--color-lime); }
+  .home-collapse-summary-operating .section-title,
+  .home-collapse-summary-evidence .section-title { color: white; }
+  .home-operating-summary-copy > p:not(.eyebrow) { color: rgb(255 255 255 / 72%); }
+
+  .home-operating-summary-signal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.4rem;
+    margin-top: 1.35rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgb(255 255 255 / 22%);
+    color: rgb(255 255 255 / 68%);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .home-collapse-summary-thesis {
+    background: var(--color-lime);
+  }
+
+  .home-thesis-summary-index {
+    display: grid;
+    gap: 0.45rem;
+    padding-left: 1.2rem;
+    border-left: 2px solid color-mix(in srgb, var(--color-cobalt) 40%, transparent);
+    color: var(--color-cobalt);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .home-thesis-summary-index strong {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+  }
+
+  .home-thesis-summary-index span:last-child,
+  .home-evidence-summary-rail span:last-child {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home-collapse-summary-evidence {
+    background: var(--color-cobalt);
+    color: white;
+  }
+
+  .home-evidence-summary-rail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgb(255 255 255 / 25%);
+    color: rgb(255 255 255 / 70%);
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .home-evidence-summary-rail b {
+    display: block;
+    color: var(--color-lime);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+
+  .home-context-lede {
+    display: grid;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 900px) {
+    .home-thesis-summary { grid-template-columns: auto minmax(0, 1fr) minmax(12rem, 0.55fr); }
+    .home-evidence-summary { grid-template-columns: auto minmax(0, 1fr) minmax(14rem, 0.65fr); }
+    .home-context-lede { grid-template-columns: minmax(0, 0.72fr) minmax(20rem, 1.28fr); gap: clamp(2rem, 5vw, 5rem); }
   }
 
   .home-collapse-content {
