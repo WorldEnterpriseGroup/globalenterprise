@@ -297,6 +297,7 @@ const exactVisuals: Record<string, VisualRecord> = {
   "/": photo("hero-city", "thesis · proof strip · diagnostic · route chooser", ["orientation", "evidence", "diagnostic", "connection"]),
   "/about/": photo("about-workshop", "photo-led intro · system map · principles · invitation", ["orientation", "observation", "sequence", "connection"]),
   "/operations/": photo("federal-mission", "international operations thesis · context index · delivery model · invitation", ["orientation", "observation", "comparison", "sequence", "connection"]),
+  "/region/": route("regional directory · chapter index · sector bridge · invitation", ["orientation", "index", "comparison", "connection"], "regional operating contexts", "Regional operating contexts for commercial, federal, and SLED leaders"),
   "/proof/": route("confidential proof · built systems · evidence basis · discretion · invitation", ["orientation", "evidence", "sequence", "boundary", "connection"], "proof of practice", "Confidential proof of practice presented through abstract operating patterns"),
   "/careers/": photo("careers-apprentice", "photo-led manifesto · role cards · working agreement · invitation", ["orientation", "observation", "participation", "connection"]),
   "/team/": photo("team-studio-session", "photo-led discipline index · bench note · capability grid · invitation", ["orientation", "observation", "index", "connection"]),
@@ -325,6 +326,7 @@ export function visualForPath(pathname: string): VisualRecord {
   if (normalized.startsWith("/services/")) return route(`capability detail · ${normalized.split("/")[2]} · technical map · next move`, ["orientation", "prose", "diagram", "connection"], "capability detail");
   if (normalized.startsWith("/solutions/")) return route(`solution detail · ${normalized.split("/")[2]} · architecture · engagement`, ["orientation", "promise", "diagram", "participation"], "solution detail");
   if (normalized.startsWith("/industries/")) return route(`industry detail · ${normalized.split("/")[2]} · public signal · sequence`, ["orientation", "evidence", "diagram", "connection"], "industry detail");
+  if (normalized.startsWith("/region/")) return route(`regional context · ${normalized.split("/")[2]} · current chapter · twenty-year roadmap · sector convergence`, ["orientation", "comparison", "sequence", "evidence", "connection"], "regional operating context", "Regional operating context for commercial, federal, and SLED leaders");
   if (normalized.startsWith("/insights/topics/")) return route(`topic index · ${normalized.split("/")[3]} · argument list · next question`, ["orientation", "index", "connection"], "topic index");
   if (normalized.startsWith("/insights/")) return route(`article · ${normalized.split("/")[2]} · reading map · evidence visual`, ["thesis", "prose", "diagram", "connection"], "article");
   if (normalized.startsWith("/case-studies/")) return route(`case study · ${normalized.split("/")[2]} · field note · architecture`, ["context", "prose", "diagram", "consequence"], "case study");

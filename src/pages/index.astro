@@ -26,42 +26,48 @@ const integrationSurfaces = [
     label: "Physical + energy",
     title: "Make the load-bearing layer visible.",
     text: "Power, cooling, facilities, transmission, spectrum, orbit, maintenance, and supply-chain dependencies determine whether the asset can work at all.",
+    href: "/industries/energy-infrastructure/",
   },
   {
     label: "Satellite, telecom + global communications",
     title: "Treat reach as a service, not an asset count.",
     text: "Trace terrestrial and satellite paths, network diversity, latency, availability, coverage, sovereignty, and partner exposure across the combined system.",
+    href: "/industries/technology-data/",
   },
   {
     label: "Data + intelligence",
     title: "Keep evidence attached to authority.",
     text: "Make ownership, provenance, access, quality, evaluation, cybersecurity, and human review explicit before a new capability enters the workflow.",
+    href: "/services/cloud-data/",
   },
   {
     label: "Global finance + capital",
     title: "Move capital to the constraint.",
     text: "Follow cash flows, funding gates, insurance, liquidity, capital allocation, and the value of optionality under uncertainty—not just the synergy slide.",
+    href: "/services/mergers-acquisitions/",
   },
   {
     label: "Marketing + customer systems",
     title: "Make the promise travel.",
     text: "The brand, channel, pricing, language, regulatory boundary, and adoption friction determine whether a combined capability becomes useful in each market.",
+    href: "/services/operating-model/",
   },
   {
     label: "ITIL service + change",
     title: "Make the combined capability supportable.",
     text: "Service ownership, incidents, problems, changes, configuration, releases, continuity, knowledge, and continual improvement keep integration from becoming unrecorded exceptions.",
+    href: "/services/transformation-office/",
   },
 ];
 
 const scorecardMeasures = [
-  { measure: "Time from signal to an authorized decision", question: "Can the combined system turn information into accountable action?" },
-  { measure: "Service availability, recovery time, and change failure rate", question: "Can service ownership carry the integration through release and failure?" },
-  { measure: "Energy used per unit of useful computation or delivered service", question: "Does additional capability convert energy into useful service?" },
-  { measure: "Connectivity reach and quality by market, region, and customer segment", question: "Can satellite, telecom, and terrestrial paths deliver the intended reach?" },
-  { measure: "Critical data with an owner, provenance, access rule, and refresh expectation", question: "Can finance, operations, and leaders trust the inputs?" },
-  { measure: "Customer retention and adoption by market, channel, and language", question: "Does the marketing and customer system make the promise adoptable across borders?" },
-  { measure: "Capital deployed against the constraint that limits growth", question: "Is global finance moving capital to the actual bottleneck?" },
+  { measure: "Time from signal to an authorized decision", question: "Can the combined system turn information into accountable action?", href: "/services/operating-model/" },
+  { measure: "Service availability, recovery time, and change failure rate", question: "Can service ownership carry the integration through release and failure?", href: "/services/transformation-office/" },
+  { measure: "Energy used per unit of useful computation or delivered service", question: "Does additional capability convert energy into useful service?", href: "/industries/energy-infrastructure/" },
+  { measure: "Connectivity reach and quality by market, region, and customer segment", question: "Can satellite, telecom, and terrestrial paths deliver the intended reach?", href: "/industries/technology-data/" },
+  { measure: "Critical data with an owner, provenance, access rule, and refresh expectation", question: "Can finance, operations, and leaders trust the inputs?", href: "/services/cloud-data/" },
+  { measure: "Customer retention and adoption by market, channel, and language", question: "Does the marketing and customer system make the promise adoptable across borders?", href: "/services/operating-model/" },
+  { measure: "Capital deployed against the constraint that limits growth", question: "Is global finance moving capital to the actual bottleneck?", href: "/services/mergers-acquisitions/" },
 ];
 
 const sourceLinks = [...(horizonInsight?.data.sources ?? []), ...(integrationService?.data.sources ?? [])] as SourceInput[];
@@ -118,12 +124,12 @@ const decisionHubs = [
         <h1 class="display-title mt-6">A global enterprise for corporations, government systems, and civic institutions assembling long-horizon capability.</h1>
         <p class="mt-5 max-w-2xl text-base leading-relaxed text-white/75">We connect boards, operators, and policy environments through M&amp;A, solution strategy, and service discipline across energy, communications, finance, and national-scale operations.</p>
         <div class="mt-7 flex flex-wrap gap-4"><a class="btn-primary bg-white" href="/contact/" data-track="hero_cta" data-track-label="Request a leadership engagement">Request a leadership engagement <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/resources/" data-track="hero_cta" data-track-label="Explore business reports">Explore business reports <span aria-hidden="true">↗</span></a></div>
-        <div class="mt-14 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Global scale</p><p class="mt-1">Markets and cities</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Consequence</p><p class="mt-1">Institutions and missions</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Operating depth</p><p class="mt-1">Systems and infrastructure</p></div></div>
+        <div class="mt-14 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><a class="home-hero-stat" href="/operations/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Global scale</p><p class="mt-1">Markets and cities <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/industries/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Consequence</p><p class="mt-1">Institutions and missions <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/services/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Operating depth</p><p class="mt-1">Systems and infrastructure <span aria-hidden="true">↗</span></p></a></div>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><span class="font-bold text-ink">The integration thesis comes first.</span><span>M&amp;A and operating integration</span><span>Energy and communications infrastructure</span><span>Global finance and market systems</span><span>ITIL service continuity</span></div></section>
+  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><a class="home-thesis-link font-bold text-ink" href="/services/mergers-acquisitions/">The integration thesis comes first. <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/mergers-acquisitions/">M&amp;A and operating integration <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/industries/energy-infrastructure/">Energy and communications infrastructure <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/operating-model/">Global finance and market systems <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/transformation-office/">ITIL service continuity <span aria-hidden="true">↗</span></a></div></section>
 
   <MediaInterlude
     src="/media/original/home-mandate-global-v2.avif"
@@ -165,7 +171,7 @@ const decisionHubs = [
           </div>
           <div class="mt-14 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {decisionHubs.map((hub) => (
-              <article class="home-hub-card bg-white">
+              <a class="home-hub-card bg-white" href={hub.context ? `/region/${hub.context.slug}/` : "/operations/"}>
                 <div class="home-hub-media">
                   <AssetImage src={hub.image} width={1536} height={1024} alt={hub.imageAlt} class="home-hub-image" loading="lazy" decoding="async" sizes="(min-width: 1024px) 25vw, 50vw" />
                 </div>
@@ -175,7 +181,7 @@ const decisionHubs = [
                   <p class="mt-4 font-display text-xl leading-tight tracking-[-0.03em]">{hub.context?.title ?? "A connected operating context."}</p>
                   <p class="mt-4 text-sm leading-relaxed text-muted">{hub.context?.description ?? "A context lens for decisions that cross markets, institutions, and infrastructure."}</p>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
           <p class="mt-6 text-xs leading-relaxed text-muted">Context note: the hub names identify operating perspectives used in this narrative. They do not establish physical offices. Representatives and advisory channels are active across Africa, the Caribbean, Latin America, South America, and the broader global network.</p>
@@ -222,42 +228,42 @@ const decisionHubs = [
           </div>
 
           <div class="mt-12 grid gap-px border border-line bg-line sm:grid-cols-3" aria-label="Current system signals">
-            <article class="bg-white p-6 md:p-7">
+            <a class="home-signal-card bg-white p-6 md:p-7" href="/insights/un-desa-population-scale-is-an-operating-constraint/">
               <p class="font-display text-4xl font-medium tracking-[-0.06em] text-cobalt">9.6B</p>
               <h3 class="mt-5 font-display text-xl font-medium tracking-[-0.04em]">people projected in 2050</h3>
               <p class="mt-3 text-sm leading-relaxed text-muted">UN DESA medium projection. Population scale changes the infrastructure question.</p>
-              <a class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4" href="/insights/un-desa-population-scale-is-an-operating-constraint/">UN DESA ↗</a>
-            </article>
-            <article class="bg-white p-6 md:p-7">
+              <span class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4">UN DESA ↗</span>
+            </a>
+            <a class="home-signal-card bg-white p-6 md:p-7" href="/insights/itu-connectivity-is-not-access/">
               <p class="font-display text-4xl font-medium tracking-[-0.06em] text-cobalt">6B / 2.2B</p>
               <h3 class="mt-5 font-display text-xl font-medium tracking-[-0.04em]">online / offline</h3>
               <p class="mt-3 text-sm leading-relaxed text-muted">ITU latest estimate. Reach still depends on quality, affordability, skills, and geography.</p>
-              <a class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4" href="/insights/itu-connectivity-is-not-access/">ITU ↗</a>
-            </article>
-            <article class="bg-white p-6 md:p-7">
+              <span class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4">ITU ↗</span>
+            </a>
+            <a class="home-signal-card bg-white p-6 md:p-7" href="/insights/iea-energy-and-ai-grid-capacity/">
               <p class="font-display text-4xl font-medium tracking-[-0.06em] text-cobalt">945 TWh</p>
               <h3 class="mt-5 font-display text-xl font-medium tracking-[-0.04em]">data-centre electricity by 2030</h3>
               <p class="mt-3 text-sm leading-relaxed text-muted">IEA projection. Digital expansion is also a power, grid, permitting, and resilience decision.</p>
-              <a class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4" href="/insights/iea-energy-and-ai-grid-capacity/">IEA ↗</a>
-            </article>
+              <span class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4">IEA ↗</span>
+            </a>
           </div>
 
           <div class="home-thesis-grid mt-14">
-            <article class="home-thesis-card">
+            <a class="home-thesis-card" href="/services/operating-model/">
               <span class="home-thesis-card-index" aria-hidden="true">01</span>
               <h3>Capability, not accumulation</h3>
               <p>A bigger data centre, larger constellation, or faster acquisition is not automatically progress. The test is lower friction between energy and useful work, broader access, better recovery, and governance that keeps pace with the power assembled.</p>
-            </article>
-            <article class="home-thesis-card">
+            </a>
+            <a class="home-thesis-card" href="/services/mergers-acquisitions/">
               <span class="home-thesis-card-index" aria-hidden="true">02</span>
               <h3>M&A as integration</h3>
               <p>A transaction can combine a communications network with a satellite platform, a finance business with a data capability, an industrial operator with an energy asset, or a global brand with a distribution system. The point is a capability neither side could operate as effectively alone.</p>
-            </article>
-            <article class="home-thesis-card">
+            </a>
+            <a class="home-thesis-card" href="/services/transformation-office/">
               <span class="home-thesis-card-index" aria-hidden="true">03</span>
               <h3>The operating model is the bridge</h3>
               <p>Energy, computation, communications, capital, and human capability only compound when ownership, evidence, service discipline, and local context travel with the strategy.</p>
-            </article>
+            </a>
           </div>
 
           <div class="home-source-note mt-10">
@@ -283,13 +289,13 @@ const decisionHubs = [
 
           <ol class="home-integration-grid mt-14" aria-label="Six integration surfaces">
             {integrationSurfaces.map((surface, index) => (
-              <li class="home-integration-surface">
-                <article>
+              <li>
+                <a class="home-integration-surface" href={surface.href}>
                   <span class="home-integration-index" aria-hidden="true">0{index + 1}</span>
                   <p class="eyebrow text-cobalt">{surface.label}</p>
                   <h3>{surface.title}</h3>
                   <p>{surface.text}</p>
-                </article>
+                </a>
               </li>
             ))}
           </ol>
@@ -306,7 +312,7 @@ const decisionHubs = [
               <table class="home-measurement-table">
                 <caption>Suggested operating measures from the existing M&amp;A and 2050 thesis. These are measures to design, not reported outcomes.</caption>
                 <thead><tr><th scope="col">Measure</th><th scope="col">Question it keeps visible</th></tr></thead>
-                <tbody>{scorecardMeasures.map((item) => <tr><th scope="row">{item.measure}</th><td>{item.question}</td></tr>)}</tbody>
+                <tbody>{scorecardMeasures.map((item) => <tr><th scope="row"><a href={item.href}>{item.measure} <span aria-hidden="true">↗</span></a></th><td>{item.question}</td></tr>)}</tbody>
               </table>
             </div>
             <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
@@ -360,7 +366,7 @@ const decisionHubs = [
 
   <MediaInterlude src="/media/original/home-global-institutions-v2.avif" alt="A major international capital where government institutions, corporate towers, transit, bridges, and waterways meet" eyebrow="Why Global Enterprise" caption="We work at the scale where corporate ambition, public institutions, and city systems shape one another." tone="white" reverse showEyebrow={false} ratio="wide" position="50% 50%">
     <SectionHeading eyebrow="Why Global Enterprise" title="Experience that sits close to the consequence." text="Our perspective comes from working across the places where strategy becomes operational: federal missions, healthcare enterprises, technology platforms, and the people who have to carry change." />
-    <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <article class="bg-white p-8 md:p-10"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h3><p class="mt-4 leading-relaxed text-muted">{item.text}</p></article>)}</div>
+    <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <a class="home-experience-card bg-white p-8 md:p-10" href={item.href ?? "/about/"}><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h3><p class="mt-4 leading-relaxed text-muted">{item.text}</p><span class="mt-6 inline-flex text-cobalt" aria-hidden="true">Explore ↗</span></a>)}</div>
   </MediaInterlude>
 
   <MediaInterlude src="/media/original/home-global-digital-infrastructure-v2.avif" alt="A hyperscale digital infrastructure campus connected to the energy and skyline of a major city" eyebrow="Capabilities" caption="Enterprise capability connects digital infrastructure, energy, data, and institutional governance at city scale." tone="paper" showEyebrow={false} ratio="wide" position="50% 50%">
@@ -467,7 +473,17 @@ const decisionHubs = [
     min-width: 0;
     padding: clamp(1.25rem, 3vw, 2.25rem);
     background: white;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
   }
+
+  .home-thesis-card:hover,
+  .home-thesis-card:focus-visible,
+  .home-experience-card:hover,
+  .home-experience-card:focus-visible,
+  .home-hub-card:hover,
+  .home-hub-card:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, white); }
 
   .home-thesis-card-index,
   .home-integration-index {
@@ -500,6 +516,9 @@ const decisionHubs = [
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease;
   }
 
   .home-hub-media {
@@ -551,10 +570,17 @@ const decisionHubs = [
   }
 
   .home-integration-surface {
+    display: block;
     min-width: 0;
     padding: clamp(1.25rem, 3vw, 2rem);
     background: var(--color-paper);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
   }
+
+  .home-integration-surface:hover,
+  .home-integration-surface:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, var(--color-paper)); }
 
   .home-integration-surface h3 {
     margin-top: 1.5rem;
@@ -622,6 +648,22 @@ const decisionHubs = [
     color: var(--color-ink);
     font-weight: 700;
   }
+
+  .home-measurement-table tbody th a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-cobalt) 35%, transparent); text-underline-offset: 0.2em; }
+  .home-measurement-table tbody th a:hover,
+  .home-measurement-table tbody th a:focus-visible { color: var(--color-cobalt); }
+
+  .home-hero-stat,
+  .home-thesis-link { color: inherit; text-decoration: none; }
+  .home-hero-stat:hover,
+  .home-hero-stat:focus-visible,
+  .home-thesis-link:hover,
+  .home-thesis-link:focus-visible { color: var(--color-cobalt); }
+  .home-hero-stat:hover span,
+  .home-hero-stat:focus-visible span { color: var(--color-lime); }
+
+  .home-signal-card,
+  .home-experience-card { color: var(--color-ink); text-decoration: none; transition: background-color 180ms ease; }
 
   .home-measurement-table tbody td {
     color: var(--color-muted);

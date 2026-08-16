@@ -2,6 +2,7 @@
 interface PlatformNode {
   label: string;
   text: string;
+  href: string;
 }
 
 interface Props {
@@ -20,22 +21,22 @@ const platformGroups: { label: string; nodes: PlatformNode[] }[] = [
   {
     label: "Authority",
     nodes: [
-      { label: "Institutions", text: "Public, civic, and enterprise mandates set the outcome and the boundary." },
-      { label: "Capital", text: "Funding, investment, and risk choices determine what can move and when." },
+      { label: "Institutions", text: "Public, civic, and enterprise mandates set the outcome and the boundary.", href: "/industries/federal-public-service/" },
+      { label: "Capital", text: "Funding, investment, and risk choices determine what can move and when.", href: "/services/mergers-acquisitions/" },
     ],
   },
   {
     label: "Foundations",
     nodes: [
-      { label: "Infrastructure", text: "Energy, transport, facilities, and physical assets carry the work." },
-      { label: "Cloud / data / AI", text: "Digital platforms, information, models, and controls turn signal into action." },
+      { label: "Infrastructure", text: "Energy, transport, facilities, and physical assets carry the work.", href: "/industries/energy-infrastructure/" },
+      { label: "Cloud / data / AI", text: "Digital platforms, information, models, and controls turn signal into action.", href: "/services/cloud-data/" },
     ],
   },
   {
     label: "Execution",
     nodes: [
-      { label: "Supply networks", text: "Partners, suppliers, and logistics connect decisions across borders." },
-      { label: "Workforce", text: "Roles, skills, leadership, and trust make new capability usable." },
+      { label: "Supply networks", text: "Partners, suppliers, and logistics connect decisions across borders.", href: "/industries/logistics-and-supply-networks/" },
+      { label: "Workforce", text: "Roles, skills, leadership, and trust make new capability usable.", href: "/services/leadership-talent/" },
     ],
   },
 ];
@@ -43,6 +44,7 @@ const platformGroups: { label: string; nodes: PlatformNode[] }[] = [
 const outcome: PlatformNode = {
   label: "Outcomes",
   text: "Services, resilience, public value, and durable performance are the test of the system.",
+  href: "/services/operating-model/",
 };
 ---
 
@@ -66,12 +68,14 @@ const outcome: PlatformNode = {
             <p class="platform-landscape-group-label">{group.label}</p>
             <ol class="platform-landscape-nodes">
               {group.nodes.map((node) => (
-                <li class="platform-landscape-node">
+                <li>
+                  <a class="platform-landscape-node" href={node.href}>
                   <span class="platform-landscape-node-marker" aria-hidden="true"></span>
                   <div>
                     <h3>{node.label}</h3>
                     <p>{node.text}</p>
                   </div>
+                  </a>
                 </li>
               ))}
             </ol>
@@ -81,13 +85,13 @@ const outcome: PlatformNode = {
 
       <div class="platform-landscape-outcome">
         <p class="platform-landscape-group-label">The test</p>
-        <div class="platform-landscape-node platform-landscape-node-outcome">
+        <a class="platform-landscape-node platform-landscape-node-outcome" href={outcome.href}>
           <span class="platform-landscape-node-marker" aria-hidden="true"></span>
           <div>
             <h3>{outcome.label}</h3>
             <p>{outcome.text}</p>
           </div>
-        </div>
+        </a>
       </div>
     </div>
 
@@ -164,7 +168,13 @@ const outcome: PlatformNode = {
     padding: 1rem;
     border: 1px solid var(--color-line);
     background: white;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
   }
+
+  .platform-landscape-node:hover,
+  .platform-landscape-node:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, white); }
 
   .platform-landscape-node-marker {
     display: block;
@@ -221,7 +231,11 @@ const outcome: PlatformNode = {
   .platform-landscape-node-outcome {
     border-color: color-mix(in srgb, white 25%, transparent);
     background: transparent;
+    color: white;
   }
+
+  .platform-landscape-node-outcome:hover,
+  .platform-landscape-node-outcome:focus-visible { background: rgb(255 255 255 / 8%); }
 
   .platform-landscape-node-outcome .platform-landscape-node-marker {
     background: var(--color-lime);

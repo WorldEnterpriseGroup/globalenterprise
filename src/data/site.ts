@@ -45,36 +45,42 @@ export const navItems = [
 
 export const regionContexts = [
   {
+    slug: "na",
     name: "North America",
     title: "Scale without losing the mission.",
     description: "Large institutions are being asked to move at institutional speed while carrying public, regulatory, workforce, and infrastructure consequence. The useful question is which decisions belong close to the signal—and which require a shared control surface.",
     lenses: ["Mission and enterprise architecture", "AI portfolio governance", "Infrastructure and public value"],
   },
   {
+    slug: "eu",
     name: "Europe",
     title: "Turn principle into operating practice.",
     description: "Privacy, safety, resilience, competition, and digital sovereignty are not separate workstreams. They become an operating advantage when translated into product choices, data responsibilities, evidence, and a clear path for exception.",
     lenses: ["Responsible AI and data trust", "Cross-border operating models", "Regulation-to-workflow translation"],
   },
   {
+    slug: "mea",
     name: "Middle East & Africa",
     title: "Build the platform and the capability together.",
     description: "Ambitious transformation programs need more than capital and technology. They need local capability, durable institutions, delivery partners, and a sequence that lets a new system become useful before it becomes complex.",
     lenses: ["Institution building and capability transfer", "Digital and physical infrastructure", "Partner ecosystems and resilience"],
   },
   {
+    slug: "asia",
     name: "Asia-Pacific",
     title: "Coordinate speed across a connected system.",
     description: "Manufacturing, logistics, technology, health, and public systems often cross organizational and national boundaries. Advantage comes from making the interfaces, handoffs, and decision rights visible before the network is under stress.",
     lenses: ["Supply-chain and platform resilience", "Interoperability and data products", "Distributed leadership and change"],
   },
   {
+    slug: "latam",
     name: "Latin America & the Caribbean",
     title: "Make trust part of the delivery architecture.",
     description: "Transformation compounds when people can see who owns a decision, how data is used, and what happens when the system fails. Clear service promises and practical feedback loops are the infrastructure for adoption.",
     lenses: ["Public service and institutional trust", "Inclusive capability building", "Data, identity, and service design"],
   },
   {
+    slug: "sa",
     name: "South America",
     title: "Build capability around continuity.",
     description: "Capability has to survive weaker grid quality, uneven logistics, and local operational constraints. The advantage comes from defining what can be standardized versus what must stay local.",
@@ -397,9 +403,9 @@ export const businessReports = [
 ];
 
 export const experienceHighlights = [
-  { number: "20+", label: "years at the frontier of change", text: "Our work has evolved with emerging technology and ITIL change practice for more than two decades, always translating new capability into durable operating advantage." },
-  { number: "AI", label: "frontier AI research posture", text: "We bring a research posture to enterprise AI/ML, AI cost management, and governed adoption—while keeping named profiles and permissioned recognition claims in the diligence path." },
-  { number: "501c3", label: "research institute partnership", text: "Through our partnership with INSTAR Lab Inc, a 501(c)(3) research institute, we contribute to cutting-edge research across frontier intelligence and emerging systems." },
+  { number: "20+", label: "years at the frontier of change", text: "Our work has evolved with emerging technology and ITIL change practice for more than two decades, always translating new capability into durable operating advantage.", href: "/about/" },
+  { number: "AI", label: "frontier AI research posture", text: "We bring a research posture to enterprise AI/ML, AI cost management, and governed adoption—while keeping named profiles and permissioned recognition claims in the diligence path.", href: "/services/intelligent-automation/" },
+  { number: "501c3", label: "research institute partnership", text: "Through our partnership with INSTAR Lab Inc, a 501(c)(3) research institute, we contribute to cutting-edge research across frontier intelligence and emerging systems.", href: "/insights/" },
 ];
 
 export const engagements = [

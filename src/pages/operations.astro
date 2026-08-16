@@ -9,31 +9,37 @@ import { regionContexts } from "@/data/site";
 const decisionHubs = [
   {
     name: "Africa",
+    slug: "mea",
     lens: "Infrastructure and delivery continuity",
     text: "A context for testing whether integration assumptions hold when grid quality, satellite routes, and talent distribution differ materially by market.",
   },
   {
     name: "North America",
+    slug: "na",
     lens: "Finance, telecom, and institutional rhythm",
     text: "A context for balancing capital scale, operating continuity, and partner ecosystems where execution time compresses quickly.",
   },
   {
     name: "Europe",
+    slug: "eu",
     lens: "Regulation and evidence translation",
     text: "A context for testing how governance, privacy, data, and institutional trust shape speed and continuity.",
   },
   {
     name: "Latin America & Caribbean",
+    slug: "latam",
     lens: "Scale, language, and institutional trust",
     text: "A context for testing whether a capability can convert strategic intent into local relevance without overpromising service or reliability.",
   },
   {
     name: "South America",
+    slug: "sa",
     lens: "Infrastructure adaptation and operations",
     text: "A context for assessing transport, connectivity, capital, and governance constraints before an integration is assumed to be enterprise-ready.",
   },
   {
     name: "Asia-Pacific",
+    slug: "asia",
     lens: "Speed and interoperability",
     text: "A context for pressure-testing handoffs, supplier complexity, and communication paths across dense, multi-jurisdiction markets.",
   },
@@ -133,11 +139,12 @@ const thesisRows = [
 
       <div class="mt-14 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
         {decisionHubs.map((hub) => (
-          <article class="bg-paper p-7 md:p-8">
+          <a class="operations-hub-card bg-paper p-7 md:p-8" href={`/region/${hub.slug}/`}>
             <p class="eyebrow text-cobalt">Decision hub · {hub.name}</p>
             <h2 class="mt-8 font-display text-2xl font-medium tracking-[-0.05em]">{hub.lens}</h2>
             <p class="mt-4 text-sm leading-relaxed text-muted">{hub.text}</p>
-          </article>
+            <span class="mt-8 inline-flex text-cobalt" aria-hidden="true">Read the regional chapter ↗</span>
+          </a>
         ))}
       </div>
 
@@ -151,7 +158,7 @@ const thesisRows = [
         <SectionHeading eyebrow="Regional operating contexts" title="The integration thesis travels. The mechanism changes." text="These are not office claims or a list of locations. They are the operating conditions we put into the room when an M&amp;A mandate crosses borders, partners, institutions, and the systems that carry a service promise." />
         <div class="operations-context-index">
           {regionContexts.map((context) => (
-            <article id={context.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")} class="operations-context-row scroll-mt-24">
+            <a id={context.name.toLowerCase().replaceAll(" & ", "-").replaceAll(" ", "-")} href={`/region/${context.slug}/`} class="operations-context-row scroll-mt-24">
 
               <div>
                 <p class="eyebrow text-cobalt">{context.name}</p>
@@ -159,7 +166,7 @@ const thesisRows = [
                 <p class="mt-4 max-w-2xl leading-relaxed text-muted">{context.description}</p>
                 <ul class="mt-6 flex flex-wrap gap-2">{context.lenses.map((lens) => <li>{lens}</li>)}</ul>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </div>
@@ -319,7 +326,11 @@ const thesisRows = [
   .operations-hero-figure figcaption { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid rgb(255 255 255 / 15%); color: rgb(255 255 255 / 66%); font-size: 0.72rem; line-height: 1.5; }
   .operations-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .operations-context-index { border-top: 1px solid var(--color-line); }
+  .operations-hub-card { display: block; color: var(--color-ink); text-decoration: none; transition: background-color 180ms ease; }
+  .operations-hub-card:hover, .operations-hub-card:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, var(--color-paper)); }
   .operations-context-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding-block: clamp(1.75rem, 4vw, 3.25rem); border-bottom: 1px solid var(--color-line); }
+  .operations-context-row { color: var(--color-ink); text-decoration: none; transition: background-color 180ms ease; }
+  .operations-context-row:hover, .operations-context-row:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 5%, var(--color-paper)); }
   .operations-context-code { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.75rem; line-height: 1; }
   .operations-context-row h2 { margin-top: 0.75rem; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; letter-spacing: -0.045em; line-height: 1.05; }
   .operations-context-row li { padding: 0.55rem 0.75rem; border: 1px solid var(--color-line); color: var(--color-muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }

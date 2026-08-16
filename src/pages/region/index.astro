@@ -1,0 +1,62 @@
+---
+import Base from "@/layouts/Base.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { regionDirectory } from "@/data/regions";
+import { site } from "@/data/site";
+---
+
+<Base title={`Regional operating contexts | ${site.name}`} description="Explore Global Enterprise regional operating contexts, current chapters, twenty-year roadmaps, and the connection between commercial, federal, and SLED capability." image="/media/original/home-global-institution-v2.avif">
+  <section class="region-directory-hero bg-ink text-white">
+    <div class="container-site grid gap-10 py-20 md:py-28 lg:grid-cols-[.9fr_1.1fr] lg:items-end lg:gap-20">
+      <div>
+        <p class="eyebrow text-lime">Global Enterprise · regional contexts</p>
+        <h1 class="section-title mt-7 max-w-4xl">The standard travels. The chapter changes.</h1>
+      </div>
+      <p class="max-w-2xl text-xl leading-relaxed text-white/70">Read the operating conditions behind the headline: where each region is now, what the next twenty years could demand, and how commercial, federal, and SLED systems can build stronger digital and intellectual capability together.</p>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site">
+      <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+        <SectionHeading eyebrow="Choose a context" title="A regional lens for the decision in front of you." text="These pages are authored strategic contexts, not claims of physical offices or a country-by-country footprint. They are a starting surface for leaders to validate local conditions, authority, partners, and service promises with GE." />
+        <div class="region-directory-grid">
+          {regionDirectory.map((region, index) => (
+            <a class="region-directory-card" href={`/region/${region.slug}/`}>
+              <span class="region-directory-index">0{index + 1}</span>
+              <span class="eyebrow text-cobalt">{region.name}</span>
+              <strong>{region.title}</strong>
+              <span class="region-directory-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-paper">
+    <div class="container-site grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div>
+        <p class="eyebrow text-cobalt">A shared question</p>
+        <h2 class="section-title mt-5 max-w-3xl">How does capability compound without flattening the place?</h2>
+      </div>
+      <div class="space-y-6 text-lg leading-relaxed text-muted">
+        <p>Commercial systems bring investment, customers, platforms, and distribution. Federal systems bring mandate, public value, security, and long-horizon coordination. State, local, and education systems bring proximity, trust, talent, and the signal of whether a service works for real people.</p>
+        <p>GE works at the boundary between them: translating a shared ambition into local decision rights, evidence, service ownership, infrastructure dependencies, and a cadence that can learn. The regional pages turn that working posture into six route-level conversations.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .region-directory-grid { display: grid; gap: 1px; border: 1px solid var(--color-line); background: var(--color-line); }
+  .region-directory-card { position: relative; display: grid; min-height: 15rem; gap: 1rem; align-content: start; padding: 1.5rem; background: var(--color-paper); color: var(--color-ink); transition: background-color 180ms ease, color 180ms ease; }
+  .region-directory-card:hover, .region-directory-card:focus-visible { background: var(--color-cobalt); color: white; }
+  .region-directory-card:hover .eyebrow, .region-directory-card:focus-visible .eyebrow { color: var(--color-lime); }
+  .region-directory-index { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.15rem; }
+  .region-directory-card:hover .region-directory-index, .region-directory-card:focus-visible .region-directory-index { color: var(--color-lime); }
+  .region-directory-card strong { max-width: 20rem; margin-top: 2rem; font-family: var(--font-display); font-size: clamp(1.55rem, 2.4vw, 2.2rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1.04; }
+  .region-directory-arrow { position: absolute; right: 1.5rem; bottom: 1.35rem; font-size: 1.45rem; }
+  @media (min-width: 640px) { .region-directory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .region-directory-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>
