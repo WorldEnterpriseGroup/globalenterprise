@@ -5,6 +5,16 @@ include:
 variables:
   GITHUB_REPO: "WorldEnterpriseGroup/globalenterprise"
   SITE_DIR: "."
+  BUILD_COMMANDS: "npm ci && npm run build"
+
+# The shared Pages job defaults to Alpine without Node and otherwise copies
+# the repository source tree. Build the static Astro output in a Node image
+# and publish the contents of dist/ at the Pages document root.
+pages:
+  extends: .pages:deploy
+  image: "${IMAGE_REGISTRY}/dockerhub-proxy/library/node:24-alpine"
+  variables:
+    SITE_DIR: "dist/."
 
 # The shared mirror job runs from GitLab's detached CI checkout but pushes the
 # branch name. Materialize that branch locally so the mirror can publish it.
