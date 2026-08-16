@@ -72,38 +72,38 @@ const decisionHubs = [
   {
     city: "Africa",
     region: "Middle East & Africa",
-    image: "/media/original/home-system-infrastructure.avif",
-    imageAlt: "A modern operations facility supporting global infrastructure services",
+    image: "/media/original/home-global-digital-infrastructure-v2.avif",
+    imageAlt: "A hyperscale digital infrastructure campus connected to the energy and skyline of a major city",
   },
   {
     city: "North America",
     region: "North America",
     image: "/media/original/home-global-institution-v2.avif",
-    imageAlt: "A global financial district linked by lighted service corridors and transport infrastructure",
+    imageAlt: "The grand interior of an international institution overlooking a global city",
   },
   {
     city: "Europe",
     region: "Europe",
-    image: "/media/original/home-capability-workflow.avif",
-    imageAlt: "A civic skyline with major public institutions and commercial density",
+    image: "/media/original/home-global-institutions-v2.avif",
+    imageAlt: "A major international capital where government institutions, corporate towers, transit, bridges, and waterways meet",
   },
   {
     city: "Latin America & Caribbean",
     region: "Latin America & the Caribbean",
-    image: "/media/original/home-listening-room.avif",
-    imageAlt: "A global planning room with infrastructure and mobility maps spanning regional corridors",
+    image: "/media/original/home-mandate-global-v2.avif",
+    imageAlt: "A monumental international government and corporate district in morning light",
   },
   {
     city: "South America",
     region: "South America",
-    image: "/media/original/home-consequence-field.avif",
-    imageAlt: "A high-visibility logistics landscape and transport corridor at scale",
+    image: "/media/original/home-global-nexus-v2.avif",
+    imageAlt: "A major international transport nexus connecting an airport, rail corridors, and a global city",
   },
   {
     city: "Asia-Pacific",
     region: "Asia-Pacific",
-    image: "/media/original/home-evidence-archive.avif",
-    imageAlt: "A major intermodal shipping and logistics node in a global port city",
+    image: "/media/original/home-global-port-v2.avif",
+    imageAlt: "A vast international container port and intermodal logistics network beside a global city",
   },
 ].map((hub) => ({ ...hub, context: regionContexts.find((context) => context.name === hub.region) }));
 ---
@@ -174,7 +174,7 @@ const decisionHubs = [
             {decisionHubs.map((hub) => (
               <article class="home-hub-card bg-white">
                 <div class="home-hub-media">
-                  <AssetImage src={hub.image} width={1200} height={675} alt={hub.imageAlt} class="home-hub-image" loading="lazy" decoding="async" sizes="(min-width: 1024px) 25vw, 50vw" />
+                  <AssetImage src={hub.image} width={1536} height={1024} alt={hub.imageAlt} class="home-hub-image" loading="lazy" decoding="async" sizes="(min-width: 1024px) 25vw, 50vw" />
                 </div>
                 <div class="home-hub-copy">
                   <p class="eyebrow text-cobalt">{hub.region}</p>
