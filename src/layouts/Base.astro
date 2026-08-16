@@ -45,8 +45,8 @@ const socialFamilyFallbacks = [
   { match: (path: string) => path.startsWith("/resources/"), src: "/media/original/home-evidence-archive.avif", alt: "A researcher selecting a folder from a quiet archive" },
 ];
 const socialFamilyFallback = socialFamilyFallbacks.find((item) => item.match(pathname));
-const fallbackImage = pageVisual.src || socialFamilyFallback?.src || "/og-image.png";
-const socialImagePath = (image?.trim() || fallbackImage) === "/og-image.svg" ? "/og-image.png" : image?.trim() || fallbackImage;
+const fallbackImage = pageVisual.src || socialFamilyFallback?.src || "/og-image.avif";
+const socialImagePath = (image?.trim() || fallbackImage) === "/og-image.svg" ? "/og-image.avif" : image?.trim() || fallbackImage;
 const socialImage = new URL(socialImagePath, site.url).toString();
 const socialImageExtension = socialImagePath.split("?")[0].toLowerCase();
 const socialImageType = socialImageExtension.endsWith(".svg") ? "image/svg+xml" : socialImageExtension.endsWith(".png") ? "image/png" : socialImageExtension.endsWith(".webp") ? "image/webp" : "image/avif";
