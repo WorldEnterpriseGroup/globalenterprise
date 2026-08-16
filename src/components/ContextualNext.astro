@@ -4,7 +4,7 @@ import SignalIcon from "@/components/SignalIcon.astro";
 const path = Astro.url.pathname;
 const context = path.startsWith("/insights")
   ? { eyebrow: "Carry the signal", title: "Turn a future signal into an institutional decision.", text: "A perspective matters when it changes the choices, investments, or operating model that come next.", href: "/contact/", label: "Request a leadership engagement", icon: "compass" }
-  : path.startsWith("/case-studies")
+  : path.startsWith("/work") || path.startsWith("/case-studies")
     ? { eyebrow: "Make the pattern useful", title: "Bring the version of this problem that carries consequence.", text: "We connect field-tested patterns to the constraints, people, and decisions in your system.", href: "/contact/", label: "Discuss the mandate", icon: "arrow" }
   : path.startsWith("/solutions")
       ? { eyebrow: "Choose the next move", title: "A focused entry point can still see the whole system.", text: "Bring the context behind the problem and we will help shape the first release of a capability leaders can govern.", href: "/contact/", label: "Bring us the mandate", icon: "pulse" }

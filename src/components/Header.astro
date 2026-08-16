@@ -26,17 +26,13 @@ const panelTone = isHome ? "mega-panel-home" : "";
             Explore <span class="text-xs transition-transform" data-mega-chevron>⌄</span>
           </button>
         </li>
-        <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/about") ? "text-cobalt" : ""]} href="/about/" aria-current={currentPath.startsWith("/about") ? "page" : undefined}>Approach</a></li>
+        <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/about") ? "text-cobalt" : ""]} href="/about/" aria-current={currentPath.startsWith("/about") ? "page" : undefined}>About</a></li>
         <li class="relative">
-          <button class:list={["flex w-full cursor-pointer items-center gap-2 py-2 text-left text-sm transition-colors md:w-auto", linkTone, currentPath.startsWith("/industries") ? "text-cobalt" : ""]} type="button" aria-expanded="false" aria-haspopup="true" aria-controls="industry-dropdown" data-industry-toggle>
+          <button class:list={["flex w-full cursor-pointer items-center gap-2 py-2 text-left text-sm transition-colors md:w-auto", linkTone, currentPath.startsWith("/industries") ? "text-cobalt" : ""]} type="button" aria-expanded="false" aria-haspopup="true" aria-controls="industry-navigation" data-industry-toggle>
             Industries <span class="text-xs transition-transform" data-industry-chevron>⌄</span>
           </button>
-          <div id="industry-dropdown" class="industry-dropdown" data-industry-dropdown data-state="closed" aria-hidden="true">
-            <a class="industry-dropdown-all" href="/industries/">All industries <span aria-hidden="true">↗</span></a>
-            {navigationPanel.industries.map((item) => <a href={item.href}><span>{item.title}</span><small>{item.signal}</small></a>)}
-          </div>
         </li>
-        <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/case-studies") ? "text-cobalt" : ""]} href="/case-studies/" aria-current={currentPath.startsWith("/case-studies") ? "page" : undefined}>Work</a></li>
+        <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/work") || currentPath.startsWith("/case-studies") ? "text-cobalt" : ""]} href="/work/" aria-current={currentPath.startsWith("/work") || currentPath.startsWith("/case-studies") ? "page" : undefined}>Work</a></li>
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/insights") ? "text-cobalt" : ""]} href="/insights/" aria-current={currentPath.startsWith("/insights") ? "page" : undefined}>Insights</a></li>
         <li><a class:list={["block py-2 text-sm transition-colors", linkTone, currentPath.startsWith("/resources") ? "text-cobalt" : ""]} href="/resources/" aria-current={currentPath.startsWith("/resources") ? "page" : undefined}>Resources</a></li>
         <li class="pt-3 md:pt-0"><a class:list={["btn-primary w-full md:w-auto", isHome ? "bg-white text-ink" : ""]} href="/contact/">Leadership engagement <span aria-hidden="true">↗</span></a></li>
@@ -58,6 +54,30 @@ const panelTone = isHome ? "mega-panel-home" : "";
         </div>
       </div>
     </nav>
+  </div>
+
+  <div id="industry-navigation" class:list={["mega-panel industry-mega-panel", panelTone]} data-industry-panel data-state="closed" aria-hidden="true">
+    <div class="container-site grid gap-8 py-8 lg:grid-cols-[.68fr_1.7fr_.72fr] lg:gap-10 lg:py-10">
+      <div>
+        <p class="mega-kicker text-cobalt">Industries</p>
+        <h2 class="mt-3 max-w-xs font-display text-3xl font-medium leading-tight tracking-[-0.05em]">Choose the context around the decision.</h2>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">Browse every industry route, then follow the signal, capability, and operating moves that fit your system.</p>
+        <a class="mega-view-all mt-6 inline-flex" href="/industries/">View all industries ↗</a>
+      </div>
+
+      <div class="lg:border-l lg:border-line lg:pl-9">
+        <div class="grid gap-x-7 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+          {navigationPanel.industries.map((item) => <a class="industry-mega-link" href={item.href}><span>{item.title}</span><span aria-hidden="true">↗</span></a>)}
+        </div>
+      </div>
+
+      <aside class="mega-feature">
+        <p class="mega-kicker text-cobalt">A useful starting point</p>
+        <p class="mt-3 font-display text-2xl font-medium leading-tight tracking-[-0.04em]">Start with the consequence, not the category.</p>
+        <p class="mt-4 text-sm leading-relaxed text-muted">The industry is the setting. The work begins with the decision, dependency, or service promise that has to become reliable.</p>
+        <a class="ink-link mt-6" href="/contact/">Talk through the mandate <span aria-hidden="true"></span></a>
+      </aside>
+    </div>
   </div>
 
   <div id="mega-navigation" class:list={["mega-panel", panelTone]} data-mega-panel data-state="closed" aria-hidden="true">
@@ -105,7 +125,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
     const mobileDirectory = header?.querySelector<HTMLElement>("[data-mobile-directory]");
     const megaChevron = header?.querySelector("[data-mega-chevron]");
     const industryToggle = header?.querySelector("[data-industry-toggle]");
-    const industryDropdown = header?.querySelector("[data-industry-dropdown]");
+    const industryPanel = header?.querySelector("[data-industry-panel]");
     const industryChevron = header?.querySelector("[data-industry-chevron]");
     const menuLabel = header?.querySelector("[data-menu-label]");
 
@@ -126,8 +146,9 @@ const panelTone = isHome ? "mega-panel-home" : "";
 
     const setIndustries = (open: boolean) => {
       industryToggle?.setAttribute("aria-expanded", String(open));
-      industryDropdown?.setAttribute("aria-hidden", String(!open));
-      industryDropdown?.setAttribute("data-state", open ? "open" : "closed");
+      industryPanel?.setAttribute("aria-hidden", String(!open));
+      industryPanel?.setAttribute("data-state", open ? "open" : "closed");
+      industryPanel?.classList.toggle("is-open", open);
       industryChevron?.classList.toggle("rotate-180", open);
     };
 
@@ -137,17 +158,17 @@ const panelTone = isHome ? "mega-panel-home" : "";
       menuToggle.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
       menuLabel && (menuLabel.textContent = isOpen ? "Open navigation" : "Close navigation");
       navigation?.classList.toggle("hidden", isOpen);
-      if (isOpen) setMega(false);
+      if (isOpen) { setMega(false); setIndustries(false); }
       if (!isOpen) navigation?.querySelector<HTMLElement>("a, button")?.focus();
     });
 
     megaToggle?.addEventListener("click", () => { setIndustries(false); setMega(megaPanel?.getAttribute("data-state") !== "open"); });
-    industryToggle?.addEventListener("click", () => { setMega(false); setIndustries(industryDropdown?.getAttribute("data-state") !== "open"); });
+    industryToggle?.addEventListener("click", () => { setMega(false); setIndustries(industryPanel?.getAttribute("data-state") !== "open"); });
     document.addEventListener("click", (event) => {
       if (megaPanel?.getAttribute("data-state") === "open" && !(event.target instanceof Node && header.contains(event.target))) setMega(false);
-      if (industryDropdown?.getAttribute("data-state") === "open" && !(event.target instanceof Node && header.contains(event.target))) setIndustries(false);
+      if (industryPanel?.getAttribute("data-state") === "open" && !(event.target instanceof Node && header.contains(event.target))) setIndustries(false);
     });
-    navigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+    header?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
       if (window.innerWidth < 768) {
         setMega(false);
         setIndustries(false);

@@ -36,9 +36,9 @@ export const site = {
 export const navItems = [
   { label: "Capabilities", href: "/services/" },
   { label: "M&A integration", href: "/services/mergers-acquisitions/" },
-  { label: "Approach", href: "/about/" },
+  { label: "About", href: "/about/" },
   { label: "Industries", href: "/industries/" },
-  { label: "Work", href: "/case-studies/" },
+  { label: "Work", href: "/work/" },
   { label: "Insights", href: "/insights/" },
   { label: "Careers", href: "/careers/" },
 ];
@@ -558,7 +558,7 @@ export const navigationPanel = {
     { label: "Our point of view", href: "/about/", description: "How we use M&A and operating discipline to make frontier capability governable." },
     { label: "Operations", href: "/operations/", description: "How we bring world ideas together across regions, partners, and time zones." },
     { label: "Proof of practice", href: "/proof/", description: "Confidential field evidence from ventures, products, and systems we have built and grown." },
-    { label: "Selected work", href: "/case-studies/", description: "Field notes from operating models, AI, and institutional change." },
+    { label: "Selected work", href: "/work/", description: "Field notes from operating models, AI, and institutional change." },
     { label: "Insights", href: "/insights/", description: "Evidence and original analysis for the moment when the signal becomes a decision." },
     { label: "Business reports", href: "/resources/", description: "Research-backed, decision-ready reports for leaders carrying institutional consequence." },
     { label: "Strategic pathways", href: "/solutions/", description: "Focused entry points for consequential decisions across the system." },

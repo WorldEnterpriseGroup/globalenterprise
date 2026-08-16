@@ -40,7 +40,7 @@ const socialFamilyFallbacks = [
   { match: (path: string) => path.startsWith("/services/"), src: "/media/original/services-control-room.avif", alt: "Operators reviewing an enterprise systems control room" },
   { match: (path: string) => path.startsWith("/solutions/"), src: "/media/original/solutions-care-handoff.avif", alt: "A careful handoff between people working on a complex service" },
   { match: (path: string) => path.startsWith("/industries/"), src: "/media/generated/energy-grid.avif", alt: "Operators watching an energy landscape through a control-room window" },
-  { match: (path: string) => path.startsWith("/case-studies/"), src: "/media/original/work-field-visit.avif", alt: "An operations team walking through an industrial control room" },
+  { match: (path: string) => path.startsWith("/work/") || path.startsWith("/case-studies/"), src: "/media/original/work-field-visit.avif", alt: "An operations team walking through an industrial control room" },
   { match: (path: string) => path.startsWith("/insights/"), src: "/media/original/insights-field-notes.avif", alt: "A marked-up report, notebook, and pen on a researcher’s desk" },
   { match: (path: string) => path.startsWith("/resources/"), src: "/media/original/home-evidence-archive.avif", alt: "A researcher selecting a folder from a quiet archive" },
 ];
@@ -56,6 +56,7 @@ const breadcrumbLabels: Record<string, string> = {
   about: "Approach",
   careers: "Careers",
   "case-studies": "Work",
+  work: "Work",
   contact: "Contact",
   faq: "FAQ",
   operations: "Operations",
