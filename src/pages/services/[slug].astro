@@ -7,6 +7,7 @@ import TransformationGateSequence from "@/components/TransformationGateSequence.
 import WorkforceCapabilityLoop from "@/components/WorkforceCapabilityLoop.astro";
 import { getCollection, render } from "astro:content";
 import { resolveEvidenceSource } from "@/data/evidence-routes";
+import { solutionPages } from "@/data/site";
 
 export async function getStaticPaths() {
   const entries = (await getCollection("servicePages")).filter((entry) => !entry.data.draft);
@@ -14,7 +15,9 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const routeHeadings = headings.filter((heading) => heading.depth === 2);
+const connectedSolutions = solutionPages.filter((solution) => solution.serviceSlugs.includes(entry.id)).slice(0, 3);
 const isOperatingModel = entry.id === "operating-model";
 const isMergersAcquisitions = entry.id === "mergers-acquisitions";
 const isIntelligentAutomation = entry.id === "intelligent-automation";
@@ -60,18 +63,40 @@ const frameworkNote = frameworkNotes[entry.id];
   </section>
 
   <section class="section-pad bg-white">
-    <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
-      <aside>
-        <p class="eyebrow">Capability note</p>
-        <div class="mt-8 flex flex-wrap gap-2">{entry.data.tags.map((tag) => <span class="pill">{tag}</span>)}</div>
-        <div class="mt-10 border-y border-line py-6">
-          <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Working artifacts</p>
+    <div class="container-site grid gap-12 lg:grid-cols-[minmax(18rem,.85fr)_minmax(0,1.75fr)] lg:items-start lg:gap-16">
+      <aside class="service-detail-rail">
+        <p class="eyebrow">Capability guide</p>
+
+        <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Read this route</p>
+          <nav class="service-detail-rail-nav" aria-label={`Sections in ${entry.data.title}`}>
+            <ol>
+              {routeHeadings.map((heading, index) => <li><a href={`#${heading.slug}`}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><strong>{heading.text}</strong></a></li>)}
+            </ol>
+          </nav>
+        </div>
+
+        <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Capability signals</p>
+          <div class="mt-4 flex flex-wrap gap-2">{entry.data.tags.map((tag) => <span class="pill">{tag}</span>)}</div>
+        </div>
+
+        <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Working artifacts</p>
           <p class="mt-4 text-sm leading-relaxed text-muted">{route.artifact}</p>
         </div>
-        {entry.data.sources.length > 0 && <div class="mt-10 border-t border-line pt-6"><p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Source notes</p><ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted">{entry.data.sources.map((source) => { const resolvedSource = resolveEvidenceSource(source); return <li><a class="underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={resolvedSource.displayUrl}>{resolvedSource.label} ↗</a></li>; })}</ul></div>}
-        <a class="btn-dark mt-10" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
+
+        {connectedSolutions.length > 0 && <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Connected pathways</p>
+          <div class="service-detail-rail-links">
+            {connectedSolutions.map((solution) => <a href={`/solutions/${solution.slug}/`}><span class="block text-[0.68rem] font-bold uppercase tracking-[0.12em] text-cobalt">{solution.eyebrow}</span><strong class="mt-1 block">{solution.title}</strong></a>)}
+          </div>
+        </div>}
+
+        {entry.data.sources.length > 0 && <div class="service-detail-rail-section"><p class="service-detail-rail-label">Source notes</p><ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted">{entry.data.sources.map((source) => { const resolvedSource = resolveEvidenceSource(source); return <li><a class="underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={resolvedSource.displayUrl}>{resolvedSource.label} ↗</a></li>; })}</ul></div>}
+        <a class="btn-dark mt-8" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
       </aside>
-      <article class="prose max-w-3xl text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5 prose-li:my-2"><Content /></article>
+      <article id="service-reading" class="prose max-w-none text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5 prose-li:my-2"><Content /></article>
     </div>
   </section>
 
@@ -141,3 +166,90 @@ const frameworkNote = frameworkNotes[entry.id];
     </div>
   </section>
 </Base>
+
+<style>
+  .service-detail-rail {
+    border-top: 2px solid var(--color-cobalt);
+    padding-top: 1.25rem;
+  }
+
+  .service-detail-rail-section {
+    border-top: 1px solid var(--color-line);
+    padding-block: 1.1rem;
+  }
+
+  .service-detail-rail-label {
+    color: var(--color-cobalt);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .service-detail-rail-nav {
+    margin-top: 0.75rem;
+  }
+
+  .service-detail-rail-nav ol {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .service-detail-rail-nav li + li {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .service-detail-rail-nav a {
+    color: var(--color-ink);
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+    padding: 0.75rem 0;
+    text-decoration: none;
+  }
+
+  .service-detail-rail-nav a:hover,
+  .service-detail-rail-nav a:focus-visible,
+  .service-detail-rail-links a:hover,
+  .service-detail-rail-links a:focus-visible {
+    color: var(--color-cobalt);
+  }
+
+  .service-detail-rail-nav span {
+    color: var(--color-cobalt);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+
+  .service-detail-rail-nav strong,
+  .service-detail-rail-links strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .service-detail-rail-links {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.75rem;
+  }
+
+  .service-detail-rail-links a {
+    color: var(--color-ink);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    .service-detail-rail {
+      align-self: start;
+      position: sticky;
+      top: 7.5rem;
+    }
+  }
+</style>
