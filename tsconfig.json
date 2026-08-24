@@ -8,5 +8,6 @@
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  },
+  "exclude": ["dist", ".astro-magazine", "infra", "test-results"]
 }

@@ -175,7 +175,7 @@ const panelTone = isHome ? "mega-panel-home" : "";
         menuToggle?.setAttribute("aria-expanded", "false");
         menuToggle?.setAttribute("aria-label", "Open navigation");
         if (menuLabel) menuLabel.textContent = "Open navigation";
-        navigation.classList.add("hidden");
+        navigation?.classList.add("hidden");
       }
     }));
     document.addEventListener("keydown", (event) => {
