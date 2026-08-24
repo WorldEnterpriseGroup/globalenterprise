@@ -496,7 +496,7 @@ export const footerColumns = [
     title: "Start here",
     links: [
       { label: "Book a conversation", href: "/contact/" },
-      { label: "Capabilities", href: "/services/" },
+      { label: "Case studies", href: "/case-studies/" },
       { label: "Solutions", href: "/solutions/" },
       { label: "Team", href: "/team/" },
       { label: "FAQ", href: "/faq/" },
