@@ -1,0 +1,2756 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "existing_site_adoption",
+  "adoption_id": "adoption-20260824T121930154Z-4070829-58632978060c",
+  "recorded_at": "2026-08-24T12:19:30.154Z",
+  "mode": "upgrade_existing_site",
+  "status": "unknown",
+  "site_root": "/home/mrh/repos/worldenterprisegroup/globalenterprise",
+  "state_before": {
+    "path": ".astro-magazine",
+    "exists": false,
+    "meaningful": false,
+    "entries": []
+  },
+  "state_after_initialization": {
+    "path": ".astro-magazine",
+    "exists": true,
+    "meaningful": true,
+    "entries": [
+      {
+        "name": "adoption",
+        "kind": "directory"
+      },
+      {
+        "name": "authority-policy.md",
+        "kind": "file"
+      },
+      {
+        "name": "briefs",
+        "kind": "directory"
+      },
+      {
+        "name": "checkpoint.json",
+        "kind": "file"
+      },
+      {
+        "name": "checkpoints",
+        "kind": "directory"
+      },
+      {
+        "name": "claims",
+        "kind": "directory"
+      },
+      {
+        "name": "commission.json",
+        "kind": "file"
+      },
+      {
+        "name": "content-records",
+        "kind": "directory"
+      },
+      {
+        "name": "conversions",
+        "kind": "directory"
+      },
+      {
+        "name": "decisions.md",
+        "kind": "file"
+      },
+      {
+        "name": "events.ndjson",
+        "kind": "file"
+      },
+      {
+        "name": "interactions",
+        "kind": "directory"
+      },
+      {
+        "name": "links",
+        "kind": "directory"
+      },
+      {
+        "name": "locks",
+        "kind": "directory"
+      },
+      {
+        "name": "media",
+        "kind": "directory"
+      },
+      {
+        "name": "ownership.json",
+        "kind": "file"
+      },
+      {
+        "name": "priorities",
+        "kind": "directory"
+      },
+      {
+        "name": "README.md",
+        "kind": "file"
+      },
+      {
+        "name": "reviews",
+        "kind": "directory"
+      },
+      {
+        "name": "schemas",
+        "kind": "directory"
+      },
+      {
+        "name": "scope.json",
+        "kind": "file"
+      },
+      {
+        "name": "sources",
+        "kind": "directory"
+      },
+      {
+        "name": "templates",
+        "kind": "directory"
+      }
+    ],
+    "meaningful_entries": [
+      "adoption",
+      "authority-policy.md",
+      "briefs",
+      "checkpoint.json",
+      "checkpoints",
+      "claims",
+      "commission.json",
+      "content-records",
+      "conversions",
+      "decisions.md",
+      "events.ndjson",
+      "interactions",
+      "links",
+      "media",
+      "ownership.json",
+      "priorities",
+      "README.md",
+      "reviews",
+      "schemas",
+      "scope.json",
+      "sources",
+      "templates"
+    ]
+  },
+  "initialization": {
+    "invoked": true,
+    "script": "init-editorial-studio.mjs",
+    "result": "reconciled_missing_state",
+    "report": {
+      "schema_version": "1.0.0",
+      "studio_directory": "/home/mrh/repos/worldenterprisegroup/globalenterprise/.astro-magazine",
+      "created": [
+        "commission.json",
+        "scope.json",
+        "ownership.json",
+        "authority-policy.md",
+        "checkpoint.json",
+        "README.md",
+        "templates/content-record.example.json",
+        "templates/brief-storyboard.example.json",
+        "templates/route-record.example.json",
+        "templates/source-record.example.json",
+        "templates/claim-record.example.json",
+        "templates/media-record.example.json",
+        "templates/interaction-record.example.json",
+        "templates/conversion-record.example.json",
+        "templates/adoption-record.example.json",
+        "templates/rice-backlog.example.json",
+        "templates/baseline-build-evidence.example.json",
+        "templates/visual-evidence-manifest.example.json",
+        "templates/route-lifecycle.example.json",
+        "templates/seo-resolution.example.json",
+        "schemas/commission.schema.json",
+        "schemas/content-record.schema.json",
+        "schemas/brief-storyboard.schema.json",
+        "schemas/checkpoint.schema.json",
+        "schemas/route-lifecycle.schema.json",
+        "events.ndjson",
+        "decisions.md"
+      ],
+      "preserved": [],
+      "destructive_reset": false
+    }
+  },
+  "inventory": {
+    "captured_at": "2026-08-24T12:19:29.410Z",
+    "package": {
+      "path": "package.json",
+      "present": true,
+      "file": {
+        "path": "package.json",
+        "kind": "package_manifest",
+        "bytes": 1022,
+        "sha256": "3643c5d237f0d11e17dff10c2afaf4d7fd6767dace2fcda5c3a1fe0c2d0a9d96"
+      },
+      "parse": "parsed",
+      "parse_error": null,
+      "name": "global-enterprise-2027",
+      "version": "2027.0.0",
+      "scripts": [
+        "audit",
+        "audit:evidence",
+        "audit:live",
+        "audit:security",
+        "build",
+        "check",
+        "dev",
+        "e2e:briefs",
+        "preview",
+        "reports:pdf",
+        "test"
+      ],
+      "dependency_signals": [
+        {
+          "name": "@astrojs/mdx",
+          "section": "dependencies",
+          "declared_version": "^7.0.5"
+        },
+        {
+          "name": "@astrojs/rss",
+          "section": "dependencies",
+          "declared_version": "^4.0.19"
+        },
+        {
+          "name": "@astrojs/sitemap",
+          "section": "dependencies",
+          "declared_version": "^3.7.3"
+        },
+        {
+          "name": "astro",
+          "section": "dependencies",
+          "declared_version": "^7.2.1"
+        },
+        {
+          "name": "@astrojs/check",
+          "section": "devDependencies",
+          "declared_version": "^0.9.10"
+        }
+      ],
+      "package_manager_files": [
+        {
+          "path": "package-lock.json",
+          "kind": "package_manager",
+          "bytes": 286246,
+          "sha256": "9041e165f28eeda86d01460488186d9bcab4592f866bdefc73d042706056dc99"
+        }
+      ]
+    },
+    "astro": {
+      "detected": true,
+      "dependency_signals": [
+        {
+          "name": "@astrojs/mdx",
+          "section": "dependencies",
+          "declared_version": "^7.0.5"
+        },
+        {
+          "name": "@astrojs/rss",
+          "section": "dependencies",
+          "declared_version": "^4.0.19"
+        },
+        {
+          "name": "@astrojs/sitemap",
+          "section": "dependencies",
+          "declared_version": "^3.7.3"
+        },
+        {
+          "name": "astro",
+          "section": "dependencies",
+          "declared_version": "^7.2.1"
+        },
+        {
+          "name": "@astrojs/check",
+          "section": "devDependencies",
+          "declared_version": "^0.9.10"
+        }
+      ],
+      "config_files": [
+        {
+          "path": "astro.config.mjs",
+          "kind": "astro_config",
+          "bytes": 711,
+          "sha256": "a48cabb1beaef6d6fd82918960f7c08ca7096c6e7174ccc38c29d7d63fab70e9"
+        }
+      ],
+      "source_signals": [
+        {
+          "path": "src/pages",
+          "kind": "source_directory"
+        },
+        {
+          "path": "src/content",
+          "kind": "source_directory"
+        },
+        {
+          "path": "src/assets",
+          "kind": "source_directory"
+        }
+      ],
+      "script_signals": [
+        {
+          "name": "dev",
+          "command": "astro dev"
+        },
+        {
+          "name": "build",
+          "command": "astro build"
+        },
+        {
+          "name": "preview",
+          "command": "astro preview"
+        },
+        {
+          "name": "check",
+          "command": "astro check"
+        }
+      ],
+      "signals": [
+        {
+          "kind": "package_dependency",
+          "name": "@astrojs/mdx",
+          "section": "dependencies",
+          "declared_version": "^7.0.5"
+        },
+        {
+          "kind": "package_dependency",
+          "name": "@astrojs/rss",
+          "section": "dependencies",
+          "declared_version": "^4.0.19"
+        },
+        {
+          "kind": "package_dependency",
+          "name": "@astrojs/sitemap",
+          "section": "dependencies",
+          "declared_version": "^3.7.3"
+        },
+        {
+          "kind": "package_dependency",
+          "name": "astro",
+          "section": "dependencies",
+          "declared_version": "^7.2.1"
+        },
+        {
+          "kind": "package_dependency",
+          "name": "@astrojs/check",
+          "section": "devDependencies",
+          "declared_version": "^0.9.10"
+        },
+        {
+          "kind": "astro_config",
+          "path": "astro.config.mjs"
+        },
+        {
+          "path": "src/pages",
+          "kind": "source_directory"
+        },
+        {
+          "path": "src/content",
+          "kind": "source_directory"
+        },
+        {
+          "path": "src/assets",
+          "kind": "source_directory"
+        },
+        {
+          "kind": "package_script",
+          "name": "dev",
+          "command": "astro dev"
+        },
+        {
+          "kind": "package_script",
+          "name": "build",
+          "command": "astro build"
+        },
+        {
+          "kind": "package_script",
+          "name": "preview",
+          "command": "astro preview"
+        },
+        {
+          "kind": "package_script",
+          "name": "check",
+          "command": "astro check"
+        }
+      ]
+    },
+    "routes": {
+      "root": "src/pages",
+      "present": true,
+      "count": 34,
+      "file_count": 34,
+      "files": [
+        {
+          "path": "src/pages/404.astro",
+          "kind": "route_source",
+          "bytes": 962,
+          "sha256": "a1f0bb1d9eb49f8e685b2618940575a402179f5fb80777a197748191be121e10",
+          "extension": ".astro",
+          "route": "/404",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/about.astro",
+          "kind": "route_source",
+          "bytes": 12397,
+          "sha256": "f9ce1dcbfdaa721e8695dd01311a24d43a41b45dcb61b6b7c84f800d117390bc",
+          "extension": ".astro",
+          "route": "/about",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/careers.astro",
+          "kind": "route_source",
+          "bytes": 6608,
+          "sha256": "25b50f483ca71c7a34e5156c088a69e66733b410f6e45a0a1e5f8bdd8133b64a",
+          "extension": ".astro",
+          "route": "/careers",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/case-studies/[slug].astro",
+          "kind": "route_source",
+          "bytes": 4542,
+          "sha256": "0688be549a2b320fc4cef82aa5a288bd44b2846071ec440a870fd2fbf2217f58",
+          "extension": ".astro",
+          "route": "/case-studies/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/case-studies/index.astro",
+          "kind": "route_source",
+          "bytes": 275,
+          "sha256": "4c594c21e4dd09c0fe52c12f9a9c8de45470a6b39f7a1b64524ee167d308f513",
+          "extension": ".astro",
+          "route": "/case-studies",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/contact/thanks.astro",
+          "kind": "route_source",
+          "bytes": 1158,
+          "sha256": "8873aca3a3bb0ec9fbf84ecc4718604cf554bd6baaf6efd04a5114619c040a87",
+          "extension": ".astro",
+          "route": "/contact/thanks",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/contact.astro",
+          "kind": "route_source",
+          "bytes": 10118,
+          "sha256": "37e8c4513ead5d9c953af4785e516b4d0642ad90db009843b7b6bcea38ef9d7c",
+          "extension": ".astro",
+          "route": "/contact",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/faq.astro",
+          "kind": "route_source",
+          "bytes": 2987,
+          "sha256": "2487f36b1529798de9e832749ab0a633709fd907966c4060efefdce78bf80f2f",
+          "extension": ".astro",
+          "route": "/faq",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/index.astro",
+          "kind": "route_source",
+          "bytes": 44888,
+          "sha256": "a272f738cf092d600a5d7ddc9e26d1a490073da01d7460489fbdaabf03a0b47c",
+          "extension": ".astro",
+          "route": "/",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/industries/[slug].astro",
+          "kind": "route_source",
+          "bytes": 13287,
+          "sha256": "23c4240a9d2bd0908a4f52bc5a1fb65746d08c523d73e93ecf30d1981a03864c",
+          "extension": ".astro",
+          "route": "/industries/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/industries.astro",
+          "kind": "route_source",
+          "bytes": 8725,
+          "sha256": "83849eb9920f03ae19364f3f44dfbb0a7249cc7f5987ed363c1d07de55996858",
+          "extension": ".astro",
+          "route": "/industries",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/insights/[slug].astro",
+          "kind": "route_source",
+          "bytes": 9402,
+          "sha256": "4e5bfcda96457dfaca3f66fcd118c65c2788593119f612960e568b398f965a9d",
+          "extension": ".astro",
+          "route": "/insights/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/insights/index.astro",
+          "kind": "route_source",
+          "bytes": 7569,
+          "sha256": "dff861eafafc080d004fc282d3932bad397becd71c936c721a9280e8186d54a0",
+          "extension": ".astro",
+          "route": "/insights",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/insights/thanks.astro",
+          "kind": "route_source",
+          "bytes": 1971,
+          "sha256": "508b15f82aa552968481f2529f98eb9cf92837a4f90695ea6994ffb2726a6b9b",
+          "extension": ".astro",
+          "route": "/insights/thanks",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/insights/topics/[topic].astro",
+          "kind": "route_source",
+          "bytes": 3409,
+          "sha256": "c2307e436849a8a42c1874eb53c4e666405ad64c71fba925fdc6395c673992c6",
+          "extension": ".astro",
+          "route": "/insights/topics/:topic",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/operations.astro",
+          "kind": "route_source",
+          "bytes": 25985,
+          "sha256": "828b135082e73667afcd21b0b13a7ea0243bd9b0bf1d031e42c92dda4b20b3e3",
+          "extension": ".astro",
+          "route": "/operations",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/privacy.astro",
+          "kind": "route_source",
+          "bytes": 9069,
+          "sha256": "7c4b21184e44f04d59a203c3b8e313e5b0a803bfad42c8b5f102177e92fa956c",
+          "extension": ".astro",
+          "route": "/privacy",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/proof.astro",
+          "kind": "route_source",
+          "bytes": 6443,
+          "sha256": "158beb6b5649d50968493e433b484ee1d3aec68d6d493d7eb0f3ebf661e89655",
+          "extension": ".astro",
+          "route": "/proof",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/region/[slug].astro",
+          "kind": "route_source",
+          "bytes": 11150,
+          "sha256": "34e1bdf1992a9de8cfb7901f7132dbb2a2dc65f70c6338e07353174e001c5dba",
+          "extension": ".astro",
+          "route": "/region/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/region/index.astro",
+          "kind": "route_source",
+          "bytes": 4645,
+          "sha256": "2be825f681c861353c862e9884f4889e46c3b9a859c1a5e5cabf24e2cfafef9e",
+          "extension": ".astro",
+          "route": "/region",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/resources/[slug].astro",
+          "kind": "route_source",
+          "bytes": 17080,
+          "sha256": "b609da159f2cee7539c13f73f9f69a095cfb776b39f6dab987314ae8d365a63d",
+          "extension": ".astro",
+          "route": "/resources/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/resources/index.astro",
+          "kind": "route_source",
+          "bytes": 5589,
+          "sha256": "5bca61a4c1457f464a06cf1fa2ec8f00fa34d8deb33eba93a17b3f5709ce89f7",
+          "extension": ".astro",
+          "route": "/resources",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/resources/thanks.astro",
+          "kind": "route_source",
+          "bytes": 1804,
+          "sha256": "dfa49fd9489b8de1fc50e128e9d23736beb0623759f89453f0a569e7b251f21d",
+          "extension": ".astro",
+          "route": "/resources/thanks",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/rss.xml.js",
+          "kind": "route_source",
+          "bytes": 644,
+          "sha256": "92efaf81515d85ceea03d36463eb226664c9236a0e309752a80229b83f2449de",
+          "extension": ".js",
+          "route": "/rss.xml",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/services/[slug].astro",
+          "kind": "route_source",
+          "bytes": 16656,
+          "sha256": "79b6068919554876240b46e70396c246581dffa94056a108decc74bc88d248b9",
+          "extension": ".astro",
+          "route": "/services/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/services/index.astro",
+          "kind": "route_source",
+          "bytes": 9599,
+          "sha256": "258b65deefbf68a20147c5feece46c495f7fe3432528f3ffbc562dc7b8c096a6",
+          "extension": ".astro",
+          "route": "/services",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/solutions/[slug].astro",
+          "kind": "route_source",
+          "bytes": 6148,
+          "sha256": "e16a7ca93259d3fabe96f8cd7b56d0bdb87222e84e9f52b8b9747df10e6be081",
+          "extension": ".astro",
+          "route": "/solutions/:slug",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/solutions/index.astro",
+          "kind": "route_source",
+          "bytes": 9031,
+          "sha256": "becd9bcf0080a5596fdd7ccc8ecc81b0d86f7a9d9f36ebda9f749b7c557dd8f3",
+          "extension": ".astro",
+          "route": "/solutions",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/team.astro",
+          "kind": "route_source",
+          "bytes": 4427,
+          "sha256": "9a36cf548b685e687ac605d34cccd7bfa615b9925666e0aa332b677eaf9e4a07",
+          "extension": ".astro",
+          "route": "/team",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/terms.astro",
+          "kind": "route_source",
+          "bytes": 2774,
+          "sha256": "179184d189fb07d0ed49ef9bbd976c01c5fda23cb243de9e3a493db9b5ae16b6",
+          "extension": ".astro",
+          "route": "/terms",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/trust/vendor-pack.astro",
+          "kind": "route_source",
+          "bytes": 8683,
+          "sha256": "27e95aa4fc67aa31451ae87e2f0b5f33050aad53fefa062cfe9ecb135b18d2ce",
+          "extension": ".astro",
+          "route": "/trust/vendor-pack",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/trust.astro",
+          "kind": "route_source",
+          "bytes": 7991,
+          "sha256": "0b935e3e8106ae4ff26530ba596d877cab717aacf8cf4969909f9843642da13e",
+          "extension": ".astro",
+          "route": "/trust",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/visual-sitemap/index.astro",
+          "kind": "route_source",
+          "bytes": 3460,
+          "sha256": "4421cb2afb837ed3ebf9090fbbda45604a9d4667aedca3eb00b988bef7cc2665",
+          "extension": ".astro",
+          "route": "/visual-sitemap",
+          "route_source": true
+        },
+        {
+          "path": "src/pages/work/index.astro",
+          "kind": "route_source",
+          "bytes": 242,
+          "sha256": "3ac75ac09ccdcb34de8347e68b488a0048a024ff8c373d978348a2679146d6bc",
+          "extension": ".astro",
+          "route": "/work",
+          "route_source": true
+        }
+      ],
+      "symlinks": [],
+      "errors": []
+    },
+    "content": {
+      "root": "src/content",
+      "present": true,
+      "count": 44,
+      "editorial_file_count": 44,
+      "file_count": 44,
+      "files": [
+        {
+          "path": "src/content/case-studies/automation-at-scale.md",
+          "kind": "editorial_source",
+          "bytes": 2143,
+          "sha256": "96a0543d12aafaed6239702edac982b28e4290780f327b43b3223dca24393d25",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/case-studies/cloud-data-foundation.md",
+          "kind": "editorial_source",
+          "bytes": 2345,
+          "sha256": "31266a100a3052224c415b744d97ee90e30e43bfed76ca86f0868d95fddbed20",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/case-studies/operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 2483,
+          "sha256": "c9af40c6486bd594b32f96aa5d4f32df73937c7467fc4d9db4f2041bcdc755c1",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/2035-is-a-design-constraint.md",
+          "kind": "editorial_source",
+          "bytes": 9000,
+          "sha256": "429575fd1727efc64fb86d5ea25f87a1f887ded864f804e1a40c4ea1f5fa998f",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/ai-at-scale.md",
+          "kind": "editorial_source",
+          "bytes": 4714,
+          "sha256": "c3f53f6cfd246c09499aec593497038805bb2f5db1d18ca1c18a9825be1d7841",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/ai-sovereignty-is-an-operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 4453,
+          "sha256": "a1795ff364f0598ae65f1bd3af6c80808f96055098ab8334a77ed99ba0170e84",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/clinical-ai-needs-a-change-system.md",
+          "kind": "editorial_source",
+          "bytes": 4353,
+          "sha256": "7e712dbebd8a17cdb34c0fa13001fc709a2c47f40fcff2924cc1f0dc7d6038bb",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/clinical-ai-needs-real-world-evidence.md",
+          "kind": "editorial_source",
+          "bytes": 5287,
+          "sha256": "9170317d784554e643e76f7adc4993800f50cde383411ef7ddf6a77d4b5adc3b",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/compute-is-a-governance-problem.md",
+          "kind": "editorial_source",
+          "bytes": 2849,
+          "sha256": "5e2ae85d69a961bebb81ad88e35ed913dada1d031d65d72baeec66622540743d",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/cybersecurity-is-an-operating-outcome.md",
+          "kind": "editorial_source",
+          "bytes": 5722,
+          "sha256": "2a909d34a46cf11ee7392c09d2d6ac1b133a43a7238343c246ccc5839ac5a726",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/data-center-permitting-is-an-operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 5436,
+          "sha256": "0ac797bec53efd2970e94e9eae517353a74813b089edd7f201c4aa0a8b1f27d3",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/designing-for-adoption.md",
+          "kind": "editorial_source",
+          "bytes": 2777,
+          "sha256": "665ac8665b0e2581034a38dea0b2d3f11c2345ea95d35ee3ce670c346f50bafd",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/energy-transition-is-an-operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 5458,
+          "sha256": "fad9dce942e9da3a33705c5a442baba3373584afcf7d1eaf599ff45827185938",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/enterprise-as-a-product.md",
+          "kind": "editorial_source",
+          "bytes": 2443,
+          "sha256": "3f394298e79ecd2156a61e137b0dff380a8b26b748e4c0630be15d6b97e9c18f",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/federal-ai-should-be-a-service.md",
+          "kind": "editorial_source",
+          "bytes": 5201,
+          "sha256": "27660af1079a6f759f266afabcbc97238e7cfb068909d0c55ce74abe9eb2e59e",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/future-of-work-is-workflow-design.md",
+          "kind": "editorial_source",
+          "bytes": 4026,
+          "sha256": "29cfac7c23d6a920da19b8ad9934778b141a0e94b4aa8162b6a1f9a385dd035a",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/global-operating-model-is-translation.md",
+          "kind": "editorial_source",
+          "bytes": 5011,
+          "sha256": "00987142fa8304d8ab0b44566886b981d2576dbfd82f2b6b9bca113470235319",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/governance-is-a-product.md",
+          "kind": "editorial_source",
+          "bytes": 4059,
+          "sha256": "e6425a6651c45209e40d96abefa552940477f1af0510e030e4599d342f655ebd",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/iea-energy-and-ai-grid-capacity.md",
+          "kind": "editorial_source",
+          "bytes": 3379,
+          "sha256": "c02d84f940bfb2adeecb5edf7796232e3029d6e176668f66e040e514291291a7",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/interoperability-is-a-workflow.md",
+          "kind": "editorial_source",
+          "bytes": 3351,
+          "sha256": "dee2e97b5d4e43601db9e339627d4042ab18a6f52a2db4f5610e8c367050b210",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/itu-connectivity-is-not-access.md",
+          "kind": "editorial_source",
+          "bytes": 3803,
+          "sha256": "af5028678358df48c61bedfd832d7d680485a78b42461fd645973412cb13250e",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/legacy-is-a-product-decision.md",
+          "kind": "editorial_source",
+          "bytes": 3311,
+          "sha256": "28fb9f205cde4ac778c08ba6caf31fbdc99476948b61b1024e313908f380cf0f",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/platform-teams-are-a-contract.md",
+          "kind": "editorial_source",
+          "bytes": 3944,
+          "sha256": "a1e3b95b15ba149c7a8b465042843db4524c08dcc5c7d8ad73360e06919ff7fb",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/productivity-is-a-workflow-outcome.md",
+          "kind": "editorial_source",
+          "bytes": 5499,
+          "sha256": "5e709fcd272c39d01b700e81edb881cfe352c84038bcb2ea58ebf4a25e340737",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/public-service-is-a-product.md",
+          "kind": "editorial_source",
+          "bytes": 5743,
+          "sha256": "96b83c3b99ae7a7b2016101f57bc630a665253ac986b340fbf7fd484e0d6233d",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/quantum-intelligence-needs-an-operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 2745,
+          "sha256": "327bda14b5b06b1219d940ffebb489a18bda5fae2ef3af4fd0ea32ffc26c5d9b",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/regional-context-is-a-control.md",
+          "kind": "editorial_source",
+          "bytes": 4412,
+          "sha256": "31d081dc16f4eca01802cdaac44a3491cbd8f5548c911f39e1ff4958e12c12e0",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/resilience-crosses-borders.md",
+          "kind": "editorial_source",
+          "bytes": 4252,
+          "sha256": "ef36f3b9c4511913654bc74f672069366eb2d99249bc5782722815e662b1bc30",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/resilience-is-a-capital-allocation-decision.md",
+          "kind": "editorial_source",
+          "bytes": 5888,
+          "sha256": "97fbeab92988438a2f10f6a2aa1997f67dc0564527afa0522b263da9ce9b5c37",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/responsible-ai-is-management.md",
+          "kind": "editorial_source",
+          "bytes": 2814,
+          "sha256": "30b6fd60525c8d9b47f96b04ebedf8583b1683c1f3809875e703421ed960d594",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/skills-are-a-system.md",
+          "kind": "editorial_source",
+          "bytes": 2893,
+          "sha256": "81e3e4373d88b0ceb89f392c5d000ad482b8137e77046cf2c9a6e9d65a670bd4",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/the-cost-of-unclear.md",
+          "kind": "editorial_source",
+          "bytes": 2135,
+          "sha256": "8e0494b6980cf28bc241a217cc96e4761cca8163b34888d082e645d3914aed97",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/the-path-to-2050-is-an-operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 9606,
+          "sha256": "55118e71829e19909c8ba43d669653bba31cfbed41b6e70d4cfe4ae2d070bfc6",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/third-party-is-your-operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 3133,
+          "sha256": "2cd9a4b5cd6a8dddf77f952c31234f2970a5293d1174676ba09382e6c2ef8ad6",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/time-zones-are-a-capability.md",
+          "kind": "editorial_source",
+          "bytes": 3820,
+          "sha256": "3bcae3d3878be9277d2490af797218f950d567016f00053417bc69669a6c4581",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/transformation-metrics-are-management.md",
+          "kind": "editorial_source",
+          "bytes": 4508,
+          "sha256": "7cd4a97e0bd46a79689b4152b478e2de50b9faaf9f339fa88c4ec970b4cb61d2",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/insights/un-desa-population-scale-is-an-operating-constraint.md",
+          "kind": "editorial_source",
+          "bytes": 4384,
+          "sha256": "2f7c32a6638c159b6d17efb4aa5410f6453f00da23ff46323bcd5203dd7445e7",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/cloud-data.md",
+          "kind": "editorial_source",
+          "bytes": 3278,
+          "sha256": "2bc78e95f0e718a68000d1d07c20b2da424ef0846b57a340e6f142deb38609db",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/intelligent-automation.md",
+          "kind": "editorial_source",
+          "bytes": 3456,
+          "sha256": "d77f77f9e7a1b2de57b23c197056246954ae04f138a5033132c2f59dabf2e7ca",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/leadership-talent.md",
+          "kind": "editorial_source",
+          "bytes": 3323,
+          "sha256": "da29aa594887116f6d9c5f1bd62e2d1f63e4201d2b6ad60d473b2fcf47288d9f",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/mergers-acquisitions.md",
+          "kind": "editorial_source",
+          "bytes": 6041,
+          "sha256": "ad292e4bbc1ff498d2dbcca57d887c82e58b8334ea67ece720643b51f8a628b7",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/operating-model.md",
+          "kind": "editorial_source",
+          "bytes": 3984,
+          "sha256": "91650cd1a114fa76cc6729445edccb43ba3fc954e78810e0a30fcef82d3538c3",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/research-foresight.md",
+          "kind": "editorial_source",
+          "bytes": 3425,
+          "sha256": "92c4a5d040f50213ad4de7cb2878d59ce01b6cabefb0627c0703fe5355190976",
+          "extension": ".md"
+        },
+        {
+          "path": "src/content/services/transformation-office.md",
+          "kind": "editorial_source",
+          "bytes": 3796,
+          "sha256": "ee111d316378e9ce5a0bb004d9645457472fb15791e88980fd184c860b25dae7",
+          "extension": ".md"
+        }
+      ],
+      "other_files": [],
+      "symlinks": [],
+      "errors": []
+    },
+    "media": {
+      "public": {
+        "root": "public",
+        "present": true,
+        "count": 44,
+        "file_count": 44,
+        "by_type": {
+          "image": 44
+        },
+        "files": [
+          {
+            "path": "public/favicon.svg",
+            "kind": "public_media",
+            "bytes": 179,
+            "sha256": "69a7ce988107d2b7286c2810ed0e7f9336b41502255c094bdde7624c9f5d6e02",
+            "extension": ".svg",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/circuit.avif",
+            "kind": "public_media",
+            "bytes": 214623,
+            "sha256": "9e51a69c75be9ab8ea0552e272e1cf927f3065ceb93a5ce1ca0c2f90c3d7b8ed",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/cloud.avif",
+            "kind": "public_media",
+            "bytes": 45183,
+            "sha256": "3cd1c420a72e6989f848ccd65792a72cf00855ec87fd1326e4c115e3173ffb71",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/consulting.avif",
+            "kind": "public_media",
+            "bytes": 53700,
+            "sha256": "940fc9e95afe7284628a4f4d5d942dbff0f2fb5cc2473406873f4bec3012eea8",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/data.avif",
+            "kind": "public_media",
+            "bytes": 59651,
+            "sha256": "74e924ff7bbc682024a2db6ef3722530adea8dabab2692b67ba678516f514b8a",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/ai-governance.avif",
+            "kind": "public_media",
+            "bytes": 58653,
+            "sha256": "62e5cfdca1566ea295cddc0acb9b94f8440e5b7518f1b6ae0ad8f437a3e65b5a",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/education-future.avif",
+            "kind": "public_media",
+            "bytes": 104060,
+            "sha256": "e7ce1e521f86dabadf6809c5d532864978feabaf2cf4bfbf856f1b2773685257",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/energy-grid.avif",
+            "kind": "public_media",
+            "bytes": 93686,
+            "sha256": "1231c42ce84d4346e4ea88a347237b6a2fb5ef9315f4dd125928e1a1b6d86187",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/enterprise-hero.avif",
+            "kind": "public_media",
+            "bytes": 76515,
+            "sha256": "524859b8c0da6fc2aecfe342adb082fd418c43dc7f95ed915ac1db8fde3a9473",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/federal-mission.avif",
+            "kind": "public_media",
+            "bytes": 96702,
+            "sha256": "e303c4344b85abb289ea6678fe2d6d70e4257707fac18d1267cae59fa9c282bf",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/healthcare-data.avif",
+            "kind": "public_media",
+            "bytes": 80222,
+            "sha256": "97be40561bb9c98c792c998337db5d3d1f6cde032dee31179379a355655112be",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/generated/technology-data.avif",
+            "kind": "public_media",
+            "bytes": 148872,
+            "sha256": "a121778c25220b0ed9e5013abf4b261bb93b1e1f936762b33cf36cb93580770c",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/hero-city.avif",
+            "kind": "public_media",
+            "bytes": 155116,
+            "sha256": "a6455853b98223740ee2ee8166ed851b01d29e21ef7ee243ebfb65277fcef0be",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/about-workshop.avif",
+            "kind": "public_media",
+            "bytes": 93887,
+            "sha256": "cd392f616eaff174155c2259b7ec59722313938354178364957f29d0bb6a527f",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/careers-apprentice.avif",
+            "kind": "public_media",
+            "bytes": 150840,
+            "sha256": "c4906ac0cd6f8b6ec7d03dd324adba47359144caa8ed7b3753467e72f89011ad",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/contact-workbench.avif",
+            "kind": "public_media",
+            "bytes": 179897,
+            "sha256": "c9cdb28d2f2b5ded1d563b0c504f93e39af609bffd64306ec680bc20d5e63f44",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/faq-empty-room.avif",
+            "kind": "public_media",
+            "bytes": 171497,
+            "sha256": "ae8064babe2b5c01c06cec2d602cd2cd5494b0c80e0c7fd1add8bf067043ff0c",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-capability-workflow.avif",
+            "kind": "public_media",
+            "bytes": 129669,
+            "sha256": "0b6e7d1bd24c165d26ff54cd1ea045184c9c1439243483e941f79729c3d10858",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-consequence-field.avif",
+            "kind": "public_media",
+            "bytes": 253496,
+            "sha256": "cf85323365475d02ae88b1db7641db814d5f3a62775755f7e873fe3090e14b1b",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-evidence-archive.avif",
+            "kind": "public_media",
+            "bytes": 172393,
+            "sha256": "218550ed289fd068c9c0077ea93b2f6db03bd3c6dbbadd2c828af344e1d9b8b7",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-field-controls.avif",
+            "kind": "public_media",
+            "bytes": 144080,
+            "sha256": "e27bd8afa4528a88f5da2216a6d3acdbb5509417f6ed8655051e0c918ee47030",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-field-note.avif",
+            "kind": "public_media",
+            "bytes": 197078,
+            "sha256": "31522e9916e75f340f2d6367d08927ed452b1b100629596446aed1d460445847",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-global-digital-infrastructure-v2.avif",
+            "kind": "public_media",
+            "bytes": 534017,
+            "sha256": "dbfcb6ac8acf3be6d6a4dab47d438841b9441c904e4504b1913ed28e436fee96",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-global-institution-v2.avif",
+            "kind": "public_media",
+            "bytes": 327382,
+            "sha256": "5113300d7eabfe35e0c15723d07d0cf0e90b3fceced47ce45ec273549b2a2b29",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-global-institutions-v2.avif",
+            "kind": "public_media",
+            "bytes": 331578,
+            "sha256": "273088cfd50a84de4e73f1a143233515e20b9884f9da83408eb1428d346c5578",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-global-nexus-v2.avif",
+            "kind": "public_media",
+            "bytes": 525688,
+            "sha256": "2edec3c4ef882786736931afe83ef8cf0009dd7d55c781b56c1dfdc3393c712e",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-global-outlook-v2.avif",
+            "kind": "public_media",
+            "bytes": 473195,
+            "sha256": "a9902810ad0df6729452220c9760cdc792d112c40ed361b784e58be7f6bcf260",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-global-port-v2.avif",
+            "kind": "public_media",
+            "bytes": 622015,
+            "sha256": "9389ca01621b03b7cef6bd34de498e71158c75b1e1ae0b60c7acf9490178a552",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-intelligence-workshop.avif",
+            "kind": "public_media",
+            "bytes": 255000,
+            "sha256": "bb6548d595694bcf860f81aa1538fdc80b8e4906dc5fefe71eecbffee257a769",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-listening-room.avif",
+            "kind": "public_media",
+            "bytes": 118579,
+            "sha256": "a54594be1eb762ed6e37816154bc838f46fc504fb21bf3198013e0311f9d24ee",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-mandate-briefing.avif",
+            "kind": "public_media",
+            "bytes": 90832,
+            "sha256": "deff931ccfa8634e646265e04c26618517bbcacb648645f04615f4486e054796",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-mandate-global-v2.avif",
+            "kind": "public_media",
+            "bytes": 325273,
+            "sha256": "40137918a4e212e64f6d77cb4f140c92d3700522c60dfa13c15911202f0f0ced",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/home-system-infrastructure.avif",
+            "kind": "public_media",
+            "bytes": 191237,
+            "sha256": "6c171578224a9092bba45c69a3b84143faa854236db5026fdd4c2f95fc71b94f",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/insights-field-notes.avif",
+            "kind": "public_media",
+            "bytes": 114020,
+            "sha256": "a1de744c0757db0ac201f59ab8ced39c2f2b5f192ba6bc450b18c32cd3bfdb5e",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/services-control-room.avif",
+            "kind": "public_media",
+            "bytes": 185637,
+            "sha256": "c1dfc0e402411f598fc98197971af11b2508074181648d8392aa54506225c9d2",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/solutions-care-handoff.avif",
+            "kind": "public_media",
+            "bytes": 93775,
+            "sha256": "d5b4e3d66f2f6985c5af4afdab7ef39836d43e948290b12ded5b9c10df9295ac",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/team-studio-session.avif",
+            "kind": "public_media",
+            "bytes": 114056,
+            "sha256": "4e427b2c8658a57c60303907525cbba908fe5191ac628bf2549d85a3245f6b9b",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/media/original/work-field-visit.avif",
+            "kind": "public_media",
+            "bytes": 171514,
+            "sha256": "97a23d2d8b4f916764a5ba8d5c4df9d831c45b478759bec2dec1cbd77a3c2d13",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/og-image.avif",
+            "kind": "public_media",
+            "bytes": 16780,
+            "sha256": "b1dd034c35f98db54f9467be0fed77b1e9c68105dd7ecec431125c74a9445c68",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/og-image.svg",
+            "kind": "public_media",
+            "bytes": 688,
+            "sha256": "21426370bdaa2ddc42ee511d375caab56f6b5acc99a0ff3ddbf1298f76e38683",
+            "extension": ".svg",
+            "media_type": "image"
+          },
+          {
+            "path": "public/reports/media/ai-governance-hero.avif",
+            "kind": "public_media",
+            "bytes": 124646,
+            "sha256": "a4f59ac78863bda1d9c39db470cb93d1f09461016b367a9e4f1168c4595d8d84",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/reports/media/decision-readiness-hero.avif",
+            "kind": "public_media",
+            "bytes": 197423,
+            "sha256": "42940a9ef0ec11b160b6c2f98b9bc74b21da0e4a808c760dee46439126bd32e2",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/reports/media/global-operating-model-hero.avif",
+            "kind": "public_media",
+            "bytes": 251857,
+            "sha256": "c12599b61356c073b29fe1fac959229104cd02d75255e730adef9b66e5d503bc",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "public/reports/media/modernization-hero.avif",
+            "kind": "public_media",
+            "bytes": 272365,
+            "sha256": "7f844ca977fff0a11bb5e7a2a4ff2f6897e6cb62d5f5e5cadaae21e0d0a50a84",
+            "extension": ".avif",
+            "media_type": "image"
+          }
+        ],
+        "symlinks": [],
+        "errors": []
+      },
+      "src_assets": {
+        "root": "src/assets",
+        "present": true,
+        "count": 45,
+        "file_count": 45,
+        "by_type": {
+          "image": 45
+        },
+        "files": [
+          {
+            "path": "src/assets/media/about-workshop.avif",
+            "kind": "asset_media",
+            "bytes": 93887,
+            "sha256": "cd392f616eaff174155c2259b7ec59722313938354178364957f29d0bb6a527f",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/ai-governance.avif",
+            "kind": "asset_media",
+            "bytes": 58653,
+            "sha256": "62e5cfdca1566ea295cddc0acb9b94f8440e5b7518f1b6ae0ad8f437a3e65b5a",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/careers-apprentice.avif",
+            "kind": "asset_media",
+            "bytes": 150840,
+            "sha256": "c4906ac0cd6f8b6ec7d03dd324adba47359144caa8ed7b3753467e72f89011ad",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/circuit.avif",
+            "kind": "asset_media",
+            "bytes": 214623,
+            "sha256": "9e51a69c75be9ab8ea0552e272e1cf927f3065ceb93a5ce1ca0c2f90c3d7b8ed",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/cloud.avif",
+            "kind": "asset_media",
+            "bytes": 45183,
+            "sha256": "3cd1c420a72e6989f848ccd65792a72cf00855ec87fd1326e4c115e3173ffb71",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/consulting.avif",
+            "kind": "asset_media",
+            "bytes": 53700,
+            "sha256": "940fc9e95afe7284628a4f4d5d942dbff0f2fb5cc2473406873f4bec3012eea8",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/contact-workbench.avif",
+            "kind": "asset_media",
+            "bytes": 179897,
+            "sha256": "c9cdb28d2f2b5ded1d563b0c504f93e39af609bffd64306ec680bc20d5e63f44",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/data.avif",
+            "kind": "asset_media",
+            "bytes": 59651,
+            "sha256": "74e924ff7bbc682024a2db6ef3722530adea8dabab2692b67ba678516f514b8a",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/education-future.avif",
+            "kind": "asset_media",
+            "bytes": 104060,
+            "sha256": "e7ce1e521f86dabadf6809c5d532864978feabaf2cf4bfbf856f1b2773685257",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/energy-grid.avif",
+            "kind": "asset_media",
+            "bytes": 93686,
+            "sha256": "1231c42ce84d4346e4ea88a347237b6a2fb5ef9315f4dd125928e1a1b6d86187",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/enterprise-hero.avif",
+            "kind": "asset_media",
+            "bytes": 76515,
+            "sha256": "524859b8c0da6fc2aecfe342adb082fd418c43dc7f95ed915ac1db8fde3a9473",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/faq-empty-room.avif",
+            "kind": "asset_media",
+            "bytes": 171497,
+            "sha256": "ae8064babe2b5c01c06cec2d602cd2cd5494b0c80e0c7fd1add8bf067043ff0c",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/federal-mission.avif",
+            "kind": "asset_media",
+            "bytes": 96702,
+            "sha256": "e303c4344b85abb289ea6678fe2d6d70e4257707fac18d1267cae59fa9c282bf",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/healthcare-data.avif",
+            "kind": "asset_media",
+            "bytes": 80222,
+            "sha256": "97be40561bb9c98c792c998337db5d3d1f6cde032dee31179379a355655112be",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/hero-city.avif",
+            "kind": "asset_media",
+            "bytes": 155116,
+            "sha256": "a6455853b98223740ee2ee8166ed851b01d29e21ef7ee243ebfb65277fcef0be",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-capability-workflow.avif",
+            "kind": "asset_media",
+            "bytes": 129669,
+            "sha256": "0b6e7d1bd24c165d26ff54cd1ea045184c9c1439243483e941f79729c3d10858",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-consequence-field.avif",
+            "kind": "asset_media",
+            "bytes": 253496,
+            "sha256": "cf85323365475d02ae88b1db7641db814d5f3a62775755f7e873fe3090e14b1b",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-evidence-archive.avif",
+            "kind": "asset_media",
+            "bytes": 172393,
+            "sha256": "218550ed289fd068c9c0077ea93b2f6db03bd3c6dbbadd2c828af344e1d9b8b7",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-field-controls.avif",
+            "kind": "asset_media",
+            "bytes": 144080,
+            "sha256": "e27bd8afa4528a88f5da2216a6d3acdbb5509417f6ed8655051e0c918ee47030",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-field-note.avif",
+            "kind": "asset_media",
+            "bytes": 197078,
+            "sha256": "31522e9916e75f340f2d6367d08927ed452b1b100629596446aed1d460445847",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-global-digital-infrastructure-v2.avif",
+            "kind": "asset_media",
+            "bytes": 534017,
+            "sha256": "dbfcb6ac8acf3be6d6a4dab47d438841b9441c904e4504b1913ed28e436fee96",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-global-institution-v2.avif",
+            "kind": "asset_media",
+            "bytes": 327382,
+            "sha256": "5113300d7eabfe35e0c15723d07d0cf0e90b3fceced47ce45ec273549b2a2b29",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-global-institutions-v2.avif",
+            "kind": "asset_media",
+            "bytes": 331578,
+            "sha256": "273088cfd50a84de4e73f1a143233515e20b9884f9da83408eb1428d346c5578",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-global-nexus-v2.avif",
+            "kind": "asset_media",
+            "bytes": 525688,
+            "sha256": "2edec3c4ef882786736931afe83ef8cf0009dd7d55c781b56c1dfdc3393c712e",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-global-outlook-v2.avif",
+            "kind": "asset_media",
+            "bytes": 473195,
+            "sha256": "a9902810ad0df6729452220c9760cdc792d112c40ed361b784e58be7f6bcf260",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-global-port-v2.avif",
+            "kind": "asset_media",
+            "bytes": 622015,
+            "sha256": "9389ca01621b03b7cef6bd34de498e71158c75b1e1ae0b60c7acf9490178a552",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-hub-asia.avif",
+            "kind": "asset_media",
+            "bytes": 220519,
+            "sha256": "50fb149988829918fa914c2db8e845197ca7b921cfc27462a0cc10d8370b5651",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-hub-eu.avif",
+            "kind": "asset_media",
+            "bytes": 262048,
+            "sha256": "752e2101267e0fcaa624098d1715ab00bb4a7ba0cff7690da16021ec91dc30f4",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-hub-latam.avif",
+            "kind": "asset_media",
+            "bytes": 335939,
+            "sha256": "c79ee06da93ff5af44e7d758b10f4de8c8386504966cf27192e329f8ac10011d",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-hub-mea.avif",
+            "kind": "asset_media",
+            "bytes": 255316,
+            "sha256": "a09881b4c400b42bae90b0beae5a626edf3525f71a8ee40258e6619c55b2681e",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-hub-na.avif",
+            "kind": "asset_media",
+            "bytes": 279861,
+            "sha256": "3e24d9710e8704dc8b6ade6afd45ed7283cc5ea8788ad8dbb86104e73678039e",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-hub-sa.avif",
+            "kind": "asset_media",
+            "bytes": 368776,
+            "sha256": "87bc6c585ac7aa26f40178c0314365e271b3ae3b3581411143f7014b3e38757b",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-intelligence-workshop.avif",
+            "kind": "asset_media",
+            "bytes": 255000,
+            "sha256": "bb6548d595694bcf860f81aa1538fdc80b8e4906dc5fefe71eecbffee257a769",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-listening-room.avif",
+            "kind": "asset_media",
+            "bytes": 118579,
+            "sha256": "a54594be1eb762ed6e37816154bc838f46fc504fb21bf3198013e0311f9d24ee",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-mandate-briefing.avif",
+            "kind": "asset_media",
+            "bytes": 90832,
+            "sha256": "deff931ccfa8634e646265e04c26618517bbcacb648645f04615f4486e054796",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-mandate-global-v2.avif",
+            "kind": "asset_media",
+            "bytes": 325273,
+            "sha256": "40137918a4e212e64f6d77cb4f140c92d3700522c60dfa13c15911202f0f0ced",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-platform-convergence.avif",
+            "kind": "asset_media",
+            "bytes": 96284,
+            "sha256": "f7136f94f70eb4768d0fe11e8f1ac0e1e67a899cfb1027c72f2077809aadd2c9",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-pressure-point.avif",
+            "kind": "asset_media",
+            "bytes": 161410,
+            "sha256": "073a1ad05c3158e7480316ccfbfd31b4d2db4e20a3122a1d55ccdd95805d3b3b",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/home-system-infrastructure.avif",
+            "kind": "asset_media",
+            "bytes": 191237,
+            "sha256": "6c171578224a9092bba45c69a3b84143faa854236db5026fdd4c2f95fc71b94f",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/insights-field-notes.avif",
+            "kind": "asset_media",
+            "bytes": 114020,
+            "sha256": "a1de744c0757db0ac201f59ab8ced39c2f2b5f192ba6bc450b18c32cd3bfdb5e",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/services-control-room.avif",
+            "kind": "asset_media",
+            "bytes": 185637,
+            "sha256": "c1dfc0e402411f598fc98197971af11b2508074181648d8392aa54506225c9d2",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/solutions-care-handoff.avif",
+            "kind": "asset_media",
+            "bytes": 93775,
+            "sha256": "d5b4e3d66f2f6985c5af4afdab7ef39836d43e948290b12ded5b9c10df9295ac",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/team-studio-session.avif",
+            "kind": "asset_media",
+            "bytes": 114056,
+            "sha256": "4e427b2c8658a57c60303907525cbba908fe5191ac628bf2549d85a3245f6b9b",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/technology-data.avif",
+            "kind": "asset_media",
+            "bytes": 148872,
+            "sha256": "a121778c25220b0ed9e5013abf4b261bb93b1e1f936762b33cf36cb93580770c",
+            "extension": ".avif",
+            "media_type": "image"
+          },
+          {
+            "path": "src/assets/media/work-field-visit.avif",
+            "kind": "asset_media",
+            "bytes": 171514,
+            "sha256": "97a23d2d8b4f916764a5ba8d5c4df9d831c45b478759bec2dec1cbd77a3c2d13",
+            "extension": ".avif",
+            "media_type": "image"
+          }
+        ],
+        "symlinks": [],
+        "errors": []
+      },
+      "count": 89,
+      "file_count": 89
+    },
+    "rendered_html": {
+      "root": "dist",
+      "present": true,
+      "count": 117,
+      "html_file_count": 117,
+      "files": [
+        {
+          "path": "dist/404.html",
+          "kind": "rendered_html",
+          "bytes": 32034,
+          "sha256": "8bab24f0e6ecdb7dd8e1c7c9354af9a61dfee7b39a35da9a91a2eae663d644b7",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/about/index.html",
+          "kind": "rendered_html",
+          "bytes": 45357,
+          "sha256": "161eea0153ad4e04da47506959f36687696e239cc76035ab980277cb02960ff8",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/careers/index.html",
+          "kind": "rendered_html",
+          "bytes": 38451,
+          "sha256": "8a32f230d71f5e49475c5c21498ece4cdbe601855417974164a0a775482271d7",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/case-studies/automation-at-scale/index.html",
+          "kind": "rendered_html",
+          "bytes": 37729,
+          "sha256": "4c138948d054d10d41fad7065322759fefbe090b99e261bb64098cc864e3f27f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/case-studies/cloud-data-foundation/index.html",
+          "kind": "rendered_html",
+          "bytes": 38098,
+          "sha256": "9f3b948c22dc53f620081734eae25a941d347c8e09971556d43cf33bb82bd3e5",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/case-studies/index.html",
+          "kind": "rendered_html",
+          "bytes": 37127,
+          "sha256": "2a5007c4f166f4108ff60ca72847343fbe54363bbf3e988b4fe8a67e72f0f2ca",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/case-studies/operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 38173,
+          "sha256": "01864d7f4084ec35634b96124440e695c7fb7c9cb06e238b9a6a414843cf3a74",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/contact/index.html",
+          "kind": "rendered_html",
+          "bytes": 40068,
+          "sha256": "a73323dff1818ffea1f230ca3709f84caaff307b0c5d08c4e09407e444aab569",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/contact/thanks/index.html",
+          "kind": "rendered_html",
+          "bytes": 31013,
+          "sha256": "4f2cd738262b260967526fb7f3b6b7d8ddf2711efc3bfe0537163b8d8d3e7e16",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/faq/index.html",
+          "kind": "rendered_html",
+          "bytes": 41343,
+          "sha256": "a88e1ca0abe694fd41425ddfe7b8b8a53aae93cd3341bdfb9bbc20fd2b1ab374",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/global/index.html",
+          "kind": "rendered_html",
+          "bytes": 330,
+          "sha256": "c626b8261dad28c0ec7a01d97d392a5dd383ac3baabc645604c1e0f60eefe1b6",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/index.html",
+          "kind": "rendered_html",
+          "bytes": 110008,
+          "sha256": "271a36ededca3b2dca49a39ee4743cd3a63687d4ac4cf974f1ff5bf67e64550a",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/education/index.html",
+          "kind": "rendered_html",
+          "bytes": 45454,
+          "sha256": "0beba0c1c1eb1981b939a3626935dc07091303f596f8c9a86f44730d69e6bc7b",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/energy-infrastructure/index.html",
+          "kind": "rendered_html",
+          "bytes": 46319,
+          "sha256": "bc1c1cd204ebedb88cac068fe66efe1f364cc144c1fa1392777f55ee566636fe",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/enterprise-ai/index.html",
+          "kind": "rendered_html",
+          "bytes": 46017,
+          "sha256": "6983f95032ed0db2085b55aa99f306b7d74d3f82aa624ce9839c6b8baaa7ffab",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/enterprise-services/index.html",
+          "kind": "rendered_html",
+          "bytes": 46038,
+          "sha256": "89c0728a24c382e11f31f53d64171ea136bdd07b9391c355edb1d4ebbb22b769",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/federal-public-service/index.html",
+          "kind": "rendered_html",
+          "bytes": 45686,
+          "sha256": "d484f67123841c6bd5ec548c0f1e7e870c646d4a6d21e0ee452d49baac4ccf2a",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/frontier-intelligence-autonomous-systems/index.html",
+          "kind": "rendered_html",
+          "bytes": 45935,
+          "sha256": "c49b9b84075b1d71a6ac0feb84bed70a051f6e9eeff34ca95b4df80a393db75f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/healthcare-life-sciences/index.html",
+          "kind": "rendered_html",
+          "bytes": 45902,
+          "sha256": "e86cb6e55794845a846c51ba0d259688f10db0b937aed4e0e00f5b8e91af318c",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/index.html",
+          "kind": "rendered_html",
+          "bytes": 50104,
+          "sha256": "afc061fc7b01fa7ca0ea1da4aad70d2ca15238c64e04067badbe58fa75165f53",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/logistics-and-supply-networks/index.html",
+          "kind": "rendered_html",
+          "bytes": 48304,
+          "sha256": "d9c8682ea196a3e7e89737acd3d92bb5281abebbd6991c31d9c77603bcadbba4",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/industries/technology-data/index.html",
+          "kind": "rendered_html",
+          "bytes": 46043,
+          "sha256": "bffd1004a1af5bc13ca39846033acf7416c100d195a7c3c9722a260253de6f9f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/2035-is-a-design-constraint/index.html",
+          "kind": "rendered_html",
+          "bytes": 48670,
+          "sha256": "516704a03511ddddc20cf989faa14ffbb855daae821b8bb5c5a67c12e69ff538",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/ai-at-scale/index.html",
+          "kind": "rendered_html",
+          "bytes": 42618,
+          "sha256": "ba93b6178e5d810a75def0ecb13d57f2b37683adb7ebb524523700190c48f644",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/ai-sovereignty-is-an-operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 43848,
+          "sha256": "5d8223253bcf2a7e990dba186a636b10aacc2522bbdcc9e6eed2ec367012e3be",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/clinical-ai-needs-a-change-system/index.html",
+          "kind": "rendered_html",
+          "bytes": 43582,
+          "sha256": "647bb4619c0259db03cc39016f59120a551e226c2e460fc754eefa41f3049459",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/clinical-ai-needs-real-world-evidence/index.html",
+          "kind": "rendered_html",
+          "bytes": 44451,
+          "sha256": "b370b20813ae7bab64dfb6a339dd40bd3b9c900a73235689ec6524ac18a0da83",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/compute-is-a-governance-problem/index.html",
+          "kind": "rendered_html",
+          "bytes": 39681,
+          "sha256": "561dedb5f9d79e06ae615fce02045b29b8b9683e12b7410955079136d1b08d74",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/cybersecurity-is-an-operating-outcome/index.html",
+          "kind": "rendered_html",
+          "bytes": 45049,
+          "sha256": "adcdb93a1c875198661fde3bf7b60141241a27c171f387ad0faa21c1f197ca4c",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/data-center-permitting-is-an-operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 44939,
+          "sha256": "81a0d74e0ab1d78bc1a2d2178ade5c25d8f760fdbff8090f6ce3c598cfe3c4ec",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/designing-for-adoption/index.html",
+          "kind": "rendered_html",
+          "bytes": 41053,
+          "sha256": "9ec2653b79cbc127162ec3be2b4505e84386b226893b6a72c8b3354644675a88",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/energy-transition-is-an-operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 44801,
+          "sha256": "e7821869e4af9622a435465382698768823129f45b66fc2939d6a4896f4025fe",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/enterprise-as-a-product/index.html",
+          "kind": "rendered_html",
+          "bytes": 40617,
+          "sha256": "d463933d0073494cf722879ee8d5396dc93f1513ae4fbc9109a88010747c083b",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/federal-ai-should-be-a-service/index.html",
+          "kind": "rendered_html",
+          "bytes": 44461,
+          "sha256": "ed403d79ec6b584e698b93dfe9eb7627cd09e3e1b9591bf131e269336302d8d1",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/future-of-work-is-workflow-design/index.html",
+          "kind": "rendered_html",
+          "bytes": 42971,
+          "sha256": "f6a2e07f5cd6fdcdf0045e55b6b96c9c3911b328c21dca5cb339a2a023221069",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/global-operating-model-is-translation/index.html",
+          "kind": "rendered_html",
+          "bytes": 44285,
+          "sha256": "4b605b8cdc408b787971be8f705c3c5c59946fce88000a925dbe443481aa769a",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/governance-is-a-product/index.html",
+          "kind": "rendered_html",
+          "bytes": 43161,
+          "sha256": "aef06a7db7a3229104eeb5c23e19163a463a49ad384d7dd970868d4e08a54144",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/iea-energy-and-ai-grid-capacity/index.html",
+          "kind": "rendered_html",
+          "bytes": 42696,
+          "sha256": "d9138ac66bfee058e29d93cb0ce847f356d2ddd8efb01fbbb030f62a13f7d827",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/index.html",
+          "kind": "rendered_html",
+          "bytes": 85194,
+          "sha256": "c2d718b49cff322d41d0ff2dd942faacb745061f549a8a2cd9eb49e68bc0502a",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/interoperability-is-a-workflow/index.html",
+          "kind": "rendered_html",
+          "bytes": 41881,
+          "sha256": "fd72dc7e4dce58de44f4edd557aeff0f2724c4833aea5271f14e51ac014301de",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/itu-connectivity-is-not-access/index.html",
+          "kind": "rendered_html",
+          "bytes": 43288,
+          "sha256": "23fd963ac5d1d002adaeb3c030b2774251fd5192b5af45bc78d463811ce508de",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/legacy-is-a-product-decision/index.html",
+          "kind": "rendered_html",
+          "bytes": 40101,
+          "sha256": "e1fff4b30ac7469b9cafc1937db3f141fa23353e7aa924a6eb689f67339955b2",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/platform-teams-are-a-contract/index.html",
+          "kind": "rendered_html",
+          "bytes": 43093,
+          "sha256": "36c9576df8f7d779bf16cb65a558f7a5a205a520a556ca3eae8eabc727553575",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/productivity-is-a-workflow-outcome/index.html",
+          "kind": "rendered_html",
+          "bytes": 44542,
+          "sha256": "005a21ba026139154ae8378088d61c693b050ecf8fe154815bc01c18d8446ac6",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/public-service-is-a-product/index.html",
+          "kind": "rendered_html",
+          "bytes": 44945,
+          "sha256": "50f3fab66a58fb6d93126b3e058816f5c41c90e9e9b6bff8a643c1a74cffe37f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/quantum-intelligence-needs-an-operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 39724,
+          "sha256": "5865dce05f6d28b60dece9962f8876b0e88c2929dbe9cf0166ceb85a4bf9978e",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/regional-context-is-a-control/index.html",
+          "kind": "rendered_html",
+          "bytes": 43535,
+          "sha256": "055fe3aa4caa7ea79b1d2ed9ac7128565885d806af2da9d44f1e905e23fdf923",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/resilience-crosses-borders/index.html",
+          "kind": "rendered_html",
+          "bytes": 43433,
+          "sha256": "f12ec54a556eb7a63b875cbfbda51b04088ffe7ee78ac9afed6f69558effffae",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/resilience-is-a-capital-allocation-decision/index.html",
+          "kind": "rendered_html",
+          "bytes": 45305,
+          "sha256": "d46d940088dc89328d69302448ab103cbf5b3e0ed2707b2aea72ee7fd7a84cec",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/responsible-ai-is-management/index.html",
+          "kind": "rendered_html",
+          "bytes": 40564,
+          "sha256": "c9ac9f6cfbdc9536395423c3100d061951c60e6e268cb167048aa28500fa210c",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/skills-are-a-system/index.html",
+          "kind": "rendered_html",
+          "bytes": 41166,
+          "sha256": "6ce06fe7e60bd86a3990743833569f3bdbd4c7b3a769d8a9bfc1c0d5e74222d5",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/thanks/index.html",
+          "kind": "rendered_html",
+          "bytes": 32606,
+          "sha256": "f69a76dcb19450650f8457a580cb8401b3b759da98ffceca437a632f3d0a298f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/the-cost-of-unclear/index.html",
+          "kind": "rendered_html",
+          "bytes": 38758,
+          "sha256": "c19223f53e06c7e76ee584aaee55315de0a52ffeed488c8d58e0a87f44cfeca3",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/the-path-to-2050-is-an-operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 49549,
+          "sha256": "283a61996728524393218f597c82fb65ad1dd86a7c42b872480ffac92879ff84",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/third-party-is-your-operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 42251,
+          "sha256": "f98033d2c0ce8cda835793b3350eb127a06c3fa2d198cb4e04710b3b446bd445",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/time-zones-are-a-capability/index.html",
+          "kind": "rendered_html",
+          "bytes": 42844,
+          "sha256": "fd71cef8a551aad47bcfd5c6f43cc418005e35b1d9c70651dacb81f71e6eeeba",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/ai-cost-management/index.html",
+          "kind": "rendered_html",
+          "bytes": 34652,
+          "sha256": "1f19f76d0df0b15f9f84d24126be84bd9bbe19ba3d6dc204f36873c098b5fdd6",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/energy-and-infrastructure/index.html",
+          "kind": "rendered_html",
+          "bytes": 36295,
+          "sha256": "0b20ec63ea0696e9af1affba015ac7632f4f66918a266dca12ae5b34e4d4e56a",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/enterprise-ai/index.html",
+          "kind": "rendered_html",
+          "bytes": 35204,
+          "sha256": "24136c1a929fa94a78568c4db4bec72bc4e2b2173f40bf6dcdf288de551bfadb",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/execution/index.html",
+          "kind": "rendered_html",
+          "bytes": 34403,
+          "sha256": "0d65af604c735b492f63e56817b690e42f212816bfe622b90d68018a7492ed13",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/federal-and-public-service/index.html",
+          "kind": "rendered_html",
+          "bytes": 35526,
+          "sha256": "8b1b2cdc7618f057d443f9bb499b46bd8ab032373eb56d48c9345791cf748e73",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/governance/index.html",
+          "kind": "rendered_html",
+          "bytes": 35140,
+          "sha256": "b4bf17ffb7705f9a125d8f643fdd4d9516519ab811f2a8541cc3fe6efa80886d",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/healthcare/index.html",
+          "kind": "rendered_html",
+          "bytes": 35953,
+          "sha256": "d9c77c4d385e8860e12505ed3a8e796f73971bd233c8c0972ba20cd0ecaf3a59",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/leadership/index.html",
+          "kind": "rendered_html",
+          "bytes": 35888,
+          "sha256": "7a3723b8561e475409affc221e7f2caf5e5c8eb4089125fe59eb646ba99ad0e3",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/modernization/index.html",
+          "kind": "rendered_html",
+          "bytes": 34507,
+          "sha256": "3486c909a06c86bd0c0c7b850088c2bbe43c1ca81baa7ec90ec66010fa269238",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 36010,
+          "sha256": "254463182ebf762a21816ad2af24cbb4458e1a11c5d11b17588c2325adfe8330",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/quantum-intelligence/index.html",
+          "kind": "rendered_html",
+          "bytes": 34703,
+          "sha256": "0dda55c01c196f4342a3085b95bcae7eb412808d8c6c74e098d9498e479548e8",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/research-and-foresight/index.html",
+          "kind": "rendered_html",
+          "bytes": 37821,
+          "sha256": "01c886df9de16b9188d74248ae41e06d86b629432d1957e5dc48b91988936c66",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/resilience/index.html",
+          "kind": "rendered_html",
+          "bytes": 36691,
+          "sha256": "b97521379d510540565f17845590fadd6e671135098e9fac01f681ca2ff14b15",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/technology-and-data/index.html",
+          "kind": "rendered_html",
+          "bytes": 35440,
+          "sha256": "b7fe0fff6e90c3340a3d060e25e9dbe0e161ecee6ddad1d48837ee8d2f43d882",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/topics/workforce/index.html",
+          "kind": "rendered_html",
+          "bytes": 34437,
+          "sha256": "878d7c946741579dd9e166dca795fddd886dba9c8b058b6f73e645dd80fd320b",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/transformation-metrics-are-management/index.html",
+          "kind": "rendered_html",
+          "bytes": 43734,
+          "sha256": "566a67447746f13536b545170ee737f0a2419a4ccfbed5f432b494a29b3c8acd",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/insights/un-desa-population-scale-is-an-operating-constraint/index.html",
+          "kind": "rendered_html",
+          "bytes": 44083,
+          "sha256": "89fce4ef12dbb5e6babf062130c7bd87779f254765107d557a7ef5f8ee37ac64",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/operations/index.html",
+          "kind": "rendered_html",
+          "bytes": 76381,
+          "sha256": "116677ad3757e91cc457c93336cacbbab411608bd693a48fb3d8f915f0a82236",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/privacy/index.html",
+          "kind": "rendered_html",
+          "bytes": 39133,
+          "sha256": "3e421a82b1f158c1bd7a10a8bbf7756c0f2f7301c9d394a45b1b6b47f664d0f8",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/proof/index.html",
+          "kind": "rendered_html",
+          "bytes": 44491,
+          "sha256": "7ed11a77e1a36c653107626de7bfe4da7b932b9f2ce0b4234771858ca59a02f9",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/asia/index.html",
+          "kind": "rendered_html",
+          "bytes": 52691,
+          "sha256": "d02c5e74d506a1857730edca19643df0edde0cc38275cfb9c4a875fc6528436e",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/eu/index.html",
+          "kind": "rendered_html",
+          "bytes": 52658,
+          "sha256": "d3c33db0cdc4950fa0188e338530dce2455e8c83b5c37a34f6d18e6c0033f357",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/index.html",
+          "kind": "rendered_html",
+          "bytes": 38639,
+          "sha256": "840618e7a595d9623c06ffb5f685f1baeb0f64e55b59f9c389f81d8043d0813d",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/latam/index.html",
+          "kind": "rendered_html",
+          "bytes": 52664,
+          "sha256": "92001fc5aaa79ead0d3bfc4ae9ed4cfbb3dbe390fac064b3277db24148e304ca",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/mea/index.html",
+          "kind": "rendered_html",
+          "bytes": 52878,
+          "sha256": "e44686d53cf8bc0474f1b8009d052f438babc001f5ecaa9163ef73c4d3ef628b",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/na/index.html",
+          "kind": "rendered_html",
+          "bytes": 52712,
+          "sha256": "75554d1a7658502dac2a10e9b37c558624bda745169ea15a9abd5ad64b57a171",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/region/sa/index.html",
+          "kind": "rendered_html",
+          "bytes": 52668,
+          "sha256": "8a5d455e14c6527d27d9a55557c94ada2c460848dcfb746d91864c2d00a68bcd",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/reports/ai-governance-controls.html",
+          "kind": "rendered_html",
+          "bytes": 53198,
+          "sha256": "5bcf476ee683b595cbef8f038a588d05c429e282241c8ab0351e834edbdedb4f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/reports/enterprise-decision-readiness.html",
+          "kind": "rendered_html",
+          "bytes": 54155,
+          "sha256": "00f72743669f8ea34969ed0470e8adfa7f529f5269041dd68c8359919262ce39",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/reports/global-operating-model-brief.html",
+          "kind": "rendered_html",
+          "bytes": 47562,
+          "sha256": "87d51384711b8e53e7b7fadf203d3c8043a70e3f8dc4c78900d73ec8fc1288a1",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/reports/modernization-investment-priority.html",
+          "kind": "rendered_html",
+          "bytes": 44406,
+          "sha256": "b7f649a2fc9b810107a52afa9e3bc7985edef43afc7f4ef0a74d95557bb98808",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/resources/ai-governance-controls/index.html",
+          "kind": "rendered_html",
+          "bytes": 45514,
+          "sha256": "b4a9cad96a98aa7bc3a2993022a345aa03e5c030ad9af4d65cbdab2e58e2dda2",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/resources/enterprise-decision-readiness/index.html",
+          "kind": "rendered_html",
+          "bytes": 45690,
+          "sha256": "5d74b8fdffb2baf8f6d30d06039544858923ca1565add951c35b2f76d52b46b0",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/resources/index.html",
+          "kind": "rendered_html",
+          "bytes": 38939,
+          "sha256": "ba431a6d8f6e59fb8efc3f7abd97c632ecb97b6964852b4dfe412c2cc7fc1c43",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/resources/modernization-investment-priority/index.html",
+          "kind": "rendered_html",
+          "bytes": 45744,
+          "sha256": "33edb308d550d4386ba09dd02b45c34b345a7b9192497c603dcee4a9f8f67f3b",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/resources/thanks/index.html",
+          "kind": "rendered_html",
+          "bytes": 31527,
+          "sha256": "7cf69ad779ab65df8b212a9fa028cda70d274ddc372b3b264b64b5be568f03dc",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/cloud-data/index.html",
+          "kind": "rendered_html",
+          "bytes": 42343,
+          "sha256": "fa2439cd15e01b1c83dc6fde91a5893637d0b915ffaa88b966bc5a62c40e7c02",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/index.html",
+          "kind": "rendered_html",
+          "bytes": 43173,
+          "sha256": "7485e2d36e32f3cc4f6d6e6663d20abd99b0b924af018ed982919c97f16fc5e3",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/intelligent-automation/index.html",
+          "kind": "rendered_html",
+          "bytes": 42881,
+          "sha256": "18587ca9fc21c4bb2c5b9dc76bf81159432437f93316c98beb39f2b73ba6f22d",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/leadership-talent/index.html",
+          "kind": "rendered_html",
+          "bytes": 43428,
+          "sha256": "fa1d9b0efd6664733ed873eec560cb59e09cd4c9a116435adb315670709c54ea",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/mergers-acquisitions/index.html",
+          "kind": "rendered_html",
+          "bytes": 45340,
+          "sha256": "8bf70e007a4f5079db7bd7bbc53b1b753a8ab7f602024ef89edddc8c52f6465c",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 42432,
+          "sha256": "9c0c81effab4ad92263ab5f013ffa19793581e35aaef3f9b03e7e66fae119e08",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/research-foresight/index.html",
+          "kind": "rendered_html",
+          "bytes": 43683,
+          "sha256": "763199544069424c02861d3d3f2e1f6e3fb2d22336c8e6bf24a05211237f28d5",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/services/transformation-office/index.html",
+          "kind": "rendered_html",
+          "bytes": 44322,
+          "sha256": "86921aa3aafc93ed9a01b82b17f00da0aa9130cf5006a4e5af8a0acbb776ba13",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/data-labs-ai-cost-management/index.html",
+          "kind": "rendered_html",
+          "bytes": 44165,
+          "sha256": "7e79b3f5606a04d0fb815f62c7550effc85889c33c6e1670f6435c53fe174e7f",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/digital-infrastructure-resilience/index.html",
+          "kind": "rendered_html",
+          "bytes": 43490,
+          "sha256": "2add33c4ad1894baeede1d2d7eaf04c78c15fc12aba8ac19be591e8564e738c4",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/enterprise-ai/index.html",
+          "kind": "rendered_html",
+          "bytes": 43802,
+          "sha256": "d7e6238c0c4ff3f94b63bc6ce032bf81c8361ffb71bfa26f50a73e3fffd5517c",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/healthcare-transformation/index.html",
+          "kind": "rendered_html",
+          "bytes": 43302,
+          "sha256": "8f086d2c602daf657e32f0ba60a5f6862198d0821cc45afbf39a99c198e0e6bf",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/index.html",
+          "kind": "rendered_html",
+          "bytes": 46907,
+          "sha256": "1aa24b6a879ae3db3ef8e71842064758f70878b0be4e38b90b909a49d677c7b2",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/modernization/index.html",
+          "kind": "rendered_html",
+          "bytes": 43002,
+          "sha256": "427932f851b1cd771c0fe54bc91a11fa7a08222dbbc3ccf3c26e65a7d805d11d",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/operating-model/index.html",
+          "kind": "rendered_html",
+          "bytes": 43045,
+          "sha256": "b152308fe2ed4c1d10abe826c436291e1a306f3ebb60c7bbbdf5b17e77dd00e7",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/portfolio-delivery/index.html",
+          "kind": "rendered_html",
+          "bytes": 43196,
+          "sha256": "82ba312a908ec334713397c931e42ccf2634b2adcdce7036e28d1cb0433d6862",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/quantum-intelligence/index.html",
+          "kind": "rendered_html",
+          "bytes": 45022,
+          "sha256": "d897aabf7f653b6c2eaab08f36e02647bbd5308d6fad263f02dcf726d9bbc1f9",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/solutions/supply-network-operations/index.html",
+          "kind": "rendered_html",
+          "bytes": 43407,
+          "sha256": "1250526a38f0c1fcca7d129b43e3fa47ad1b2ada2c13d1c4c38316404558604c",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/team/index.html",
+          "kind": "rendered_html",
+          "bytes": 36615,
+          "sha256": "74f9c8ccd03b6e1c54f6ac2a867819ba2dc295a59b86137e5012b7188f6120e8",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/terms/index.html",
+          "kind": "rendered_html",
+          "bytes": 33808,
+          "sha256": "e604b9f7eb6c4820d09751099e920bd69c8f5e0722b9f57f9fc6edda12392933",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/trust/index.html",
+          "kind": "rendered_html",
+          "bytes": 39593,
+          "sha256": "03238377ba61efb4af80c4efa1810ee359d41c650dcf143ad1ab779620ec1508",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/trust/vendor-pack/index.html",
+          "kind": "rendered_html",
+          "bytes": 40265,
+          "sha256": "6b83f2bcf1aa597b4be8c904c2a15c7f03ef3841eb172b2c80435d44bc1db7b3",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/visual-sitemap/compact.html",
+          "kind": "rendered_html",
+          "bytes": 24074,
+          "sha256": "1f7b9adaba68e93b442686de14f9a8071bcf017637ffd38af93261ca6d5dcb26",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/visual-sitemap/index.html",
+          "kind": "rendered_html",
+          "bytes": 134575,
+          "sha256": "afc31af48f968be7e2c69c7a30733003052cc0f41837094c275818441de30a49",
+          "extension": ".html"
+        },
+        {
+          "path": "dist/work/index.html",
+          "kind": "rendered_html",
+          "bytes": 37866,
+          "sha256": "9981c6acb0dbae4a0f19443cf515ca45f9c936a573c8e18b62421529c188d4b9",
+          "extension": ".html"
+        }
+      ],
+      "symlinks": [],
+      "errors": []
+    },
+    "counts": {
+      "routes": 34,
+      "editorial_files": 44,
+      "content_files_total": 44,
+      "media_public": 44,
+      "media_src_assets": 45,
+      "media_total": 89,
+      "rendered_html": 117
+    },
+    "gaps": [
+      {
+        "id": "editorial-workflow-state",
+        "category": "editorial",
+        "status": "unknown",
+        "reason": "Source files do not prove assignment, review, approval, or current workflow state.",
+        "paths": [
+          "src/content/",
+          "src/pages/"
+        ]
+      },
+      {
+        "id": "provenance-rights-and-alt-text",
+        "category": "media",
+        "status": "unknown",
+        "reason": "Inventory hashes media but cannot verify provenance, rights, focal-point decisions, captions, or accessibility treatment.",
+        "paths": [
+          "public/",
+          "src/assets/"
+        ]
+      },
+      {
+        "id": "content-schemas-and-claims",
+        "category": "evidence",
+        "status": "unknown",
+        "reason": "Inventory cannot establish content schemas, claim registers, source records, or fact-check evidence.",
+        "paths": [
+          "src/content/",
+          ".astro-magazine/"
+        ]
+      },
+      {
+        "id": "current-astro-contract-audit",
+        "category": "modernization",
+        "status": "unknown",
+        "reason": "Signals identify the implementation surface but do not prove current Astro contracts or identify every deprecated pattern.",
+        "paths": [
+          "package.json",
+          "astro.config.*",
+          "src/"
+        ]
+      },
+      {
+        "id": "url-authority-review",
+        "category": "routing",
+        "status": "unknown",
+        "reason": "Route files are inventoried, but canonical, redirect, locale, and URL ownership decisions require editorial review.",
+        "paths": [
+          "src/pages/",
+          "dist/"
+        ]
+      }
+    ],
+    "unknown_gap_count": 5
+  },
+  "imported_work": {
+    "status": "unknown",
+    "workflow_state": "unknown",
+    "publication_state": "unknown",
+    "records_created": 0,
+    "note": "The command records evidence and boundaries only; existing work is not promoted into an editorial or release state."
+  },
+  "gaps": [
+    {
+      "id": "editorial-workflow-state",
+      "category": "editorial",
+      "status": "unknown",
+      "reason": "Source files do not prove assignment, review, approval, or current workflow state.",
+      "paths": [
+        "src/content/",
+        "src/pages/"
+      ]
+    },
+    {
+      "id": "provenance-rights-and-alt-text",
+      "category": "media",
+      "status": "unknown",
+      "reason": "Inventory hashes media but cannot verify provenance, rights, focal-point decisions, captions, or accessibility treatment.",
+      "paths": [
+        "public/",
+        "src/assets/"
+      ]
+    },
+    {
+      "id": "content-schemas-and-claims",
+      "category": "evidence",
+      "status": "unknown",
+      "reason": "Inventory cannot establish content schemas, claim registers, source records, or fact-check evidence.",
+      "paths": [
+        "src/content/",
+        ".astro-magazine/"
+      ]
+    },
+    {
+      "id": "current-astro-contract-audit",
+      "category": "modernization",
+      "status": "unknown",
+      "reason": "Signals identify the implementation surface but do not prove current Astro contracts or identify every deprecated pattern.",
+      "paths": [
+        "package.json",
+        "astro.config.*",
+        "src/"
+      ]
+    },
+    {
+      "id": "url-authority-review",
+      "category": "routing",
+      "status": "unknown",
+      "reason": "Route files are inventoried, but canonical, redirect, locale, and URL ownership decisions require editorial review.",
+      "paths": [
+        "src/pages/",
+        "dist/"
+      ]
+    }
+  ],
+  "preservation_constraints": [
+    {
+      "id": "approved-repository-material",
+      "paths": [
+        "package.json",
+        "astro.config.*",
+        "src/pages/**",
+        "src/content/**",
+        "public/**",
+        "src/assets/**",
+        "dist/**"
+      ],
+      "constraint": "Read and hash existing content, brand, media, routes, and rendered evidence only; do not overwrite, delete, or rewrite these paths."
+    },
+    {
+      "id": "studio-history",
+      "paths": [
+        ".astro-magazine/**"
+      ],
+      "constraint": "Preserve existing studio files and event history; only missing initializer artifacts, a new immutable adoption record, the current pointer, and one appended event may be written."
+    },
+    {
+      "id": "evidence-honesty",
+      "paths": [
+        ".astro-magazine/adoption/**"
+      ],
+      "constraint": "Imported work remains unknown until current editorial, evidence, accessibility, rights, and release gates establish its state."
+    },
+    {
+      "id": "forward-modernization",
+      "paths": [
+        "src/**",
+        "astro.config.*",
+        "package.json"
+      ],
+      "constraint": "Use the inventory as an upgrade baseline for current contracts; do not add compatibility shims or retain deprecated patterns without an explicit requirement."
+    }
+  ],
+  "evidence": {
+    "source_files_hashed": 284,
+    "source_inventory_read_only": true,
+    "existing_studio_history_preserved": false,
+    "no_source_paths_written": true,
+    "record_path": ".astro-magazine/adoption/adoption-20260824T121930154Z-4070829-58632978060c.json"
+  }
+}

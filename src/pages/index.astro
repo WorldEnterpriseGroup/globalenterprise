@@ -6,7 +6,6 @@ import GlobalPlatformLandscape from "@/components/GlobalPlatformLandscape.astro"
 import MediaInterlude from "@/components/MediaInterlude.astro";
 import SystemMap from "@/components/SystemMap.astro";
 import AssetImage from "@/components/AssetImage.astro";
-import RegionalOperatingMap from "@/components/RegionalOperatingMap.astro";
 import { getCollection } from "astro:content";
 import { businessReports, experienceHighlights, regionContexts, services, site } from "@/data/site";
 import { type EvidenceSource, resolveEvidenceSource } from "@/data/evidence-routes";
@@ -121,56 +120,67 @@ const decisionHubs = [
     <AssetImage src="/media/original/hero-city.avif" width={1600} height={900} loading="eager" fetchpriority="high" decoding="async" sizes="100vw" alt="A global city skyline in clear morning light" class="hero-home-image" />
     <div class="hero-home-content container-site relative z-10 flex min-h-[min(38rem,calc(100vh-1rem))] items-center py-14">
       <div class="max-w-3xl text-white">
-        <p class="eyebrow text-lime">Global strategy and operating systems for frontier infrastructure.</p>
-        <h1 class="display-title mt-6">A global enterprise for corporations, government systems, and civic institutions assembling long-horizon capability.</h1>
-        <p class="mt-5 max-w-2xl text-base leading-relaxed text-white/75">We connect boards, operators, and policy environments through M&amp;A, solution strategy, and service discipline across energy, communications, finance, and national-scale operations.</p>
+        <p class="eyebrow text-lime">Federal enterprise architecture and service systems for nations.</p>
+        <h1 class="display-title mt-6">Enterprise architecture for governments carrying the world&apos;s largest mandates.</h1>
+        <p class="mt-5 max-w-2xl text-base leading-relaxed text-white/75">We advise entire governments—G-7 participants, NATO members, UN member states, and other national systems—on Federal Enterprise Architecture Frameworks, ITIL for Nations, and the operating models that make public capability reliable.</p>
         <div class="mt-7 flex flex-wrap gap-4"><a class="btn-primary bg-white" href="/contact/" data-track="hero_cta" data-track-label="Request a leadership engagement">Request a leadership engagement <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/resources/" data-track="hero_cta" data-track-label="Explore business reports">Explore business reports <span aria-hidden="true">↗</span></a></div>
-        <div class="mt-14 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><a class="home-hero-stat" href="/operations/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Global scale</p><p class="mt-1">Markets and cities <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/industries/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Consequence</p><p class="mt-1">Institutions and missions <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/services/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Operating depth</p><p class="mt-1">Systems and infrastructure <span aria-hidden="true">↗</span></p></a></div>
+        <div class="mt-14 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><a class="home-hero-stat" href="/industries/federal-public-service/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Federal scale</p><p class="mt-1">Ministries and missions <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/industries/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">International mandate</p><p class="mt-1">G-7 · NATO · UN members <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/services/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Service discipline</p><p class="mt-1">Architecture and ITIL <span aria-hidden="true">↗</span></p></a></div>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><a class="home-thesis-link font-bold text-ink" href="/services/mergers-acquisitions/">The integration thesis comes first. <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/mergers-acquisitions/">M&amp;A and operating integration <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/industries/energy-infrastructure/">Energy and communications infrastructure <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/operating-model/">Global finance and market systems <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/transformation-office/">ITIL service continuity <span aria-hidden="true">↗</span></a></div></section>
+  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><a class="home-thesis-link font-bold text-ink" href="/industries/federal-public-service/">National architecture comes first. <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/operating-model/">Federal enterprise architecture <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/transformation-office/">ITIL for Nations <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/cloud-data/">Cross-government interoperability <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/operations/">Regional service delivery <span aria-hidden="true">↗</span></a></div></section>
 
   <MediaInterlude
     src="/media/original/home-mandate-global-v2.avif"
     alt="A monumental international government and corporate district in morning light"
     eyebrow="The mandate"
-    caption="The mandate spans institutions, markets, and public systems. The operating model has to carry that scale."
+    caption="The mandate spans ministries, missions, and public systems. The operating architecture has to carry that scale."
     tone="white"
     ratio="wide"
     position="50% 30%"
     className="media-interlude-mandate"
     showEyebrow={false}
   >
-    <SectionHeading eyebrow="The mandate" title="When global enterprises assemble capability across borders, the integration thesis becomes infrastructure." />
-    <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of how capital, energy, communications, finance, marketing systems, and AI become one service without losing judgment, trust, or control.</p><p class="body-copy mt-7 max-w-2xl">Global Enterprise treats M&amp;A as an operating-model question: what capability is being assembled, which constraints govern it, and what service discipline can carry it across markets and time.</p><a class="ink-link mt-8" href="/about/">Our point of view <span aria-hidden="true"></span></a></div>
+    <SectionHeading eyebrow="The mandate" title="National capability needs an operating architecture that can cross ministries, missions, and borders." />
+    <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of how policy, institutions, data, infrastructure, and public services become one governable system without losing judgment, trust, or control.</p><p class="body-copy mt-7 max-w-2xl">We work across entire governments to define the reference architectures, service management disciplines, decision rights, and transformation cadence that turn national mandates into reliable public outcomes.</p><a class="ink-link mt-8" href="/industries/federal-public-service/">Our federal point of view <span aria-hidden="true"></span></a></div>
   </MediaInterlude>
 
-  <details class="home-collapse-block" open>
-    <summary class="home-collapse-summary home-collapse-summary-operating">
-      <div class="container-site home-operating-summary">
-        <div class="home-operating-summary-copy">
-          <div class="home-summary-folio"><span>01</span><span>Operating design</span></div>
-          <p class="eyebrow text-lime">The standard travels. The context changes.</p>
-          <h2 class="section-title mt-5 max-w-3xl">One discipline. Six ways to make it useful.</h2>
-          <p class="mt-6 max-w-2xl">A shared operating standard creates coherence; local intelligence turns it into decisions, services, and trust.</p>
-          <div class="home-operating-summary-signal"><span>6 contexts</span><span>1 shared standard</span><span>Open the operating design ↘</span></div>
+  <section class="home-federal-architecture section-pad bg-ink text-white" aria-labelledby="home-federal-architecture-title">
+    <div class="container-site">
+      <div class="home-federal-architecture-heading">
+        <div>
+          <p class="eyebrow text-lime">01 · Federal operating systems</p>
+          <h2 id="home-federal-architecture-title" class="section-title mt-5 max-w-4xl">We help entire governments adopt enterprise architecture at federal scale.</h2>
+        </div>
+        <div>
+          <p class="max-w-2xl text-lg leading-relaxed text-white/70">Our lead consultants connect national mandates to reference architectures, service disciplines, and delivery governance—the work required for the largest countries to make cross-government capability reliable.</p>
+          <a class="ink-link mt-8 text-white" href="/industries/federal-public-service/">Explore federal and public service advisory <span aria-hidden="true"></span></a>
         </div>
       </div>
-    </summary>
-    <div class="home-collapse-content">
-      <section class="section-pad bg-white" aria-labelledby="home-hubs-title">
+      <div class="home-federal-practices mt-12" aria-label="Federal advisory disciplines">
+        <a class="home-federal-practice" href="/services/operating-model/"><span class="home-federal-practice-index">01</span><h3>Federal Enterprise Architecture</h3><p>Reference models, capability maps, standards, and governance that align ministries around a shared national architecture.</p></a>
+        <a class="home-federal-practice" href="/services/transformation-office/"><span class="home-federal-practice-index">02</span><h3>ITIL for Nations</h3><p>Service ownership, incident and change practice, continuity, and continual improvement for essential public services.</p></a>
+        <a class="home-federal-practice" href="/services/cloud-data/"><span class="home-federal-practice-index">03</span><h3>Cross-government interoperability</h3><p>Data, identity, platforms, and decision rights that let departments exchange evidence without losing sovereignty or accountability.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white" aria-labelledby="home-hubs-title">
         <div class="container-site">
           <div class="home-context-lede">
             <div>
-              <p class="eyebrow text-cobalt">Global decision hubs</p>
-              <h2 id="home-hubs-title" class="section-title mt-5 max-w-3xl">Regional operating contexts. One integration thesis.</h2>
-              <p class="body-copy mt-7 max-w-3xl">We read cross-border transformation through the regions where capital, infrastructure, regulation, communications, and customer demand meet differently. The map is a strategic lens, not a claim about office footprint.</p>
+              <p class="eyebrow text-cobalt">Six regional lenses</p>
+              <h2 id="home-hubs-title" class="section-title mt-5 max-w-3xl">One federal standard. Six operating contexts.</h2>
+              <p class="body-copy mt-7 max-w-3xl">The architecture stays coherent while implementation changes with regulation, infrastructure, language, public-service capacity, and regional priorities. These six lenses help national leaders carry a common standard into local reality.</p>
             </div>
-            <RegionalOperatingMap />
+            <aside class="home-hubs-principle">
+              <p class="eyebrow text-cobalt">What travels</p>
+              <p class="mt-4 font-display text-3xl font-medium tracking-[-0.05em]">Mandate → architecture → service → outcome.</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted">A federal reference model only matters when ministries, operators, and communities can use it under real conditions.</p>
+            </aside>
           </div>
-          <div class="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          <div class="home-hub-grid mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
             {decisionHubs.map((hub) => (
               <a class="home-hub-card bg-white" href={hub.context ? `/region/${hub.context.slug}/` : "/operations/"}>
                 <div class="home-hub-media">
@@ -178,9 +188,9 @@ const decisionHubs = [
                 </div>
                 <div class="home-hub-copy">
                   <p class="eyebrow text-cobalt">{hub.region}</p>
-                  <h3 class="mt-10 font-display text-3xl font-medium tracking-[-0.05em]">{hub.city}</h3>
-                  <p class="mt-4 font-display text-xl leading-tight tracking-[-0.03em]">{hub.context?.title ?? "A connected operating context."}</p>
-                  <p class="mt-4 text-sm leading-relaxed text-muted">{hub.context?.description ?? "A context lens for decisions that cross markets, institutions, and infrastructure."}</p>
+                  <h3 class="mt-2 font-display text-3xl font-medium tracking-[-0.05em]">{hub.city}</h3>
+                  <p class="home-hub-title">{hub.context?.title ?? "A connected operating context."}</p>
+                  <p class="home-hub-description">{hub.context?.description ?? "A context lens for decisions that cross markets, institutions, and infrastructure."}</p>
                 </div>
               </a>
             ))}
@@ -191,13 +201,11 @@ const decisionHubs = [
             <a class="btn-ghost" href="/services/mergers-acquisitions/">View M&amp;A integration routes <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-      </section>
+  </section>
 
-      <StartingPoint mediaSrc="/media/original/home-pressure-point.avif" mediaAlt="A field engineer checking a weathered utility control cabinet with a paper checklist at dusk" mediaCaption="When the preferred path fails, the operating truth lives in the physical control, the person who can act, and the evidence they can trust." mediaRatio="wide" />
+  <StartingPoint mediaSrc="/media/original/home-pressure-point.avif" mediaAlt="A field engineer checking a weathered utility control cabinet with a paper checklist at dusk" mediaCaption="When the preferred path fails, the operating truth lives in the physical control, the person who can act, and the evidence they can trust." mediaRatio="wide" />
 
-      <GlobalPlatformLandscape />
-    </div>
-  </details>
+  <GlobalPlatformLandscape />
 
   <details class="home-collapse-block">
     <summary class="home-collapse-summary home-collapse-summary-thesis">
@@ -438,12 +446,6 @@ const decisionHubs = [
     outline-offset: 4px;
   }
 
-  .home-collapse-summary-operating {
-    background: var(--color-ink);
-    color: white;
-  }
-
-  .home-operating-summary,
   .home-thesis-summary,
   .home-evidence-summary {
     display: grid;
@@ -469,24 +471,56 @@ const decisionHubs = [
     letter-spacing: 0;
   }
 
-  .home-collapse-summary-operating .home-summary-folio,
-  .home-collapse-summary-evidence .home-summary-folio { color: var(--color-lime); }
-  .home-collapse-summary-operating .section-title,
+  .home-collapse-summary-evidence .home-summary-folio,
   .home-collapse-summary-evidence .section-title { color: white; }
-  .home-operating-summary-copy > p:not(.eyebrow) { color: rgb(255 255 255 / 72%); }
 
-  .home-operating-summary-signal {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.4rem;
-    margin-top: 1.35rem;
-    padding-top: 0.9rem;
-    border-top: 1px solid rgb(255 255 255 / 22%);
+  .home-federal-architecture-heading {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .home-federal-practices {
+    display: grid;
+    gap: 1px;
+    border: 1px solid rgb(255 255 255 / 20%);
+    background: rgb(255 255 255 / 20%);
+  }
+
+  .home-federal-practice {
+    display: block;
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: rgb(255 255 255 / 6%);
+    color: white;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .home-federal-practice:hover,
+  .home-federal-practice:focus-visible { background: var(--color-cobalt); }
+
+  .home-federal-practice-index {
+    color: var(--color-lime);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+  }
+
+  .home-federal-practice h3 {
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .home-federal-practice p {
+    margin-top: 0.85rem;
     color: rgb(255 255 255 / 68%);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
+    font-size: 0.85rem;
+    line-height: 1.55;
   }
 
   .home-collapse-summary-thesis {
@@ -545,14 +579,22 @@ const decisionHubs = [
 
   .home-context-lede {
     display: grid;
-    gap: 2rem;
-    align-items: stretch;
+    gap: 1.5rem;
+    align-items: end;
+  }
+
+  .home-hubs-principle {
+    padding: 1.25rem 0 0;
+    border-top: 2px solid var(--color-cobalt);
   }
 
   @media (min-width: 900px) {
+    .home-federal-architecture-heading { grid-template-columns: minmax(0, 0.85fr) minmax(20rem, 1.15fr); gap: clamp(2rem, 5vw, 5rem); }
+    .home-federal-practices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .home-thesis-summary { grid-template-columns: auto minmax(0, 1fr) minmax(12rem, 0.55fr); }
     .home-evidence-summary { grid-template-columns: auto minmax(0, 1fr) minmax(14rem, 0.65fr); }
-    .home-context-lede { grid-template-columns: minmax(0, 0.72fr) minmax(20rem, 1.28fr); gap: clamp(2rem, 5vw, 5rem); }
+    .home-context-lede { grid-template-columns: minmax(0, 1.05fr) minmax(17rem, 0.55fr); gap: clamp(2rem, 5vw, 5rem); }
+    .home-hubs-principle { padding: 0 0 0 1.5rem; border-top: 0; border-left: 2px solid var(--color-cobalt); }
   }
 
   .home-collapse-content {
@@ -637,8 +679,8 @@ const decisionHubs = [
 
   .home-hub-media {
     border-bottom: 1px solid var(--color-line);
-    aspect-ratio: 16 / 9;
-    min-height: 11.5rem;
+    aspect-ratio: 2.8 / 1;
+    min-height: 0;
     background: #dce3eb;
     overflow: hidden;
   }
@@ -646,13 +688,37 @@ const decisionHubs = [
   .home-hub-image {
     width: 100%;
     height: 100%;
-    min-height: 11.5rem;
+    min-height: 0;
     object-fit: cover;
     display: block;
   }
 
   .home-hub-copy {
-    padding: 1.75rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+
+  .home-hub-copy h3 {
+    margin-top: 0.35rem;
+    font-size: clamp(1.45rem, 2vw, 1.85rem);
+  }
+
+  .home-hub-title {
+    margin-top: 0.45rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  .home-hub-description {
+    display: -webkit-box;
+    margin-top: 0.45rem;
+    overflow: hidden;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .home-source-note {
@@ -812,5 +878,9 @@ const decisionHubs = [
   @media (max-width: 520px) {
     .report-index-row { grid-template-columns: minmax(0, 1fr); }
     .report-index-arrow { display: none; }
+  }
+
+  @media (max-width: 767px) {
+    .home-hub-media { aspect-ratio: 16 / 9; }
   }
 </style>
