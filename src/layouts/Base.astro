@@ -25,7 +25,7 @@ const { title, description, image, type = "website", noindex = false, keywords =
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const pathname = Astro.url.pathname;
 const pageVisual = visualForPath(pathname);
-const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/");
+const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/") && !pathname.startsWith("/audiences/");
 const truncateForMetadata = (value: string, limit: number) => {
   const normalized = value.replace(/\s+/g, " ").trim();
   if (normalized.length <= limit) return normalized;

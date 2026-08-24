@@ -1,6 +1,6 @@
 # Audience route and CTA matrix
 
-Status: planning baseline  
+Status: implemented routing baseline
 Prepared: 2026-08-24  
 Source: latest local static build plus public static assets
 
@@ -13,9 +13,11 @@ This is the exhaustive route-family matrix for the audience audit. Dynamic famil
 | Audience | The first reader the page should orient; this does not exclude secondary readers. |
 | Current move | The strongest existing CTA or next route observed in the current site. |
 | Target move | The audience-aware CTA/pathway to add or clarify. |
-| Preservation | `keep` means retain the existing URL/content; `canonicalize` means preserve the old URL while choosing a preferred discovery route; `utility` means retain for navigation, legal, confirmation, or distribution purposes. |
+| Preservation | `keep` means retain the existing URL/content; `canonicalize` means preserve the old URL while choosing a preferred discovery route; `utility` means retain for navigation, legal, confirmation, or distribution purposes; `new` means an additive route with no deletion. |
 
 Pathway keys: `set-direction`, `design-architecture`, `run-service-change`, `specify-procure`, `research-teach-partner`, and `learn-join`.
+
+Destination keys: `globalEnterprise` (first-party Global Enterprise route), `igniteCuriosity` (`https://ignitecuriosity.org/`), `taoStaff` (`https://taostaff.com/`), `instarLab` (`https://instarlab.org/`), and `dreamLimited` (`https://dreamlimited.org/`). The active DreamLimited destination is `.org`; `dreamlimited.com` resolves to a parked domain and is not a valid CTA target.
 
 ## Core and utility routes
 
@@ -24,6 +26,7 @@ Pathway keys: `set-direction`, `design-architecture`, `run-service-change`, `spe
 | `/` | P0 national/federal leaders, international government, Fortune 500 leadership | Contact, reports, services, federal/public-service, operations | Add “Start with your role or mandate” → six pathways; retain executive CTA | keep |
 | `/about/` | P0 mandate owners and economic buyers | Read thesis; contact | Add audience/pathway cards; retain principal conversation | keep |
 | `/operations/` | P0 international government, multilateral, enterprise operations | Regional chapters; international mandate → contact | Add government/multilateral lens and set-direction route | keep |
+| `/audiences/` | All defined audiences | New audience map | Choose a first-party Global Enterprise route or a clearly labeled organization destination | new |
 | `/region/` | P0 international government and regional operators | Directory is reachable indirectly | Add to sitemap, header/footer, and operations navigation | keep |
 | `/region/asia/`, `/region/eu/`, `/region/latam/`, `/region/mea/`, `/region/na/`, `/region/sa/` | P0 international government, enterprises, regional partners | Bring context to GE; return to operations | Add public-institution, commercial, and partner next moves | keep |
 | `/contact/` | All P0 readers; P1 partners/research/talent | Leadership engagement form → contact endpoint | Add role, intent, pathway, audience owner, and availability routing | keep |
@@ -31,7 +34,7 @@ Pathway keys: `set-direction`, `design-architecture`, `run-service-change`, `spe
 | `/faq/` | P0 buyers, practitioners, procurement evaluators | Contact | Add audience-specific FAQs for FEAF, ITIL, procurement, research, and careers | keep |
 | `/proof/` | P0 enterprise/public buyers, acquisition evaluators | Diligence engagement | Add audience/engagement-type filters and procurement-safe evidence routes | keep |
 | `/team/` | P1 experienced talent, P0 buyers, partners | Qualification dossier; careers | Add practice-family and pathway links | keep |
-| `/careers/` | P1 experienced talent, early-career talent, learners | Senior talent email; no public openings | Split experienced, early-career, and learning routes; preserve honest availability | keep |
+| `/careers/` | P1 experienced talent, early-career talent, learners | Senior talent email; no public openings | Experienced talent → Tao Staff; early-career/professional learners → Ignite Curiosity; preserve honest availability | keep |
 | `/trust/` | P0 acquisition, enterprise risk, sensitive-mandate readers | Leadership engagement; vendor pack | Add procurement/partner route and a clear public-versus-secure boundary | keep |
 | `/trust/vendor-pack/` | P0 contracting officers, CORs, procurement teams, primes | Procurement engagement | Keep diligence content, link from a public procurement pathway, retain `noindex` if appropriate | keep |
 | `/visual-sitemap/` | All readers needing a complete map | Compact view; page directory | Add pathway group and ensure all route families appear | utility |

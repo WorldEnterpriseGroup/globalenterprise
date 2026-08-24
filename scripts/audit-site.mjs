@@ -13,6 +13,13 @@ const freshnessBaseline = "2026-08-10";
 const routeImages = new Map();
 const renderedPhotos = new Map();
 const diagramIds = new Map();
+const audienceDestinationContracts = [
+  "https://ignitecuriosity.org/",
+  "https://taostaff.com/",
+  "https://instarlab.org/",
+  "https://dreamlimited.org/",
+];
+const renderedAudienceDestinations = new Set();
 const reportDocuments = [
   "reports/enterprise-decision-readiness.html",
   "reports/ai-governance-controls.html",
@@ -60,6 +67,10 @@ for (const path of htmlFiles) {
   const html = await readFile(path, "utf8");
   if (file === "visual-sitemap/compact.html" || file === "404.html" || redirectFiles.has(file)) continue;
   if (file.startsWith("reports/")) continue;
+  for (const destination of audienceDestinationContracts) {
+    if (html.includes(destination)) renderedAudienceDestinations.add(destination);
+  }
+  if (html.includes("https://dreamlimited.com/")) errors.push(`${file}: parked DreamLimited domain must not be used; link to dreamlimited.org`);
   requiredMarkup(html, /<title>[^<]+<\/title>/i, "title", file);
   requiredMarkup(html, /<meta name="description" content="[^"]+"/i, "meta description", file);
   requiredMarkup(html, /<link rel="canonical" href="https:\/\/globalenterprise\.com\//i, "canonical", file);
@@ -122,6 +133,10 @@ for (const path of htmlFiles) {
     const target = await internalTarget(href);
     if (target && !((await stat(target).catch(() => null))?.isFile?.())) errors.push(`${file}: broken internal link ${href}`);
   }
+}
+
+for (const destination of audienceDestinationContracts) {
+  if (!renderedAudienceDestinations.has(destination)) errors.push(`audience routing: missing rendered destination ${destination}`);
 }
 
 for (const report of reportDocuments) {

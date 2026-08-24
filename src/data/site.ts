@@ -1,3 +1,5 @@
+import { audiencePathways } from "@/data/audiences";
+
 // The production delivery boundary is first-party and keeps report/contact
 // intake on the same Azure Function. The Signal still uses the legacy form
 // route until its native subscription workflow is enabled separately.
@@ -12,7 +14,7 @@ export const site = {
   shortName: "Global",
   url: "https://globalenterprise.com",
   description:
-    "Global Enterprise is a global strategy and technology partner for corporations, public agencies, and national institutions shaping cross-border M&A, solution strategy, enterprise modernization, AI/ML, data, energy, communications, and operating systems for frontier-scale environments.",
+    "Global Enterprise is a strategy and technology partner for governments, public agencies, corporations, and national institutions shaping enterprise architecture, ITIL service systems, modernization, AI/ML, data, energy, communications, and operating models at institutional scale.",
   email: "info@globalenterprise.com",
   phone: "+1 929 229 2918",
   location: "Delaware, USA · Global infrastructure advisory network",
@@ -36,6 +38,7 @@ export const site = {
 export const navItems = [
   { label: "Capabilities", href: "/services/" },
   { label: "M&A integration", href: "/services/mergers-acquisitions/" },
+  { label: "Who we serve", href: "/audiences/" },
   { label: "About", href: "/about/" },
   { label: "Industries", href: "/industries/" },
   { label: "Work", href: "/work/" },
@@ -578,6 +581,7 @@ export const navigationPanel = {
     { label: "Trust center", href: "/trust/", description: "Identity, discretion, delivery assurance, and data boundaries." },
     { label: "Contact", href: "/contact/", description: "Request a leadership engagement." },
   ],
+  audiences: audiencePathways,
   feature: {
     label: "Research partnership",
     title: "Frontier intelligence needs an enterprise path.",

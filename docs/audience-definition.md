@@ -20,6 +20,24 @@ Priority is based on strategic fit, mandate consequence, and the audience's abil
 
 The site should always preserve the executive route while making the practitioner, procurement, research, and talent routes explicit.
 
+## Destination routing
+
+Global Enterprise is the direct home for institutional advisory, enterprise architecture, ITIL/service systems, government transformation, procurement-safe context, insights, reports, and leadership conversations. The site should not broadly redirect those audiences away. It should provide the material that helps them understand the problem and then route a specific audience to the organization that owns the next experience.
+
+Use the most specific intent first:
+
+| Reader intent | Primary destination | Global Enterprise role |
+| --- | --- | --- |
+| Interns, apprentices, fellows, new graduates, veterans, career switchers, and professional learners | [Ignite Curiosity](https://ignitecuriosity.org/) | Explain the work and make the early-career handoff explicit |
+| Anyone seeking a career with the organization, including experienced specialists | [Tao Staff](https://taostaff.com/) | Set expectations and point to the organization-wide career home |
+| Professors, principal investigators, university labs, think tanks, and researchers | [INSTAR Lab](https://instarlab.org/) | Provide field-grounded context, insights, and a clear research handoff |
+| Primes, subcontractors, SMEs, capture teams, and teaming partners | [DreamLimited](https://dreamlimited.org/) | Provide vendor, trust, capability, and delivery-boundary context |
+| Government, enterprise, multilateral, practitioner, acquisition, analyst, and other audiences | Global Enterprise internal routes | Own the content, service pathways, reports, trust material, and leadership engagement |
+
+The active DreamLimited destination is `dreamlimited.org`. `dreamlimited.com` currently resolves to a parked domain, so it must not be used as a public CTA until ownership and destination status change. The four external destinations are organizational handoffs, not claims of employment, partnership, endorsement, or guaranteed referral unless the relevant organization has formally approved that language.
+
+The routing precedence is: early-career and professional learning → research and academic inquiry → prime/subcontractor teaming → other career-seeking talent → Global Enterprise default. Ambiguous or multi-audience pages stay on Global Enterprise and expose clearly labeled outbound options rather than redirecting the whole page.
+
 ## Audience map
 
 | Audience key | Who reads | Why they care | Relationship to Global Enterprise | Priority |

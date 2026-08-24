@@ -23,6 +23,22 @@ These are reader pathways, not new service categories. `/services/`, `/solutions
 
 No navigation or homepage link should expose a new pathway until that pathway has a live route shell, a truthful CTA state, and a passing route audit. Pathway creation and pathway linking must ship atomically.
 
+## Destination operating model
+
+The organization-wide routing layer is now represented by a single registry in [`src/data/audiences.ts`](../src/data/audiences.ts), rendered by [`src/components/AudiencePathways.astro`](../src/components/AudiencePathways.astro), and exposed at [`/audiences/`](../src/pages/audiences/index.astro). The shared header, footer, homepage, careers page, contextual next-step component, contact form, visual sitemap, and build audit consume or reinforce this model.
+
+The routing decision is additive: Global Enterprise remains the source layer for institutional content and direct advisory, while four explicit outbound destinations own the next experience for specific intents.
+
+| Intent | Destination | Handoff behavior |
+| --- | --- | --- |
+| Early-career and professional learning | `https://ignitecuriosity.org/` | Global Enterprise explains the work; Ignite Curiosity owns the early-career/learning journey |
+| Careers with the organization | `https://taostaff.com/` | Global Enterprise sets working context; Tao Staff owns the career destination |
+| Professors and researchers | `https://instarlab.org/` | Global Enterprise supplies insights and context; INSTAR Lab owns research collaboration |
+| Primes, subcontractors, SMEs, and teaming | `https://dreamlimited.org/` | Global Enterprise supplies trust, capability, and delivery boundaries; DreamLimited owns pursuit/teaming pathways |
+| Governments, enterprises, architects, operators, acquisition officials, analysts, and other institutional readers | Global Enterprise internal routes | Keep the content, reports, trust material, and leadership engagement path first-party |
+
+`dreamlimited.com` is intentionally not used: it resolves to a parked domain. The active canonical destination verified on August 24, 2026 is `dreamlimited.org`. No outbound card claims employment, partnership, endorsement, or guaranteed referral; each destination is labeled as a reader pathway.
+
 ## Prioritized audience model
 
 The canonical priority order is maintained in [`docs/audience-definition.md`](./audience-definition.md). In practical site terms:

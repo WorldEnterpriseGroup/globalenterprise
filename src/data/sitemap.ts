@@ -7,6 +7,7 @@ export const sitemapGroups = [
       { label: "Home", href: "/", description: "The advisory partner for the next order of complexity.", kind: "front door" },
       { label: "Our approach", href: "/about/", description: "How we make future complexity governable.", kind: "company" },
       { label: "Operations", href: "/operations/", description: "How we coordinate strategy, delivery, and operating contexts across regions, partners, and time zones.", kind: "operations" },
+      { label: "Who we serve", href: "/audiences/", description: "Audience pathways across Global Enterprise and the wider organization.", kind: "audience" },
       { label: "Proof of practice", href: "/proof/", description: "Confidential evidence from ventures, products, and systems we have built and grown.", kind: "proof" },
       { label: "Selected work", href: "/case-studies/", description: "Field notes from the work.", kind: "proof" },
       { label: "Insights", href: "/insights/", description: "Evidence and original analysis for leaders shaping what comes next.", kind: "thinking" },
