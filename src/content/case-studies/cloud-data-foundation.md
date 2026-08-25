@@ -2,7 +2,7 @@
 title: "A cloud and data foundation built for the next decision"
 description: "Making trusted information available to the people responsible for acting on it."
 sector: "Technology & data"
-service: "Cloud & data foundations"
+service: "Data labs & AI cost management"
 result: "A more observable, secure, and decision-ready data environment"
 eyebrow: "Field note · Cloud and data"
 environment: "Distributed product and platform portfolio"

@@ -42,7 +42,6 @@ const resolvedSources = entry.data.sources.map((source) => resolveEvidenceSource
 ---
 
 <Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} type="article" keywords={keywords} author={entry.data.author} publishedTime={entry.data.date?.toISOString()} modifiedTime={entry.data.updatedDate?.toISOString() ?? entry.data.date?.toISOString()}>
-  <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
       <div>
@@ -131,14 +130,6 @@ const resolvedSources = entry.data.sources.map((source) => resolveEvidenceSource
     const root = document.querySelector<HTMLElement>("[data-article-experience]");
     if (!root || root.hasAttribute("data-bound")) return;
     root.setAttribute("data-bound", "true");
-    const progress = document.querySelector<HTMLElement>('[data-reading-progress]');
-    const updateProgress = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progress) progress.style.width = `${max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0}%`;
-    };
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
-    updateProgress();
     const status = root.querySelector<HTMLElement>("[data-share-status]");
     root.querySelector<HTMLButtonElement>("[data-share-copy]")?.addEventListener("click", async (event) => {
       try {

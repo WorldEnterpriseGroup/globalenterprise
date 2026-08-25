@@ -24,9 +24,9 @@ const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = 
       <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/70">Pick the pressure point that most affects your enterprise and we will direct you to the most decisive first move.</p>
     </div>
     <div>
-      <div class="grid gap-3" role="list" aria-label="Starting point choices">
+      <div class="grid gap-3" role="group" aria-label="Starting point choices">
         {startingPoints.map((point, index) => (
-          <button class="starting-point-option" type="button" role="listitem" data-starting-point-option={point.id} aria-controls="starting-point-result" aria-expanded={index === 0 ? "true" : "false"}>
+          <button id={`starting-point-option-${point.id}`} class="starting-point-option" type="button" data-starting-point-option={point.id} aria-controls="starting-point-result" aria-pressed={index === 0 ? "true" : "false"}>
             <span class="eyebrow text-lime">{["Mandate", "Intelligence", "Economics", "Capability"][index]}</span>
             <span class="text-left font-display text-xl font-medium tracking-[-0.03em]">{point.label}</span>
             <span aria-hidden="true">↗</span>
@@ -35,7 +35,7 @@ const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = 
       </div>
       <div id="starting-point-result" class="starting-point-result mt-5" data-starting-point-result aria-live="polite">
         {startingPoints.map((point, index) => (
-          <div class:list={["starting-point-answer", index === 0 ? "is-active" : ""]} data-starting-point-answer={point.id} hidden={index !== 0}>
+          <div class:list={["starting-point-answer", index === 0 ? "is-active" : ""]} data-starting-point-answer={point.id} role="region" aria-labelledby={`starting-point-option-${point.id}`} hidden={index !== 0}>
             <p class="text-lg leading-relaxed text-white/80">{point.text}</p>
             <a class="btn-primary mt-6" href={point.href} data-track="diagnostic_result" data-track-label={point.id}>{point.linkLabel} <span aria-hidden="true">↗</span></a>
           </div>
@@ -54,7 +54,10 @@ const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = 
       const answers = root.querySelectorAll<HTMLElement>("[data-starting-point-answer]");
       options.forEach((option) => option.addEventListener("click", () => {
         const id = option.dataset.startingPointOption;
-        options.forEach((candidate) => candidate.setAttribute("aria-expanded", String(candidate === option)));
+        options.forEach((candidate) => {
+          const selected = candidate === option;
+          candidate.setAttribute("aria-pressed", String(selected));
+        });
         answers.forEach((answer) => {
           const active = answer.dataset.startingPointAnswer === id;
           answer.hidden = !active;

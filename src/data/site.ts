@@ -400,6 +400,29 @@ export const businessReports = [
       { label: "NIST AI risk and reliability work", url: "https://www.nist.gov/" },
     ],
   },
+  {
+    slug: "global-operating-model-brief",
+    eyebrow: "Global operating model",
+    title: "The Global Operating Model Field Report",
+    summary: "A 3,000-word executive field report on the next global operating model: translation and coordination across AI, sovereignty, infrastructure, partners, time zones, language, and local legitimacy.",
+    description:
+      "The next global operating model will not be a headquarters playbook translated into local languages. It will be a living translation and coordination system—one that lets a common ambition travel across AI, sovereignty, infrastructure, partners, time zones, language, and local legitimacy without flattening the context that makes execution possible.",
+    highlights: ["The translation loop: context, translate, decide, and learn", "Six forces changing the model: AI, sovereignty, infrastructure, partners, language, and local legitimacy", "The architecture of a translation system: decision rights, identity and data, language, partners, infrastructure, and trust", "A detailed regional working worksheet and practical build sequence"],
+    takeaways: ["Preserve intent while changing mechanism across local contexts.", "Coordination will beat replication.", "Make authority, evidence, interfaces, and learning explicit."],
+    storageObject: "global-operating-model-brief.pdf",
+    htmlFile: "/reports/global-operating-model-brief.html",
+    format: "PDF field guide",
+    readingTime: "35–45-minute working read",
+    depth: "3,000-word thesis, translation loop, six-force scan, regional worksheet, and source notes",
+    sources: [
+      { label: "United Nations · Sustainable Development Goals Report 2026", url: "https://unstats.un.org/sdgs/report/2026/" },
+      { label: "NATO · Alliance Digital Strategy", url: "https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy" },
+      { label: "Data.gov · public data catalog", url: "https://data.gov/" },
+      { label: "NIST · AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
+      { label: "OECD · AI Principles", url: "https://www.oecd.org/en/topics/ai-principles.html" },
+      { label: "European Commission · AI Act overview", url: "https://digital-strategy.ec.europa.eu/en/factpages/ai-act" },
+    ],
+  },
 ];
 
 export const experienceHighlights = [

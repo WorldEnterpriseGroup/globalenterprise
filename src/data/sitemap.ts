@@ -1,4 +1,4 @@
-import { businessReports, industries, services, solutionPages } from "@/data/site";
+import { businessReports, industries, regionContexts, services, solutionPages } from "@/data/site";
 
 export const sitemapGroups = [
   {
@@ -33,6 +33,13 @@ export const sitemapGroups = [
     pages: [
       { label: "All industries", href: "/industries/", description: "Context changes the answer.", kind: "industry" },
       ...industries.map((industry) => ({ label: industry.title, href: industry.href, description: industry.description, kind: "industry" })),
+    ],
+  },
+  {
+    title: "Regions",
+    pages: [
+      { label: "All regional contexts", href: "/region/", description: "Regional operating contexts across commercial, federal, and SLED capability.", kind: "region" },
+      ...regionContexts.map((region) => ({ label: region.name, href: `/region/${region.slug}/`, description: region.description, kind: "region" })),
     ],
   },
   {

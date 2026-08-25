@@ -5,9 +5,9 @@ import { sitemapGroups, sitemapPages } from "@/data/sitemap";
 ---
 
 <Base title="Visual sitemap | Global Enterprise" description="A visual, navigable map of the Global Enterprise site architecture." noindex>
-  <div class="bg-[#eef1f4] text-ink">
-    <header class="border-b border-line bg-white px-5 py-12 md:px-12 lg:px-16">
-      <div class="mx-auto max-w-[1400px]">
+  <div class="bg-mist text-ink">
+    <header class="section-pad border-b border-line bg-white">
+      <div class="container-site">
         <p class="eyebrow">Site architecture</p>
         <div class="mt-6 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
@@ -20,8 +20,8 @@ import { sitemapGroups, sitemapPages } from "@/data/sitemap";
       </div>
     </header>
 
-    <nav class="border-b border-line bg-[#f8f9fa] px-5 py-8 md:px-12 lg:px-16" aria-label="Page directory">
-      <div class="mx-auto max-w-[1400px]">
+    <nav class="section-pad border-b border-line bg-paper" aria-label="Page directory">
+      <div class="container-site">
         <p class="text-xs font-bold uppercase tracking-[0.14em]">Page directory</p>
         <div class="mt-5 grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-4">
           {sitemapPages.map((page) => <a class="text-sm text-ink transition-colors hover:text-cobalt hover:underline" href={`#page-${page.href.replaceAll("/", "-") || "home"}`}>{page.label}</a>)}
@@ -29,7 +29,7 @@ import { sitemapGroups, sitemapPages } from "@/data/sitemap";
       </div>
     </nav>
 
-    <main class="mx-auto max-w-[1400px] px-5 py-10 md:px-12 lg:px-16 lg:py-14">
+    <main class="container-site section-pad">
       {sitemapGroups.map((group) => (
         <section class="mb-14" aria-labelledby={`group-${group.title.toLowerCase().replaceAll(" ", "-")}`}>
           <div class="mb-5 flex items-end justify-between gap-4 border-b border-line pb-4"><div><p class="eyebrow">Directory</p><h2 id={`group-${group.title.toLowerCase().replaceAll(" ", "-")}`} class="mt-3 font-display text-3xl font-medium tracking-[-0.05em]">{group.title}</h2></div><p class="text-xs font-bold uppercase tracking-[0.12em] text-muted">{group.pages.length} pages</p></div>

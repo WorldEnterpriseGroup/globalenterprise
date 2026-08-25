@@ -150,6 +150,13 @@
     ];
     pages.push(
       {group:'Start here',url:'/global/',file:'global/index.html',title:'Global operating contexts.',kind:'global'},
+      {group:'Regions',url:'/region/',file:'region/index.html',title:'All regional contexts.',kind:'region'},
+      {group:'Regions',url:'/region/na/',file:'region/na/index.html',title:'North America.',kind:'region'},
+      {group:'Regions',url:'/region/eu/',file:'region/eu/index.html',title:'Europe.',kind:'region'},
+      {group:'Regions',url:'/region/mea/',file:'region/mea/index.html',title:'Middle East & Africa.',kind:'region'},
+      {group:'Regions',url:'/region/asia/',file:'region/asia/index.html',title:'Asia-Pacific.',kind:'region'},
+      {group:'Regions',url:'/region/latam/',file:'region/latam/index.html',title:'Latin America & the Caribbean.',kind:'region'},
+      {group:'Regions',url:'/region/sa/',file:'region/sa/index.html',title:'South America.',kind:'region'},
       {group:'Start here',url:'/contact/thanks/',file:'contact/thanks/index.html',title:'Contact confirmation.',kind:'confirmation'},
       {group:'Solutions',url:'/solutions/',file:'solutions/index.html',title:'Decision-led pathways.',kind:'solution'},
       ...['enterprise-ai','modernization','operating-model','healthcare-transformation','data-labs-ai-cost-management','quantum-intelligence','digital-infrastructure-resilience','supply-network-operations','portfolio-delivery'].map((slug) => ({group:'Solutions',url:`/solutions/${slug}/`,file:`solutions/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'solution'})),
@@ -162,7 +169,7 @@
       ...['ai-cost-management','quantum-intelligence','research-and-foresight'].map((slug) => ({group:'Insights',url:`/insights/topics/${slug}/`,file:`insights/topics/${slug}/index.html`,title:`${slug.replaceAll('-',' ')} topic`,kind:'topic'})),
       {group:'Insights',url:'/insights/thanks/',file:'insights/thanks/index.html',title:'Insights confirmation.',kind:'confirmation'},
       {group:'Resources',url:'/resources/',file:'resources/index.html',title:'Business reports.',kind:'resource'},
-      ...['ai-governance-controls','enterprise-decision-readiness','modernization-investment-priority'].map((slug) => ({group:'Resources',url:`/resources/${slug}/`,file:`resources/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'resource'})),
+      ...['ai-governance-controls','enterprise-decision-readiness','modernization-investment-priority','global-operating-model-brief'].map((slug) => ({group:'Resources',url:`/resources/${slug}/`,file:`resources/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'resource'})),
       {group:'Resources',url:'/resources/thanks/',file:'resources/thanks/index.html',title:'Resource confirmation.',kind:'confirmation'},
       {group:'Company & guidance',url:'/trust/vendor-pack/',file:'trust/vendor-pack/index.html',title:'Vendor and trust pack.',kind:'company'}
     );

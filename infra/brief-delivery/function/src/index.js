@@ -128,8 +128,74 @@ const reports = {
   },
 };
 
+const FORM_VALUE_LABELS = {
+  context: {
+    federal_enterprise_architecture_feaf: "Federal enterprise architecture / FEAF",
+    state_local_education_institution: "State, local, or education institution strategy",
+    national_international_government_architecture: "National or international government architecture",
+    itil_service_management_public_service: "ITIL service management or public-service operations",
+    prime_subcontractor_sme_teaming: "Prime, subcontractor, SME, or teaming conversation",
+    public_procurement_acquisition_contract_evaluation: "Public procurement, acquisition, or contract evaluation",
+    ma_corporate_integration_portfolio: "M&A, corporate integration, or portfolio strategy",
+    satellite_telecommunications_global_communications: "Satellite, telecommunications, or global communications",
+    energy_compute_digital_infrastructure: "Energy, compute, or digital infrastructure",
+    global_finance_market_marketing_systems: "Global finance, market, or marketing systems",
+    ai_ml_portfolio_lab_operating_model: "AI/ML portfolio, lab, or operating model",
+    data_lab_platform_ai_cost_management: "Data lab, platform, or AI cost management",
+    frontier_intelligence_quantum_advanced_systems: "Frontier intelligence, quantum, or advanced systems",
+    enterprise_transformation_change_architecture: "Enterprise transformation and change architecture",
+    institutional_strategy_modernization_resilience: "Institutional strategy, modernization, or resilience",
+    research_partnership_strategic_inquiry: "Research partnership or strategic inquiry",
+  },
+  use_case: {
+    ai_rollout_governance: "AI rollout and governance",
+    data_platform_cost_controls: "Data platform and cost controls",
+    legacy_modernization_migration: "Legacy modernization and migration",
+    executive_operating_model_review: "Executive operating model review",
+    public_sector_systems_modernization: "Public sector systems modernization",
+  },
+  role: {
+    executive_leadership: "Executive leadership",
+    operations_transformation: "Operations or transformation",
+    technology_data_security: "Technology, data, or security",
+    finance_procurement_risk: "Finance, procurement, or risk",
+    policy_strategy_research: "Policy, strategy, or research",
+    other_cross_functional: "Other / cross-functional",
+  },
+  decision_stage: {
+    exploring_problem: "Exploring the problem",
+    building_case: "Building the case",
+    comparing_approaches: "Comparing approaches",
+    planning_transition: "Planning a transition",
+    operating_learning: "Operating and learning",
+  },
+  decision_horizon: {
+    immediate_active_decision: "Immediate / active decision",
+    next_90_days: "Next 90 days",
+    "2027_2028_horizon": "2027–2028 horizon",
+    "2030_2035_horizon": "2030–2035 horizon",
+    long_range_research: "Long-range research",
+    this_planning_year: "This planning year",
+    longer_term_portfolio_planning: "Longer-term portfolio planning",
+    research_only: "Research only",
+  },
+  system_scale: {
+    cross_border_transaction_corporate_portfolio: "Cross-border transaction or corporate portfolio",
+    enterprise_institution: "Enterprise / institution",
+    portfolio_multi_program: "Portfolio / multi-program",
+    mission_critical_platform: "Mission-critical platform",
+    research_emerging_capability: "Research or emerging capability",
+  },
+};
+
 function clean(value, max = 500) {
   return String(value ?? "").trim().replace(/[\u0000-\u001f\u007f]/g, "").slice(0, max);
+}
+
+function displayFormValue(value, field) {
+  const normalized = clean(value, 200);
+  const labels = FORM_VALUE_LABELS[field];
+  return labels && Object.prototype.hasOwnProperty.call(labels, normalized) ? labels[normalized] : normalized;
 }
 
 const CONSUMER_EMAIL_ROOTS = new Set(["gmail.com", "googlemail.com", "hotmail.com", "outlook.com", "yahoo.com"]);
@@ -797,10 +863,10 @@ async function briefRequest(request, context) {
   const formKind = clean(body.form_kind || body["form-kind"], 80);
   const name = clean(body.name, 160);
   const organization = clean(body.organization, 200);
-  const contextValue = clean(body.context || body.use_case, 200);
-  const role = clean(body.role, 120);
-  const decisionStage = clean(body.decision_stage, 120);
-  const decisionHorizon = clean(body.decision_horizon, 120);
+  const contextValue = displayFormValue(body.context || body.use_case, body.use_case ? "use_case" : "context");
+  const role = displayFormValue(body.role, "role");
+  const decisionStage = displayFormValue(body.decision_stage, "decision_stage");
+  const decisionHorizon = displayFormValue(body.decision_horizon, "decision_horizon");
   const organizationSize = clean(body.organization_size, 80);
   const industry = clean(body.industry, 120);
   const primaryChallenge = clean(body.primary_challenge, 300);
@@ -907,10 +973,10 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const name = clean(body.name, 160);
   const title = clean(body.title, 160);
   const organization = clean(body.organization, 200);
-  const contextValue = clean(body.conversation_context || body.context, 200);
+  const contextValue = displayFormValue(body.conversation_context || body.context, "context");
   const mandate = cleanMultiline(body.mandate, 4000);
-  const decisionHorizon = clean(body.decision_horizon, 120);
-  const systemScale = clean(body.system_scale, 120);
+  const decisionHorizon = displayFormValue(body.decision_horizon, "decision_horizon");
+  const systemScale = displayFormValue(body.system_scale, "system_scale");
   const consent = clean(body.consent, 20).toLowerCase();
   const sourceUrl = sanitizeSourceUrl(body.source_url || request.headers.get("referer"));
   const remoteIp = clientIp(request);
@@ -1060,4 +1126,4 @@ app.http("unsubscribe", { methods: ["GET", "POST", "OPTIONS"], authLevel: "anony
 app.http("health", { methods: ["GET"], authLevel: "anonymous", route: "health", handler: health });
 app.timer("nurtureSweep", { schedule: "0 0 * * *", handler: nurtureSweep, runOnStartup: false, useMonitor: true });
 
-export { briefRequest, contactRequest, health, isCorporateEmail, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };
+export { briefRequest, contactRequest, displayFormValue, health, isCorporateEmail, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };

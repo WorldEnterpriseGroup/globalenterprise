@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { briefRequest, contactRequest, health, isCorporateEmail, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
+import { briefRequest, contactRequest, displayFormValue, health, isCorporateEmail, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
 
 test("corporate email policy rejects consumer mailboxes but allows custom company domains", () => {
   for (const email of ["reader@gmail.com", "reader@googlemail.com", "reader@hotmail.com", "reader@hotmail.co.uk", "reader@outlook.com", "reader@yahoo.com", "reader@yahoo.co.uk"]) {
@@ -15,6 +15,14 @@ test("health response is safe before provider configuration", async () => {
   assert.equal(result.status, 200);
   assert.match(result.body, /globalenterprise-brief-delivery/);
   assert.match(result.body, /configured/);
+});
+
+test("form values are stored as readable labels while legacy labels remain readable", () => {
+  assert.equal(displayFormValue("federal_enterprise_architecture_feaf", "context"), "Federal enterprise architecture / FEAF");
+  assert.equal(displayFormValue("executive_leadership", "role"), "Executive leadership");
+  assert.equal(displayFormValue("Next 90 days", "decision_horizon"), "Next 90 days");
+  assert.equal(displayFormValue("unknown_value", "role"), "unknown_value");
+  assert.equal(displayFormValue("__proto__", "role"), "__proto__");
 });
 
 test("brief request fails closed before provider configuration", async () => {

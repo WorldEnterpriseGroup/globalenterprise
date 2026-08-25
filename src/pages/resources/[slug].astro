@@ -14,20 +14,34 @@ const others = businessReports.filter((item) => item.slug !== report.slug).slice
 const reportMedia = {
   "enterprise-decision-readiness": {
     src: "/media/generated/enterprise-hero.avif",
+    width: 1600,
+    height: 1067,
     alt: "A quiet executive working room overlooking a city at night",
     caption: "Decision readiness begins before the room fills: the mandate, trade-off, and owner must already be visible.",
     position: "56% 52%",
   },
   "ai-governance-controls": {
     src: "/media/generated/ai-governance.avif",
+    width: 1600,
+    height: 1067,
     alt: "A team reviewing AI governance controls around a working table",
     caption: "Control belongs in the workflow, close to the judgment and the consequence.",
     position: "50% 48%",
   },
   "modernization-investment-priority": {
     src: "/media/generated/technology-data.avif",
+    width: 1600,
+    height: 1067,
     alt: "Two operators walking through a data center corridor",
     caption: "Modernization is a sequence across systems, capital, continuity, and time.",
+    position: "50% 50%",
+  },
+  "global-operating-model-brief": {
+    src: "/reports/media/global-operating-model-hero.avif",
+    width: 1672,
+    height: 941,
+    alt: "A distributed team works around a world map, connecting regions, partners, and operating decisions",
+    caption: "A global operating model is a coordination fabric: shared intent, local context, explicit authority, and learning that travels.",
     position: "50% 50%",
   },
 } as const;
@@ -35,7 +49,7 @@ const leadMedia = reportMedia[report.slug as keyof typeof reportMedia] ?? report
 const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source)) ?? [];
 ---
 
-<Base title={`${report.title} | Global Enterprise`} description={report.summary} image={leadMedia.src} keywords={["enterprise report", "operating model", "AI governance", "modernization planning"]}>
+<Base title={`${report.title} | Global Enterprise`} description={report.summary} image={leadMedia.src} imageWidth={leadMedia.width} imageHeight={leadMedia.height} imageAlt={leadMedia.alt} keywords={["enterprise report", "operating model", "AI governance", "modernization planning"]}>
   <section class="bg-ink py-16 text-white md:py-24">
     <div class="container-site grid gap-12 lg:grid-cols-[.88fr_1.12fr] lg:items-end">
       <div>
@@ -49,7 +63,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
         </div>
       </div>
       <figure class="report-hero-figure" style={`--report-position: ${leadMedia.position}`}>
-        <AssetImage src={leadMedia.src} width={1536} height={1024} sizes="(min-width: 1024px) 52vw, 100vw" loading="eager" fetchpriority="high" alt={leadMedia.alt} class="report-hero-image" />
+        <AssetImage src={leadMedia.src} width={leadMedia.width} height={leadMedia.height} sizes="(min-width: 1024px) 52vw, 100vw" loading="eager" fetchpriority="high" alt={leadMedia.alt} class="report-hero-image" />
         <figcaption><span>Report field note</span>{leadMedia.caption}</figcaption>
       </figure>
     </div>
@@ -102,22 +116,22 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
             <legend>Delivery details</legend>
             <div class="grid gap-5 sm:grid-cols-2">
               <label class="field-label" for={`resource-name-${report.slug}`}>Name <span class="required-note">Required</span>
-                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" required />
+                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" placeholder="Your name" required />
               </label>
               <label class="field-label" for={`resource-email-${report.slug}`}>Work email <span class="required-note">Required</span>
-                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" required />
+                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" placeholder="name@organization.gov or company.com" required />
               </label>
               <label class="field-label" for={`resource-org-${report.slug}`}>Organization <span class="required-note">Required</span>
-                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" required />
+                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" placeholder="Agency, company, university, or institution" required />
               </label>
               <label class="field-label" for={`resource-context-${report.slug}`}>Use case <span class="required-note">Required</span>
                 <select id={`resource-context-${report.slug}`} name="use_case" required>
                   <option value="" selected disabled>Pick what you are evaluating</option>
-                  <option>AI rollout and governance</option>
-                  <option>Data platform and cost controls</option>
-                  <option>Legacy modernization and migration</option>
-                  <option>Executive operating model review</option>
-                  <option>Public sector systems modernization</option>
+                  <option value="ai_rollout_governance">AI rollout and governance</option>
+                  <option value="data_platform_cost_controls">Data platform and cost controls</option>
+                  <option value="legacy_modernization_migration">Legacy modernization and migration</option>
+                  <option value="executive_operating_model_review">Executive operating model review</option>
+                  <option value="public_sector_systems_modernization">Public sector systems modernization</option>
                 </select>
               </label>
             </div>
@@ -129,31 +143,31 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
               <label class="field-label" for={`resource-role-${report.slug}`}>Role in the decision <span class="required-note">Required</span>
                 <select id={`resource-role-${report.slug}`} name="role" required>
                   <option value="" selected disabled>Choose a role</option>
-                  <option>Executive leadership</option>
-                  <option>Operations or transformation</option>
-                  <option>Technology, data, or security</option>
-                  <option>Finance, procurement, or risk</option>
-                  <option>Policy, strategy, or research</option>
-                  <option>Other / cross-functional</option>
+                  <option value="executive_leadership">Executive leadership</option>
+                  <option value="operations_transformation">Operations or transformation</option>
+                  <option value="technology_data_security">Technology, data, or security</option>
+                  <option value="finance_procurement_risk">Finance, procurement, or risk</option>
+                  <option value="policy_strategy_research">Policy, strategy, or research</option>
+                  <option value="other_cross_functional">Other / cross-functional</option>
                 </select>
               </label>
               <label class="field-label" for={`resource-stage-${report.slug}`}>Decision stage <span class="required-note">Required</span>
                 <select id={`resource-stage-${report.slug}`} name="decision_stage" required>
                   <option value="" selected disabled>Choose a stage</option>
-                  <option>Exploring the problem</option>
-                  <option>Building the case</option>
-                  <option>Comparing approaches</option>
-                  <option>Planning a transition</option>
-                  <option>Operating and learning</option>
+                  <option value="exploring_problem">Exploring the problem</option>
+                  <option value="building_case">Building the case</option>
+                  <option value="comparing_approaches">Comparing approaches</option>
+                  <option value="planning_transition">Planning a transition</option>
+                  <option value="operating_learning">Operating and learning</option>
                 </select>
               </label>
               <label class="field-label" for={`resource-horizon-${report.slug}`}>Useful horizon <span class="optional-note">Optional</span>
                 <select id={`resource-horizon-${report.slug}`} name="decision_horizon">
                   <option value="" selected>Choose a horizon</option>
-                  <option>Next 90 days</option>
-                  <option>This planning year</option>
-                  <option>Longer-term portfolio planning</option>
-                  <option>Research only</option>
+                  <option value="next_90_days">Next 90 days</option>
+                  <option value="this_planning_year">This planning year</option>
+                  <option value="longer_term_portfolio_planning">Longer-term portfolio planning</option>
+                  <option value="research_only">Research only</option>
                 </select>
               </label>
             </div>
@@ -207,14 +221,14 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
   .report-request legend { color: rgb(255 255 255 / 88%); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .report-request .field-label { display: grid; gap: 0.45rem; color: rgb(255 255 255 / 82%); font-size: 0.82rem; font-weight: 700; }
   .report-request .required-note, .report-request .optional-note { margin-left: 0.35rem; color: var(--color-lime); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  .report-request .optional-note { color: rgb(255 255 255 / 48%); }
-  .report-request .form-notice, .report-request .form-helper { max-width: 46rem; color: rgb(255 255 255 / 62%); font-size: 0.78rem; line-height: 1.55; }
+  .report-request .optional-note { color: rgb(255 255 255 / 72%); }
+  .report-request .form-notice, .report-request .form-helper { max-width: 46rem; color: rgb(255 255 255 / 76%); font-size: 0.78rem; line-height: 1.55; }
   .report-request .form-notice { margin-bottom: 1.75rem; padding-left: 0.85rem; border-left: 2px solid var(--color-lime); }
   .report-request .form-helper { margin-top: 0.65rem; margin-bottom: 1.25rem; }
   .report-request input:not([type="checkbox"]), .report-request select { width: 100%; min-height: 3.4rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; outline: none; }
   .report-request select { color-scheme: dark; }
   .report-request input:focus, .report-request select:focus { border-color: var(--color-lime); }
-  .report-request .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; color: rgb(255 255 255 / 66%); font-size: 0.82rem; font-weight: 400; line-height: 1.55; }
+  .report-request .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; color: rgb(255 255 255 / 82%); font-size: 0.82rem; font-weight: 400; line-height: 1.55; }
   .report-request .checkbox-label:first-of-type { margin-top: 1.15rem; }
   .related-report { display: grid; align-content: start; min-height: 18rem; padding: clamp(1.5rem, 4vw, 3rem); }
   .related-report > span { color: var(--color-cobalt); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
