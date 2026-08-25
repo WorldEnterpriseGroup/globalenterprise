@@ -24,6 +24,8 @@ The site should always preserve the executive route while making the practitione
 
 Global Enterprise is the direct home for institutional advisory, enterprise architecture, ITIL/service systems, government transformation, procurement-safe context, insights, reports, and leadership conversations. The site should not broadly redirect those audiences away. It should provide the material that helps them understand the problem and then route a specific audience to the organization that owns the next experience.
 
+This taxonomy is internal editorial and routing knowledge. It should inform page framing, content order, CTA choice, and destination handoffs without forcing every visitor through an audience chooser or exposing the full priority list in the shared navigation, footer, or homepage.
+
 Use the most specific intent first:
 
 | Reader intent | Primary destination | Global Enterprise role |

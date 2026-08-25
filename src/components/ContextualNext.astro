@@ -1,6 +1,5 @@
 ---
 import SignalIcon from "@/components/SignalIcon.astro";
-import { destinationOrganizations } from "@/data/audiences";
 
 const path = Astro.url.pathname;
 type Context = {
@@ -10,13 +9,9 @@ type Context = {
   href: string;
   label: string;
   icon: string;
-  external?: boolean;
-  nextText?: string;
 };
 
-const context: Context = path.startsWith("/careers")
-  ? { eyebrow: "Find your path", title: "The work is connected. The career home should be too.", text: "Global Enterprise provides the mandate context; Tao Staff is the organization-wide destination for people who want to explore a career with us.", href: destinationOrganizations.taoStaff.href, label: "Explore career pathways at Tao Staff", icon: "system", external: true, nextText: "Early-career learners have a separate path through Ignite Curiosity." }
-  : path.startsWith("/insights")
+const context: Context = path.startsWith("/insights")
   ? { eyebrow: "Carry the signal", title: "Turn a future signal into an institutional decision.", text: "A perspective matters when it changes the choices, investments, or operating model that come next.", href: "/contact/", label: "Request a leadership engagement", icon: "compass" }
   : path.startsWith("/work") || path.startsWith("/case-studies")
     ? { eyebrow: "Make the pattern useful", title: "Bring the version of this problem that carries consequence.", text: "We connect field-tested patterns to the constraints, people, and decisions in your system.", href: "/contact/", label: "Discuss the mandate", icon: "arrow" }
@@ -35,6 +30,6 @@ const context: Context = path.startsWith("/careers")
       <span class="page-visual-icon"><SignalIcon name={context.icon} size={25} /></span>
       <div><p class="eyebrow">{context.eyebrow}</p><h2 class="mt-4 max-w-xl font-display text-2xl font-medium tracking-[-0.04em] md:text-3xl">{context.title}</h2><p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">{context.text}</p></div>
     </div>
-    <div class="flex flex-col gap-5 border-t border-line pt-6 md:items-end md:border-l md:border-t-0 md:pl-9 md:pt-0"><p class="max-w-sm text-sm leading-relaxed text-muted md:text-right">{context.nextText ?? "The work begins with the decision, not a perfect brief."}</p>{context.external ? <a class="btn-dark" href={context.href} target="_blank" rel="noopener noreferrer" data-track="contextual_next" data-track-label={context.label}>{context.label} <span aria-hidden="true">↗</span></a> : <a class="btn-dark" href={context.href} data-track="contextual_next" data-track-label={context.label}>{context.label} <span aria-hidden="true">↗</span></a>}</div>
+    <div class="flex flex-col gap-5 border-t border-line pt-6 md:items-end md:border-l md:border-t-0 md:pl-9 md:pt-0"><p class="max-w-sm text-sm leading-relaxed text-muted md:text-right">The work begins with the decision, not a perfect brief.</p><a class="btn-dark" href={context.href} data-track="contextual_next" data-track-label={context.label}>{context.label} <span aria-hidden="true">↗</span></a></div>
   </div>
 </section>

@@ -1,0 +1,33 @@
+---
+import { destinationOrganizations, type DestinationKey } from "@/data/audiences";
+
+interface Props {
+  destinationKey: Exclude<DestinationKey, "globalEnterprise">;
+  eyebrow: string;
+  title: string;
+  text: string;
+  linkLabel: string;
+  supportingHref?: string;
+  supportingLabel?: string;
+}
+
+const { destinationKey, eyebrow, title, text, linkLabel, supportingHref, supportingLabel } = Astro.props;
+const destination = destinationOrganizations[destinationKey];
+const handoffId = `handoff-${destinationKey}`;
+---
+
+<section class="section-pad bg-paper" aria-labelledby={`${handoffId}-title`}>
+  <div class="container-site grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end lg:gap-20">
+    <div>
+      <p class="eyebrow text-cobalt">{eyebrow}</p>
+      <h2 id={`${handoffId}-title`} class="section-title mt-5 max-w-3xl">{title}</h2>
+    </div>
+    <div class="max-w-3xl border-l-2 border-cobalt pl-6 text-lg leading-relaxed text-muted">
+      <p>{text}</p>
+      <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <a class="ink-link" href={destination.href} target="_blank" rel="noopener noreferrer" data-track="organization_handoff" data-track-label={destinationKey}>{linkLabel} <span aria-hidden="true">↗</span></a>
+        {supportingHref && supportingLabel && <a class="text-sm font-bold text-ink underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={supportingHref}>{supportingLabel}</a>}
+      </div>
+    </div>
+  </div>
+</section>

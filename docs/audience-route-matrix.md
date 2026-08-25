@@ -1,6 +1,6 @@
 # Audience route and CTA matrix
 
-Status: implemented routing baseline
+Status: implemented · quiet routing baseline
 Prepared: 2026-08-24  
 Source: latest local static build plus public static assets
 
@@ -23,10 +23,10 @@ Destination keys: `globalEnterprise` (first-party Global Enterprise route), `ign
 
 | Route | Audience | Current move | Target move | Preservation |
 | --- | --- | --- | --- | --- |
-| `/` | P0 national/federal leaders, international government, Fortune 500 leadership | Contact, reports, services, federal/public-service, operations | Add “Start with your role or mandate” → six pathways; retain executive CTA | keep |
-| `/about/` | P0 mandate owners and economic buyers | Read thesis; contact | Add audience/pathway cards; retain principal conversation | keep |
+| `/` | P0 national/federal leaders, international government, Fortune 500 leadership | Contact, reports, services, federal/public-service, operations | Keep the mandate-led first-party narrative; let existing content CTAs steer without a visible audience chooser | keep |
+| `/about/` | P0 mandate owners and economic buyers | Read thesis; contact | Keep the point of view and principal conversation first-party; use context-specific links only where needed | keep |
 | `/operations/` | P0 international government, multilateral, enterprise operations | Regional chapters; international mandate → contact | Add government/multilateral lens and set-direction route | keep |
-| `/audiences/` | All defined audiences | New audience map | Choose a first-party Global Enterprise route or a clearly labeled organization destination | new |
+| `/audiences/` | Readers who explicitly need the broader organization map | Noindex organization map; not a global navigation destination | Choose a first-party Global Enterprise route or a clearly labeled organization destination | keep |
 | `/region/` | P0 international government and regional operators | Directory is reachable indirectly | Add to sitemap, header/footer, and operations navigation | keep |
 | `/region/asia/`, `/region/eu/`, `/region/latam/`, `/region/mea/`, `/region/na/`, `/region/sa/` | P0 international government, enterprises, regional partners | Bring context to GE; return to operations | Add public-institution, commercial, and partner next moves | keep |
 | `/contact/` | All P0 readers; P1 partners/research/talent | Leadership engagement form → contact endpoint | Add role, intent, pathway, audience owner, and availability routing | keep |
@@ -37,9 +37,9 @@ Destination keys: `globalEnterprise` (first-party Global Enterprise route), `ign
 | `/careers/` | P1 experienced talent, early-career talent, learners | Senior talent email; no public openings | Experienced talent → Tao Staff; early-career/professional learners → Ignite Curiosity; preserve honest availability | keep |
 | `/trust/` | P0 acquisition, enterprise risk, sensitive-mandate readers | Leadership engagement; vendor pack | Add procurement/partner route and a clear public-versus-secure boundary | keep |
 | `/trust/vendor-pack/` | P0 contracting officers, CORs, procurement teams, primes | Procurement engagement | Keep diligence content, link from a public procurement pathway, retain `noindex` if appropriate | keep |
-| `/visual-sitemap/` | All readers needing a complete map | Compact view; page directory | Add pathway group and ensure all route families appear | utility |
+| `/visual-sitemap/` | All readers needing a complete map | Compact view; page directory | Keep the organization map in site tools and ensure all route families appear | utility |
 | `/visual-sitemap/compact.html` | All readers/tooling | Static compact map | Regenerate from the route manifest; remove legacy references from the map without deleting the tool | utility |
-| `/404.html` | Any lost reader | Home; visual sitemap | Add six pathway choices and search/discovery language | utility |
+| `/404.html` | Any lost reader | Home; visual sitemap | Preserve simple recovery and site discovery; do not add a public audience chooser | utility |
 | `/privacy/`, `/terms/` | All readers with data/legal questions | Legal links | Add relevant form, report, and public-channel boundaries; no sales CTA required | utility |
 | `/global/` | Legacy visitors | Redirect to `/operations/` | Preserve redirect and record legacy relationship | utility |
 | `/rss.xml` | Analysts, researchers, subscribers, syndication tools | Feed distribution | Add audience/category metadata where supported; no conversion CTA | utility |
@@ -48,7 +48,7 @@ Destination keys: `globalEnterprise` (first-party Global Enterprise route), `ign
 
 | Generated URLs | Audience | Current move | Target move | Preservation |
 | --- | --- | --- | --- | --- |
-| `/services/` | P0 executives, architects, service/change operators | Inspect capability atlas; contact | Add six pathway entry points and audience/stage metadata | keep |
+| `/services/` | P0 executives, architects, service/change operators | Inspect capability atlas; contact | Keep the capability atlas content-led; use internal audience/stage metadata to select useful supporting CTAs | keep |
 | `/services/operating-model/` | P0 federal/national EA, solution architects, enterprise leaders | Read route; working artifacts; contact | `design-architecture` → architecture working set; add explicit FEAF/solution-architecture framing | keep |
 | `/services/mergers-acquisitions/` | P0 Fortune 500 leadership, corp dev, portfolio stakeholders | Read route; integration artifact; contact | `set-direction` → integration thesis/diligence route | keep |
 | `/services/intelligent-automation/` | P0 AI/technology executives, architects, DevSecOps/platform operators | Read route; AI lifecycle; contact | `design-architecture` or `run-service-change` → evaluate governed AI workflow | keep |

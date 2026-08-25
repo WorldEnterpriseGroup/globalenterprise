@@ -5,7 +5,7 @@ import { join, relative } from "node:path";
 const root = new URL("../dist/", import.meta.url);
 const errors = [];
 const htmlFiles = [];
-const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/trust/vendor-pack/", "/global/"];
+const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/audiences/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/trust/vendor-pack/", "/global/"];
 const redirectFiles = new Set(["global/index.html"]);
 const editorialDirectory = new URL("../src/content/insights/", import.meta.url);
 const sourcePdfDirectory = new URL("../infra/brief-delivery/source-pdfs/", import.meta.url);
@@ -19,6 +19,14 @@ const audienceDestinationContracts = [
   "https://instarlab.org/",
   "https://dreamlimited.org/",
 ];
+const audienceDestinationRouteContracts = [
+  { destination: "https://ignitecuriosity.org/", files: ["careers/index.html"] },
+  { destination: "https://taostaff.com/", files: ["careers/index.html"] },
+  { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html"] },
+  { destination: "https://dreamlimited.org/", files: ["trust/vendor-pack/index.html"] },
+];
+const approvedOrganizationMapFiles = new Set(["audiences/index.html", "visual-sitemap/index.html"]);
+const quietShellMarkers = ["Who this is for", "Audience routes", "Other homes in the organization"];
 const renderedAudienceDestinations = new Set();
 const reportDocuments = [
   "reports/enterprise-decision-readiness.html",
@@ -69,6 +77,19 @@ for (const path of htmlFiles) {
   if (file.startsWith("reports/")) continue;
   for (const destination of audienceDestinationContracts) {
     if (html.includes(destination)) renderedAudienceDestinations.add(destination);
+  }
+  for (const contract of audienceDestinationRouteContracts) {
+    if (contract.files.includes(file) && !html.includes(contract.destination)) errors.push(`${file}: missing contextual destination ${contract.destination}`);
+  }
+  const links = [...html.matchAll(/\bhref="([^"]+)"/gi)].map((match) => match[1].replaceAll("&amp;", "&"));
+  if (links.includes("/audiences/") && !approvedOrganizationMapFiles.has(file)) errors.push(`${file}: organization map link escaped its approved site-tool surfaces`);
+  for (const destination of audienceDestinationContracts) {
+    if (links.includes(destination) && !audienceDestinationRouteContracts.some((contract) => contract.destination === destination && contract.files.includes(file)) && file !== "audiences/index.html") {
+      errors.push(`${file}: outbound audience destination is not approved for this route (${destination})`);
+    }
+  }
+  for (const marker of quietShellMarkers) {
+    if (html.includes(marker)) errors.push(`${file}: audience segmentation leaked into the shared shell (${marker})`);
   }
   if (html.includes("https://dreamlimited.com/")) errors.push(`${file}: parked DreamLimited domain must not be used; link to dreamlimited.org`);
   requiredMarkup(html, /<title>[^<]+<\/title>/i, "title", file);

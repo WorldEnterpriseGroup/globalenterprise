@@ -5,6 +5,7 @@ import FrontierToEnterprisePath from "@/components/FrontierToEnterprisePath.astr
 import SovereigntyControlSurface from "@/components/SovereigntyControlSurface.astro";
 import TransformationGateSequence from "@/components/TransformationGateSequence.astro";
 import WorkforceCapabilityLoop from "@/components/WorkforceCapabilityLoop.astro";
+import OrganizationHandoff from "@/components/OrganizationHandoff.astro";
 import { getCollection, render } from "astro:content";
 import { resolveEvidenceSource } from "@/data/evidence-routes";
 import { solutionPages } from "@/data/site";
@@ -151,6 +152,7 @@ const frameworkNote = frameworkNotes[entry.id];
   {isLeadership && <section class="section-pad bg-paper"><div class="container-site"><WorkforceCapabilityLoop /></div></section>}
   {isTransformation && <section class="section-pad bg-ink"><div class="container-site"><TransformationGateSequence /></div></section>}
   {isResearch && <section class="section-pad bg-paper"><div class="container-site"><FrontierToEnterprisePath /></div></section>}
+  {isResearch && <OrganizationHandoff destinationKey="instarLab" eyebrow="Research collaboration" title="Keep the question close to the evidence." text="When a frontier question needs an academic, laboratory, or independent research setting, the work can continue with the research community connected to this practice." linkLabel="Continue research with INSTAR Lab" supportingHref="/insights/" supportingLabel="Read the Global Enterprise research record" />}
 
   {frameworkNote && <section class:list={["section-pad", isTransformation ? "bg-white" : "bg-paper"]} aria-labelledby="framework-title">
     <div class="container-site grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">

@@ -1,5 +1,3 @@
-import { audiencePathways } from "@/data/audiences";
-
 // The production delivery boundary is first-party and keeps report/contact
 // intake on the same Azure Function. The Signal still uses the legacy form
 // route until its native subscription workflow is enabled separately.
@@ -38,7 +36,6 @@ export const site = {
 export const navItems = [
   { label: "Capabilities", href: "/services/" },
   { label: "M&A integration", href: "/services/mergers-acquisitions/" },
-  { label: "Who we serve", href: "/audiences/" },
   { label: "About", href: "/about/" },
   { label: "Industries", href: "/industries/" },
   { label: "Work", href: "/work/" },
@@ -581,7 +578,6 @@ export const navigationPanel = {
     { label: "Trust center", href: "/trust/", description: "Identity, discretion, delivery assurance, and data boundaries." },
     { label: "Contact", href: "/contact/", description: "Request a leadership engagement." },
   ],
-  audiences: audiencePathways,
   feature: {
     label: "Research partnership",
     title: "Frontier intelligence needs an enterprise path.",

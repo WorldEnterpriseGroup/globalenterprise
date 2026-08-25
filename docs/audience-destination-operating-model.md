@@ -8,7 +8,7 @@ Last verified: 2026-08-24
 
 Global Enterprise remains the direct public home for institutional advisory: national and federal architecture, whole-of-government transformation, Fortune 500 operating models, ITIL/service systems, solution architecture, DevSecOps/platform operations, procurement-safe context, insights, reports, trust, and leadership conversations.
 
-The site makes four specific handoffs when another organization owns the reader's next experience:
+The site makes four specific handoffs only when the page context makes the reader's next experience clear:
 
 | Audience intent | Destination | What Global Enterprise provides before the handoff |
 | --- | --- | --- |
@@ -17,11 +17,11 @@ The site makes four specific handoffs when another organization owns the reader'
 | Professors, researchers, labs, and think tanks | [instarlab.org](https://instarlab.org/) | Research-relevant insights, evidence, questions, and a collaboration handoff |
 | Primes, subcontractors, SMEs, capture, and teaming teams | [dreamlimited.org](https://dreamlimited.org/) | Vendor/trust boundaries, capability context, and pursuit/delivery framing |
 
-The specific-intent precedence is:
+The specific-intent precedence is an internal routing rule, not a public audience chooser:
 
 `early-career / learning → research → teaming → career → Global Enterprise default`
 
-This is a CTA decision, not a page redirect. Multi-audience pages remain on Global Enterprise and expose the relevant outbound card alongside first-party material.
+This is a CTA decision, not a page redirect. Multi-audience pages remain on Global Enterprise and keep their primary material first-party; only careers, research foresight, and vendor/teaming pages expose the relevant outbound handoff.
 
 ## Hypermap grounding
 
@@ -44,14 +44,14 @@ The routing model is intentionally implemented through shared surfaces instead o
 | Surface | Infusion |
 | --- | --- |
 | Shared data | `src/data/audiences.ts` is the single registry for destinations, audience keys, priorities, CTA labels, external-link behavior, and verification notes. |
-| Header / mega-menu | Explore exposes audience routes in desktop and mobile states; Industries remains a separate context selector. |
-| Homepage | The federal/national narrative is followed by a full audience-pathway block so institutional and non-institutional readers can choose a next home without weakening the hero. |
-| `/audiences/` | A durable, indexable audience map explains the boundary between Global Enterprise content and the four outbound destinations. |
-| Footer | The four external destination homes remain discoverable from every page, with outbound indicators and new-tab behavior. |
+| Header / mega-menu | Explore remains content-led; the full audience taxonomy is not exposed in desktop or mobile navigation. |
+| Homepage | The federal/national narrative remains first-party and mandate-led; there is no full audience-pathway block. |
+| `/audiences/` | A noindex, low-prominence organization map explains the boundary between Global Enterprise content and the four outbound destinations; it is surfaced through site tools. |
+| Footer | The footer remains first-party and task-led; external destinations appear only in context-specific page sections. |
 | Careers | Experienced talent routes to Tao Staff; early-career readers route to Ignite Curiosity; Global Enterprise retains the honest working-context and availability boundary. |
-| Contextual next step | The Careers route now points to Tao Staff rather than a generic email inquiry. Other route families remain first-party unless their reader intent is explicitly one of the four external handoffs. |
+| Contextual next step | Careers points to Tao Staff and Ignite Curiosity; research foresight points to INSTAR Lab; vendor/trust pack points to DreamLimited. Other route families remain first-party. |
 | Contact | Role/intent choices now name FEAF, national/international architecture, ITIL, teaming, procurement, and research so first-party institutional inquiries can be routed accurately. |
-| Visual sitemap / route audit | `/audiences/` is in the sitemap and the build audit requires all four active external destinations while rejecting the parked DreamLimited domain. |
+| Visual sitemap / route audit | The organization map is in site tools and the compact map; the noindex route is excluded from the public XML sitemap. The build audit requires all four active external destinations while rejecting the parked DreamLimited domain. |
 | Documentation | `audience-definition.md`, `audience-site-audit-and-game-plan.md`, and `audience-route-matrix.md` carry the priority, route, CTA, and preservation rules. |
 
 ## Ownership model

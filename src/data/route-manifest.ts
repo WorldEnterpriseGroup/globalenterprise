@@ -369,7 +369,7 @@ const exactVisuals: Record<string, VisualRecord> = {
   "/": photo("hero-city", "thesis · proof strip · diagnostic · route chooser", ["orientation", "evidence", "diagnostic", "connection"]),
   "/about/": photo("about-workshop", "photo-led intro · system map · principles · invitation", ["orientation", "observation", "sequence", "connection"]),
   "/operations/": photo("federal-mission", "international operations thesis · context index · delivery model · invitation", ["orientation", "observation", "comparison", "sequence", "connection"]),
-  "/audiences/": route("audience pathway index · destination map · organization boundary · next step", ["orientation", "index", "comparison", "connection"], "audience pathway index", "Audience pathways across Global Enterprise and the wider organization"),
+  "/audiences/": route("organization map · specialist handoffs · next step", ["orientation", "index", "connection"], "organization map", "A quiet map of the specialist paths connected to Global Enterprise"),
   "/region/": route("regional directory · chapter index · sector bridge · invitation", ["orientation", "index", "comparison", "connection"], "regional operating contexts", "Regional operating contexts for commercial, federal, and SLED leaders"),
   "/proof/": route("confidential proof · built systems · evidence basis · discretion · invitation", ["orientation", "evidence", "sequence", "boundary", "connection"], "proof of practice", "Confidential proof of practice presented through abstract operating patterns"),
   "/careers/": photo("careers-apprentice", "photo-led manifesto · role cards · working agreement · invitation", ["orientation", "observation", "participation", "connection"]),

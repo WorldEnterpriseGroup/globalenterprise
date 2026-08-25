@@ -1,14 +1,14 @@
 # Audience-led site audit and game plan
 
-Status: planning baseline  
+Status: implemented · quiet routing
 Prepared: 2026-08-24  
 Scope: full public site, shared shell, route families, content collections, calls to action, and conversion paths
 
 ## Executive decision
 
-The site does not need a content deletion or a wholesale redesign. It needs an intent layer that helps each reader understand where they belong and what to do next.
+The site does not need a content deletion or a wholesale redesign. It needs an internal intent layer that helps the editorial system decide what each reader should see and do next.
 
-The current site is strongest for executive and institutional transformation readers. It already has credible capabilities, solutions, industries, operating contexts, reports, insights, proof, trust material, and senior-talent content. The largest weakness is wayfinding: federal practitioners, acquisition teams, primes and SMEs, researchers, learners, and early-career talent must infer their route from executive-facing pages.
+The current site is strongest for executive and institutional transformation readers. It already has credible capabilities, solutions, industries, operating contexts, reports, insights, proof, trust material, and senior-talent content. The audit decision is to keep that center of gravity visible and let audience knowledge quietly shape page framing, CTA choice, and destination handoffs.
 
 The recommended move is to preserve the existing content architecture and add six audience-intent pathways:
 
@@ -19,13 +19,13 @@ The recommended move is to preserve the existing content architecture and add si
 5. **Research, teach, and partner** — professors, labs, UN/NATO and multilateral readers, standards bodies, analysts, and technology partners.
 6. **Learn and join** — experienced specialists, interns, apprentices, MBA/MPA/MPP and technical learners, fellows, and career switchers.
 
-These are reader pathways, not new service categories. `/services/`, `/solutions/`, `/industries/`, `/insights/`, `/resources/`, `/work/`, `/proof/`, and `/careers/` remain the content destinations.
+These are editorial routing rules, not new service categories. `/services/`, `/solutions/`, `/industries/`, `/insights/`, `/resources/`, `/work/`, `/proof/`, and `/careers/` remain the content destinations. The full taxonomy is retained in the internal registry and documentation; the shared header, footer, and homepage do not expose it as a chooser.
 
-No navigation or homepage link should expose a new pathway until that pathway has a live route shell, a truthful CTA state, and a passing route audit. Pathway creation and pathway linking must ship atomically.
+The only explicit map is the noindex `/audiences/` organization map, linked from site tools. Otherwise, handoffs appear where intent is unambiguous: careers can continue to Tao Staff or Ignite Curiosity, research foresight can continue to INSTAR Lab, and vendor/teaming work can continue to DreamLimited. Every other route stays first-party by default.
 
 ## Destination operating model
 
-The organization-wide routing layer is now represented by a single registry in [`src/data/audiences.ts`](../src/data/audiences.ts), rendered by [`src/components/AudiencePathways.astro`](../src/components/AudiencePathways.astro), and exposed at [`/audiences/`](../src/pages/audiences/index.astro). The shared header, footer, homepage, careers page, contextual next-step component, contact form, visual sitemap, and build audit consume or reinforce this model.
+The organization-wide routing layer is represented by a single registry in [`src/data/audiences.ts`](../src/data/audiences.ts), rendered only on the quiet [`/audiences/`](../src/pages/audiences/index.astro) organization map and by context-specific handoffs. The shared header, footer, and homepage deliberately do not expose the full model. Careers, research foresight, vendor/teaming content, the visual sitemap, and the build audit use the parts relevant to their context.
 
 The routing decision is additive: Global Enterprise remains the source layer for institutional content and direct advisory, while four explicit outbound destinations own the next experience for specific intents.
 
@@ -75,7 +75,7 @@ The canonical priority order is maintained in [`docs/audience-definition.md`](./
 | Professors and researchers | Research/foresight, insights, sources, and INSTAR Lab partnership are present | Research collaboration page, research agenda, methods/evidence note, seminar/working-paper inquiry, and collaboration criteria |
 | Students, interns, and early-career readers | Careers is senior-oriented and says there are no public openings | Early-career practice page, internship/fellowship/apprenticeship status, disciplines, mentoring model, learning resources, and expression-of-interest route |
 | Experienced talent | Senior inquiry exists, but roles and discipline pathways are broad | Role families for solution/enterprise architecture, FEAF, ITIL, DevSecOps, research, proposals, and delivery operations |
-| Cross-audience wayfinding | Existing navigation is organized by content type: Explore, Industries, Work, Insights, Resources | Intent-led audience entry points in the existing mega-menu and mobile directory |
+| Cross-audience wayfinding | Existing navigation is organized by content type: Explore, Industries, Work, Insights, Resources | Keep content-led navigation; use contextual handoffs and the low-prominence organization map instead of global segmentation |
 
 ## Page and content audit
 
@@ -83,7 +83,7 @@ All existing pages remain in scope. The following is the steering treatment for 
 
 | Route family | Current job | Audience steering to add | Primary next move |
 | --- | --- | --- | --- |
-| `/` Home | Establish the mandate and brand position | Add a compact “Start with your role or mandate” intent strip after the federal point of view; retain executive and national framing | Route to six pathways, not only `/contact/` |
+| `/` Home | Establish the mandate and brand position | Keep the mandate-led first-party narrative; let the service, proof, insights, and contact CTAs do the steering without a visible audience chooser | Follow the work or request a leadership engagement |
 | `/about/` | Explain point of view, credibility, and operating model | Add audience entry cards for public institutions, global enterprises, practitioners, partners/research, and talent | Read the relevant pathway or request a principal conversation |
 | `/services/` and `/services/[slug]/` | Explain disciplines and artifacts | Add `audiences`, `readerJob`, `readerStage`, related pathways, and role-specific artifacts to each service; make FEAF and solution architecture language explicit where accurate | Inspect the working set, then choose a pathway-specific action |
 | `/solutions/` and `/solutions/[slug]/` | Organize by consequential challenge | Keep as challenge-led destinations; add audience badges and links to the relevant intent pathway | Follow a challenge into architecture, service/change, procurement, or direction |
@@ -135,38 +135,22 @@ Every page should have one primary CTA and one lower-commitment secondary CTA, s
 
 The universal leadership CTA remains available for executive pages, but it should not be the automatic CTA for procurement, research, partner, learner, or talent pages.
 
-## Intent pathways and mega-menu
+## Quiet intent routing
 
-### Recommended URL layer
+The six pathways remain useful as internal editorial rules, but they are not a second public information architecture. A visitor should encounter the work in the language of the page they chose, not be asked to classify themselves before reading it.
 
-Create an intent-led `/pathways/` family:
+The shared `Explore` mega-menu, mobile directory, footer, and homepage therefore stay content-led. They retain capabilities, challenges, evidence, operations, careers, and contact routes without a global audience block. The visual sitemap carries the low-prominence `/audiences/` organization map for readers who explicitly need the broader constellation.
 
-- `/pathways/set-direction/`
-- `/pathways/design-architecture/`
-- `/pathways/run-service-change/`
-- `/pathways/specify-procure/`
-- `/pathways/research-teach-partner/`
-- `/pathways/learn-join/`
+Context-specific handoffs are allowed when the reader's next intent is clear and the destination is real:
 
-Each page should define its reader, job, stage, relevant content, artifacts, primary CTA, secondary CTA, and adjacent pathways. It should link into existing services, solutions, industries, reports, insights, proof, trust, and careers rather than duplicate them.
-
-### Mega-menu recommendation
-
-Evolve the existing `Explore` mega-menu instead of adding a competing second mega-menu. Keep the existing `Industries` panel as the separate context selector; do not duplicate the full industries directory inside Explore. The existing panels already support desktop/mobile states, sibling closing, Escape handling, and focus behavior in [`src/components/Header.astro`](../src/components/Header.astro).
-
-Recommended panel structure:
-
-1. **Start by intent** — six pathway links.
-2. **Capabilities** — retain all seven capabilities.
-3. **Challenges** — selected solutions; context remains in the separate Industries panel.
-4. **Evidence and organization** — work, insights, reports, trust, team, careers.
-5. **Featured action** — rotate between an executive route, procurement information, research collaboration, and careers, but only expose an action that has a live owner and truthful availability state.
-
-The mobile directory should use the same data. The footer should expose the same canonical pathway list. The visual sitemap remains the full catch-all map.
+- Careers provides the working-context boundary, then points experienced candidates to Tao Staff and early-career learners to Ignite Curiosity.
+- Research & foresight provides the Global Enterprise record, then points research collaboration to INSTAR Lab.
+- Vendor/trust material provides the public delivery boundary, then points pursuit and teaming conversations to DreamLimited.
+- Government, enterprise, architecture, ITIL/service, acquisition, insight, and general leadership pages remain first-party Global Enterprise routes.
 
 ## Content data model
 
-Add audience metadata to the shared content and route records rather than hand-maintaining audience links in every page:
+Keep audience metadata in the shared registry and route/content records rather than hand-maintaining audience links in every page:
 
 - `audiences`: one or more audience keys from `docs/audience-definition.md`
 - `readerJob`: the task the page helps the reader complete
@@ -179,35 +163,27 @@ Add audience metadata to the shared content and route records rather than hand-m
 - `audienceOwner`: the team or workflow responsible for the next step
 - `availability`: `live`, `interest-only`, `gated`, or `not-open`
 
-Apply these fields to every indexable source type and generated/static route: home, About, services, solutions, industries, operations, regions, work/case studies, proof, insights/topics, resources and standalone reports, trust, team, careers, contact/confirmation pages, and utility route records. RSS, legal/noindex routes, redirects, and static report artifacts need an explicit preservation/visibility status even when they do not receive a conversion CTA. Generate pathway cards, mega-menu links, page-side rails, CTA labels, and related content from the same data.
+Apply only the fields that improve a route's actual job. RSS, legal/noindex routes, redirects, and static report artifacts retain an explicit preservation/visibility status without being forced into a public audience taxonomy. Generate contextual CTA labels and related content from the same data; do not generate a sitewide audience chooser.
 
 ## Phased implementation plan
 
-### Phase 0 — taxonomy and governance
+### Baseline completed — taxonomy and quiet wayfinding
 
-- Freeze the prioritized audience keys and six intent pathways.
-- Decide canonical URLs for `/work/` versus `/case-studies/` while preserving both URLs.
-- Define owners and response expectations for executive, procurement, partner, research, and talent inquiries.
-- Decide which public materials are indexable and which remain diligence-only.
-- Add audience and CTA fields to the route/content model.
+- Freeze the prioritized audience keys and six intent pathways in [`docs/audience-definition.md`](./audience-definition.md) and [`src/data/audiences.ts`](../src/data/audiences.ts).
+- Keep the taxonomy internal to editorial/routing decisions; remove the global header, footer, and homepage audience chooser.
+- Preserve `/audiences/` as a noindex organization map, linked only from site tools, and add it to the compact visual sitemap.
+- Add truthful, context-specific destination handoffs for careers, research foresight, and vendor/teaming work.
+- Keep existing route families and content intact; the build audit now checks the quiet shared shell and contextual destinations.
 
-### Phase 1 — high-leverage wayfinding
-
-- Create and validate all six `/pathways/` route shells, including mobile-safe layouts, metadata, a truthful availability state, and a temporary but functional next step.
-- Add intent pathways to `navigationPanel`, desktop mega-menu, mobile directory, footer, and sitemap data.
-- Add a homepage “Start with your role or mandate” block without weakening the executive hero.
-- Add audience/pathway links to About, Services, Solutions, Industries, Operations, Trust, Team, Careers, Resources, and Contact.
-- Correct region and work/case-study sitemap inconsistencies.
-
-### Phase 2 — P0 content pathways
+### Next — P0 content pathways
 
 - Publish federal EA/FEAF and solution-architecture working-set pathways using existing service content.
 - Publish service/change and DevSecOps implementation pathways using ITIL, transformation, cloud/data, and AI content.
-- Publish procurement/teaming content for contracting officers, CORs, SMEs, primes, and capture teams.
+- Expand procurement/teaming content for contracting officers, CORs, SMEs, primes, and capture teams where owned artifacts are real.
 - Publish the international-government and multilateral-institution pathway as a P0 institutional route, separate from the later research/partner pathway; use audience framing without implying named-client or partner relationships.
 - Add role/intent routing to the contact form while keeping the existing public-information boundary.
 
-### Phase 3 — P1 relationship pathways
+### Next — P1 relationship pathways
 
 - Publish research/teach/partner content with research themes, evidence standards, and collaboration criteria.
 - Split careers into experienced talent, early-career talent, and professional learning without inventing openings.
@@ -234,11 +210,10 @@ Do not delete existing service, solution, industry, insight, report, work, proof
 
 ## Success criteria
 
-- Every P0 audience has a clear first click from the header and homepage.
-- All new pathway links resolve to live route shells before navigation or homepage exposure.
-- Every intent pathway reaches at least three existing content families and one appropriate CTA.
-- Procurement, research, partner, early-career, and experienced-talent readers no longer terminate at a generic executive contact path.
-- Every indexable page has an audience, reader job, stage, primary CTA, and related next step.
+- Every P0 audience has a credible first-party route selected by page intent; it does not need a visible audience label in the header or homepage.
+- Every outbound destination link appears only where its context and availability are truthful.
+- Careers, research, teaming, and procurement readers have a relevant next move instead of being forced into a generic executive contact path.
+- Audience, reader-job, stage, CTA, and related-route metadata remain available to the editorial system without making every page look like a directory.
 - The visual sitemap includes every real route family, including regional contexts and canonical work discovery.
 - Existing executive and institutional messaging remains prominent and credible.
 - No page implies FEAF/ITIL certification, NATO/UN endorsement, client relationship, or partner status without evidence.
