@@ -265,6 +265,16 @@ async function validateBuiltOutput() {
   for (const path of await htmlFiles(distPath)) {
     checkedFiles += 1;
     const source = await readFile(path, "utf8");
+    const relative = path.pathname.slice(distPath.pathname.length);
+    const isRedirectDocument = /<meta\b[^>]*http-equiv\s*=\s*["']refresh["'][^>]*>/i.test(source);
+    if (!isRedirectDocument) {
+      const metaCspTag = source.match(/<meta\b[^>]*http-equiv\s*=\s*["']Content-Security-Policy["'][^>]*>/i)?.[0];
+      const metaCspMatch = metaCspTag?.match(/\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
+      const metaCsp = metaCspMatch?.[1] ?? metaCspMatch?.[2];
+      if (!metaCsp) fail(`dist/${relative}: document-level Content-Security-Policy meta fallback is missing`);
+      else parseCsp(metaCsp, `dist/${relative} meta CSP`);
+    }
+
     for (const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
       const attributes = match[1] ?? "";
       const body = (match[2] ?? "").trim();
@@ -272,7 +282,6 @@ async function validateBuiltOutput() {
       const normalizedType = (type?.[1] ?? type?.[2] ?? type?.[3] ?? "").split(";", 1)[0].trim().toLowerCase();
       const javascriptType = !normalizedType || normalizedType === "module" || /(?:java|ecma)script/.test(normalizedType);
       if (body && !/\bsrc\s*=/i.test(attributes) && normalizedType !== "application/ld+json" && javascriptType) {
-        const relative = path.pathname.slice(distPath.pathname.length);
         const line = source.slice(0, match.index).split(/\r?\n/).length;
         fail(`dist/${relative}:${line}: executable inline script remains; externalize it before shipping`);
       }
