@@ -19,13 +19,13 @@ const nextRegion = regionDirectory[(regionIndex + 1) % regionDirectory.length];
     <section class="region-hero bg-ink text-white">
       <div class="container-site grid gap-12 py-20 md:py-28 lg:grid-cols-[.86fr_1.14fr] lg:items-end lg:gap-24">
         <div>
-          <p class="eyebrow text-lime">Regional operating context · {region.name}</p>
+          <p class="eyebrow text-accent">Regional operating context · {region.name}</p>
           <h1 class="section-title mt-7 max-w-4xl">{region.title}</h1>
           <p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/70">{region.description}</p>
           <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary" href="/contact/">Bring this context to GE <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/operations/#contexts">Back to all contexts <span aria-hidden="true">↗</span></a></div>
         </div>
         <aside class="region-hero-note">
-          <p class="eyebrow text-lime">GE reading of the chapter</p>
+          <p class="eyebrow text-accent">GE reading of the chapter</p>
           <p class="mt-5 max-w-xl font-display text-3xl font-medium leading-tight tracking-[-0.05em]">{region.chapter.title}</p>
           <p class="mt-5 max-w-xl leading-relaxed text-white/65">{region.chapter.text}</p>
           <p class="mt-6 border-t border-white/20 pt-5 text-xs leading-relaxed text-white/50">This is an authored strategic lens, not a forecast, policy position, or claim of physical office presence. Local validation is part of the work.</p>
@@ -78,7 +78,7 @@ const nextRegion = regionDirectory[(regionIndex + 1) % regionDirectory.length];
 
     <section class="section-pad bg-cobalt text-white" aria-labelledby="region-convergence-title">
       <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
-        <div><p class="eyebrow text-lime">The convergence</p><h2 id="region-convergence-title" class="section-title mt-5 max-w-3xl">{region.convergence.title}</h2></div>
+        <div><p class="eyebrow text-accent">The convergence</p><h2 id="region-convergence-title" class="section-title mt-5 max-w-3xl">{region.convergence.title}</h2></div>
         <div><p class="max-w-3xl text-xl leading-relaxed text-white/75">{region.convergence.text}</p><ul class="region-dark-list mt-10">{region.convergence.moves.map((move) => <li><span aria-hidden="true">↗</span>{move}</li>)}</ul></div>
       </div>
     </section>
@@ -99,7 +99,7 @@ const nextRegion = regionDirectory[(regionIndex + 1) % regionDirectory.length];
       </div>
     </section>
 
-    <section class="section-pad bg-lime" aria-labelledby="region-contact-title">
+    <section class="section-pad bg-accent" aria-labelledby="region-contact-title">
       <div class="container-site grid gap-8 md:grid-cols-[1fr_auto] md:items-end"><div><p class="eyebrow text-ink">A first conversation</p><h2 id="region-contact-title" class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">{region.leadership.title}</h2><p class="mt-6 max-w-3xl leading-relaxed text-ink/70">{region.leadership.text}</p></div><a class="btn-dark shrink-0" href="/contact/">Contact Global Enterprise <span aria-hidden="true">↗</span></a></div>
     </section>
 
@@ -113,7 +113,7 @@ const nextRegion = regionDirectory[(regionIndex + 1) % regionDirectory.length];
   .region-signal-list li, .region-dark-list li { display: flex; gap: 0.8rem; align-items: flex-start; padding: 1rem 0; border-top: 1px solid var(--color-line); color: var(--color-muted); font-size: 0.92rem; line-height: 1.55; }
   .region-signal-list li span, .region-dark-list li span { flex: 0 0 auto; color: var(--color-cobalt); font-weight: 700; }
   .region-dark-list li { border-color: rgb(255 255 255 / 17%); color: rgb(255 255 255 / 70%); }
-  .region-dark-list li span { color: var(--color-lime); }
+  .region-dark-list li span { color: var(--color-accent); }
   .region-lens-grid, .region-sector-grid { display: grid; gap: 1px; border: 1px solid var(--color-line); background: var(--color-line); }
   .region-lens-card { min-height: 10rem; padding: 1.5rem; background: white; }
   .region-lens-card span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.15rem; }
@@ -127,8 +127,8 @@ const nextRegion = regionDirectory[(regionIndex + 1) % regionDirectory.length];
   .region-roadmap p:last-child { max-width: 48rem; margin-top: 0.9rem; color: var(--color-muted); line-height: 1.65; }
   .region-next-nav { padding-block: 1.25rem; background: var(--color-ink); color: white; }
   .region-next-nav a { display: grid; gap: 0.35rem; padding-block: 1rem; }
-  .region-next-nav a span { color: var(--color-lime); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .region-next-nav a span { color: var(--color-accent); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .region-next-nav a strong { font-family: var(--font-display); font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 500; letter-spacing: -0.04em; }
-  .region-next-nav a:hover strong, .region-next-nav a:focus-visible strong { color: var(--color-lime); }
+  .region-next-nav a:hover strong, .region-next-nav a:focus-visible strong { color: var(--color-accent); }
   @media (min-width: 768px) { .region-lens-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .region-sector-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .region-roadmap li { grid-template-columns: 5rem 1fr; } }
 </style>

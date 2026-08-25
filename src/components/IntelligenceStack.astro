@@ -4,10 +4,17 @@ import AssetImage from "@/components/AssetImage.astro";
 interface Props {
   mediaSrc?: string;
   mediaAlt?: string;
+  mediaDecorative?: boolean;
   mediaCaption?: string;
 }
 
-const { mediaSrc, mediaAlt = "", mediaCaption = "" } = Astro.props;
+const { mediaSrc, mediaAlt, mediaDecorative = false, mediaCaption = "" } = Astro.props;
+
+if (mediaSrc && !mediaDecorative && !mediaAlt?.trim()) {
+  throw new Error("IntelligenceStack requires mediaAlt when mediaSrc is supplied, or mediaDecorative={true} for decorative media.");
+}
+
+const resolvedMediaAlt = mediaDecorative ? "" : mediaAlt?.trim() ?? "";
 
 const layers = [
   {
@@ -47,7 +54,7 @@ const layers = [
     </div>
     <div class="intelligence-stack-header-side">
       {mediaSrc && <figure class="intelligence-stack-media">
-        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="lazy" decoding="async" class="aspect-[16/9] w-full object-cover" />
+        <AssetImage src={mediaSrc} alt={resolvedMediaAlt} width={1536} height={1024} loading="lazy" decoding="async" class="aspect-[16/9] w-full object-cover" />
         {mediaCaption && <figcaption>{mediaCaption}</figcaption>}
       </figure>}
       {!mediaSrc && <p class="intelligence-stack-intro">We connect research, data, AI/ML, economics, and change management into one decision system for leaders operating where the consequence compounds.</p>}
@@ -207,7 +214,7 @@ const layers = [
 
   .intelligence-stack-layer.is-ai {
     border-color: color-mix(in srgb, var(--color-cobalt) 45%, var(--color-line));
-    background: color-mix(in srgb, var(--color-lime) 55%, white);
+    background: color-mix(in srgb, var(--color-accent) 55%, white);
   }
 
   .intelligence-stack-layer.is-quantum {

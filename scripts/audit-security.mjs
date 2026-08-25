@@ -1,8 +1,9 @@
-import { readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 
 const root = new URL("../", import.meta.url);
 const headersPath = new URL("public/_headers", root);
 const securityTxtPath = new URL("public/.well-known/security.txt", root);
+const distPath = new URL("dist/", root);
 const errors = [];
 const warnings = [];
 
@@ -11,7 +12,7 @@ const requiredHeaders = {
   "strict-transport-security": (value) => /max-age=31536000/i.test(value) && /includesubdomains/i.test(value),
   "referrer-policy": (value) => /^strict-origin-when-cross-origin$/i.test(value),
   "permissions-policy": (value) => ["camera=()", "microphone=()", "geolocation=()", "payment=()"].every((token) => value.toLowerCase().includes(token)),
-  "x-frame-options": (value) => /^deny$/i.test(value),
+  "x-frame-options": (value) => /^sameorigin$/i.test(value),
   "cross-origin-opener-policy": (value) => /^same-origin$/i.test(value),
   "cross-origin-resource-policy": (value) => /^same-origin$/i.test(value),
   "x-permitted-cross-domain-policies": (value) => /^none$/i.test(value),
@@ -84,7 +85,8 @@ function parseCsp(value, sourceLabel) {
     ["default-src", "'self'"],
     ["base-uri", "'self'"],
     ["object-src", "'none'"],
-    ["frame-ancestors", "'none'"],
+    ["frame-ancestors", "'self'"],
+    ["frame-src", "'self'"],
     ["script-src", null],
     ["style-src", null],
     ["img-src", null],
@@ -102,11 +104,11 @@ function parseCsp(value, sourceLabel) {
     if (token && !directives.get(name).includes(token)) fail(`${sourceLabel}: CSP ${name} is missing ${token}`);
   }
 
-  for (const name of ["default-src", "script-src", "style-src", "img-src", "font-src", "connect-src", "form-action"]) {
+  for (const name of ["default-src", "script-src", "style-src", "style-src-elem", "style-src-attr", "img-src", "font-src", "connect-src", "form-action", "frame-src", "frame-ancestors"]) {
     if (directives.get(name)?.includes("*")) fail(`${sourceLabel}: CSP ${name} must not allow wildcard *`);
   }
   if (directives.get("script-src")?.includes("'unsafe-eval'")) fail(`${sourceLabel}: CSP script-src must not allow 'unsafe-eval'`);
-  if (directives.get("script-src")?.includes("'unsafe-inline'")) warn(`${sourceLabel}: CSP script-src uses 'unsafe-inline'; replace with nonces or hashes when inline scripts are removed`);
+  if (directives.get("script-src")?.includes("'unsafe-inline'")) fail(`${sourceLabel}: CSP script-src must not allow 'unsafe-inline'`);
 }
 
 function validateHeaderSet(headers, sourceLabel) {
@@ -240,6 +242,45 @@ async function validateLive() {
   }
 }
 
+async function htmlFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const path = new URL(`${entry.name}${entry.isDirectory() ? "/" : ""}`, directory);
+    if (entry.isDirectory()) files.push(...await htmlFiles(path));
+    else if (entry.isFile() && entry.name.endsWith(".html")) files.push(path);
+  }
+  return files;
+}
+
+async function validateBuiltOutput() {
+  try {
+    await access(distPath);
+  } catch {
+    warn("dist/: built output not found; run npm run build before relying on the inline-script check");
+    return;
+  }
+
+  let checkedFiles = 0;
+  for (const path of await htmlFiles(distPath)) {
+    checkedFiles += 1;
+    const source = await readFile(path, "utf8");
+    for (const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+      const attributes = match[1] ?? "";
+      const body = (match[2] ?? "").trim();
+      const type = attributes.match(/\btype\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+      const normalizedType = (type?.[1] ?? type?.[2] ?? type?.[3] ?? "").split(";", 1)[0].trim().toLowerCase();
+      const javascriptType = !normalizedType || normalizedType === "module" || /(?:java|ecma)script/.test(normalizedType);
+      if (body && !/\bsrc\s*=/i.test(attributes) && normalizedType !== "application/ld+json" && javascriptType) {
+        const relative = path.pathname.slice(distPath.pathname.length);
+        const line = source.slice(0, match.index).split(/\r?\n/).length;
+        fail(`dist/${relative}:${line}: executable inline script remains; externalize it before shipping`);
+      }
+    }
+  }
+  console.log(`✓ built output: checked ${checkedFiles} HTML file${checkedFiles === 1 ? "" : "s"} for executable inline scripts`);
+}
+
 const headersSource = await readRequired(headersPath, "public/_headers");
 if (headersSource) validateStaticHeaders(headersSource);
 
@@ -247,6 +288,7 @@ const securityTxtSource = await readRequired(securityTxtPath, "public/.well-know
 if (securityTxtSource) validateSecurityTxt(securityTxtSource);
 
 await validateLive();
+await validateBuiltOutput();
 
 for (const warning of warnings) console.warn(`⚠ ${warning}`);
 if (errors.length) {

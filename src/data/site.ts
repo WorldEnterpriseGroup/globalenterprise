@@ -105,6 +105,38 @@ export const services = [
     tags: ["Strategy", "Policy", "Change"],
   },
   {
+    slug: "federal-enterprise-architecture",
+    title: "Federal enterprise architecture / FEAF-informed practice",
+    short: "Make mission architecture governable.",
+    description:
+      "Translate federal mission, policy, portfolio, and service intent into an architecture and transition path teams can govern.",
+    tags: ["Federal Architecture", "FEAF-informed", "Mission Modernization"],
+  },
+  {
+    slug: "solution-architecture",
+    title: "Solution architecture",
+    short: "Connect the solution to the service.",
+    description:
+      "Connect outcomes, interfaces, data, controls, delivery, and operating readiness in a solution architecture teams can build and run.",
+    tags: ["Solution Architecture", "Systems Design", "Interoperability"],
+  },
+  {
+    slug: "procurement-acquisition",
+    title: "Procurement, acquisition & delivery boundaries",
+    short: "Make the scope and boundary legible.",
+    description:
+      "Give contracting officers, CORs, SMEs, and delivery partners a clear view of scope, evidence, assumptions, and delivery boundaries.",
+    tags: ["Procurement", "Acquisition", "Delivery Boundaries"],
+  },
+  {
+    slug: "whole-of-government-international-systems",
+    title: "Whole-of-government & international systems",
+    short: "Coordinate across institutions and borders.",
+    description:
+      "Coordinate architecture, service management, interoperability, and capability transfer across ministries, agencies, regions, and multilateral contexts.",
+    tags: ["Whole-of-Government", "International Systems", "Institutional Resilience"],
+  },
+  {
     slug: "mergers-acquisitions",
     title: "Mergers & acquisitions",
     short: "Make the combined system work.",
@@ -151,6 +183,70 @@ export const services = [
     description:
       "Translate frontier research, quantum intelligence, market signals, technology shifts, and policy change into decisions leaders can act on before the signal becomes noise.",
     tags: ["Quantum", "Research", "Scenarios"],
+  },
+];
+
+export type ServiceAudiencePathway = {
+  id: string;
+  priority: "P0" | "P1";
+  eyebrow: string;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+  serviceSlug: string;
+  supportingHref?: string;
+  supportingLabel?: string;
+};
+
+export const serviceAudiencePathways: ServiceAudiencePathway[] = [
+  {
+    id: "federal-enterprise-architecture",
+    priority: "P0",
+    eyebrow: "Design architecture",
+    title: "Federal enterprise architecture / FEAF-informed practice",
+    description: "For federal CIO, CTO, CDO, CAIO, CISO, mission, portfolio, and architecture teams that need a traceable working set from mandate to transition.",
+    href: "/services/federal-enterprise-architecture/",
+    linkLabel: "Explore the federal architecture pathway",
+    serviceSlug: "federal-enterprise-architecture",
+    supportingHref: "/industries/federal-public-service/",
+    supportingLabel: "See public-service context",
+  },
+  {
+    id: "solution-architecture",
+    priority: "P0",
+    eyebrow: "Design the solution",
+    title: "Solution architecture for consequential services",
+    description: "For enterprise and solution architects, technical authorities, product leaders, and platform teams who need the interfaces, decisions, and operating conditions around a solution made explicit.",
+    href: "/services/solution-architecture/",
+    linkLabel: "Explore the solution architecture pathway",
+    serviceSlug: "solution-architecture",
+    supportingHref: "/services/operating-model/",
+    supportingLabel: "Connect it to the operating model",
+  },
+  {
+    id: "procurement-acquisition",
+    priority: "P0",
+    eyebrow: "Specify and procure",
+    title: "Procurement, acquisition & delivery boundaries",
+    description: "For contracting officers, CORs, acquisition teams, SMEs, and delivery partners who need a procurement-safe view of the problem, evidence, assumptions, and engagement boundary.",
+    href: "/services/procurement-acquisition/",
+    linkLabel: "Explore the acquisition pathway",
+    serviceSlug: "procurement-acquisition",
+    supportingHref: "/trust/vendor-pack/",
+    supportingLabel: "Review the public diligence boundary",
+  },
+  {
+    id: "whole-of-government-international-systems",
+    priority: "P0",
+    eyebrow: "Coordinate institutions",
+    title: "Whole-of-government & international systems",
+    description: "For national, public, and multilateral institution leaders coordinating architecture, services, interoperability, and capability transfer across jurisdictions.",
+    href: "/services/whole-of-government-international-systems/",
+    linkLabel: "Explore the institutional systems pathway",
+    serviceSlug: "whole-of-government-international-systems",
+    supportingHref: "/operations/",
+    supportingLabel: "Read the operating-context thesis",
   },
 ];
 

@@ -11,7 +11,7 @@ const { dark = true } = Astro.props;
 <section class:list={["global-brief", dark ? "global-brief-dark" : ""]}>
   <div class="container-site grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-end lg:gap-20">
     <div>
-      <p class="eyebrow text-lime">The Global Brief</p>
+      <p class="eyebrow text-accent">The Global Brief</p>
       <h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">One standard. Translated for the system in front of you.</h2>
       <p class="mt-5 max-w-xl text-lg leading-relaxed text-white/65">A substantial field guide for leaders coordinating AI, infrastructure, data, and capability across regions, partners, and time zones—with a translation framework, context lens, management artifacts, worksheet, source notes, and explicit limitations.</p>
       <ul class="mt-7 grid gap-3 text-sm text-white/65 sm:grid-cols-3 lg:grid-cols-1">
@@ -20,7 +20,7 @@ const { dark = true } = Astro.props;
         <li>A worksheet, source notes, and practical first move</li>
       </ul>
     </div>
-    <form class="global-brief-form" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind="global_brief" data-corporate-email-only aria-describedby="global-brief-form-notice">
+    <form class="global-brief-form" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind="global_brief" data-corporate-email-only aria-describedby="global-brief-form-notice global-brief-form-errors">
       <input type="hidden" name="_subject" value="Request the Global Brief" />
       <input type="hidden" name="_next" value={`${site.url}/insights/thanks/?source=global-brief`} />
       <input type="hidden" name="_template" value="table" />
@@ -28,21 +28,22 @@ const { dark = true } = Astro.props;
       <input type="hidden" name="form_kind" value="global_brief" />
       <input type="hidden" name="source_url" value={`${site.url}/`} />
       <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
+      <div id="global-brief-form-errors" class="form-error-summary" data-form-summary role="alert" aria-live="assertive" tabindex="-1" hidden></div>
       <p id="global-brief-form-notice" class="form-notice">{site.publicFormNotice} Company email required: Gmail, Yahoo, Hotmail, and Outlook.com accounts are not eligible for this brief. The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
       <fieldset>
         <legend>Delivery details</legend>
         <div class="grid gap-6 sm:grid-cols-2">
           <label class="field-label" for="global-brief-name">Name <span class="required-note">Required</span>
-            <input id="global-brief-name" type="text" name="name" autocomplete="name" placeholder="Your name" required />
+            <input id="global-brief-name" type="text" name="name" autocomplete="name" placeholder="Your name" required aria-required="true" aria-invalid="false" />
           </label>
           <label class="field-label" for="global-brief-email">Work email <span class="required-note">Required</span>
-            <input id="global-brief-email" type="email" name="email" autocomplete="email" placeholder="name@organization.com" required />
+            <input id="global-brief-email" type="email" name="email" autocomplete="email" placeholder="name@organization.com" required aria-required="true" aria-invalid="false" />
           </label>
           <label class="field-label" for="global-brief-organization">Organization <span class="required-note">Required</span>
-            <input id="global-brief-organization" type="text" name="organization" autocomplete="organization" placeholder="Organization name" required />
+            <input id="global-brief-organization" type="text" name="organization" autocomplete="organization" placeholder="Organization name" required aria-required="true" aria-invalid="false" />
           </label>
           <label class="field-label" for="global-brief-context">Primary context <span class="required-note">Required</span>
-            <select id="global-brief-context" name="context" required>
+            <select id="global-brief-context" name="context" required aria-required="true" aria-invalid="false">
               <option value="" selected disabled>Choose a lens</option>
               <option>North America</option>
               <option>Europe</option>
@@ -59,7 +60,7 @@ const { dark = true } = Astro.props;
         <p id="global-brief-routing-help" class="form-helper">These short choices help us understand the decision context without asking for sensitive operating details. The planning horizon is optional.</p>
         <div class="grid gap-6 sm:grid-cols-2">
           <label class="field-label" for="global-brief-role">Role in the work <span class="required-note">Required</span>
-            <select id="global-brief-role" name="role" required>
+            <select id="global-brief-role" name="role" required aria-required="true" aria-invalid="false">
               <option value="" selected disabled>Choose a role</option>
               <option>Executive leadership</option>
               <option>Operations or transformation</option>
@@ -69,7 +70,7 @@ const { dark = true } = Astro.props;
             </select>
           </label>
           <label class="field-label" for="global-brief-stage">Decision stage <span class="required-note">Required</span>
-            <select id="global-brief-stage" name="decision_stage" required>
+            <select id="global-brief-stage" name="decision_stage" required aria-required="true" aria-invalid="false">
               <option value="" selected disabled>Choose a stage</option>
               <option>Building the case</option>
               <option>Comparing approaches</option>
@@ -82,11 +83,11 @@ const { dark = true } = Astro.props;
       <fieldset class="contact-preferences">
         <legend>Contact preferences</legend>
         <label class="checkbox-label" for="global-brief-consent">
-          <input id="global-brief-consent" class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="consent" value="yes" required />
+          <input id="global-brief-consent" class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="consent" value="yes" required aria-required="true" aria-invalid="false" />
           <span>I agree to receive the requested Global Brief and be contacted about it. I understand this public form is not for sensitive information. <span class="required-note">Required</span></span>
         </label>
         <label class="checkbox-label" for="global-brief-signal-opt-in">
-          <input id="global-brief-signal-opt-in" class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="signal_opt_in" value="yes" />
+          <input id="global-brief-signal-opt-in" class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="signal_opt_in" value="yes" aria-required="false" aria-invalid="false" />
           <span>Also send me occasional evidence-led notes. I can unsubscribe at any time. <span class="optional-note">Optional</span></span>
         </label>
       </fieldset>
@@ -103,16 +104,20 @@ const { dark = true } = Astro.props;
   .global-brief-form fieldset + fieldset { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgb(255 255 255 / 16%); }
   .global-brief-form legend { color: rgb(255 255 255 / 88%); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .global-brief-form .field-label { display: grid; gap: 0.55rem; color: rgb(255 255 255 / 74%); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  .global-brief-form .required-note, .global-brief-form .optional-note { margin-left: 0.35rem; color: var(--color-lime); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .global-brief-form .required-note, .global-brief-form .optional-note { margin-left: 0.35rem; color: var(--color-accent); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .global-brief-form .optional-note { color: rgb(255 255 255 / 48%); }
   .global-brief-form .form-notice, .global-brief-form .form-helper { max-width: 48rem; color: rgb(255 255 255 / 62%); font-size: 0.78rem; line-height: 1.55; }
-  .global-brief-form .form-notice { margin-bottom: 1.75rem; padding-left: 0.85rem; border-left: 2px solid var(--color-lime); }
+  .global-brief-form .form-notice { margin-bottom: 1.75rem; padding-left: 0.85rem; border-left: 2px solid var(--color-accent); }
   .global-brief-form .form-helper { margin-top: 0.65rem; margin-bottom: 1.25rem; }
+  .global-brief-form .form-error-summary, .global-brief-form .form-field-error { display: block; margin-top: 0.55rem; color: var(--color-accent); font-size: 0.78rem; line-height: 1.5; }
+  .global-brief-form .form-error-summary { margin-bottom: 1rem; padding-left: 0.85rem; border-left: 2px solid var(--color-accent); }
+  .global-brief-form .form-error-summary[hidden], .global-brief-form .form-field-error[hidden] { display: none; }
+  .global-brief-form [aria-invalid="true"] { border-bottom-color: var(--color-accent); }
   .global-brief-form input:not([type="checkbox"]), .global-brief-form select { width: 100%; min-height: 3.35rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; font-weight: 400; letter-spacing: normal; outline: none; text-transform: none; }
   .global-brief-form select { color-scheme: dark; }
-  .global-brief-form input:focus, .global-brief-form select:focus { border-color: var(--color-lime); }
+  .global-brief-form input:focus, .global-brief-form select:focus { border-color: var(--color-accent); }
   .global-brief-form input:focus-visible, .global-brief-form select:focus-visible, .global-brief-form button:focus-visible {
-    outline: 3px solid var(--color-lime);
+    outline: 3px solid var(--color-accent);
     outline-offset: 4px;
   }
   .global-brief-form option { color: var(--color-ink); }

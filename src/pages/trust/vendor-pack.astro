@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import OrganizationHandoff from "@/components/OrganizationHandoff.astro";
 import { site } from "@/data/site";
@@ -9,11 +10,11 @@ import { site } from "@/data/site";
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">Vendor &amp; trust pack</p>
+        <p class="eyebrow text-accent">Vendor &amp; trust pack</p>
         <h1 class="section-title mt-7 max-w-5xl">The facts a procurement conversation should not have to guess.</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">This public snapshot is designed to make the first diligence conversation faster. It states the company identity, public-site boundary, current delivery controls, evidence standards, and the items that require engagement-specific confirmation.</p>
       </div>
-      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Reviewed</p><p class="mt-5 max-w-sm text-lg leading-relaxed text-white/75">August 11, 2026 · public website boundary only</p></div>
+      <div class="border-l-2 border-accent pl-6"><p class="eyebrow text-accent">Reviewed</p><p class="mt-5 max-w-sm text-lg leading-relaxed text-white/75">August 11, 2026 · public website boundary only</p></div>
     </div>
   </section>
 
@@ -48,11 +49,21 @@ import { site } from "@/data/site";
     </div>
   </section>
 
+  <AudiencePathways
+    id="vendor-audience-pathways"
+    eyebrow="Procurement and delivery routes"
+    title="Use the public boundary for the question you actually carry."
+    intro="Contracting officers, CORs, acquisition teams, primes, and SMEs can start with the first-party diligence context here. The teaming destination remains a clearly labeled organizational handoff."
+    compact
+    pathwayIds={["acquisition-evaluators", "prime-and-subcontractor-teams"]}
+    servicePathwayIds={["procurement-acquisition"]}
+  />
+
   <OrganizationHandoff destinationKey="dreamLimited" eyebrow="Pursuit and teaming" title="When the next conversation is about the team around the work." text="If you are shaping a pursuit, subcontracting model, or delivery partnership, continue with the organization that carries those conversations. Global Enterprise remains the source for our capability and delivery boundaries." linkLabel="Continue the teaming conversation with DreamLimited" supportingHref="/trust/" supportingLabel="Return to the trust center" />
 
   <section class="section-pad bg-cobalt text-white">
     <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
-      <div><p class="eyebrow text-lime">Request the diligence pack</p><h2 class="section-title mt-5 max-w-3xl">Bring the questionnaire. We will make the boundary legible.</h2></div>
+      <div><p class="eyebrow text-accent">Request the diligence pack</p><h2 class="section-title mt-5 max-w-3xl">Bring the questionnaire. We will make the boundary legible.</h2></div>
       <div class="space-y-7 text-lg leading-relaxed text-white/70"><p>For a qualified procurement conversation, ask for the current leadership qualification package, permissioned reference path, security questionnaire response, insurance and continuity materials where applicable, and the engagement-specific data and subcontractor terms. Those materials should be current, relevant to the proposed work, and shared through the appropriate channel.</p><div class="flex flex-wrap gap-4"><a class="btn-primary" href="/contact/">Start procurement engagement <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/trust/">Back to trust center <span aria-hidden="true">↗</span></a></div></div>
     </div>
   </section>

@@ -100,7 +100,7 @@ for (const path of htmlFiles) {
   requiredMarkup(html, /<body[^>]+data-route-signature="[^"]+"/i, "route signature", file);
   requiredMarkup(html, /<body[^>]+data-route-image="[^"]+"/i, "route image assignment", file);
   requiredMarkup(html, /data-motion-progress/i, "progressive motion system", file);
-  requiredMarkup(html, /<link rel="preload" href="\/font\/roboto-regular-webfont\.woff" as="font"/i, "primary font preload", file);
+  requiredMarkup(html, /<link rel="preload" href="\/font\/roboto-regular-webfont\.(?:woff2|woff)" as="font"/i, "primary font preload", file);
   if (/<section class="[^"]*\bsection-pad\b[^"]*"[^>]*>\s*<div class="container-site"[^>]*>\s*<section class="intelligence-stack\b/i.test(html)) {
     errors.push(`${file}: intelligence stack is wrapped in duplicate section padding`);
   }

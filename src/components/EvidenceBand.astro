@@ -10,6 +10,7 @@ interface Props {
   limit?: number;
   photoSrc?: string;
   photoAlt?: string;
+  photoDecorative?: boolean;
   photoCaption?: string;
 }
 
@@ -19,9 +20,16 @@ const {
   text = "Good strategy starts with evidence, then turns evidence into a decision the organization can act on.",
   limit = publicSignals.length,
   photoSrc,
-  photoAlt = "",
+  photoAlt,
+  photoDecorative = false,
   photoCaption = "",
 } = Astro.props;
+
+if (photoSrc && !photoDecorative && !photoAlt?.trim()) {
+  throw new Error("EvidenceBand requires photoAlt when photoSrc is supplied, or photoDecorative={true} for decorative media.");
+}
+
+const resolvedPhotoAlt = photoDecorative ? "" : photoAlt?.trim() ?? "";
 ---
 
 <section class="section-pad bg-paper">
@@ -39,7 +47,7 @@ const {
         </article>
       ))}
       {photoSrc && <figure class="evidence-band-photo">
-        <AssetImage src={photoSrc} alt={photoAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw" class="w-full object-cover" />
+        <AssetImage src={photoSrc} alt={resolvedPhotoAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 1280px) 20vw, (min-width: 768px) 50vw, 100vw" class="w-full object-cover" />
         {photoCaption && <figcaption>{photoCaption}</figcaption>}
       </figure>}
     </div>

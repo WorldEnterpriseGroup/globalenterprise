@@ -45,19 +45,19 @@ const frameworkNotes: Record<string, { title: string; text: string }> = {
 const frameworkNote = frameworkNotes[entry.id];
 ---
 
-<Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} keywords={[entry.data.title, ...entry.data.tags, "enterprise transformation"]} serviceSchema={{ name: entry.data.title, description: entry.data.description }}>
+<Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} image="/media/original/services-control-room.avif" imageWidth={1536} imageHeight={1024} imageAlt="Operators reviewing an enterprise systems control room" keywords={[entry.data.title, ...entry.data.tags, "enterprise transformation"]} serviceSchema={{ name: entry.data.title, description: entry.data.description }}>
   <section class:list={["py-20 md:py-28", isTransformation ? "bg-ink text-white" : isResearch ? "bg-paper" : "bg-cobalt text-white"]}>
     <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.18fr_.8fr] lg:items-end">
       <div>
-        <p class:list={["eyebrow", isTransformation ? "text-lime" : isResearch ? "text-cobalt" : "text-lime"]}>{entry.data.eyebrow}</p>
-        <p class:list={["mt-8 text-xs font-bold uppercase tracking-[0.14em]", isTransformation ? "text-lime" : isResearch ? "text-cobalt" : "text-white/65"]}>{route.kicker}</p>
+        <p class:list={["eyebrow", isTransformation ? "text-accent" : isResearch ? "text-cobalt" : "text-accent"]}>{entry.data.eyebrow}</p>
+        <p class:list={["mt-8 text-xs font-bold uppercase tracking-[0.14em]", isTransformation ? "text-accent" : isResearch ? "text-cobalt" : "text-white/65"]}>{route.kicker}</p>
       </div>
       <div>
         <h1 class="section-title max-w-4xl">{entry.data.title}</h1>
         <p class:list={["mt-7 max-w-2xl text-xl leading-relaxed", isTransformation ? "text-white/70" : isResearch ? "text-muted" : "text-white/75"]}>{entry.data.description}</p>
       </div>
-      <div class:list={["border-l-2 pl-6", isTransformation ? "border-lime" : isResearch ? "border-cobalt" : "border-white/30"]}>
-        <p class:list={["eyebrow", isTransformation ? "text-lime" : isResearch ? "text-cobalt" : "text-lime"]}>Route promise</p>
+      <div class:list={["border-l-2 pl-6", isTransformation ? "border-accent" : isResearch ? "border-cobalt" : "border-white/30"]}>
+        <p class:list={["eyebrow", isTransformation ? "text-accent" : isResearch ? "text-cobalt" : "text-accent"]}>Route promise</p>
         <p class:list={["mt-5 max-w-xs text-lg leading-relaxed", isTransformation ? "text-white/75" : isResearch ? "text-muted" : "text-white/75"]}>{route.promise}</p>
       </div>
     </div>
@@ -161,7 +161,7 @@ const frameworkNote = frameworkNotes[entry.id];
     </div>
   </section>}
 
-  <section class="bg-lime">
+  <section class="bg-accent">
     <div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between">
       <div><p class="eyebrow text-ink">A useful next move</p><h2 class="mt-5 max-w-2xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">{route.next}</h2></div>
       <a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>

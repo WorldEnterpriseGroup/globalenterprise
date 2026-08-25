@@ -1,6 +1,6 @@
 # Audience-led site audit and game plan
 
-Status: implemented · quiet routing
+Status: implemented · quiet routing + P0 institutional service pathways
 Prepared: 2026-08-25
 Scope: full public site, shared shell, route families, content collections, calls to action, and conversion paths
 
@@ -23,6 +23,8 @@ These are editorial routing rules, not new service categories. `/services/`, `/s
 
 The only explicit map is the noindex `/audiences/` organization map, linked from site tools. Otherwise, handoffs appear where intent is unambiguous: careers can continue to Tao Staff or Ignite Curiosity, research foresight can continue to INSTAR Lab, and vendor/teaming work can continue to DreamLimited. Every other route stays first-party by default.
 
+The P0 institutional service slice is now shipped as four additive, indexable routes: federal enterprise architecture / FEAF-informed practice, solution architecture, procurement/acquisition and delivery boundaries, and whole-of-government & international systems. They are service routes, not a second audience taxonomy; each starts with a reader job, a concrete working set, and a first-party conversation path.
+
 ## Destination operating model
 
 The organization-wide routing layer is represented by a single registry in [`src/data/audiences.ts`](../src/data/audiences.ts), rendered only on the quiet [`/audiences/`](../src/pages/audiences/index.astro) organization map and by context-specific handoffs. The shared header, footer, and homepage deliberately do not expose the full model. Careers, research foresight, vendor/teaming content, the visual sitemap, and the build audit use the parts relevant to their context.
@@ -38,6 +40,19 @@ The routing decision is additive: Global Enterprise remains the source layer for
 | Governments, enterprises, architects, operators, acquisition officials, analysts, and other institutional readers | Global Enterprise internal routes | Keep the content, reports, trust material, and leadership engagement path first-party |
 
 `dreamlimited.com` is intentionally not used: it resolves to a parked domain. The active canonical destination verified on August 24, 2026 is `dreamlimited.org`. No outbound card claims employment, partnership, endorsement, or guaranteed referral; each destination is labeled as a reader pathway.
+
+## Shipped P0 institutional service pathways
+
+The four new service routes close the highest-priority audience gap without changing the shared shell or creating a global chooser.
+
+| Route | Reader job | Concrete method/artifacts | CTA and evidence boundary |
+| --- | --- | --- | --- |
+| `/services/federal-enterprise-architecture/` | A federal architecture or portfolio team needs to trace mission intent into capability, investment, and transition decisions. | FEAF-informed practice sequence; mandate-to-capability map; architecture views; information/data responsibility view; investment traceability; decision/evidence log; review cadence. | First-party solution architecture or `/contact/`; explicitly not FEAF certification, agency authority, ATO/RMF authorization, or federal client evidence. |
+| `/services/solution-architecture/` | An architect, technical authority, product/service owner, or delivery lead needs to make a solution boundary buildable and operable. | Solution intent brief; context/interface map; capability and information views; control-boundary matrix; trade-off record; transition architecture; readiness/recovery note. | First-party federal, whole-of-government, or `/contact/` route; does not grant authorization, certify a standard, or claim a product/vendor relationship. |
+| `/services/procurement-acquisition/` | A contracting officer, COR, acquisition team, SME, or delivery partner needs a procurement-safe view of scope, evidence, roles, and engagement boundaries. | Outcome and work-package framing; assumptions matrix; responsibility register; artifact/acceptance map; diligence index; dependency/risk register; transition checklist. | First-party vendor pack or `/contact/`; no contract-vehicle, procurement-method, award, teaming, subcontract, or bid-status claim. |
+| `/services/whole-of-government-international-systems/` | A national, public, international, or multilateral reader needs to coordinate shared systems across institutions without flattening local context. | Mandate-to-service map; cross-ministry interoperability map; shared/federated decision rights; data/identity/sovereignty register; translation ledger; degraded-mode note; capability-transfer roadmap. | First-party Operations, solution architecture, or `/contact/`; no NATO/UN membership, endorsement, client, or formal-affiliation claim. |
+
+`src/data/site.ts` remains the capability source used by the navigation panel and sitemap data. The services index now presents the four routes in the canonical atlas and an institutional working-set section; `/industries/` adds context-to-capability links; `/operations/`, `/industries/`, `/services/`, and `/trust/vendor-pack/` use filtered `AudiencePathways` blocks. The dynamic detail route was intentionally left unchanged under the file-ownership rule, so the route-specific Markdown carries the detailed reader job, method, artifact list, and boundary language.
 
 ## Prioritized audience model
 
@@ -67,12 +82,12 @@ The canonical priority order is maintained in [`docs/audience-definition.md`](./
 
 | Audience need | Current state | Missing pathway or content |
 | --- | --- | --- |
-| FEAF implementation | FEAF is named in positioning and audience material; federal/public-service content exists | A dedicated federal enterprise architecture route, FEAF-to-capability/investment mapping, working artifacts, and a federal architecture report or checklist |
-| Solution architecture | Business, technology, platform, data, and transition architecture are described indirectly | A clear solution-architecture route with reference architecture, integration patterns, security/data boundaries, trade-offs, and architect-facing artifacts |
-| National and international government | Operations and regional pages are strong but framed largely through global enterprise/M&A language | Whole-of-government architecture, national service management, digital sovereignty, cross-ministry interoperability, and local capability-transfer route |
+| FEAF implementation | Shipped at `/services/federal-enterprise-architecture/` as a FEAF-informed consultative route | Keep the practice explicitly non-certifying; add a sourced federal architecture report or checklist only when an owner and evidence record exist |
+| Solution architecture | Shipped at `/services/solution-architecture/` with boundary, interface, control, trade-off, transition, and readiness artifacts | Add deeper sourced patterns or examples only when permissioned and attributable; do not imply authorization or implementation evidence |
+| National and international government | Shipped at `/services/whole-of-government-international-systems/`, with Operations retaining the regional context layer | Continue with local evidence and accountable institutional owners; do not convert audience relevance into a relationship, membership, or endorsement claim |
 | SLED institutions | Regional and education content already addresses local capability, adoption, and workforce realities | A named state/local/education audience route, public-institution operating examples, and contact language for state CIOs, local leaders, public universities, and K–12 systems |
-| UN/NATO and multilateral readers | Institutions are used as evidence sources | A multilateral/international-partners route with interoperability, standards translation, mission coordination, resilience, and collaboration CTA |
-| Contracting officers and CORs | Trust and vendor-pack material exists but is several clicks deep and the vendor pack is `noindex` | Procurement landing page, acquisition-safe language, capability statement, scope boundaries, evidence, and dedicated procurement inquiry |
+| UN/NATO and multilateral readers | Shipped as a public institutional-systems context route; named institutions remain contextual references only | Add a research or collaboration artifact only with a real owner and evidence; preserve the explicit no-membership/no-endorsement boundary |
+| Contracting officers and CORs | Shipped at `/services/procurement-acquisition/`; vendor pack remains a `noindex` public diligence surface | Maintain acquisition-safe scope, evidence, and delivery-boundary language; keep contract, award, and vehicle status engagement-specific |
 | Federal SMEs, primes, and teaming partners | Diligence and proof content exists; teaming language is sparse | Partner/teaming route, capture/proposal support boundaries, subcontracting posture, partner criteria, and delivery evidence |
 | Professors and researchers | Research/foresight, insights, sources, and INSTAR Lab partnership are present | Research collaboration page, research agenda, methods/evidence note, seminar/working-paper inquiry, and collaboration criteria |
 | Students, interns, and early-career readers | Careers is senior-oriented and says there are no public openings | Early-career practice page, internship/fellowship/apprenticeship status, disciplines, mentoring model, learning resources, and expression-of-interest route |
@@ -87,10 +102,10 @@ All existing pages remain in scope. The following is the steering treatment for 
 | --- | --- | --- | --- |
 | `/` Home | Establish the mandate and brand position | Keep the mandate-led first-party narrative; let the service, proof, insights, and contact CTAs do the steering without a visible audience chooser | Follow the work or request a leadership engagement |
 | `/about/` | Explain point of view, credibility, and operating model | Add audience entry cards for public institutions, global enterprises, practitioners, partners/research, and talent | Read the relevant pathway or request a principal conversation |
-| `/services/` and `/services/[slug]/` | Explain disciplines and artifacts | Add `audiences`, `readerJob`, `readerStage`, related pathways, and role-specific artifacts to each service; make FEAF and solution architecture language explicit where accurate | Inspect the working set, then choose a pathway-specific action |
+| `/services/` and `/services/[slug]/` | Explain disciplines and artifacts | Shipped four additive first-party service routes, a canonical atlas, institutional working-set cards, and filtered audience routing; dynamic detail route preserved | Inspect the working set, then choose a pathway-specific action |
 | `/solutions/` and `/solutions/[slug]/` | Organize by consequential challenge | Keep as challenge-led destinations; add audience badges and links to the relevant intent pathway | Follow a challenge into architecture, service/change, procurement, or direction |
-| `/industries/` and `/industries/[slug]/` | Show how context changes the answer | Add public institution, national government, enterprise, multilateral, and infrastructure reader prompts without duplicating industry copy | Move to the relevant solution/service and context route |
-| `/operations/`, `/region/`, `/region/[slug]/` | Explain regional operating contexts | Add a government/multilateral lens alongside commercial/federal/SLED; expose the `/region/` directory in the sitemap and navigation | Bring an international mandate or choose a regional context |
+| `/industries/` and `/industries/[slug]/` | Show how context changes the answer | Shipped context-to-capability links for the four institutional services and a filtered first-party block on the directory page; detail routes remain unchanged | Move to the relevant solution/service and context route |
+| `/operations/`, `/region/`, `/region/[slug]/` | Explain regional operating contexts | Shipped a filtered public/international audience block and a direct whole-of-government service link while preserving the M&A operating thesis | Bring an international mandate or choose a regional context |
 | `/work/`, `/case-studies/`, `/proof/` | Establish evidence and diligence | Add audience/engagement-type labels: federal/public, enterprise, architecture, service/change, research, partner, and procurement | Read the field note, request diligence, or start a scoped conversation |
 | `/insights/`, `/insights/[slug]/`, `/insights/topics/` | Build thought leadership and discovery | Add audience and stage metadata, filters, and explicit topic hubs for federal EA/FEAF, solution architecture, procurement, research, and practice/careers | Read, follow, download, or move to a relevant working set |
 | `/resources/`, `/resources/[slug]/` | Give readers reports and working tools | Add “best for” role, access level, use case, and pathway fields; create FEAF, architecture, procurement, research, and learning assets over time | Read in browser, request a report, or request an artifact |
@@ -104,12 +119,12 @@ The exact generated route inventory, current CTA treatment, target audience, pat
 
 ### Route hygiene found during the audit
 
-- The visual sitemap omits `/region/` and its six regional routes even though the site links to them.
-- `/work/` and `/case-studies/` are parallel indexes backed by the same component; the site should choose a canonical discovery route while preserving both URLs.
-- The compact sitemap is maintained separately and contains the legacy `/global/` route; it should be brought into the same route manifest or clearly marked as a legacy tool.
-- `ContextualNext` sends most page families to the same leadership-engagement contact route. Its surrounding copy changes, but the conversion destination often does not.
-- The contact form distinguishes subject matter but not reader role, acquisition, teaming, teaching/research, learning, or talent intent.
-- Careers currently offers only senior inquiry by email and explicitly states that no public openings are listed.
+- Resolved: the visual sitemap now consumes the canonical route manifest and includes `/region/` plus all six regional routes.
+- `/work/` and `/case-studies/` remain parallel indexes backed by the same component; both URLs are preserved, with `/work/` serving as the preferred discovery route in the route matrix.
+- Resolved: the compact sitemap now fetches its page cards from the generated `/visual-sitemap/compact-pages.json` endpoint, so new service and regional routes are not maintained in a second hardcoded list. The legacy `/global/` redirect remains preserved as a utility route.
+- `ContextualNext` still sends many page families to the same leadership-engagement contact route. Its surrounding copy changes, but the conversion destination remains intentionally first-party until a separately staffed intake workflow exists.
+- Resolved for the main engagement form: `reader_role` now complements the existing subject/context field so federal EA, SLED, enterprise, service/change, acquisition, teaming, research, learner, talent, and analyst inquiries are distinguishable without exposing a public audience chooser.
+- Careers still offers no public openings; the page makes the Tao Staff and Ignite Curiosity handoffs explicit without inventing availability.
 
 ## CTA inventory and target system
 
@@ -177,14 +192,19 @@ Apply only the fields that improve a route's actual job. RSS, legal/noindex rout
 - Add truthful, context-specific destination handoffs for careers, research foresight, and vendor/teaming work.
 - Keep existing route families and content intact; the build audit now checks the quiet shared shell and contextual destinations.
 
-### Next — P0 content pathways
+### Shipped — P0 institutional service slice
 
-- Publish federal EA/FEAF and solution-architecture working-set pathways using existing service content.
-- Publish a SLED public-institution pathway using the existing operations, education, regional, ITIL, and capability-transfer content.
-- Publish service/change and DevSecOps implementation pathways using ITIL, transformation, cloud/data, and AI content.
-- Expand procurement/teaming content for contracting officers, CORs, SMEs, primes, and capture teams where owned artifacts are real.
-- Publish the international-government and multilateral-institution pathway as a P0 institutional route, separate from the later research/partner pathway; use audience framing without implying named-client or partner relationships.
-- Add role/intent routing to the contact form while keeping the existing public-information boundary.
+- Publish and register the federal EA/FEAF-informed, solution-architecture, procurement/acquisition, and whole-of-government/international service routes.
+- Give each route a distinct reader job, method sequence, accessible static artifact, concrete working-set list, first-party CTA, and explicit evidence/identity boundary.
+- Add the service routes to the capability atlas and the data-driven navigation/sitemap path without editing dynamic detail routes or changing M&A content.
+- Add filtered `AudiencePathways` blocks to Services, Operations, Industries, and the vendor pack; keep the full organization map noindex and out of the shared shell.
+- Link Industries context to the four service routes and link Operations to the whole-of-government service while retaining the existing cross-border M&A thesis.
+
+### Remaining P0 content work
+
+- Expand the SLED public-institution pathway using the existing operations, education, regional, ITIL, and capability-transfer content where a distinct job and owner are real; the current first-party route is `/operations/` plus `/industries/education/`.
+- Publish deeper service/change and DevSecOps implementation artifacts only when an owner, evidence boundary, and delivery workflow are real; the current routes are `/services/transformation-office/`, `/services/cloud-data/`, and `/services/intelligent-automation/`.
+- Keep the new role/intent intake field aligned with the receiving workflow without exposing sensitive information or promising response times that are not staffed.
 
 ### Next — P1 relationship pathways
 
@@ -206,6 +226,15 @@ Apply only the fields that improve a route's actual job. RSS, legal/noindex rout
 - Test contact/report/talent/procurement/research delivery and consent boundaries.
 - Add analytics events for pathway entry, CTA level, role, and conversion destination.
 - Re-run build, type checks, content/evidence audits, route audits, sitemap checks, and live HTTP/visual QA.
+
+## Unresolved identity and evidence boundaries
+
+- The new pages describe an available consultative practice and its possible working artifacts. They are not proof of a completed federal, national, multilateral, or enterprise engagement, and they do not contain client names, endorsements, outcome metrics, or permissioned case evidence.
+- FEAF language is explicitly “FEAF-informed.” No page claims FEAF certification, agency designation, or authority to approve architecture. ATO/RMF questions are described as authority-owned handoffs; no authorization is granted or represented.
+- Procurement language is orientation and scope clarification. No page claims a contract vehicle, set-aside, procurement method, award, active solicitation, teaming agreement, subcontract, or bid status. The vendor pack remains `noindex` and is still the public-versus-diligence boundary.
+- International and multilateral language names operating contexts and reader jobs only. No page claims United Nations or NATO membership, endorsement, client work, formal affiliation, or institutional authorization.
+- DreamLimited remains an organization handoff only on the vendor/trust surface and uses `https://dreamlimited.org/`. It does not imply referral, employment, partnership, contract, or guaranteed response.
+- The dynamic service detail route was not changed. Its generic route shell is a known implementation boundary; route-specific Markdown, atlas copy, and static artifact markers supply the new pages' differentiated job and method until a separately authorized route-family update occurs.
 
 ## Non-deletion rule
 

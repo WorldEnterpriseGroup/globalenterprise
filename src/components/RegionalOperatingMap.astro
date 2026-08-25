@@ -38,14 +38,14 @@ const regionalNodes = [
   .regional-map-lines path, .regional-map-lines circle { fill: none; stroke: rgb(199 244 94 / 58%); stroke-width: 1.25; stroke-dasharray: 4 7; vector-effect: non-scaling-stroke; }
   .regional-map-lines circle { stroke: rgb(255 255 255 / 18%); stroke-dasharray: none; }
   .regional-map-center, .regional-map-node { position: absolute; display: grid; align-content: center; min-width: 0; border: 1px solid rgb(255 255 255 / 24%); background: rgb(15 18 27 / 86%); color: white; text-decoration: none; }
-  .regional-map-center { top: 50%; left: 50%; width: 10.5rem; height: 10.5rem; padding: 1.2rem; border-color: var(--color-lime); border-radius: 50%; transform: translate(-50%, -50%); text-align: center; box-shadow: 0 0 0 0.7rem rgb(199 244 94 / 9%), 0 1rem 2rem rgb(0 0 0 / 24%); }
-  .regional-map-center-index, .regional-map-node-index { color: var(--color-lime); font-family: var(--font-display); font-size: 0.75rem; }
+  .regional-map-center { top: 50%; left: 50%; width: 10.5rem; height: 10.5rem; padding: 1.2rem; border-color: var(--color-accent); border-radius: 50%; transform: translate(-50%, -50%); text-align: center; box-shadow: 0 0 0 0.7rem rgb(199 244 94 / 9%), 0 1rem 2rem rgb(0 0 0 / 24%); }
+  .regional-map-center-index, .regional-map-node-index { color: var(--color-accent); font-family: var(--font-display); font-size: 0.75rem; }
   .regional-map-center strong { margin-top: 0.75rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
   .regional-map-center > span:last-child { margin-top: 0.6rem; color: rgb(255 255 255 / 60%); font-size: 0.58rem; line-height: 1.35; }
   .regional-map-node { width: 8rem; min-height: 4.7rem; padding: 0.75rem; transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease; }
-  .regional-map-node strong { margin-top: 0.35rem; color: var(--color-lime); font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+  .regional-map-node strong { margin-top: 0.35rem; color: var(--color-accent); font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
   .regional-map-node > span:last-child { margin-top: 0.35rem; color: rgb(255 255 255 / 68%); font-size: 0.62rem; line-height: 1.2; }
-  .regional-map-node:hover, .regional-map-node:focus-visible { border-color: var(--color-lime); background: var(--color-cobalt); transform: translateY(-0.2rem); }
+  .regional-map-node:hover, .regional-map-node:focus-visible { border-color: var(--color-accent); background: var(--color-cobalt); transform: translateY(-0.2rem); }
   .regional-map-node-na { top: 1rem; left: 1rem; }
   .regional-map-node-eu { top: 1rem; right: 1rem; }
   .regional-map-node-mea { top: 50%; left: 1rem; transform: translateY(-50%); }

@@ -1,6 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
 import AssetImage from "@/components/AssetImage.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import GlobalBriefSignup from "@/components/GlobalBriefSignup.astro";
 import GlobalOperatingFabric from "@/components/GlobalOperatingFabric.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
@@ -115,7 +116,7 @@ const thesisRows = [
   <section class="operations-hero bg-ink text-white">
     <div class="container-site grid gap-12 py-20 md:py-28 lg:grid-cols-[.9fr_1.1fr] lg:items-end lg:gap-20">
       <div>
-        <p class="eyebrow text-lime">Global Enterprise · cross-border M&amp;A</p>
+        <p class="eyebrow text-accent">Global Enterprise · cross-border M&amp;A</p>
         <h1 class="section-title mt-7 max-w-4xl">Build the enterprise that can integrate the world.</h1>
         <p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/70">For global enterprises, M&amp;A is not only a capital event. It is the design of a shared operating system across energy, infrastructure, satellite and telecommunications, finance, marketing, and AI—translated into the local contexts where the promise has to hold.</p>
         <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary" href="#contexts">Explore the context lenses <span aria-hidden="true">↓</span></a><a class="btn-ghost text-white" href="/contact/">Bring an international mandate <span aria-hidden="true">↗</span></a></div>
@@ -173,6 +174,16 @@ const thesisRows = [
     </div>
   </section>
 
+  <AudiencePathways
+    id="operations-audience-pathways"
+    eyebrow="Quiet institutional routing"
+    title="A shared operating discipline, read through the mandate."
+    intro="The regional view stays open to the conditions around the work. This filtered set helps public, national, international, and acquisition readers find the first-party context that matches the decision they carry."
+    compact
+    pathwayIds={["national-and-federal-leaders", "state-local-education-institutions", "acquisition-evaluators"]}
+    servicePathwayIds={["federal-enterprise-architecture", "whole-of-government-international-systems"]}
+  />
+
   <section class="section-pad bg-white">
     <div class="container-site">
       <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="The delivery model" title="M&amp;A creates value when translation becomes capability." text="An international integration is not a central template copied into local markets. It is a shared management system with enough room for context, language, law, and lived experience—and enough discipline to keep the combined enterprise coherent." /><p class="max-w-xs border-l-2 border-cobalt pl-5 text-sm leading-relaxed text-muted">Shared standards create coherence. Local intelligence creates usefulness.</p></div>
@@ -211,7 +222,7 @@ const thesisRows = [
     <div class="container-site">
       <div class="grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
         <div>
-          <p class="eyebrow text-lime">The physical and communications layer</p>
+          <p class="eyebrow text-accent">The physical and communications layer</p>
           <h2 class="section-title mt-5 max-w-3xl">Global reach is bounded by energy, infrastructure, and the path a signal can travel.</h2>
         </div>
         <div class="space-y-6 text-lg leading-relaxed text-white/70">
@@ -222,18 +233,18 @@ const thesisRows = [
 
       <div class="mt-14 grid gap-px border border-white/20 bg-white/20 md:grid-cols-2">
         <article class="bg-ink p-8 md:p-10">
-          <p class="eyebrow text-lime">Energy and infrastructure</p>
+          <p class="eyebrow text-accent">Energy and infrastructure</p>
           <h2 class="mt-8 font-display text-3xl font-medium tracking-[-0.05em]">Make capacity part of the operating case.</h2>
           <p class="mt-5 leading-relaxed text-white/65">Capital programs, grid or utility dependencies, data-center and facilities constraints, supply chains, workforce coverage, security, and community or regulatory interfaces should be read as one service chain. Finance can then see transition and resilience requirements; operations can see what it must be able to run; leadership can see which assumptions would change the investment.</p>
         </article>
         <article class="bg-ink p-8 md:p-10">
-          <p class="eyebrow text-lime">Satellite, telecom, and global communications</p>
+          <p class="eyebrow text-accent">Satellite, telecom, and global communications</p>
           <h2 class="mt-8 font-display text-3xl font-medium tracking-[-0.05em]">Design the route, not just the channel.</h2>
           <p class="mt-5 leading-relaxed text-white/65">Satellite and telecom paths can extend reach or provide an alternate route, but they also introduce their own latency, coverage, bandwidth, provider, terminal, identity, and regulatory conditions. A global communications plan therefore needs approved channels, message authority, multilingual terminology, time-zone handoffs, crisis fallback, and a clear point where local operators can act without waiting for the center.</p>
         </article>
       </div>
 
-      <p class="mt-10 max-w-3xl border-l-2 border-lime pl-5 text-sm leading-relaxed text-white/65">Continuity is a network property. The objective is not to pretend every route is equivalent; it is to make the choice, the limit, and the recovery owner visible before a regional constraint becomes an enterprise surprise.</p>
+      <p class="mt-10 max-w-3xl border-l-2 border-accent pl-5 text-sm leading-relaxed text-white/65">Continuity is a network property. The objective is not to pretend every route is equivalent; it is to make the choice, the limit, and the recovery owner visible before a regional constraint becomes an enterprise surprise.</p>
     </div>
   </section>
 
@@ -244,6 +255,7 @@ const thesisRows = [
         <div class="space-y-6 text-lg leading-relaxed text-muted">
           <p>Finance should see more than a synergy case. It should see the capital, capacity, transition work, resilience option, and operating ownership required for the service to hold. Marketing should see more than a launch calendar. It should see the local mechanism, language, partner path, and delivery capacity behind the promise.</p>
           <p>ITIL practices give the service side a useful grammar: incident and request handling, problem learning, configuration and knowledge visibility, change and release control, service transition, and continual improvement. We use those practices to make change safer and more learnable, not to create method theater or claim a certification. In the long view, this is how the enterprise turns every release, failure, and recovery into portable operating knowledge.</p>
+          <a class="ink-link" href="/services/whole-of-government-international-systems/">Inspect the whole-of-government and international systems practice <span aria-hidden="true">↗</span></a>
         </div>
       </div>
 
@@ -307,7 +319,7 @@ const thesisRows = [
 
   <section class="section-pad bg-cobalt text-white">
     <div class="container-site grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:gap-24">
-      <div><p class="eyebrow text-lime">What a 2050 enterprise keeps constant</p><h2 class="section-title mt-5 max-w-3xl">The standard is not a template. It is a way of deciding together.</h2></div>
+      <div><p class="eyebrow text-accent">What a 2050 enterprise keeps constant</p><h2 class="section-title mt-5 max-w-3xl">The standard is not a template. It is a way of deciding together.</h2></div>
       <div class="grid gap-8 text-lg leading-relaxed text-white/70 md:grid-cols-2">
         <p><strong class="block text-white">Evidence over theater.</strong> Make the source, caveat, and owner visible before a recommendation travels.</p>
         <p><strong class="block text-white">Context over shorthand.</strong> Let local operating reality change the mechanism without losing the outcome.</p>
@@ -324,7 +336,7 @@ const thesisRows = [
   .operations-hero-figure { margin: 0; border: 1px solid rgb(255 255 255 / 18%); background: var(--color-cobalt); box-shadow: 1rem 1rem 0 rgb(49 91 142 / 28%); }
   :global(.operations-hero-image) { display: block; width: 100%; aspect-ratio: 1.35 / 1; object-fit: cover; object-position: 52% 48%; filter: saturate(0.78) contrast(1.05); }
   .operations-hero-figure figcaption { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid rgb(255 255 255 / 15%); color: rgb(255 255 255 / 66%); font-size: 0.72rem; line-height: 1.5; }
-  .operations-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .operations-hero-figure figcaption span { color: var(--color-accent); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .operations-context-index { border-top: 1px solid var(--color-line); }
   .operations-hub-card { display: block; color: var(--color-ink); text-decoration: none; transition: background-color 180ms ease; }
   .operations-hub-card:hover, .operations-hub-card:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, var(--color-paper)); }

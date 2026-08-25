@@ -8,7 +8,7 @@
   --color-paper: #f4f2ec;
   --color-cobalt: #315b8e;
   --color-cobalt-dark: #24466e;
-  --color-lime: #dce8f4;
+  --color-accent: #dce8f4;
   --color-mist: #e8edf3;
   --color-muted: #697181;
   --color-line: #d8dce4;
@@ -23,7 +23,8 @@
 
 @font-face {
   font-family: "Roboto";
-  src: url("/font/roboto-regular-webfont.woff") format("woff");
+  src: url("/font/roboto-regular-webfont.woff2") format("woff2"),
+    url("/font/roboto-regular-webfont.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -31,7 +32,8 @@
 
 @font-face {
   font-family: "Roboto";
-  src: url("/font/roboto-bold-webfont.woff") format("woff");
+  src: url("/font/roboto-bold-webfont.woff2") format("woff2"),
+    url("/font/roboto-bold-webfont.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -39,7 +41,8 @@
 
 @font-face {
   font-family: "Roboto Condensed";
-  src: url("/font/robotocondensed-regular-webfont.woff") format("woff");
+  src: url("/font/robotocondensed-regular-webfont.woff2") format("woff2"),
+    url("/font/robotocondensed-regular-webfont.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -47,7 +50,8 @@
 
 @font-face {
   font-family: "Roboto Condensed";
-  src: url("/font/robotocondensed-bold-webfont.woff") format("woff");
+  src: url("/font/robotocondensed-bold-webfont.woff2") format("woff2"),
+    url("/font/robotocondensed-bold-webfont.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -68,7 +72,7 @@
   }
 
   ::selection {
-    background: var(--color-lime);
+    background: var(--color-accent);
     color: var(--color-ink);
   }
 
@@ -190,7 +194,7 @@
   }
 
   .btn-primary {
-    background: var(--color-lime);
+    background: var(--color-accent);
     color: var(--color-ink);
   }
 
@@ -225,7 +229,7 @@
 
   .btn-primary > span:last-child {
     background: var(--color-ink);
-    color: var(--color-lime);
+    color: var(--color-accent);
   }
 
   .btn-ghost > span:last-child {
@@ -438,13 +442,13 @@
 
   .starting-point-option:hover,
   .starting-point-option[aria-expanded="true"] {
-    border-color: var(--color-lime);
+    border-color: var(--color-accent);
     background: rgb(255 255 255 / 8%);
     transform: translateX(4px);
   }
 
   .starting-point-result {
-    border-left: 2px solid var(--color-lime);
+    border-left: 2px solid var(--color-accent);
     padding: 1rem 0 1rem 1.25rem;
   }
 
@@ -667,7 +671,7 @@
   }
 
   .newsletter-signup-dark .eyebrow {
-    color: var(--color-lime);
+    color: var(--color-accent);
   }
 
   .article-share-tools {
@@ -712,7 +716,7 @@
     display: block;
     width: 0;
     height: 100%;
-    background: var(--color-lime);
+    background: var(--color-accent);
     transition: width 80ms linear;
   }
 
@@ -757,7 +761,7 @@
   }
 
   .page-visual-dark .eyebrow {
-    color: var(--color-lime);
+    color: var(--color-accent);
   }
 
   .page-visual-icon {
@@ -772,7 +776,7 @@
 
   .page-visual-dark .page-visual-icon {
     border-color: rgb(220 232 244 / 32%);
-    color: var(--color-lime);
+    color: var(--color-accent);
   }
 
   .page-visual-frame {
@@ -832,8 +836,8 @@
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 999px;
-    background: var(--color-lime);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-lime) 35%, transparent);
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 35%, transparent);
   }
 
   .architecture-map-canvas {
@@ -1043,8 +1047,8 @@
   }
 
   .architecture-map-legend i.is-work,
-  .signal-chart-legend i.is-lime {
-    background: var(--color-lime);
+  .signal-chart-legend i.is-accent {
+    background: var(--color-accent);
   }
 
   .architecture-map-legend i.is-control,
@@ -1101,8 +1105,8 @@
     fill: var(--color-cobalt);
   }
 
-  .signal-chart-line.is-lime,
-  .signal-chart-point.is-lime {
+  .signal-chart-line.is-accent,
+  .signal-chart-point.is-accent {
     stroke: #8fac66;
     fill: #8fac66;
   }
@@ -1140,7 +1144,7 @@
   }
 
   .signal-chart-callout text + text {
-    fill: var(--color-lime);
+    fill: var(--color-accent);
     font-size: 9px;
     font-weight: 400;
     letter-spacing: 0;
@@ -1366,7 +1370,7 @@ html[data-motion-system="ready"] [data-motion-media] img {
   display: block;
   margin-top: 0.45rem;
   padding: 0.55rem 0.7rem;
-  border-left: 3px solid var(--color-lime);
+  border-left: 3px solid var(--color-accent);
   background: rgb(255 255 255 / 8%);
   color: rgb(255 255 255 / 88%);
   font-size: 0.76rem;
@@ -1380,6 +1384,33 @@ html[data-motion-system="ready"] [data-motion-media] img {
   display: none;
 }
 
+.form-error-summary,
+.form-field-error {
+  display: block;
+  color: var(--color-cobalt);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.form-error-summary {
+  margin-block: 0.25rem 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 2px solid var(--color-cobalt);
+}
+
+.form-field-error {
+  margin-top: 0.45rem;
+}
+
+.form-error-summary[hidden],
+.form-field-error[hidden] {
+  display: none;
+}
+
+form[data-lead-form] [aria-invalid="true"] {
+  border-color: var(--color-cobalt) !important;
+}
+
 form[data-corporate-email-only] input[aria-invalid="true"] {
-  border-bottom-color: var(--color-lime);
+  border-bottom-color: var(--color-accent);
 }

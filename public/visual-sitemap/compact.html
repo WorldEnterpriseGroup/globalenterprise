@@ -2,62 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Global Enterprise Compact Visual Sitemap</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <style>
-    :root { color-scheme: light; --ink:#10131d; --muted:#697181; --line:#d8dce4; --paper:#fff; --paper-soft:#f4f2ec; --accent:#315b8e; --left-width:80%; --right-width:20%; }
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { margin:0; overflow:hidden; background:#eef1f4; color:var(--ink); font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif; }
-    .app-shell { display:grid; grid-template-columns:var(--left-width) 6px var(--right-width); width:100%; height:100vh; overflow:hidden; }
-    .content { min-width:0; height:100vh; overflow-y:auto; }
-    header { padding:24px clamp(20px,4vw,54px) 20px; background:var(--paper); border-bottom:1px solid var(--line); }
-    h1 { margin:0 0 5px; font:500 clamp(27px,3.2vw,40px)/1.1 system-ui,-apple-system,"Segoe UI",sans-serif; letter-spacing:-.045em; }
-    .meta { margin:0; color:var(--muted); }
-    .summary { display:flex; flex-wrap:wrap; gap:7px 20px; margin-top:12px; font-weight:650; }
-    .directory-wrap { max-height:25vh; overflow-y:auto; padding:18px clamp(20px,4vw,54px); background:#f8f9fa; border-bottom:1px solid var(--line); }
-    .directory-wrap h2 { margin:0 0 9px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
-    .directory { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:3px 18px; margin:0; padding:0; list-style:none; }
-    .directory a { display:flex; gap:7px; color:var(--ink); text-decoration:none; }
-    .directory a:hover { color:var(--accent); text-decoration:underline; }
-    .directory span { color:var(--accent); font-variant-numeric:tabular-nums; font-weight:800; }
-    main { min-width:0; padding:18px 10px 50px clamp(20px,4vw,54px); }
-    .group-title { display:flex; align-items:end; justify-content:space-between; gap:12px; margin:0 0 9px; padding-bottom:7px; border-bottom:1px solid var(--line); color:var(--muted); font-size:12px; letter-spacing:.12em; text-transform:uppercase; }
-    .group-title strong { color:var(--ink); font-size:16px; letter-spacing:0; text-transform:none; }
-    .grid { display:grid; grid-template-columns:repeat(16,minmax(0,1fr)); align-items:start; gap:5px; margin-bottom:24px; }
-    .card { position:relative; min-width:0; overflow:hidden; background:var(--paper); border:1px solid var(--line); border-radius:3px; scroll-margin-top:12px; cursor:zoom-in; }
-    .card:hover,.card:focus-visible { border-color:var(--accent); outline:2px solid var(--accent); outline-offset:1px; }
-    .card.is-selected { outline:3px solid var(--accent); outline-offset:-3px; }
-    .card-preview { display:flex; min-height:110px; flex-direction:column; justify-content:space-between; padding:9px; background:linear-gradient(135deg,#10131d,#18315d 58%,#315b8e); color:white; }
-    .card-name { margin-top:13px; font-size:12px; font-weight:700; line-height:1.2; }
-    .caption { padding:7px 8px 8px; border-top:1px solid var(--line); }
-    .filename { font-size:11px; font-weight:750; word-break:break-word; }
-    .title { margin-top:2px; color:var(--muted); font-size:10px; }
-    .preview-shell { min-width:0; height:100vh; padding:12px; border-left:1px solid var(--line); background:#dfe3e7; }
-    .preview { display:flex; flex-direction:column; height:100%; overflow:hidden; background:var(--paper); border:1px solid var(--line); border-radius:8px; box-shadow:0 3px 14px #1c273118; }
-    .preview-header { flex:0 0 auto; padding:12px 13px; border-bottom:1px solid var(--line); }
-    .preview-kicker { margin:0 0 3px; color:var(--accent); font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-    .preview-name { margin:0; font-size:14px; overflow-wrap:anywhere; }
-    .preview-name a { color:inherit; text-decoration:none; }
-    .preview-name a:hover { text-decoration:underline; color:var(--accent); }
-    .preview-help { margin:8px 0 0; color:var(--muted); font-size:10px; }
-    .preview-scroll { flex:1 1 auto; min-height:0; overflow:auto; background:#dfe3e7; }
-    .preview-frame { display:block; width:100%; min-height:100%; height:1300px; border:0; background:white; }
-    .splitter { width:6px; cursor:col-resize; background:var(--line); transition:background .15s; position:relative; z-index:10; height:100vh; }
-    .splitter:hover, .splitter.active { background:var(--accent); }
-    @media(max-width:1400px){.grid{grid-template-columns:repeat(12,minmax(0,1fr))}}
-    @media(max-width:900px){.grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
-    @media(max-width:680px){body{overflow:auto}.app-shell{display:block;height:auto;overflow:visible}.content{height:auto;overflow:visible}main{padding-right:20px}.grid{grid-template-columns:repeat(5,minmax(0,1fr))}.splitter{display:none}.preview-shell{height:70vh;padding:0 20px 24px;border-left:0}}
-  </style>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Global Enterprise compact visual sitemap with a live preview pane.">
+  <title>Compact visual sitemap · Global Enterprise</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles/compact-sitemap.css">
 </head>
 <body>
   <div class="app-shell">
     <div class="content">
       <header>
         <h1>Global Enterprise Compact Visual Sitemap</h1>
-        <p class="meta">A live, navigable page map with an in-context preview pane.</p>
-        <div class="summary" id="summary"></div>
+        <p>A live, navigable page map with an in-context preview pane. The directory is generated from the same sitemap data used by the Astro site.</p>
+        <div class="summary" id="summary" aria-live="polite"><span>Loading page map…</span></div>
       </header>
       <nav class="directory-wrap" aria-label="Page directory">
         <h2>Page directory</h2>
@@ -69,7 +26,7 @@
     <aside class="preview-shell" aria-label="Page preview">
       <div class="preview">
         <div class="preview-header">
-          <p class="preview-kicker" id="preview-number">Page preview</p>
+          <p class="preview-kicker">Page preview</p>
           <h2 class="preview-name" id="preview-name">Select a page</h2>
           <p class="preview-help">Click a card to preview the live route here. Click its title to open the page.</p>
         </div>
@@ -77,155 +34,6 @@
       </div>
     </aside>
   </div>
-  <script>
-    const pages = [
-      {group:'Start here',url:'/',file:'index.html',title:'Strategy for the next system.',kind:'front door'},
-      {group:'Start here',url:'/about/',file:'about/index.html',title:'How we make complex change legible.',kind:'company'},
-      {group:'Start here',url:'/operations/',file:'operations/index.html',title:'International operations.',kind:'operations'},
-      {group:'Start here',url:'/proof/',file:'proof/index.html',title:'Confidential proof of practice.',kind:'proof'},
-      {group:'Start here',url:'/case-studies/',file:'case-studies/index.html',title:'Field notes from the work.',kind:'proof'},
-      {group:'Start here',url:'/insights/',file:'insights/index.html',title:'Public evidence and original analysis.',kind:'thinking'},
-      {group:'Start here',url:'/team/',file:'team/index.html',title:'The disciplines close to the work.',kind:'company'},
-      {group:'Start here',url:'/contact/',file:'contact/index.html',title:'Bring us the hard thing.',kind:'start'},
-      {group:'Capabilities',url:'/services/',file:'services/index.html',title:'The connected transformation system.',kind:'capability'},
-      {group:'Capabilities',url:'/services/operating-model/',file:'services/operating-model/index.html',title:'Make the work make sense.',kind:'capability'},
-      {group:'Capabilities',url:'/services/intelligent-automation/',file:'services/intelligent-automation/index.html',title:'Give good people better leverage.',kind:'capability'},
-      {group:'Capabilities',url:'/services/cloud-data/',file:'services/cloud-data/index.html',title:'Build the infrastructure behind better decisions.',kind:'capability'},
-      {group:'Capabilities',url:'/services/leadership-talent/',file:'services/leadership-talent/index.html',title:'Turn capability into capacity.',kind:'capability'},
-      {group:'Capabilities',url:'/services/transformation-office/',file:'services/transformation-office/index.html',title:'Keep momentum after the kickoff.',kind:'capability'},
-      {group:'Capabilities',url:'/services/research-foresight/',file:'services/research-foresight/index.html',title:'See around the next corner.',kind:'capability'},
-      {group:'Industries',url:'/industries/',file:'industries/index.html',title:'Context changes the answer.',kind:'industry'},
-      {group:'Industries',url:'/industries/enterprise-services/',file:'industries/enterprise-services/index.html',title:'Enterprise services.',kind:'industry'},
-      {group:'Industries',url:'/industries/healthcare-life-sciences/',file:'industries/healthcare-life-sciences/index.html',title:'Healthcare & life sciences.',kind:'industry'},
-      {group:'Industries',url:'/industries/federal-public-service/',file:'industries/federal-public-service/index.html',title:'Federal & public service.',kind:'industry'},
-      {group:'Industries',url:'/industries/technology-data/',file:'industries/technology-data/index.html',title:'Technology & data.',kind:'industry'},
-      {group:'Industries',url:'/industries/education/',file:'industries/education/index.html',title:'Education.',kind:'industry'},
-      {group:'Industries',url:'/industries/enterprise-ai/',file:'industries/enterprise-ai/index.html',title:'Enterprise AI.',kind:'industry'},
-      {group:'Industries',url:'/industries/energy-infrastructure/',file:'industries/energy-infrastructure/index.html',title:'Energy & infrastructure.',kind:'industry'},
-      {group:'Work',url:'/case-studies/operating-model/',file:'case-studies/operating-model/index.html',title:'A clearer operating model.',kind:'case study'},
-      {group:'Work',url:'/case-studies/cloud-data-foundation/',file:'case-studies/cloud-data-foundation/index.html',title:'A cloud and data foundation.',kind:'case study'},
-      {group:'Work',url:'/case-studies/automation-at-scale/',file:'case-studies/automation-at-scale/index.html',title:'Automation people choose to use.',kind:'case study'},
-      {group:'Insights',url:'/insights/ai-at-scale/',file:'insights/ai-at-scale/index.html',title:'AI at scale is an operating model decision.',kind:'insight'},
-      {group:'Insights',url:'/insights/legacy-is-a-product-decision/',file:'insights/legacy-is-a-product-decision/index.html',title:'Legacy modernization is a product decision.',kind:'insight'},
-      {group:'Insights',url:'/insights/interoperability-is-a-workflow/',file:'insights/interoperability-is-a-workflow/index.html',title:'Interoperability is not access; it is use.',kind:'insight'},
-      {group:'Insights',url:'/insights/third-party-is-your-operating-model/',file:'insights/third-party-is-your-operating-model/index.html',title:'Your third parties are part of your operating model.',kind:'insight'},
-      {group:'Insights',url:'/insights/skills-are-a-system/',file:'insights/skills-are-a-system/index.html',title:'Skills are a system, not a seminar.',kind:'insight'},
-      {group:'Insights',url:'/insights/responsible-ai-is-management/',file:'insights/responsible-ai-is-management/index.html',title:'Responsible AI is a management system.',kind:'insight'},
-      {group:'Insights',url:'/insights/designing-for-adoption/',file:'insights/designing-for-adoption/index.html',title:'The adoption gap is an operating model problem.',kind:'insight'},
-      {group:'Insights',url:'/insights/enterprise-as-a-product/',file:'insights/enterprise-as-a-product/index.html',title:'Treat the enterprise like a product.',kind:'insight'},
-      {group:'Insights',url:'/insights/the-cost-of-unclear/',file:'insights/the-cost-of-unclear/index.html',title:'The cost of unclear is compounding.',kind:'insight'},
-      {group:'Insights',url:'/insights/energy-transition-is-an-operating-model/',file:'insights/energy-transition-is-an-operating-model/index.html',title:'The energy transition is an operating model challenge.',kind:'insight'},
-      {group:'Insights',url:'/insights/federal-ai-should-be-a-service/',file:'insights/federal-ai-should-be-a-service/index.html',title:'Federal AI should be managed as a public service.',kind:'insight'},
-      {group:'Insights',url:'/insights/clinical-ai-needs-a-change-system/',file:'insights/clinical-ai-needs-a-change-system/index.html',title:'Clinical AI needs a change system, not a launch plan.',kind:'insight'},
-      {group:'Insights',url:'/insights/platform-teams-are-a-contract/',file:'insights/platform-teams-are-a-contract/index.html',title:'Platform teams are a contract with the enterprise.',kind:'insight'},
-      {group:'Insights',url:'/insights/transformation-metrics-are-management/',file:'insights/transformation-metrics-are-management/index.html',title:'Transformation metrics are management, not reporting.',kind:'insight'},
-      {group:'Insights',url:'/insights/future-of-work-is-workflow-design/',file:'insights/future-of-work-is-workflow-design/index.html',title:'The future of work is workflow design.',kind:'insight'},
-      {group:'Insights',url:'/insights/governance-is-a-product/',file:'insights/governance-is-a-product/index.html',title:'Governance is a product people have to use.',kind:'insight'},
-      {group:'Insights',url:'/insights/data-center-permitting-is-an-operating-model/',file:'insights/data-center-permitting-is-an-operating-model/index.html',title:'Data center growth is a coordination problem.',kind:'insight'},
-      {group:'Insights',url:'/insights/global-operating-model-is-translation/',file:'insights/global-operating-model-is-translation/index.html',title:'A global operating model is a translation system.',kind:'insight'},
-      {group:'Insights',url:'/insights/regional-context-is-a-control/',file:'insights/regional-context-is-a-control/index.html',title:'Regional context is a control, not a localization task.',kind:'insight'},
-      {group:'Insights',url:'/insights/time-zones-are-a-capability/',file:'insights/time-zones-are-a-capability/index.html',title:'Time zones are a capability, not a calendar problem.',kind:'insight'},
-      {group:'Insights',url:'/insights/ai-sovereignty-is-an-operating-model/',file:'insights/ai-sovereignty-is-an-operating-model/index.html',title:'AI sovereignty is an operating-model question.',kind:'insight'},
-      {group:'Insights',url:'/insights/resilience-crosses-borders/',file:'insights/resilience-crosses-borders/index.html',title:'Resilience crosses borders before it reaches the board.',kind:'insight'},
-      {group:'Insights',url:'/insights/topics/enterprise-ai/',file:'insights/topics/enterprise-ai/index.html',title:'Enterprise AI topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/operating-model/',file:'insights/topics/operating-model/index.html',title:'Operating model topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/leadership/',file:'insights/topics/leadership/index.html',title:'Leadership topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/healthcare/',file:'insights/topics/healthcare/index.html',title:'Healthcare topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/modernization/',file:'insights/topics/modernization/index.html',title:'Modernization topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/governance/',file:'insights/topics/governance/index.html',title:'Governance topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/resilience/',file:'insights/topics/resilience/index.html',title:'Resilience topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/execution/',file:'insights/topics/execution/index.html',title:'Execution topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/energy-and-infrastructure/',file:'insights/topics/energy-and-infrastructure/index.html',title:'Energy & infrastructure topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/federal-and-public-service/',file:'insights/topics/federal-and-public-service/index.html',title:'Federal & public service topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/technology-and-data/',file:'insights/topics/technology-and-data/index.html',title:'Technology & data topic page.',kind:'topic'},
-      {group:'Insights',url:'/insights/topics/workforce/',file:'insights/topics/workforce/index.html',title:'Workforce topic page.',kind:'topic'},
-      {group:'Company & guidance',url:'/careers/',file:'careers/index.html',title:'Bring your point of view to the hard stuff.',kind:'company'},
-      {group:'Company & guidance',url:'/faq/',file:'faq/index.html',title:'Useful before the first meeting.',kind:'guidance'},
-      {group:'Company & guidance',url:'/trust/',file:'trust/index.html',title:'Identity, discretion, and delivery assurance.',kind:'company'},
-      {group:'Company & guidance',url:'/privacy/',file:'privacy/index.html',title:'How information is handled.',kind:'legal'},
-      {group:'Company & guidance',url:'/terms/',file:'terms/index.html',title:'Site terms and conditions.',kind:'legal'},
-      {group:'Site tools',url:'/visual-sitemap/',file:'visual-sitemap/index.html',title:'The full site architecture.',kind:'site tool'},
-      {group:'Site tools',url:'/visual-sitemap/compact.html',file:'visual-sitemap/compact.html',title:'Compact sitemap with live preview.',kind:'site tool'},
-      {group:'Site tools',url:'/audiences/',file:'audiences/index.html',title:'Organization map.',kind:'site tool'}
-    ];
-    pages.push(
-      {group:'Start here',url:'/global/',file:'global/index.html',title:'Global operating contexts.',kind:'global'},
-      {group:'Regions',url:'/region/',file:'region/index.html',title:'All regional contexts.',kind:'region'},
-      {group:'Regions',url:'/region/na/',file:'region/na/index.html',title:'North America.',kind:'region'},
-      {group:'Regions',url:'/region/eu/',file:'region/eu/index.html',title:'Europe.',kind:'region'},
-      {group:'Regions',url:'/region/mea/',file:'region/mea/index.html',title:'Middle East & Africa.',kind:'region'},
-      {group:'Regions',url:'/region/asia/',file:'region/asia/index.html',title:'Asia-Pacific.',kind:'region'},
-      {group:'Regions',url:'/region/latam/',file:'region/latam/index.html',title:'Latin America & the Caribbean.',kind:'region'},
-      {group:'Regions',url:'/region/sa/',file:'region/sa/index.html',title:'South America.',kind:'region'},
-      {group:'Start here',url:'/contact/thanks/',file:'contact/thanks/index.html',title:'Contact confirmation.',kind:'confirmation'},
-      {group:'Solutions',url:'/solutions/',file:'solutions/index.html',title:'Decision-led pathways.',kind:'solution'},
-      ...['enterprise-ai','modernization','operating-model','healthcare-transformation','data-labs-ai-cost-management','quantum-intelligence','digital-infrastructure-resilience','supply-network-operations','portfolio-delivery'].map((slug) => ({group:'Solutions',url:`/solutions/${slug}/`,file:`solutions/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'solution'})),
-      {group:'Industries',url:'/industries/frontier-intelligence-autonomous-systems/',file:'industries/frontier-intelligence-autonomous-systems/index.html',title:'Frontier intelligence & autonomous systems.',kind:'industry'},
-      {group:'Industries',url:'/industries/logistics-and-supply-networks/',file:'industries/logistics-and-supply-networks/index.html',title:'Logistics & supply networks.',kind:'industry'},
-      ...['2035-is-a-design-constraint','clinical-ai-needs-real-world-evidence','compute-is-a-governance-problem','cybersecurity-is-an-operating-outcome','productivity-is-a-workflow-outcome','public-service-is-a-product','quantum-intelligence-needs-an-operating-model','resilience-is-a-capital-allocation-decision'].map((slug) => ({group:'Insights',url:`/insights/${slug}/`,file:`insights/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'insight'})),
-      {group:'Insights',url:'/insights/iea-energy-and-ai-grid-capacity/',file:'insights/iea-energy-and-ai-grid-capacity/index.html',title:'IEA energy demand figures are a grid planning warning.',kind:'insight'},
-      {group:'Insights',url:'/insights/itu-connectivity-is-not-access/',file:'insights/itu-connectivity-is-not-access/index.html',title:'ITU connectivity numbers are a starting point, not a success metric.',kind:'insight'},
-      {group:'Insights',url:'/insights/un-desa-population-scale-is-an-operating-constraint/',file:'insights/un-desa-population-scale-is-an-operating-constraint/index.html',title:'UN DESA population scale is an operating constraint.',kind:'insight'},
-      ...['ai-cost-management','quantum-intelligence','research-and-foresight'].map((slug) => ({group:'Insights',url:`/insights/topics/${slug}/`,file:`insights/topics/${slug}/index.html`,title:`${slug.replaceAll('-',' ')} topic`,kind:'topic'})),
-      {group:'Insights',url:'/insights/thanks/',file:'insights/thanks/index.html',title:'Insights confirmation.',kind:'confirmation'},
-      {group:'Resources',url:'/resources/',file:'resources/index.html',title:'Business reports.',kind:'resource'},
-      ...['ai-governance-controls','enterprise-decision-readiness','modernization-investment-priority','global-operating-model-brief'].map((slug) => ({group:'Resources',url:`/resources/${slug}/`,file:`resources/${slug}/index.html`,title:slug.replaceAll('-',' '),kind:'resource'})),
-      {group:'Resources',url:'/resources/thanks/',file:'resources/thanks/index.html',title:'Resource confirmation.',kind:'confirmation'},
-      {group:'Company & guidance',url:'/trust/vendor-pack/',file:'trust/vendor-pack/index.html',title:'Vendor and trust pack.',kind:'company'}
-    );
-    const directory = document.querySelector('#directory');
-    const main = document.querySelector('#main');
-    const summary = document.querySelector('#summary');
-    const previewName = document.querySelector('#preview-name');
-    const previewFrame = document.querySelector('#preview-frame');
-    const groups = [...new Set(pages.map((page) => page.group))];
-    summary.replaceChildren(...[`${pages.length} pages`, `${groups.length} architecture groups`, 'all routes live'].map((text) => Object.assign(document.createElement('span'), {textContent:text})));
-
-    function select(entry, card) {
-      document.querySelectorAll('.card.is-selected').forEach((item) => item.classList.remove('is-selected'));
-      card.classList.add('is-selected');
-      previewName.replaceChildren();
-      const link = document.createElement('a');
-      link.href = entry.url;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.textContent = entry.file;
-      previewName.append(link);
-      previewFrame.src = entry.url;
-    }
-
-    groups.forEach((group) => {
-      const groupPages = pages.filter((page) => page.group === group);
-      const section = document.createElement('section');
-      const title = document.createElement('h2');
-      title.className = 'group-title';
-      title.innerHTML = `<strong>${group}</strong><span>${groupPages.length} pages</span>`;
-      section.append(title);
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      groupPages.forEach((entry) => {
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.id = `page-${entry.url.replaceAll('/', '-') || 'home'}`;
-        card.tabIndex = 0;
-        card.setAttribute('aria-label', entry.file);
-        card.innerHTML = `<div class="card-preview"><span class="card-name">${entry.title}</span></div><div class="caption"><div class="filename">${entry.file}</div><div class="title">${entry.kind}</div></div>`;
-        ['click','focus'].forEach((eventName) => card.addEventListener(eventName, () => select(entry, card)));
-        grid.append(card);
-        const item = document.createElement('li');
-        item.innerHTML = `<a href="#page-${entry.url.replaceAll('/', '-') || 'home'}">${entry.file}</a>`;
-        directory.append(item);
-      });
-      section.append(grid);
-      main.append(section);
-    });
-    select(pages[0], document.querySelector('.card'));
-
-    const splitter = document.querySelector('.splitter');
-    let isResizing = false;
-    splitter.addEventListener('mousedown', () => { isResizing = true; splitter.classList.add('active'); document.body.style.cursor='col-resize'; document.body.style.userSelect='none'; });
-    document.addEventListener('mousemove', (event) => { if (!isResizing) return; const total = document.body.getBoundingClientRect().width; const right = Math.max(260, Math.min(total * .5, total - event.clientX)); document.documentElement.style.setProperty('--left-width', `${(total-right-6)/total*100}%`); document.documentElement.style.setProperty('--right-width', `${right/total*100}%`); });
-    document.addEventListener('mouseup', () => { isResizing = false; splitter.classList.remove('active'); document.body.style.cursor=''; document.body.style.userSelect=''; });
-  </script>
+  <script src="../scripts/compact-sitemap.js" defer></script>
 </body>
 </html>

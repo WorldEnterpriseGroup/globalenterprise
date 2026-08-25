@@ -53,7 +53,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
   <section class="bg-ink py-16 text-white md:py-24">
     <div class="container-site grid gap-12 lg:grid-cols-[.88fr_1.12fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">{report.eyebrow} · {report.format}</p>
+        <p class="eyebrow text-accent">{report.eyebrow} · {report.format}</p>
         <h1 class="section-title mt-7 max-w-4xl">{report.title}</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">{report.description}</p>
         <div class="mt-9 flex flex-wrap gap-4">
@@ -100,10 +100,10 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
       </div>
 
       <div id="request-report" class="report-request">
-        <p class="eyebrow text-lime">Request the complete field guide</p>
+        <p class="eyebrow text-accent">Request the complete field guide</p>
         <h2>Put the working document in the hands of the team carrying the decision.</h2>
         <p class="report-request-intro">Tell us where the report will be used. The download includes the full framework, practical worksheet, source notes, and limitations—not a one-page teaser.</p>
-        <form class="mt-9 grid gap-5" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`} data-corporate-email-only aria-describedby={`resource-form-notice-${report.slug}`}>
+        <form class="mt-9 grid gap-5" action={site.briefEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind={`resource_${report.slug}`} data-corporate-email-only aria-describedby={`resource-form-notice-${report.slug} resource-form-errors-${report.slug}`}>
           <input type="hidden" name="_subject" value={`${report.title} request · Global Enterprise`} />
           <input type="hidden" name="_next" value={`${site.url}/resources/thanks/?resource=${report.slug}`} />
           <input type="hidden" name="_template" value="table" />
@@ -111,21 +111,22 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
           <input type="hidden" name="form_kind" value={`resource_${report.slug}`} />
           <input type="hidden" name="source_url" value={`${site.url}/resources/${report.slug}/`} />
           <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
+          <div id={`resource-form-errors-${report.slug}`} class="form-error-summary" data-form-summary role="alert" aria-live="assertive" tabindex="-1" hidden></div>
           <p id={`resource-form-notice-${report.slug}`} class="form-notice">{site.publicFormNotice} Company email required: Gmail, Yahoo, Hotmail, and Outlook.com accounts are not eligible for this brief. The required fields are enough to request the guide; the optional fields help us route a relevant follow-up.</p>
           <fieldset class="form-fieldset">
             <legend>Delivery details</legend>
             <div class="grid gap-5 sm:grid-cols-2">
               <label class="field-label" for={`resource-name-${report.slug}`}>Name <span class="required-note">Required</span>
-                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" placeholder="Your name" required />
+                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" placeholder="Your name" required aria-required="true" aria-invalid="false" />
               </label>
               <label class="field-label" for={`resource-email-${report.slug}`}>Work email <span class="required-note">Required</span>
-                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" placeholder="name@organization.gov or company.com" required />
+                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" placeholder="name@organization.gov or company.com" required aria-required="true" aria-invalid="false" />
               </label>
               <label class="field-label" for={`resource-org-${report.slug}`}>Organization <span class="required-note">Required</span>
-                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" placeholder="Agency, company, university, or institution" required />
+                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" placeholder="Agency, company, university, or institution" required aria-required="true" aria-invalid="false" />
               </label>
               <label class="field-label" for={`resource-context-${report.slug}`}>Use case <span class="required-note">Required</span>
-                <select id={`resource-context-${report.slug}`} name="use_case" required>
+                <select id={`resource-context-${report.slug}`} name="use_case" required aria-required="true" aria-invalid="false">
                   <option value="" selected disabled>Pick what you are evaluating</option>
                   <option value="ai_rollout_governance">AI rollout and governance</option>
                   <option value="data_platform_cost_controls">Data platform and cost controls</option>
@@ -141,7 +142,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
             <p id={`resource-routing-help-${report.slug}`} class="form-helper">These short choices help us understand the decision context without asking for sensitive operating details. The planning horizon is optional.</p>
             <div class="grid gap-5 sm:grid-cols-2">
               <label class="field-label" for={`resource-role-${report.slug}`}>Role in the decision <span class="required-note">Required</span>
-                <select id={`resource-role-${report.slug}`} name="role" required>
+                  <select id={`resource-role-${report.slug}`} name="role" required aria-required="true" aria-invalid="false">
                   <option value="" selected disabled>Choose a role</option>
                   <option value="executive_leadership">Executive leadership</option>
                   <option value="operations_transformation">Operations or transformation</option>
@@ -152,7 +153,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
                 </select>
               </label>
               <label class="field-label" for={`resource-stage-${report.slug}`}>Decision stage <span class="required-note">Required</span>
-                <select id={`resource-stage-${report.slug}`} name="decision_stage" required>
+                  <select id={`resource-stage-${report.slug}`} name="decision_stage" required aria-required="true" aria-invalid="false">
                   <option value="" selected disabled>Choose a stage</option>
                   <option value="exploring_problem">Exploring the problem</option>
                   <option value="building_case">Building the case</option>
@@ -162,7 +163,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
                 </select>
               </label>
               <label class="field-label" for={`resource-horizon-${report.slug}`}>Useful horizon <span class="optional-note">Optional</span>
-                <select id={`resource-horizon-${report.slug}`} name="decision_horizon">
+                <select id={`resource-horizon-${report.slug}`} name="decision_horizon" aria-required="false" aria-invalid="false">
                   <option value="" selected>Choose a horizon</option>
                   <option value="next_90_days">Next 90 days</option>
                   <option value="this_planning_year">This planning year</option>
@@ -175,11 +176,11 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
           <fieldset class="form-fieldset contact-preferences">
             <legend>Contact preferences</legend>
             <label class="checkbox-label" for={`resource-consent-${report.slug}`}>
-              <input id={`resource-consent-${report.slug}`} class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="consent" value="yes" required />
+              <input id={`resource-consent-${report.slug}`} class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="consent" value="yes" required aria-required="true" aria-invalid="false" />
               <span>I agree to receive this report and be contacted about it. I understand this public form is not for sensitive information. <span class="required-note">Required</span></span>
             </label>
             <label class="checkbox-label" for={`resource-signal-opt-in-${report.slug}`}>
-              <input id={`resource-signal-opt-in-${report.slug}`} class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="signal_opt_in" value="yes" />
+              <input id={`resource-signal-opt-in-${report.slug}`} class="mt-1 size-4 shrink-0 accent-cobalt" type="checkbox" name="signal_opt_in" value="yes" aria-required="false" aria-invalid="false" />
               <span>Also send me occasional evidence-led notes. I can unsubscribe at any time. <span class="optional-note">Optional</span></span>
             </label>
           </fieldset>
@@ -203,7 +204,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
   .report-hero-figure { margin: 0; border: 1px solid rgb(255 255 255 / 20%); background: var(--color-cobalt); box-shadow: 1rem 1rem 0 rgb(49 91 142 / 28%); }
   :global(.report-hero-image) { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: var(--report-position); filter: saturate(0.82) contrast(1.04); }
   .report-hero-figure figcaption { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 0.9rem 1rem; border-top: 1px solid rgb(255 255 255 / 15%); color: rgb(255 255 255 / 66%); font-size: 0.72rem; line-height: 1.5; }
-  .report-hero-figure figcaption span { color: var(--color-lime); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .report-hero-figure figcaption span { color: var(--color-accent); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .report-preview-row { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--color-line); }
   .report-preview-row:last-child { border-bottom: 0; }
   .report-preview-row span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.3rem; }
@@ -220,14 +221,19 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
   .report-request .form-fieldset + .form-fieldset { margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgb(255 255 255 / 16%); }
   .report-request legend { color: rgb(255 255 255 / 88%); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .report-request .field-label { display: grid; gap: 0.45rem; color: rgb(255 255 255 / 82%); font-size: 0.82rem; font-weight: 700; }
-  .report-request .required-note, .report-request .optional-note { margin-left: 0.35rem; color: var(--color-lime); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .report-request .required-note, .report-request .optional-note { margin-left: 0.35rem; color: var(--color-accent); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   .report-request .optional-note { color: rgb(255 255 255 / 72%); }
   .report-request .form-notice, .report-request .form-helper { max-width: 46rem; color: rgb(255 255 255 / 76%); font-size: 0.78rem; line-height: 1.55; }
-  .report-request .form-notice { margin-bottom: 1.75rem; padding-left: 0.85rem; border-left: 2px solid var(--color-lime); }
+  .report-request .form-notice { margin-bottom: 1.75rem; padding-left: 0.85rem; border-left: 2px solid var(--color-accent); }
   .report-request .form-helper { margin-top: 0.65rem; margin-bottom: 1.25rem; }
+  .report-request .form-error-summary, .report-request .form-field-error { display: block; margin-top: 0.45rem; color: var(--color-accent); font-size: 0.78rem; line-height: 1.5; }
+  .report-request .form-error-summary { margin-bottom: 0.25rem; padding-left: 0.85rem; border-left: 2px solid var(--color-accent); }
+  .report-request .form-error-summary[hidden], .report-request .form-field-error[hidden] { display: none; }
+  .report-request [aria-invalid="true"] { border-bottom-color: var(--color-accent); }
+  .report-request input[type="checkbox"][aria-invalid="true"] { outline: 2px solid var(--color-accent); outline-offset: 2px; }
   .report-request input:not([type="checkbox"]), .report-request select { width: 100%; min-height: 3.4rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; outline: none; }
   .report-request select { color-scheme: dark; }
-  .report-request input:focus, .report-request select:focus { border-color: var(--color-lime); }
+  .report-request input:focus, .report-request select:focus { border-color: var(--color-accent); }
   .report-request .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; color: rgb(255 255 255 / 82%); font-size: 0.82rem; font-weight: 400; line-height: 1.55; }
   .report-request .checkbox-label:first-of-type { margin-top: 1.15rem; }
   .related-report { display: grid; align-content: start; min-height: 18rem; padding: clamp(1.5rem, 4vw, 3rem); }

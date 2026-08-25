@@ -45,7 +45,7 @@ const resolvedSources = entry.data.sources.map((source) => resolveEvidenceSource
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">{entry.data.eyebrow ?? "Perspective"} · {entry.data.category}</p>
+        <p class="eyebrow text-accent">{entry.data.eyebrow ?? "Perspective"} · {entry.data.category}</p>
         <h1 class="section-title mt-7 max-w-5xl">{entry.data.title}</h1>
         <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/65">{entry.data.description}</p>
         <div class="mt-8 flex flex-wrap gap-5 text-sm text-white/60">
@@ -57,8 +57,8 @@ const resolvedSources = entry.data.sources.map((source) => resolveEvidenceSource
           <span>By {entry.data.author}</span>
         </div>
       </div>
-      <div class="border-l-2 border-lime pl-6">
-        <p class="eyebrow text-lime">Reading map</p>
+      <div class="border-l-2 border-accent pl-6">
+        <p class="eyebrow text-accent">Reading map</p>
         <p class="mt-5 max-w-xs text-lg leading-relaxed text-white/75">Thesis → mechanism → evidence → implication → next move.</p>
       </div>
     </div>
@@ -125,27 +125,4 @@ const resolvedSources = entry.data.sources.map((source) => resolveEvidenceSource
   }
 </Base>
 
-<script>
-  const initializeArticleExperience = () => {
-    const root = document.querySelector<HTMLElement>("[data-article-experience]");
-    if (!root || root.hasAttribute("data-bound")) return;
-    root.setAttribute("data-bound", "true");
-    const status = root.querySelector<HTMLElement>("[data-share-status]");
-    root.querySelector<HTMLButtonElement>("[data-share-copy]")?.addEventListener("click", async (event) => {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        if (status) status.textContent = "Link copied.";
-        (event.currentTarget as HTMLButtonElement).textContent = "Copied";
-      } catch {
-        if (status) status.textContent = "Copy unavailable; use your browser address bar.";
-      }
-    });
-    root.querySelector<HTMLButtonElement>("[data-share-native]")?.addEventListener("click", async () => {
-      if (navigator.share) await navigator.share({ title: document.title, url: window.location.href });
-      else if (status) status.textContent = "Native sharing is unavailable on this device.";
-    });
-  };
-
-  initializeArticleExperience();
-  document.addEventListener("astro:page-load", initializeArticleExperience);
-</script>
+<script is:inline src="/scripts/insight-article.js"></script>

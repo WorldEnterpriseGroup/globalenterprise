@@ -3,7 +3,7 @@ interface ChartDefinition {
   eyebrow: string;
   title: string;
   caption: string;
-  series: { label: string; color: "cobalt" | "lime" | "ink" }[];
+  series: { label: string; color: "cobalt" | "accent" | "ink" }[];
   annotation: string;
 }
 
@@ -19,28 +19,28 @@ const charts: Record<string, ChartDefinition> = {
     eyebrow: "Diagnostic chart · feedback loop",
     title: "The strongest systems improve in public.",
     caption: "An illustrative operating trajectory: visibility arrives first, then control, then durable outcome. It is a diagnostic pattern—not a forecast.",
-    series: [{ label: "Visibility", color: "cobalt" }, { label: "Control", color: "lime" }, { label: "Outcome", color: "ink" }],
+    series: [{ label: "Visibility", color: "cobalt" }, { label: "Control", color: "accent" }, { label: "Outcome", color: "ink" }],
     annotation: "The threshold is the point where a team can see enough to make the next decision with confidence.",
   },
   "enterprise-ai": {
     eyebrow: "AI portfolio diagnostic · signal quality",
     title: "Scale follows evidence, not enthusiasm.",
     caption: "Illustrative trajectory for moving a use case from signal to managed service: prove value, then add control before adding volume.",
-    series: [{ label: "Use-case value", color: "cobalt" }, { label: "Assurance", color: "lime" }, { label: "Adoption", color: "ink" }],
+    series: [{ label: "Use-case value", color: "cobalt" }, { label: "Assurance", color: "accent" }, { label: "Adoption", color: "ink" }],
     annotation: "The scale gate is earned when evaluation, human review, and recovery are part of the everyday workflow.",
   },
   healthcare: {
     eyebrow: "Care-system diagnostic · point of use",
     title: "Exchange becomes useful when context reaches the care moment.",
     caption: "Illustrative trajectory for reducing the distance between a trustworthy signal and a decision without adding cognitive drag.",
-    series: [{ label: "Access", color: "cobalt" }, { label: "Context", color: "lime" }, { label: "Care impact", color: "ink" }],
+    series: [{ label: "Access", color: "cobalt" }, { label: "Context", color: "accent" }, { label: "Care impact", color: "ink" }],
     annotation: "The useful threshold is not more data; it is the right context, at the right moment, with the right accountability.",
   },
   energy: {
     eyebrow: "Infrastructure diagnostic · operating resilience",
     title: "Complexity becomes manageable when dependencies are visible.",
     caption: "Illustrative trajectory for coordinating assets, data, permitting, workforce, and operations across a capital program.",
-    series: [{ label: "Dependencies", color: "cobalt" }, { label: "Control room", color: "lime" }, { label: "Resilience", color: "ink" }],
+    series: [{ label: "Dependencies", color: "cobalt" }, { label: "Control room", color: "accent" }, { label: "Resilience", color: "ink" }],
     annotation: "The operating threshold is the point where investment choices can be tested against service continuity.",
   },
 };
@@ -83,10 +83,10 @@ const chartId = `${diagramId}-heading`;
       </g>
       <path class="signal-chart-area" d="M72 254 C155 239 220 220 312 206 S465 176 552 142 S700 95 790 72 V290 H72 Z" />
       <path class="signal-chart-line is-cobalt" d="M72 254 C155 239 220 220 312 206 S465 176 552 142 S700 95 790 72" />
-      <path class="signal-chart-line is-lime" d="M72 280 C158 275 226 256 312 240 S470 195 552 176 S690 135 790 106" />
+      <path class="signal-chart-line is-accent" d="M72 280 C158 275 226 256 312 240 S470 195 552 176 S690 135 790 106" />
       <path class="signal-chart-line is-ink" d="M72 294 C165 292 236 282 312 271 S462 248 552 225 S696 180 790 155" />
       <line class="signal-chart-threshold" x1="552" y1="50" x2="552" y2="290" />
-      <circle class="signal-chart-point is-cobalt" cx="312" cy="206" r="5" /><circle class="signal-chart-point is-lime" cx="552" cy="176" r="5" /><circle class="signal-chart-point is-ink" cx="790" cy="155" r="5" />
+      <circle class="signal-chart-point is-cobalt" cx="312" cy="206" r="5" /><circle class="signal-chart-point is-accent" cx="552" cy="176" r="5" /><circle class="signal-chart-point is-ink" cx="790" cy="155" r="5" />
       <g class="signal-chart-axis" aria-hidden="true"><text x="72" y="318">SIGNAL</text><text x="291" y="318">CONTEXT</text><text x="531" y="318">DECISION</text><text x="760" y="318">OUTCOME</text><text x="19" y="56">HIGH</text><text x="19" y="294">LOW</text></g>
       <g class="signal-chart-callout"><rect x="570" y="66" width="178" height="50" rx="2" /><text x="584" y="87">SCALE GATE</text><text x="584" y="103">evidence + owner + exit</text></g>
     </svg>

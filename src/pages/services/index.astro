@@ -1,6 +1,7 @@
 ---
 import Base from "@/layouts/Base.astro";
-import { services } from "@/data/site";
+import AudiencePathways from "@/components/AudiencePathways.astro";
+import { serviceAudiencePathways, services } from "@/data/site";
 
 const atlasRows = [
   {
@@ -16,6 +17,34 @@ const atlasRows = [
     question: "Which decisions, services, and interfaces have to become clearer for the enterprise to move?",
     outputs: "Target operating model · decision-rights register · transition architecture",
     lane: "System design",
+  },
+  {
+    slug: "federal-enterprise-architecture",
+    title: "Federal enterprise architecture / FEAF-informed practice",
+    question: "How can a federal architecture office trace mission and capability intent into investment and transition decisions?",
+    outputs: "Mandate-to-capability map · architecture views · investment traceability register",
+    lane: "Federal architecture",
+  },
+  {
+    slug: "solution-architecture",
+    title: "Solution architecture",
+    question: "What solution boundary, interface, control, and operating condition must be true for the service to work?",
+    outputs: "Solution intent brief · interface register · transition and readiness record",
+    lane: "Solution design",
+  },
+  {
+    slug: "procurement-acquisition",
+    title: "Procurement, acquisition & delivery boundaries",
+    question: "What can a buyer, COR, SME, or delivery team state clearly before the procurement or delivery conversation begins?",
+    outputs: "Scope and assumptions matrix · evidence index · delivery-boundary register",
+    lane: "Acquisition context",
+  },
+  {
+    slug: "whole-of-government-international-systems",
+    title: "Whole-of-government & international systems",
+    question: "How can shared services and interoperability travel across ministries, agencies, regions, and multilateral contexts?",
+    outputs: "Shared/federated architecture map · decision-rights register · capability-transfer roadmap",
+    lane: "Institutional systems",
   },
   {
     slug: "intelligent-automation",
@@ -58,12 +87,12 @@ const serviceSlugSet = new Set(services.map((service) => service.slug));
 const atlas = atlasRows.filter((row) => serviceSlugSet.has(row.slug));
 ---
 
-<Base title="Capabilities | Global Enterprise" description="An atlas of Global Enterprise capabilities across M&A integration, enterprise architecture, AI and ML, data, service change, workforce capability, and frontier readiness." keywords={["M&A integration", "enterprise architecture", "AI ML labs", "data labs", "FinOps", "IT service change management", "workforce planning", "quantum readiness"]}>
+<Base title="Capabilities | Global Enterprise" description="An atlas of Global Enterprise capabilities across federal and solution architecture, procurement context, whole-of-government systems, M&A integration, AI, data, service change, workforce capability, and frontier readiness." keywords={["federal enterprise architecture", "FEAF-informed practice", "solution architecture", "procurement acquisition", "whole-of-government systems", "M&A integration", "AI ML labs", "data labs", "IT service change management"]}>
   <section class="bg-paper py-20 md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
       <div>
         <p class="eyebrow">Capability atlas</p>
-        <h1 class="section-title mt-7 max-w-5xl">Seven disciplines for the system behind the decision.</h1>
+        <h1 class="section-title mt-7 max-w-5xl">Eleven disciplines for the system behind the decision.</h1>
         <p class="body-copy mt-8 max-w-2xl text-xl">Global Enterprise connects architecture, intelligence, data, service, people, and frontier research so a strategy can become a system that carries consequence.</p>
       </div>
       <aside class="border-l-2 border-cobalt pl-6" aria-label="How the atlas is organized">
@@ -101,6 +130,41 @@ const atlas = atlasRows.filter((row) => serviceSlugSet.has(row.slug));
     </div>
   </section>
 
+  <section id="institutional-pathways" class="section-pad bg-paper" aria-labelledby="institutional-pathways-title">
+    <div class="container-site">
+      <div class="grid gap-8 border-b border-line pb-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+        <div>
+          <p class="eyebrow text-cobalt">Institutional working sets</p>
+          <h2 id="institutional-pathways-title" class="section-title mt-5 max-w-3xl">Four first-party routes for the questions that need a sharper boundary.</h2>
+        </div>
+        <p class="max-w-2xl text-lg leading-relaxed text-muted">These pathways are consultative starting points. They help a reader name the decision, inspect the working artifacts, and choose an honest next conversation without implying certification, authorization, a contract vehicle, or a client relationship.</p>
+      </div>
+
+      <div class="mt-10 grid gap-px border border-line bg-line md:grid-cols-2">
+        {serviceAudiencePathways.map((pathway) => (
+          <article class="flex flex-col bg-white p-7 md:p-8">
+            <p class="eyebrow text-cobalt">{pathway.eyebrow}</p>
+            <h3 class="mt-6 font-display text-2xl font-medium leading-tight tracking-[-0.05em]"><a class="transition-colors hover:text-cobalt" href={pathway.href}>{pathway.title}</a></h3>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{pathway.description}</p>
+            <div class="mt-auto flex flex-col items-start gap-3 pt-8">
+              <a class="ink-link" href={pathway.href}>{pathway.linkLabel} <span aria-hidden="true">↗</span></a>
+              {pathway.supportingHref && pathway.supportingLabel && <a class="text-xs font-bold uppercase tracking-[0.1em] text-muted underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={pathway.supportingHref}>{pathway.supportingLabel}</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AudiencePathways
+    id="capability-audience-pathways"
+    eyebrow="Quiet audience routing"
+    title="Start with the question you carry."
+    intro="The capability atlas stays content-led. This small, filtered set simply helps federal, architecture, and acquisition readers find the first-party route that matches the work in front of them."
+    compact
+    pathwayIds={["national-and-federal-leaders", "architects-and-operators", "acquisition-evaluators"]}
+  />
+
   <section class="section-pad bg-paper" aria-labelledby="interfaces-title">
     <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-20">
       <div>
@@ -136,7 +200,7 @@ const atlas = atlasRows.filter((row) => serviceSlugSet.has(row.slug));
     </div>
   </section>
 
-  <section class="bg-lime" aria-label="Capability conversation">
+  <section class="bg-accent" aria-label="Capability conversation">
     <div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between">
       <div><p class="eyebrow text-ink">Make the next move visible</p><h2 class="mt-5 max-w-2xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Start with the system behind the question.</h2></div>
       <a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
