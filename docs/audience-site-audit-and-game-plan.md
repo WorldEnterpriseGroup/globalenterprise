@@ -1,7 +1,7 @@
 # Audience-led site audit and game plan
 
 Status: implemented · quiet routing
-Prepared: 2026-08-24  
+Prepared: 2026-08-25
 Scope: full public site, shared shell, route families, content collections, calls to action, and conversion paths
 
 ## Executive decision
@@ -12,7 +12,7 @@ The current site is strongest for executive and institutional transformation rea
 
 The recommended move is to preserve the existing content architecture and add six audience-intent pathways:
 
-1. **Set direction** — political principals, cabinet and agency leaders, CEOs, boards, CIOs, and executive sponsors.
+1. **Set direction** — political principals, cabinet and agency leaders, state and local executives, education-system leaders, CEOs, boards, CIOs, and executive sponsors.
 2. **Design architecture** — FEAF practitioners, enterprise and solution architects, CIO/CTO/CDO offices, and architecture boards.
 3. **Run service and change** — ITIL leaders, service owners, transformation offices, PMOs, DevSecOps, and platform operators.
 4. **Specify and procure** — contracting officers, CORs, acquisition teams, primes, SMEs, capture teams, and teaming partners.
@@ -45,11 +45,11 @@ The canonical priority order is maintained in [`docs/audience-definition.md`](./
 
 | Priority | Audience groups | Site obligation |
 | --- | --- | --- |
-| P0 · 01–05 | National/federal principals, federal EA/FEAF leaders, international government leaders, Fortune 500 leadership, UN/NATO and other multilateral institutions | Make the executive mandate, institutional scale, architecture, sovereignty, interoperability, and operating consequence explicit. Preserve the existing senior voice, while treating named institutions as target audiences unless a relationship is substantiated. |
-| P0 · 06–10 | Government transformation operators, ITIL/service-management leaders, enterprise and solution architects, corporate transformation/portfolio leaders, DevSecOps/platform operators | Give practitioners artifacts, methods, controls, service transitions, architecture decisions, and implementation routes—not only leadership language. |
-| P0 · 11–12 | Contracting officers/CORs/acquisition teams and federal-contract SMEs/primes/teaming partners | Make procurement, diligence, capability statements, teaming boundaries, and delivery evidence discoverable and procurement-safe. |
-| P1 · 13–17 | Professors/researchers, international and technology partners, experienced talent, early-career talent, professional learners | Add collaboration, learning, and career paths with clear ownership and realistic response expectations. International government and multilateral mandate pathways remain P0 even when partner/research content is P1. |
-| P2 · 18–19 | Capital/portfolio stakeholders, analysts, media, and informed public readers | Serve through strong M&A, operating-model, evidence, reports, and insight content without adding more top-level taxonomy. |
+| P0 · 01–06 | National/federal principals, federal EA/FEAF leaders, SLED leaders, international government leaders, Fortune 500 leadership, UN/NATO and other multilateral institutions | Make the executive mandate, institutional scale, architecture, sovereignty, interoperability, local service reality, and operating consequence explicit. Preserve the existing senior voice, while treating named institutions as target audiences unless a relationship is substantiated. |
+| P0 · 07–11 | Government transformation operators, ITIL/service-management leaders, enterprise and solution architects, corporate transformation/portfolio leaders, DevSecOps/platform operators | Give practitioners artifacts, methods, controls, service transitions, architecture decisions, and implementation routes—not only leadership language. |
+| P0 · 12–13 | Contracting officers/CORs/acquisition teams and federal-contract SMEs/primes/teaming partners | Make procurement, diligence, capability statements, teaming boundaries, and delivery evidence discoverable and procurement-safe. |
+| P1 · 14–18 | Professors/researchers, international and technology partners, experienced talent, early-career talent, professional learners | Add collaboration, learning, and career paths with clear ownership and realistic response expectations. International government, multilateral, and SLED mandate pathways remain P0 even when partner/research content is P1. |
+| P2 · 19–20 | Capital/portfolio stakeholders, analysts, media, and informed public readers | Serve through strong M&A, operating-model, evidence, reports, and insight content without adding more top-level taxonomy. |
 
 ## What the audit found
 
@@ -59,6 +59,7 @@ The canonical priority order is maintained in [`docs/audience-definition.md`](./
 - Seven capability routes cover operating model and enterprise architecture, M&A, AI/ML labs, data and AI cost management, leadership/talent, ITIL change management, and quantum/foresight.
 - Strategic solution routes organize challenges such as enterprise AI, modernization, operating models, healthcare transformation, data labs, quantum intelligence, digital infrastructure resilience, supply networks, and portfolio delivery.
 - Nine industry contexts, six regional operating contexts, three case studies, three decision reports, and a large insight library provide substantial editorial depth.
+- SLED language and operating patterns already appear in the regional and education content; the audience model now names the institutions directly so those routes are easier to frame and measure.
 - Proof, trust, and the vendor pack establish a conservative diligence boundary rather than making unsupported claims.
 - Careers and team pages provide a credible senior-talent foundation.
 
@@ -69,6 +70,7 @@ The canonical priority order is maintained in [`docs/audience-definition.md`](./
 | FEAF implementation | FEAF is named in positioning and audience material; federal/public-service content exists | A dedicated federal enterprise architecture route, FEAF-to-capability/investment mapping, working artifacts, and a federal architecture report or checklist |
 | Solution architecture | Business, technology, platform, data, and transition architecture are described indirectly | A clear solution-architecture route with reference architecture, integration patterns, security/data boundaries, trade-offs, and architect-facing artifacts |
 | National and international government | Operations and regional pages are strong but framed largely through global enterprise/M&A language | Whole-of-government architecture, national service management, digital sovereignty, cross-ministry interoperability, and local capability-transfer route |
+| SLED institutions | Regional and education content already addresses local capability, adoption, and workforce realities | A named state/local/education audience route, public-institution operating examples, and contact language for state CIOs, local leaders, public universities, and K–12 systems |
 | UN/NATO and multilateral readers | Institutions are used as evidence sources | A multilateral/international-partners route with interoperability, standards translation, mission coordination, resilience, and collaboration CTA |
 | Contracting officers and CORs | Trust and vendor-pack material exists but is several clicks deep and the vendor pack is `noindex` | Procurement landing page, acquisition-safe language, capability statement, scope boundaries, evidence, and dedicated procurement inquiry |
 | Federal SMEs, primes, and teaming partners | Diligence and proof content exists; teaming language is sparse | Partner/teaming route, capture/proposal support boundaries, subcontracting posture, partner criteria, and delivery evidence |
@@ -178,6 +180,7 @@ Apply only the fields that improve a route's actual job. RSS, legal/noindex rout
 ### Next — P0 content pathways
 
 - Publish federal EA/FEAF and solution-architecture working-set pathways using existing service content.
+- Publish a SLED public-institution pathway using the existing operations, education, regional, ITIL, and capability-transfer content.
 - Publish service/change and DevSecOps implementation pathways using ITIL, transformation, cloud/data, and AI content.
 - Expand procurement/teaming content for contracting officers, CORs, SMEs, primes, and capture teams where owned artifacts are real.
 - Publish the international-government and multilateral-institution pathway as a P0 institutional route, separate from the later research/partner pathway; use audience framing without implying named-client or partner relationships.

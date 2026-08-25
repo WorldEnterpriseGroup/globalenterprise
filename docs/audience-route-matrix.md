@@ -23,9 +23,9 @@ Destination keys: `globalEnterprise` (first-party Global Enterprise route), `ign
 
 | Route | Audience | Current move | Target move | Preservation |
 | --- | --- | --- | --- | --- |
-| `/` | P0 national/federal leaders, international government, Fortune 500 leadership | Contact, reports, services, federal/public-service, operations | Keep the mandate-led first-party narrative; let existing content CTAs steer without a visible audience chooser | keep |
+| `/` | P0 national/federal leaders, SLED institutions, international government, Fortune 500 leadership | Contact, reports, services, federal/public-service, operations | Keep the mandate-led first-party narrative; let existing content CTAs steer without a visible audience chooser | keep |
 | `/about/` | P0 mandate owners and economic buyers | Read thesis; contact | Keep the point of view and principal conversation first-party; use context-specific links only where needed | keep |
-| `/operations/` | P0 international government, multilateral, enterprise operations | Regional chapters; international mandate → contact | Add government/multilateral lens and set-direction route | keep |
+| `/operations/` | P0 SLED institutions, international government, multilateral, enterprise operations | Regional chapters; public-institution and international mandate → contact | Add government/multilateral lens, local capability-transfer framing, and set-direction route | keep |
 | `/audiences/` | Readers who explicitly need the broader organization map | Noindex organization map; not a global navigation destination | Choose a first-party Global Enterprise route or a clearly labeled organization destination | keep |
 | `/region/` | P0 international government and regional operators | Directory is reachable indirectly | Add to sitemap, header/footer, and operations navigation | keep |
 | `/region/asia/`, `/region/eu/`, `/region/latam/`, `/region/mea/`, `/region/na/`, `/region/sa/` | P0 international government, enterprises, regional partners | Bring context to GE; return to operations | Add public-institution, commercial, and partner next moves | keep |
@@ -68,8 +68,8 @@ Destination keys: `globalEnterprise` (first-party Global Enterprise route), `ign
 
 | Generated URLs | Audience | Current move | Target move | Preservation |
 | --- | --- | --- | --- | --- |
-| `/industries/` | P0 leaders choosing context | Industry directory; contact | Add “Who is carrying this decision?” prompts | keep |
-| `/industries/enterprise-services/`, `/industries/enterprise-ai/`, `/industries/energy-infrastructure/`, `/industries/federal-public-service/`, `/industries/healthcare-life-sciences/`, `/industries/frontier-intelligence-autonomous-systems/`, `/industries/logistics-and-supply-networks/`, `/industries/technology-data/`, `/industries/education/` | P0 enterprise, public-service, national, infrastructure, and technology leaders; P1 education/research readers | Related services, insights, contact | Add audience/pathway entry cards; explicitly route federal, multilateral, research, and learner readers where relevant | keep |
+| `/industries/` | P0 public, SLED, enterprise, and technology leaders choosing context | Industry directory; contact | Add “Who is carrying this decision?” prompts and preserve the education route as a SLED entry point | keep |
+| `/industries/enterprise-services/`, `/industries/enterprise-ai/`, `/industries/energy-infrastructure/`, `/industries/federal-public-service/`, `/industries/healthcare-life-sciences/`, `/industries/frontier-intelligence-autonomous-systems/`, `/industries/logistics-and-supply-networks/`, `/industries/technology-data/`, `/industries/education/` | P0 enterprise, federal, SLED, public-service, national, infrastructure, and technology leaders; P1 education/research readers | Related services, insights, contact | Add audience/pathway entry cards; explicitly route federal, SLED, multilateral, research, and learner readers where relevant | keep |
 
 ## Work, proof, and case studies
 

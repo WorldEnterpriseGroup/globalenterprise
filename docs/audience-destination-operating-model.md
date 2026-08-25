@@ -2,11 +2,11 @@
 
 Status: implemented routing baseline
 Owner: World Enterprise Group / Global Enterprise
-Last verified: 2026-08-24
+Last verified: 2026-08-25
 
 ## Decision
 
-Global Enterprise remains the direct public home for institutional advisory: national and federal architecture, whole-of-government transformation, Fortune 500 operating models, ITIL/service systems, solution architecture, DevSecOps/platform operations, procurement-safe context, insights, reports, trust, and leadership conversations.
+Global Enterprise remains the direct public home for institutional advisory: national, federal, state, local, and education architecture and transformation; Fortune 500 operating models; ITIL/service systems; solution architecture; DevSecOps/platform operations; procurement-safe context; insights; reports; trust; and leadership conversations.
 
 The site makes four specific handoffs only when the page context makes the reader's next experience clear:
 
@@ -50,7 +50,7 @@ The routing model is intentionally implemented through shared surfaces instead o
 | Footer | The footer remains first-party and task-led; external destinations appear only in context-specific page sections. |
 | Careers | Experienced talent routes to Tao Staff; early-career readers route to Ignite Curiosity; Global Enterprise retains the honest working-context and availability boundary. |
 | Contextual next step | Careers points to Tao Staff and Ignite Curiosity; research foresight points to INSTAR Lab; vendor/trust pack points to DreamLimited. Other route families remain first-party. |
-| Contact | Role/intent choices now name FEAF, national/international architecture, ITIL, teaming, procurement, and research so first-party institutional inquiries can be routed accurately. |
+| Contact | Role/intent choices now name FEAF, SLED/state-local-education strategy, national/international architecture, ITIL, teaming, procurement, and research so first-party institutional inquiries can be routed accurately. |
 | Visual sitemap / route audit | The organization map is in site tools and the compact map; the noindex route is excluded from the public XML sitemap. The build audit requires all four active external destinations while rejecting the parked DreamLimited domain. |
 | Documentation | `audience-definition.md`, `audience-site-audit-and-game-plan.md`, and `audience-route-matrix.md` carry the priority, route, CTA, and preservation rules. |
 
