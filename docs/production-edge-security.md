@@ -29,3 +29,5 @@ The edge should mirror these response headers on HTML and static assets:
 - The CSP in `public/_headers`, including the current `formsubmit.co` form action and Plausible endpoints.
 
 The shipped CSP has no executable `script-src 'unsafe-inline'` allowance. Analytics and interaction code are external assets; JSON-LD remains data, not executable JavaScript. Inline styles are still permitted because Astro pages intentionally use component-scoped style blocks and a small number of inline style attributes. The built-output audit rejects executable inline scripts before deployment.
+
+Astro pages also emit the same policy as a document-level meta fallback because the current host is GitHub Pages. That fallback protects script execution in browsers, but it does not replace the HTTP header: protections such as `frame-ancestors` still require the production edge to mirror `public/_headers`.

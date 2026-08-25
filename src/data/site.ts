@@ -252,6 +252,7 @@ export const serviceAudiencePathways: ServiceAudiencePathway[] = [
 
 export const industries = [
   {
+    number: "1",
     title: "Global enterprises & operating systems",
     slug: "enterprise-services",
     description: "Align operating models, enterprise service architecture, program governance, and workforce systems as the organization grows more complex.",
@@ -268,6 +269,7 @@ export const industries = [
     href: "/industries/enterprise-services/",
   },
   {
+    number: "2",
     title: "Bio & health systems",
     slug: "healthcare-life-sciences",
     description: "Connect clinical, administrative, and technology decisions so healthcare organizations can improve care without adding operational drag.",
@@ -284,6 +286,7 @@ export const industries = [
     href: "/industries/healthcare-life-sciences/",
   },
   {
+    number: "3",
     title: "Digital public institutions",
     slug: "federal-public-service",
     description: "Turn mission, policy, and legacy technology into an operating system that can deliver trusted public outcomes at scale.",
@@ -300,6 +303,7 @@ export const industries = [
     href: "/industries/federal-public-service/",
   },
   {
+    number: "4",
     title: "Technology & data infrastructure",
     slug: "technology-data",
     description: "Create cloud, data, security, and platform foundations that make technology a business advantage rather than a growing dependency.",
@@ -316,6 +320,7 @@ export const industries = [
     href: "/industries/technology-data/",
   },
   {
+    number: "5",
     title: "Frontier intelligence & autonomous systems",
     slug: "frontier-intelligence-autonomous-systems",
     description: "Connect advanced computation, autonomy, intelligence workflows, and enterprise change when the margin for error is narrow.",
@@ -332,6 +337,7 @@ export const industries = [
     href: "/industries/frontier-intelligence-autonomous-systems/",
   },
   {
+    number: "6",
     title: "Learning & human capability",
     slug: "education",
     description: "Help education leaders connect mission, operations, and the technology that supports learning communities.",
@@ -348,6 +354,7 @@ export const industries = [
     href: "/industries/education/",
   },
   {
+    number: "7",
     title: "AI-native operations",
     slug: "enterprise-ai",
     description: "Move from scattered pilots to a governed AI program and platform portfolio that leaders can measure, improve, and trust.",
@@ -364,6 +371,7 @@ export const industries = [
     href: "/industries/enterprise-ai/",
   },
   {
+    number: "8",
     title: "Resilient infrastructure & energy",
     slug: "energy-infrastructure",
     description: "Align capital programs, grid modernization, digital infrastructure, and operating resilience as energy systems become the platform for economic growth.",
@@ -380,6 +388,7 @@ export const industries = [
     href: "/industries/energy-infrastructure/",
   },
   {
+    number: "9",
     title: "Logistics & supply networks",
     slug: "logistics-and-supply-networks",
     description: "Design and govern supply networks across 3PL strategy, nodes, carriers, warehouses, trade boundaries, and the teams that keep flow moving.",

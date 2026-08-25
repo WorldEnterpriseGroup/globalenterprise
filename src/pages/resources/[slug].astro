@@ -117,13 +117,13 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
             <legend>Delivery details</legend>
             <div class="grid gap-5 sm:grid-cols-2">
               <label class="field-label" for={`resource-name-${report.slug}`}>Name <span class="required-note">Required</span>
-                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" placeholder="Your name" required aria-required="true" aria-invalid="false" />
+                <input id={`resource-name-${report.slug}`} type="text" name="name" autocomplete="name" placeholder="Your full name" required aria-required="true" aria-invalid="false" />
               </label>
               <label class="field-label" for={`resource-email-${report.slug}`}>Work email <span class="required-note">Required</span>
-                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" placeholder="name@organization.gov or company.com" required aria-required="true" aria-invalid="false" />
+                <input id={`resource-email-${report.slug}`} type="email" name="email" autocomplete="email" placeholder="work@organization.com" required aria-required="true" aria-invalid="false" />
               </label>
               <label class="field-label" for={`resource-org-${report.slug}`}>Organization <span class="required-note">Required</span>
-                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" placeholder="Agency, company, university, or institution" required aria-required="true" aria-invalid="false" />
+                <input id={`resource-org-${report.slug}`} type="text" name="organization" autocomplete="organization" placeholder="Organization name" required aria-required="true" aria-invalid="false" />
               </label>
               <label class="field-label" for={`resource-context-${report.slug}`}>Use case <span class="required-note">Required</span>
                 <select id={`resource-context-${report.slug}`} name="use_case" required aria-required="true" aria-invalid="false">
@@ -234,7 +234,7 @@ const sourceLinks = report.sources?.map((source) => resolveEvidenceSource(source
   .report-request input:not([type="checkbox"]), .report-request select { width: 100%; min-height: 3.4rem; border: 0; border-bottom: 1px solid rgb(255 255 255 / 32%); border-radius: 0; background: transparent; color: white; font-size: 1rem; outline: none; }
   .report-request select { color-scheme: dark; }
   .report-request input:focus, .report-request select:focus { border-color: var(--color-accent); }
-  .report-request .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; color: rgb(255 255 255 / 82%); font-size: 0.82rem; font-weight: 400; line-height: 1.55; }
+  .report-request .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 1rem; color: rgb(255 255 255 / 92%); font-size: 0.82rem; font-weight: 400; line-height: 1.55; }
   .report-request .checkbox-label:first-of-type { margin-top: 1.15rem; }
   .related-report { display: grid; align-content: start; min-height: 18rem; padding: clamp(1.5rem, 4vw, 3rem); }
   .related-report > span { color: var(--color-cobalt); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
