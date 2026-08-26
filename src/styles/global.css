@@ -702,24 +702,6 @@
     color: var(--color-cobalt);
   }
 
-  .reading-progress {
-    position: fixed;
-    z-index: 60;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    pointer-events: none;
-  }
-
-  .reading-progress span {
-    display: block;
-    width: 0;
-    height: 100%;
-    background: var(--color-accent);
-    transition: width 80ms linear;
-  }
-
   .mega-quote-mark {
     margin-top: 1.8rem;
     color: var(--color-cobalt);
@@ -1231,10 +1213,6 @@
   transform-origin: left center;
   background: var(--color-cobalt);
   will-change: transform;
-}
-
-body:has(.reading-progress) .site-motion-progress {
-  display: none;
 }
 
 html[data-motion-system="ready"] [data-motion-media] img {

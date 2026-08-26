@@ -5,18 +5,25 @@ import { startingPoints } from "@/data/site";
 interface Props {
   mediaSrc?: string;
   mediaAlt?: string;
+  mediaDecorative?: boolean;
   mediaCaption?: string;
   mediaRatio?: "standard" | "wide" | "cinematic" | "tall";
 }
 
-const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = Astro.props;
+const { mediaSrc, mediaAlt, mediaDecorative = false, mediaCaption = "", mediaRatio = "standard" } = Astro.props;
+
+if (mediaSrc && !mediaDecorative && !mediaAlt?.trim()) {
+  throw new Error("StartingPoint requires mediaAlt when mediaSrc is supplied, or mediaDecorative={true} for decorative media.");
+}
+
+const resolvedMediaAlt = mediaDecorative ? "" : mediaAlt?.trim() ?? "";
 ---
 
 <section class="section-pad bg-cobalt text-white" data-starting-point>
   <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
     <div>
       {mediaSrc && <figure class="mb-9 overflow-hidden border border-white/20 bg-ink shadow-[1rem_1rem_0_rgba(16,19,29,.25)]">
-        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 1024px) 36vw, 100vw" class:list={["starting-point-image", `starting-point-image-ratio-${mediaRatio}`, "w-full", "object-cover", "opacity-90"]} />
+        <AssetImage src={mediaSrc} alt={resolvedMediaAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 1024px) 36vw, 100vw" class:list={["starting-point-image", `starting-point-image-ratio-${mediaRatio}`, "w-full", "object-cover", "opacity-90"]} />
         {mediaCaption && <figcaption class="border-t border-white/15 px-4 py-3 text-xs leading-relaxed text-white/55">{mediaCaption}</figcaption>}
       </figure>}
       <p class="eyebrow text-accent">Find your starting point</p>

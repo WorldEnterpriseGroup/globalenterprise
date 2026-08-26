@@ -4,10 +4,17 @@ import AssetImage from "@/components/AssetImage.astro";
 interface Props {
   mediaSrc?: string;
   mediaAlt?: string;
+  mediaDecorative?: boolean;
   mediaCaption?: string;
 }
 
-const { mediaSrc, mediaAlt = "", mediaCaption = "" } = Astro.props;
+const { mediaSrc, mediaAlt, mediaDecorative = false, mediaCaption = "" } = Astro.props;
+
+if (mediaSrc && !mediaDecorative && !mediaAlt?.trim()) {
+  throw new Error("SystemMap requires mediaAlt when mediaSrc is supplied, or mediaDecorative={true} for decorative media.");
+}
+
+const resolvedMediaAlt = mediaDecorative ? "" : mediaAlt?.trim() ?? "";
 
 const steps = [
   { id: "mandate", marker: "Mandate", title: "Mandate", text: "Name the outcome, the promise, and the decision the organization has to make next.", insight: "Define the institution-level consequence before designing the intervention." },
@@ -27,7 +34,7 @@ const steps = [
         <p class="body-copy mt-6 max-w-xl">Move through the system to see the questions we keep connected when a problem crosses strategy, technology, and organizational life.</p>
       </div>
       {mediaSrc && <figure class="system-map-photo overflow-hidden border border-line bg-white shadow-[1rem_1rem_0_rgba(16,19,29,.08)]">
-        <AssetImage src={mediaSrc} alt={mediaAlt} width={1774} height={887} loading="lazy" decoding="async" sizes="(min-width: 1024px) 48vw, 100vw" class="aspect-[2/1] w-full object-cover" />
+        <AssetImage src={mediaSrc} alt={resolvedMediaAlt} width={1774} height={887} loading="lazy" decoding="async" sizes="(min-width: 1024px) 48vw, 100vw" class="aspect-[2/1] w-full object-cover" />
         {mediaCaption && <figcaption class="border-t border-line px-4 py-3 text-xs leading-relaxed text-muted">{mediaCaption}</figcaption>}
       </figure>}
     </div>
