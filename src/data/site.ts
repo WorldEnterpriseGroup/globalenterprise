@@ -188,6 +188,23 @@ export const industries = [
     href: "/industries/education/",
   },
   {
+    number: "9",
+    title: "State, local & education (SLED)",
+    slug: "sled",
+    description: "Help state agencies, local governments, and K–12/higher-ed institutions modernize services, govern data, and adopt AI in a way that is accountable to residents and communities.",
+    signal: "The National League of Cities 2026 State of Cities report finds that municipal leaders cite digital service delivery, workforce readiness, and data governance as the top three cross-sector priorities for the current fiscal cycle.",
+    source: "https://www.nlc.org/resource/state-of-cities-2026/",
+    sourceLabel: "National League of Cities · State of Cities Report · 2026",
+    focus: ["Digital service delivery", "Data governance and resident trust", "Workforce and AI readiness"],
+    direction: "State and local governments and educational institutions carry a unique accountability: they must modernize quickly, serve every resident, and preserve public trust—all at once. The pathway forward is not the same as the federal or commercial path; it is a community-grounded operating model that connects mission, budget, data, and people.",
+    plays: [
+      { label: "Digital services", title: "Design services residents can actually use.", text: "We map the resident journey, not the agency org chart, then redesign the handoffs, forms, queues, and escalation paths that create friction at the point of need." },
+      { label: "Data governance", title: "Make public data a public trust asset.", text: "We help SLED leaders establish data ownership, quality, access controls, and transparency practices that build resident confidence and enable better decisions." },
+      { label: "AI readiness", title: "Adopt AI in a way the community can hold accountable.", text: "From K–12 to state IT, we sequence AI adoption around measurable outcomes, clear human accountability, and the regulatory and ethical guardrails public-sector leaders require." },
+    ],
+    href: "/industries/sled/",
+  },
+  {
     number: "6",
     title: "AI-native operations",
     slug: "enterprise-ai",

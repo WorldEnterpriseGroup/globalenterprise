@@ -56,7 +56,27 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
           <label class="grid gap-2 text-sm font-bold" for="contact-email">Work email<input id="contact-email" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="email" name="email" autocomplete="email" required /></label>
           <label class="grid gap-2 text-sm font-bold" for="contact-organization">Organization<input id="contact-organization" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="organization" autocomplete="organization" required /></label>
         </div>
-        <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-context">Conversation context<select id="contact-context" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="conversation_context" required><option value="" selected disabled>Select the closest context</option><option>AI/ML portfolio, lab, or operating model</option><option>Data lab, platform, or AI cost management</option><option>Frontier intelligence, quantum, or advanced systems</option><option>Enterprise transformation and change architecture</option><option>Institutional strategy, modernization, or resilience</option><option>Research partnership or strategic inquiry</option></select></label>
+        <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-context">Conversation context<select id="contact-context" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="conversation_context" required>
+            <option value="" selected disabled>Select the closest context</option>
+            <optgroup label="By topic">
+              <option>AI/ML portfolio, lab, or operating model</option>
+              <option>Data lab, platform, or AI cost management</option>
+              <option>Frontier intelligence, quantum, or advanced systems</option>
+              <option>Enterprise transformation and change architecture</option>
+              <option>Institutional strategy, modernization, or resilience</option>
+              <option>Research partnership or strategic inquiry</option>
+            </optgroup>
+            <optgroup label="By role">
+              <option>Chief Executive or Board — strategic mandate</option>
+              <option>Chief Technology or Information Officer — platform or architecture decision</option>
+              <option>Chief Data or AI Officer — AI portfolio, data lab, or governance</option>
+              <option>Government / Agency Executive — mission, modernization, or policy</option>
+              <option>SLED Leader — state, local, or education institution</option>
+              <option>Program or Portfolio Manager — transformation or change initiative</option>
+              <option>Research or Academic Leader — frontier inquiry or institutional partnership</option>
+            </optgroup>
+          </select></label>
+        <div id="contact-routing-hint" class="hidden rounded border border-cobalt/20 bg-cobalt/5 px-5 py-4 text-sm leading-relaxed text-cobalt" aria-live="polite"></div>
         <label class="grid gap-2 text-sm font-bold" for="contact-mandate">The mandate<textarea id="contact-mandate" class="min-h-44 resize-y border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="mandate" placeholder="State the decision, the horizon, and what is at stake. Please do not include classified, export-controlled, or sensitive information in this form." required></textarea></label>
         <div class="grid gap-6 sm:grid-cols-2">
           <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-timing">Decision horizon<select id="contact-timing" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="decision_horizon"><option value="">Select if useful</option><option>Immediate / active decision</option><option>Next 90 days</option><option>2027–2028 horizon</option><option>2030–2035 horizon</option><option>Long-range research</option></select></label>
@@ -80,4 +100,58 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
       </div>
     </div>
   </section>
+
+  <section class="section-pad bg-paper">
+    <div class="container-site">
+      <p class="eyebrow text-cobalt">Partner pathways</p>
+      <h2 class="mt-6 font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Not every need starts with Global Enterprise.</h2>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">We work with a trusted network of partners for contexts where specialist capability, staffing, or emerging technology are the right first step.</p>
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div class="border-t-2 border-cobalt pt-6">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Learning &amp; development</p>
+          <h3 class="mt-4 font-display text-2xl font-medium tracking-[-0.04em]">Ignite Curiosity</h3>
+          <p class="mt-4 text-sm leading-relaxed text-muted">Specialist in curiosity-driven learning design, capability programmes, and education-sector engagement. The right first conversation for K–12 curriculum innovation, staff learning journeys, and community-facing learning initiatives.</p>
+          <a class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-cobalt hover:underline" href="https://ignitecuriosity.org" target="_blank" rel="noopener noreferrer">Visit Ignite Curiosity <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="border-t-2 border-cobalt pt-6">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Talent &amp; staffing</p>
+          <h3 class="mt-4 font-display text-2xl font-medium tracking-[-0.04em]">Tao Staff</h3>
+          <p class="mt-4 text-sm leading-relaxed text-muted">Specialist staffing and talent placement for technology, AI, and transformation roles. The right first conversation when you need to build or augment a delivery team before the strategy engagement begins.</p>
+          <a class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-cobalt hover:underline" href="https://taostaff.com" target="_blank" rel="noopener noreferrer">Visit Tao Staff <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="border-t-2 border-cobalt pt-6">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Emerging ventures</p>
+          <h3 class="mt-4 font-display text-2xl font-medium tracking-[-0.04em]">DreamLimited</h3>
+          <p class="mt-4 text-sm leading-relaxed text-muted">Early-stage venture and product partner for AI-native ideas and frontier innovation. The right first conversation for founders and intrapreneurs who need structured thinking before a full transformation mandate is in view.</p>
+          <a class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-cobalt hover:underline" href="https://dreamlimited.co" target="_blank" rel="noopener noreferrer">Visit DreamLimited <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const routingHints: Record<string, string> = {
+      "Chief Executive or Board — strategic mandate": "A principal mandate session is the right starting point. Describe the decision, the horizon, and what is at stake.",
+      "Chief Technology or Information Officer — platform or architecture decision": "Start with the platform or architecture question. Our data-lab and cloud practice maps the decision before selecting technology.",
+      "Chief Data or AI Officer — AI portfolio, data lab, or governance": "Select AI/ML portfolio, lab, or operating model above, then describe the governance or cost challenge you are solving.",
+      "Government / Agency Executive — mission, modernization, or policy": "Our federal public-service practice starts with mission and service promise before touching systems or procurement.",
+      "SLED Leader — state, local, or education institution": "Our SLED practice is built for community accountability. Describe your resident-service or institution challenge and we will route you correctly.",
+      "Program or Portfolio Manager — transformation or change initiative": "Our ITIL change-management practice works at programme scale. Describe the release, dependency, or adoption challenge.",
+      "Research or Academic Leader — frontier inquiry or institutional partnership": "Our 501(c)(3) research partner INSTAR Lab Inc is the right channel for frontier research partnerships. Describe the inquiry.",
+    };
+    const select = document.getElementById("contact-context") as HTMLSelectElement | null;
+    const hint = document.getElementById("contact-routing-hint") as HTMLDivElement | null;
+    if (select && hint) {
+      select.addEventListener("change", () => {
+        const text = routingHints[select.value];
+        if (text) {
+          hint.textContent = text;
+          hint.classList.remove("hidden");
+        } else {
+          hint.classList.add("hidden");
+          hint.textContent = "";
+        }
+      });
+    }
+  </script>
 </Base>

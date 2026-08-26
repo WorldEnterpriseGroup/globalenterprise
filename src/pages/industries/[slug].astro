@@ -18,6 +18,7 @@ const relatedServices = services.filter((service) => {
   if (industry.slug === "energy-infrastructure") return ["cloud-data", "transformation-office", "research-foresight"].includes(service.slug);
   if (industry.slug === "healthcare-life-sciences") return ["operating-model", "cloud-data", "intelligent-automation"].includes(service.slug);
   if (industry.slug === "federal-public-service") return ["operating-model", "transformation-office", "cloud-data"].includes(service.slug);
+  if (industry.slug === "sled") return ["operating-model", "intelligent-automation", "transformation-office"].includes(service.slug);
   return services.slice(0, 3).some((candidate) => candidate.slug === service.slug);
 });
 const insightLinks: Record<string, { title: string; href: string; text: string }[]> = {
@@ -29,6 +30,7 @@ const insightLinks: Record<string, { title: string; href: string; text: string }
   "enterprise-ai": [{ title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating model question behind the adoption statistic." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "Why responsible AI belongs in the management system." }],
   "frontier-intelligence-autonomous-systems": [{ title: "2035 is a design constraint", href: "/insights/2035-is-a-design-constraint/", text: "Why long-horizon capability requires decisions now." }, { title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating system behind frontier capability." }],
   "energy-infrastructure": [{ title: "The grid is an operating model", href: "/insights/ai-at-scale/", text: "A future-facing view of infrastructure, intelligence, and execution." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "What supply-chain exposure means for resilient delivery." }],
+  "sled": [{ title: "Public service is a product", href: "/insights/public-service-is-a-product/", text: "Why resident experience belongs at the centre of government operating models." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "How public-sector AI governance becomes a delivery advantage." }],
 };
 const insights = insightLinks[industry.slug] ?? [];
 const title = `${industry.title} strategy and transformation | Global Enterprise`;
