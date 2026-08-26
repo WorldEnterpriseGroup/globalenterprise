@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import SolutionDiagram from "@/components/SolutionDiagram.astro";
 import { getCollection } from "astro:content";
 import { services, solutionPages } from "@/data/site";
@@ -33,5 +34,14 @@ const cases = (caseOrder[solution.slug] ?? []).map((id) => allCases.find((entry)
   <section class="section-pad bg-white"><div class="container-site"><p class="eyebrow">How we move</p><h2 class="section-title mt-5 max-w-4xl">From strategic question to an institution that can carry the answer.</h2><div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{solution.moves.map((move) => <article class="bg-white p-8 md:min-h-[20rem] md:p-10"><p class="eyebrow text-cobalt">Move</p><p class="mt-12 text-xl font-medium leading-tight tracking-[-0.03em]">{move}</p></article>)}</div></div></section>
   <section class="section-pad bg-cobalt text-white"><div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24"><div><p class="eyebrow text-accent">Capabilities in the room</p><h2 class="section-title mt-5">The right disciplines close to the decision.</h2></div><div class="divide-y divide-white/15 border-y border-white/15">{relatedServices.map((service) => service && <a class="group grid gap-4 py-6 md:grid-cols-[1fr_auto] md:items-center" href={`/services/${service.slug}/`}><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] group-hover:text-accent">{service.title}</h3><p class="mt-2 text-sm text-white/60">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div></div></section>
   <section class="section-pad bg-white"><div class="container-site"><div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p class="eyebrow">Related field notes</p><h2 class="section-title mt-5">Evidence relevant to this pathway.</h2></div><a class="btn-ghost shrink-0" href="/work/">View all work <span aria-hidden="true">↗</span></a></div><div class="mt-12 grid gap-8 md:grid-cols-2">{cases.map((entry) => entry && <a class="group border-t border-line pt-6" href={`/case-studies/${entry.id}/`}><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.sector} · {entry.data.service}</p><h3 class="mt-4 font-display text-3xl font-medium tracking-[-0.05em] group-hover:text-cobalt">{entry.data.title}</h3><p class="mt-4 max-w-xl leading-relaxed text-muted">{entry.data.result}</p><span class="mt-6 inline-block text-cobalt">Read the field note ↗</span></a>)}</div></div></section>
+  <AudiencePathways
+    id={`solution-${solution.slug}-audience-pathways`}
+    eyebrow="Role-oriented next step"
+    title="The next room depends on who has to carry the decision."
+    intro="Enterprise leaders can move into portfolio delivery; enterprise and solution architects, product leaders, and platform teams can inspect the solution-architecture route."
+    compact
+    pathwayIds={["enterprise-and-portfolio-leaders"]}
+    servicePathwayIds={["solution-architecture"]}
+  />
   <section class="bg-accent"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Start with the consequence behind the question.</h2><a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a></div></section>
 </Base>

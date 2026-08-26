@@ -22,7 +22,7 @@ const audienceDestinationContracts = [
 const audienceDestinationRouteContracts = [
   { destination: "https://ignitecuriosity.org/", files: ["careers/index.html"] },
   { destination: "https://taostaff.com/", files: ["careers/index.html"] },
-  { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html"] },
+  { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html", "insights/topics/research-and-foresight/index.html"] },
   { destination: "https://dreamlimited.org/", files: ["trust/vendor-pack/index.html"] },
 ];
 const approvedOrganizationMapFiles = new Set(["audiences/index.html", "visual-sitemap/index.html"]);

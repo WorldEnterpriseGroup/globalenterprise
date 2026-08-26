@@ -29,7 +29,7 @@ import { sitemapGroups, sitemapPages } from "@/data/sitemap";
       </div>
     </nav>
 
-    <main class="container-site section-pad">
+    <div class="container-site section-pad">
       {sitemapGroups.map((group) => (
         <section class="mb-14" aria-labelledby={`group-${group.title.toLowerCase().replaceAll(" ", "-")}`}>
           <div class="mb-5 flex items-end justify-between gap-4 border-b border-line pb-4"><div><p class="eyebrow">Directory</p><h2 id={`group-${group.title.toLowerCase().replaceAll(" ", "-")}`} class="mt-3 font-display text-3xl font-medium tracking-[-0.05em]">{group.title}</h2></div><p class="text-xs font-bold uppercase tracking-[0.12em] text-muted">{group.pages.length} pages</p></div>
@@ -43,6 +43,6 @@ import { sitemapGroups, sitemapPages } from "@/data/sitemap";
           </div>
         </section>
       ))}
-    </main>
+    </div>
   </div>
 </Base>

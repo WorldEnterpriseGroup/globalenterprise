@@ -2,6 +2,8 @@
 
 `public/_headers` is the source-of-truth contract for the static artifact, but GitHub Pages does not apply that file as an HTTP header policy. The production CDN/DNS edge must mirror it.
 
+The artifact also includes `public/.nojekyll`. GitHub Pages uses its presence to preserve dot-prefixed metadata, including `/.well-known/security.txt`; the repository security audit fails if that preservation marker is removed.
+
 Run the repository check before deployment:
 
 ```bash
@@ -30,4 +32,4 @@ The edge should mirror these response headers on HTML and static assets:
 
 The shipped CSP has no executable `script-src 'unsafe-inline'` allowance. Analytics and interaction code are external assets; JSON-LD remains data, not executable JavaScript. Inline styles are still permitted because Astro pages intentionally use component-scoped style blocks and a small number of inline style attributes. The built-output audit rejects executable inline scripts before deployment.
 
-Astro pages also emit the same policy as a document-level meta fallback because the current host is GitHub Pages. That fallback protects script execution in browsers, but it does not replace the HTTP header: protections such as `frame-ancestors` still require the production edge to mirror `public/_headers`.
+Astro pages also emit the same executable/resource directives as a document-level meta fallback because the current host is GitHub Pages. Browser-unsupported controls such as `frame-ancestors` remain HTTP-only; the fallback protects script execution in browsers but does not replace the production edge header.

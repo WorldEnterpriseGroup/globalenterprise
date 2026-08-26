@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import SignalIcon from "@/components/SignalIcon.astro";
 import ControlTowerBoard from "@/components/ControlTowerBoard.astro";
 import { industries, services } from "@/data/site";
@@ -38,6 +39,8 @@ const insights = insightLinks[industry.slug] ?? [];
 const title = `${industry.title} strategy and transformation | Global Enterprise`;
 const description = `${industry.description} Evidence-led strategy and transformation support for ${industry.title.toLowerCase()} leaders.`;
 const isLogistics = industry.slug === "logistics-and-supply-networks";
+const isFederalPublicService = industry.slug === "federal-public-service";
+const isSledInstitution = industry.slug === "education";
 const surfaceTitle = `Make ${industry.focus[0].toLowerCase()} visible before the system is under pressure.`;
 const surfaceText = `${industry.description} The operating surface connects the sector's architecture, program rhythm, evidence, and human accountability.`;
 const movesTitle = `Three operating moves for ${industry.title.toLowerCase()}.`;
@@ -121,6 +124,23 @@ const movesTitle = `Three operating moves for ${industry.title.toLowerCase()}.`;
       </div>
     </div>
   </section>
+
+  {isFederalPublicService && <AudiencePathways
+    id="industry-federal-public-service-audience-pathways"
+    eyebrow="Institutional route"
+    title="Federal architecture and cross-institution systems are distinct starting points."
+    intro="Federal EA teams can follow the FEAF-informed architecture route. National, public, and multilateral leaders can use the whole-of-government and international systems route."
+    compact
+    servicePathwayIds={["federal-enterprise-architecture", "whole-of-government-international-systems"]}
+  />}
+  {isSledInstitution && <AudiencePathways
+    id="industry-education-audience-pathways"
+    eyebrow="Institutional route"
+    title="Keep the public-institution context close to the work."
+    intro="State, local, and education institutions can follow the public-institution operations route, with education context alongside it."
+    compact
+    pathwayIds={["state-local-education-institutions"]}
+  />}
 
   <section class="bg-cobalt text-white"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Bring us the future system behind the challenge.</h2><a class="btn-primary shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a></div></section>
 </Base>

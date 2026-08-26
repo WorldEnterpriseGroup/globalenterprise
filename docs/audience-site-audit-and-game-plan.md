@@ -23,6 +23,8 @@ These are editorial routing rules, not new service categories. `/services/`, `/s
 
 The only explicit map is the noindex `/audiences/` organization map, linked from site tools. Otherwise, handoffs appear where intent is unambiguous: careers can continue to Tao Staff or Ignite Curiosity, research foresight can continue to INSTAR Lab, and vendor/teaming work can continue to DreamLimited. Every other route stays first-party by default.
 
+Report representation is intentional: `/resources/[slug]/` is the indexable decision-entry and request surface, while `/reports/*.html` remains an indexable, self-canonical long-form reading and distribution artifact for researchers, professors, analysts, and independent readers. The two surfaces share the report identity but serve different jobs—the resource route explains access and captures context; the static report carries the complete public document. Do not noindex or remove either surface without revisiting that audience split.
+
 The P0 institutional service slice is now shipped as four additive, indexable routes: federal enterprise architecture / FEAF-informed practice, solution architecture, procurement/acquisition and delivery boundaries, and whole-of-government & international systems. They are service routes, not a second audience taxonomy; each starts with a reader job, a concrete working set, and a first-party conversation path.
 
 ## Destination operating model

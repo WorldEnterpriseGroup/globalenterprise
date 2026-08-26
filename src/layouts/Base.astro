@@ -28,7 +28,7 @@ const { title, description, image, imageWidth, imageHeight, imageAlt, type = "we
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const pathname = Astro.url.pathname;
 const pageVisual = visualForPath(pathname);
-const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/") && !pathname.startsWith("/audiences/") && !pathname.startsWith("/careers/");
+const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/") && !pathname.startsWith("/audiences/") && !pathname.startsWith("/careers/") && !pathname.startsWith("/visual-sitemap/");
 const truncateForMetadata = (value: string, limit: number) => {
   const normalized = value.replace(/\s+/g, " ").trim();
   if (normalized.length <= limit) return normalized;
@@ -110,7 +110,7 @@ const graph = [
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#315b8e" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io; manifest-src 'self'; upgrade-insecure-requests" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io; manifest-src 'self'; upgrade-insecure-requests" />
     <link rel="preload" href="/font/roboto-regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/font/robotocondensed-regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/font/roboto-bold-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />

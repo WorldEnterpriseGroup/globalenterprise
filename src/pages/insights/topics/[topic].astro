@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import { topicSlug } from "@/data/insights";
 import { getCollection } from "astro:content";
@@ -16,10 +17,19 @@ export async function getStaticPaths() {
 const { category, entries } = Astro.props;
 const title = `${category} insights`;
 const description = `Evidence-led perspectives from Global Enterprise on ${category.toLowerCase()}, operating decisions, and what leaders can do next.`;
+const isResearchForesight = topicSlug(category) === "research-and-foresight";
 ---
 
 <Base title={`${title} | Global Enterprise`} description={description} keywords={[category, "enterprise strategy", "operating model", "transformation insights"]}>
   <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end"><div><p class="eyebrow text-accent">Topic signal</p><h1 class="section-title mt-7 max-w-5xl">{title} for the people carrying the next decision.</h1><p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/65">A curated stream of arguments, evidence, and practical implications for leaders working through {category.toLowerCase()}.</p></div><div class="border-l-2 border-accent pl-6"><p class="max-w-xs text-sm leading-relaxed text-white/65">Arguments connected by a shared operating question.</p></div></div></section>
   <section class="section-pad bg-white"><div class="container-site"><div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow={`${entries.length} ${entries.length === 1 ? "argument" : "arguments"}`} title={`The ${category.toLowerCase()} questions worth staying with.`} text="We start with public evidence, then follow the implication into the operating model, workflow, and leadership decision." /><a class="btn-ghost shrink-0" href="/insights/">All insights <span aria-hidden="true">↗</span></a></div><div class="mt-14 divide-y divide-line border-y border-line">{entries.map((entry) => <a class="group grid gap-5 py-8 md:grid-cols-[1fr_1fr_auto] md:items-center" href={`/insights/${entry.id}/`}><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.eyebrow ?? "Perspective"} · {entry.data.readingTime}</p><h2 class="mt-3 font-display text-3xl font-medium leading-tight tracking-[-0.05em] transition-colors group-hover:text-cobalt">{entry.data.title}</h2></div><p class="max-w-xl leading-relaxed text-muted">{entry.data.description}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div></div></section>
+  {isResearchForesight && <AudiencePathways
+    id="research-foresight-audience-pathway"
+    eyebrow="Research partner handoff"
+    title="Keep the research question moving."
+    intro="Professors, researchers, labs, and research partners can continue to INSTAR Lab; stay here for the public evidence and operating implications."
+    compact
+    pathwayIds={["research-and-academic-partners"]}
+  />}
   <section class="bg-accent"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">The topic is the entry point. The operating decision is the work.</h2><a class="btn-dark shrink-0" href="/contact/">Continue the conversation <span aria-hidden="true">↗</span></a></div></section>
 </Base>

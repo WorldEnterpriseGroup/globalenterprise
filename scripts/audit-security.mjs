@@ -2,6 +2,7 @@ import { access, readdir, readFile } from "node:fs/promises";
 
 const root = new URL("../", import.meta.url);
 const headersPath = new URL("public/_headers", root);
+const noJekyllPath = new URL("public/.nojekyll", root);
 const securityTxtPath = new URL("public/.well-known/security.txt", root);
 const distPath = new URL("dist/", root);
 const errors = [];
@@ -71,7 +72,7 @@ function parseHeadersFile(source) {
   return blocks;
 }
 
-function parseCsp(value, sourceLabel) {
+function parseCsp(value, sourceLabel, { requireFrameAncestors = true } = {}) {
   const directives = new Map();
   for (const directive of value.split(";").map((part) => part.trim()).filter(Boolean)) {
     const [name, ...tokens] = directive.split(/\s+/);
@@ -85,7 +86,7 @@ function parseCsp(value, sourceLabel) {
     ["default-src", "'self'"],
     ["base-uri", "'self'"],
     ["object-src", "'none'"],
-    ["frame-ancestors", "'self'"],
+    ...(requireFrameAncestors ? [["frame-ancestors", "'self'"]] : []),
     ["frame-src", "'self'"],
     ["script-src", null],
     ["style-src", null],
@@ -136,6 +137,15 @@ function validateStaticHeaders(source) {
 
   validateHeaderSet(wildcard, "public/_headers /*");
   console.log(`✓ public/_headers: ${wildcard.size} headers parsed in the /* block`);
+}
+
+async function validateGitHubPagesDotfiles() {
+  try {
+    await access(noJekyllPath);
+    console.log("✓ public/.nojekyll: GitHub Pages will preserve dot-prefixed public metadata");
+  } catch {
+    fail("public/.nojekyll: required so GitHub Pages does not drop /.well-known/security.txt");
+  }
 }
 
 function parseSecurityTxt(source) {
@@ -272,7 +282,7 @@ async function validateBuiltOutput() {
       const metaCspMatch = metaCspTag?.match(/\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
       const metaCsp = metaCspMatch?.[1] ?? metaCspMatch?.[2];
       if (!metaCsp) fail(`dist/${relative}: document-level Content-Security-Policy meta fallback is missing`);
-      else parseCsp(metaCsp, `dist/${relative} meta CSP`);
+      else parseCsp(metaCsp, `dist/${relative} meta CSP`, { requireFrameAncestors: false });
     }
 
     for (const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
@@ -292,6 +302,8 @@ async function validateBuiltOutput() {
 
 const headersSource = await readRequired(headersPath, "public/_headers");
 if (headersSource) validateStaticHeaders(headersSource);
+
+await validateGitHubPagesDotfiles();
 
 const securityTxtSource = await readRequired(securityTxtPath, "public/.well-known/security.txt");
 if (securityTxtSource) validateSecurityTxt(securityTxtSource);
