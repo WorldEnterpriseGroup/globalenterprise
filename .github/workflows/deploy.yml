@@ -71,3 +71,5 @@ jobs:
           node-version: 24.18.0
       - name: Audit production routes
         run: npm run audit:live
+      - name: Audit production security headers
+        run: LIVE_SITE_URL=https://globalenterprise.com npm run audit:security

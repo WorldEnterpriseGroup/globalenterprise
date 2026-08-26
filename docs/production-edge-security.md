@@ -18,6 +18,10 @@ LIVE_SITE_URL=https://globalenterprise.com npm run audit:security
 
 The live check exposes any remaining deployment gap at the CDN/DNS edge. GitHub Pages can publish the artifact, but it cannot apply `public/_headers`; the production edge must mirror the contract before the live check can pass. This is an edge configuration task, not an Astro source change.
 
+The repository includes an idempotent Cloudflare API helper for the no-cost response-header rule. Preview it with `npm run edge:security -- --dry-run`, then run `CLOUDFLARE_API_TOKEN=… npm run edge:security` from a secure environment with zone read and Transform Rules edit permissions. It resolves `globalenterprise.com`, creates or updates only the named response-header rule, and preserves other rules in an existing transform ruleset. It does not create Workers, Routes, Pages projects, or paid products. Never commit or paste the token into the repository or chat.
+
+Cloudflare Browser Insights should remain disabled while Plausible is the approved analytics system; otherwise its injected script is blocked by the intentional CSP. After the edge rule and telemetry choice are applied, run `LIVE_SITE_URL=https://globalenterprise.com npm run audit:security` and a browser console check.
+
 The edge should mirror these response headers on HTML and static assets:
 
 - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
