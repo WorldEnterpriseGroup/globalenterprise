@@ -20,6 +20,7 @@ const relatedServices = services.filter((service) => {
   if (industry.slug === "healthcare-life-sciences") return ["operating-model", "cloud-data", "intelligent-automation"].includes(service.slug);
   if (industry.slug === "federal-public-service") return ["operating-model", "transformation-office", "cloud-data"].includes(service.slug);
   if (industry.slug === "logistics-and-supply-networks") return ["operating-model", "cloud-data", "transformation-office"].includes(service.slug);
+  if (industry.slug === "sled") return ["operating-model", "intelligent-automation", "transformation-office"].includes(service.slug);
   if (industry.slug === "technology-data") return ["cloud-data", "operating-model", "transformation-office"].includes(service.slug);
   if (industry.slug === "enterprise-services") return ["operating-model", "leadership-talent", "transformation-office"].includes(service.slug);
   return services.slice(0, 3).some((candidate) => candidate.slug === service.slug);
@@ -34,16 +35,18 @@ const insightLinks: Record<string, { title: string; href: string; text: string }
   "frontier-intelligence-autonomous-systems": [{ title: "2035 is a design constraint", href: "/insights/2035-is-a-design-constraint/", text: "Why long-horizon capability requires decisions now." }, { title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating system behind frontier capability." }],
   "energy-infrastructure": [{ title: "The energy transition is an operating model challenge", href: "/insights/energy-transition-is-an-operating-model/", text: "The 2035 grid agenda will be won by organizations that can coordinate infrastructure, data, regulation, and public trust as one system." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "What supply-chain exposure means for resilient delivery." }],
   "logistics-and-supply-networks": [{ title: "Resilience crosses borders", href: "/insights/resilience-crosses-borders/", text: "Why continuity depends on the interfaces between networks, partners, and institutions." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "How partner architecture becomes part of operational resilience." }],
+  sled: [{ title: "Public service needs product management", href: "/insights/public-service-is-a-product/", text: "Why mission, policy, technology, and lived service have to be managed together." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "How governance becomes a practical public-service operating capability." }],
 };
 const insights = insightLinks[industry.slug] ?? [];
 const title = `${industry.title} strategy and transformation | Global Enterprise`;
-const description = `${industry.description} Evidence-led strategy and transformation support for ${industry.title.toLowerCase()} leaders.`;
+const displayIndustryTitle = industry.slug === "sled" ? industry.title : industry.title.toLowerCase();
+const description = `${industry.description} Evidence-led strategy and transformation support for ${displayIndustryTitle} leaders.`;
 const isLogistics = industry.slug === "logistics-and-supply-networks";
 const isFederalPublicService = industry.slug === "federal-public-service";
-const isSledInstitution = industry.slug === "education";
+const isSledInstitution = ["education", "sled"].includes(industry.slug);
 const surfaceTitle = `Make ${industry.focus[0].toLowerCase()} visible before the system is under pressure.`;
 const surfaceText = `${industry.description} The operating surface connects the sector's architecture, program rhythm, evidence, and human accountability.`;
-const movesTitle = `Three operating moves for ${industry.title.toLowerCase()}.`;
+const movesTitle = `Three operating moves for ${displayIndustryTitle}.`;
 ---
 
 <Base title={title} description={description} image="/media/generated/energy-grid.avif" imageWidth={1600} imageHeight={1067} imageAlt="Operators watching an energy landscape through a control-room window">
@@ -52,7 +55,7 @@ const movesTitle = `Three operating moves for ${industry.title.toLowerCase()}.`;
       <div>
         <a class="eyebrow text-accent" href="/industries/">Industries · Back to all</a>
 
-        <h1 class="section-title mt-5 max-w-4xl">The next chapter of {industry.title.toLowerCase()} will be won in the operating model.</h1>
+        <h1 class="section-title mt-5 max-w-4xl">The next chapter of {displayIndustryTitle} will be won in the operating model.</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">{industry.description}</p>
       </div>
       <div class="border-l-2 border-accent pl-6"><p class="eyebrow text-accent">Sector lens</p><p class="mt-5 max-w-sm font-display text-4xl font-medium leading-tight tracking-[-0.05em] text-white/85">{industry.focus[0]}</p><p class="mt-5 max-w-sm text-sm leading-relaxed text-white/60">A sector perspective, grounded in public evidence and translated into operating choices.</p></div>
