@@ -17,8 +17,9 @@ pages:
     SITE_DIR: "dist/."
     PAGES_BASE_PATH: "/globalenterprise"
 
-# The shared mirror job runs from GitLab's detached CI checkout but pushes the
-# branch name. Materialize that branch locally so the mirror can publish it.
+# The shared mirror job is the source-side provenance gate: it runs from
+# GitLab's detached CI checkout and must push exactly CI_COMMIT_SHA to GitHub.
+# Materialize that branch locally so the mirror can publish it.
 mirror:
   before_script:
     - git branch -f gh-pages "$CI_COMMIT_SHA"
