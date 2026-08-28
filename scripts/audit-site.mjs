@@ -20,10 +20,10 @@ const audienceDestinationContracts = [
   "https://dreamlimited.org/",
 ];
 const audienceDestinationRouteContracts = [
-  { destination: "https://ignitecuriosity.org/", files: ["careers/index.html"] },
-  { destination: "https://taostaff.com/", files: ["careers/index.html"] },
-  { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html", "insights/topics/research-and-foresight/index.html"] },
-  { destination: "https://dreamlimited.org/", files: ["trust/vendor-pack/index.html"] },
+  { destination: "https://ignitecuriosity.org/", files: ["careers/index.html", "contact/index.html"] },
+  { destination: "https://taostaff.com/", files: ["careers/index.html", "contact/index.html"] },
+  { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html", "insights/topics/research-and-foresight/index.html", "contact/index.html"] },
+  { destination: "https://dreamlimited.org/", files: ["trust/vendor-pack/index.html", "contact/index.html"] },
 ];
 const approvedOrganizationMapFiles = new Set(["audiences/index.html", "visual-sitemap/index.html"]);
 const quietShellMarkers = ["Who this is for", "Audience routes", "Other homes in the organization"];

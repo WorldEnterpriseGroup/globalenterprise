@@ -404,6 +404,23 @@ export const industries = [
     ],
     href: "/industries/logistics-and-supply-networks/",
   },
+  {
+    number: "10",
+    title: "State, local & education (SLED)",
+    slug: "sled",
+    description: "Help state agencies, local governments, and K–12 and higher-education institutions modernize services, govern data, and adopt AI in ways that remain accountable to residents and communities.",
+    signal: "NLC’s 2026 State of the Cities report puts economic development, infrastructure, and housing at the center of local priorities, while budget and management and public health and safety remain key issues.",
+    source: "https://www.nlc.org/resource/state-of-the-cities-2026/",
+    sourceLabel: "National League of Cities · State of the Cities 2026 · July 2026",
+    focus: ["Resident-centered digital service delivery", "Data governance and public trust", "Workforce and AI readiness"],
+    direction: "SLED systems have to make public value visible close to the people who use the service. The useful operating model connects mandate, funding, data, procurement, technology, workforce capability, and resident feedback without asking every institution to become an enterprise software company.",
+    plays: [
+      { label: "Service delivery", title: "Make the resident journey the unit of change.", text: "We connect policy intent, service design, casework, data, and frontline feedback so modernization improves the experience people actually have with the institution." },
+      { label: "Trust and data", title: "Give public data and AI a boundary people can understand.", text: "We map data ownership, access, privacy, model use, human review, and recovery into a governance pattern that supports useful automation without hiding accountability." },
+      { label: "Workforce and delivery", title: "Build capacity where the service is delivered.", text: "We align procurement, platform choices, ITIL change practice, training, and local ownership so the capability survives beyond a grant, pilot, or leadership cycle." },
+    ],
+    href: "/industries/sled/",
+  },
 ];
 
 export const publicSignals = [

@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import { site } from "@/data/site";
 import AssetImage from "@/components/AssetImage.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 ---
 
 <Base title="Leadership engagement | Global Enterprise" description="A private first conversation for leaders shaping cross-border M&A, enterprise and public-sector modernization, infrastructure, communications, finance, AI/ML, and operating systems." image="/media/original/contact-workbench.avif" keywords={["M&A integration", "public-sector modernization", "cross-border strategy", "satellite infrastructure", "telecommunications strategy", "global finance", "enterprise AI strategy", "ITIL change management"]}>
@@ -69,6 +70,15 @@ import AssetImage from "@/components/AssetImage.astro";
       </form>
     </div>
   </section>
+
+  <AudiencePathways
+    id="contact-next-pathways"
+    eyebrow="Connected routes"
+    title="Keep the question moving to the right home."
+    intro="Global Enterprise remains the direct home for institutional advisory. For research, learning, talent, or teaming, these verified organization routes make the next step explicit."
+    compact
+    pathwayIds={["research-and-academic-partners", "early-career-learners", "experienced-talent", "prime-and-subcontractor-teams"]}
+  />
 
   <section class="section-pad bg-ink text-white">
     <div class="container-site grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
