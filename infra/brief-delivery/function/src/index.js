@@ -217,6 +217,18 @@ function hasKnownFormValue(value, field) {
   return Boolean(normalized && labels && Object.prototype.hasOwnProperty.call(labels, normalized));
 }
 
+function parseContactTaxonomy(body = {}) {
+  const readerRole = clean(body.reader_role, 120);
+  const conversationContext = clean(body.conversation_context || body.context, 200);
+  if (!hasKnownFormValue(readerRole, "reader_role") || !hasKnownFormValue(conversationContext, "context")) return null;
+  return {
+    readerRole,
+    readerRoleLabel: displayFormValue(readerRole, "reader_role"),
+    conversationContext,
+    conversationContextLabel: displayFormValue(conversationContext, "context"),
+  };
+}
+
 const CONSUMER_EMAIL_ROOTS = new Set(["gmail.com", "googlemail.com", "hotmail.com", "outlook.com", "yahoo.com"]);
 const CONSUMER_EMAIL_VARIANTS = new Set([
   "hotmail.co.uk", "hotmail.fr", "hotmail.de", "hotmail.it", "hotmail.es", "hotmail.com.au", "hotmail.co.jp", "hotmail.co.in", "hotmail.com.br", "hotmail.com.mx",
@@ -752,14 +764,7 @@ async function findDataverseContact(email) {
 async function upsertDataverseContact(record) {
   const existing = await findDataverseContact(record.email);
   const { firstName, lastName } = splitName(record.name);
-  const fields = {
-    firstname: firstName,
-    lastname: lastName,
-    emailaddress1: record.email,
-    jobtitle: record.qualification?.role || undefined,
-    "parentcustomerid_account@odata.bind": `accounts(${DATAVERSE_ACCOUNT_ID})`,
-  };
-  Object.keys(fields).forEach((key) => fields[key] === undefined && delete fields[key]);
+  const fields = buildDataverseContactFields(record, firstName, lastName);
   if (existing?.contactid) {
     await dataverseRequest(`contacts(${existing.contactid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(fields) });
     return existing.contactid;
@@ -771,19 +776,43 @@ async function upsertDataverseContact(record) {
   return match[1];
 }
 
-function buildDataverseEngagement(record, initial) {
-  const q = record.qualification || {};
+function buildDataverseContactFields(record, firstName = splitName(record.name).firstName, lastName = splitName(record.name).lastName) {
+  const role = record.qualification?.role || record.qualification?.readerRoleLabel || record.qualification?.readerRole;
   const fields = {
-    ge_name: clean(`${record.report} · ${record.name || record.email}`, 200),
+    firstname: firstName,
+    lastname: lastName,
+    emailaddress1: record.email,
+    // Keep the free-text title supplied by the requester. The canonical
+    // reader-role taxonomy belongs on the engagement row, not in jobtitle.
+    jobtitle: record.title || role || undefined,
+    "parentcustomerid_account@odata.bind": `accounts(${DATAVERSE_ACCOUNT_ID})`,
+  };
+  Object.keys(fields).forEach((key) => fields[key] === undefined && delete fields[key]);
+  return fields;
+}
+
+function buildDataverseEngagement(record, initial, contactId = "") {
+  const q = record.qualification || {};
+  const isPrincipalDialogue = record.kind === "principal-dialogue";
+  const reportKey = record.reportSlug || (isPrincipalDialogue ? "principal-dialogue" : undefined);
+  const reportTitle = record.report || (isPrincipalDialogue ? "Principal dialogue" : undefined);
+  const context = isPrincipalDialogue
+    ? (q.conversationContext || q.conversationContextLabel)
+    : (record.context || q.conversationContextLabel || q.conversationContext);
+  const role = isPrincipalDialogue
+    ? (q.readerRole || q.readerRoleLabel)
+    : (q.role || q.readerRoleLabel || q.readerRole);
+  const fields = {
+    ge_name: clean(`${reportTitle} · ${record.name || record.email}`, 200),
     ge_requestid: record.id,
-    ge_reportkey: record.reportSlug,
-    ge_reporttitle: record.report,
+    ge_reportkey: reportKey,
+    ge_reporttitle: reportTitle,
     ge_emailhash: hash(record.email),
     ge_organization: record.organization,
-    ge_context: record.context,
-    ge_role: q.role,
+    ge_context: context,
+    ge_role: role,
     ge_decisionstage: q.decisionStage,
-    ge_decisionhorizon: q.decisionHorizon,
+    ge_decisionhorizon: record.decisionHorizon || q.decisionHorizon,
     ge_organizationsize: q.organizationSize,
     ge_industry: q.industry,
     ge_primarychallenge: q.primaryChallenge,
@@ -793,6 +822,7 @@ function buildDataverseEngagement(record, initial) {
     ge_consentscope: record.consent?.scope || "report-specific-follow-up",
     ge_deliverystatus: record.delivery?.status || "pending",
   };
+  if (dataverseId(contactId)) fields["ge_contact@odata.bind"] = `/contacts(${contactId})`;
   if (initial) {
     fields.ge_nurturestage = 0;
     fields.ge_suppressionstatus = "active";
@@ -809,7 +839,7 @@ async function syncDataverse(record) {
   const params = new URLSearchParams({ "$select": "ge_briefengagementid,ge_nurturestage,ge_suppressionstatus", "$filter": `ge_requestid eq ${odataString(record.id)}`, "$top": "1" });
   const existingResult = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
   const existing = (await existingResult.json()).value?.[0] || null;
-  const body = buildDataverseEngagement(record, !existing);
+  const body = buildDataverseEngagement(record, !existing, contactId);
   if (existing?.ge_briefengagementid) {
     await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${existing.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(body) });
     return { contactId, engagementId: existing.ge_briefengagementid, created: false };
@@ -826,7 +856,7 @@ async function syncDataverse(record) {
       const retryResult = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
       const retry = (await retryResult.json()).value?.[0];
       if (retry?.ge_briefengagementid) {
-        await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${retry.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(buildDataverseEngagement(record, false)) });
+        await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${retry.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(buildDataverseEngagement(record, false, contactId)) });
         return { contactId, engagementId: retry.ge_briefengagementid, created: false };
       }
     }
@@ -994,10 +1024,9 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const name = clean(body.name, 160);
   const title = clean(body.title, 160);
   const organization = clean(body.organization, 200);
-  const readerRoleKey = clean(body.reader_role, 120);
-  const readerRole = displayFormValue(readerRoleKey, "reader_role");
-  const conversationContextKey = clean(body.conversation_context || body.context, 200);
-  const contextValue = displayFormValue(conversationContextKey, "context");
+  const contactTaxonomy = parseContactTaxonomy(body);
+  const readerRole = contactTaxonomy?.readerRoleLabel || "";
+  const contextValue = contactTaxonomy?.conversationContextLabel || "";
   const mandate = cleanMultiline(body.mandate, 4000);
   const decisionHorizon = displayFormValue(body.decision_horizon, "decision_horizon");
   const systemScale = displayFormValue(body.system_scale, "system_scale");
@@ -1005,7 +1034,7 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const sourceUrl = sanitizeSourceUrl(body.source_url || request.headers.get("referer"));
   const remoteIp = clientIp(request);
 
-  if (!name || !title || !organization || !hasKnownFormValue(readerRoleKey, "reader_role") || !hasKnownFormValue(conversationContextKey, "context") || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
+  if (!name || !title || !organization || !contactTaxonomy || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
     return response(400, "Please provide the required dialogue context and consent.", headers);
   }
   if (!(await verifyTurnstile(clean(body["cf-turnstile-response"], 4096), remoteIp))) return response(400, "Please complete the verification challenge.", headers);
@@ -1023,17 +1052,15 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
     id,
     createdAt: now.toISOString(),
     kind: "principal-dialogue",
+    report: "Principal dialogue",
+    reportSlug: "principal-dialogue",
+    formKind: "principal-dialogue",
     email,
     name,
     title,
     organization,
     context: contextValue,
-    qualification: {
-      readerRole: readerRoleKey,
-      readerRoleLabel: readerRole,
-      conversationContext: conversationContextKey,
-      conversationContextLabel: contextValue,
-    },
+    qualification: contactTaxonomy,
     mandate,
     decisionHorizon,
     systemScale,
@@ -1054,7 +1081,9 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
 
   if (dataverseConfigured()) {
     try {
-      record.dataverseContactId = await upsertDataverseContact({ email, name, qualification: { role: readerRole } });
+      const dataverse = await syncDataverse(record);
+      if (dataverse?.contactId) record.dataverseContactId = dataverse.contactId;
+      if (dataverse?.engagementId) record.dataverseEngagementId = dataverse.engagementId;
     } catch (error) {
       context.error("Contact Dataverse sync failed", { id, error: safeErrorCode(error) });
     }
@@ -1156,4 +1185,4 @@ app.http("unsubscribe", { methods: ["GET", "POST", "OPTIONS"], authLevel: "anony
 app.http("health", { methods: ["GET"], authLevel: "anonymous", route: "health", handler: health });
 app.timer("nurtureSweep", { schedule: "0 0 * * *", handler: nurtureSweep, runOnStartup: false, useMonitor: true });
 
-export { briefRequest, contactRequest, displayFormValue, health, isCorporateEmail, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };
+export { briefRequest, buildDataverseContactFields, buildDataverseEngagement, contactRequest, displayFormValue, health, isCorporateEmail, nurtureSweep, parseContactTaxonomy, renderContactEmail, renderEmail, unsubscribe };

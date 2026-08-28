@@ -8,8 +8,9 @@ The public boundary should stay deliberately small:
 
 1. A person requests a named report and gives report-specific consent.
 2. The Function validates the request, writes a minimal event to private Blob Storage, and emails a short-lived PDF link.
-3. The Function’s managed identity sends a sanitized `brief.requested` projection directly to Dream Dataverse; an optional HMAC-protected webhook can fan out a separately reviewed event.
-4. Dataverse resolves or creates the native Contact under the Global Enterprise Account, records campaign source and consent, and runs the explicit follow-up playbook.
+3. A principal-dialogue requester receives a separate internal routing path: the Function writes a minimal contact event, sends a branded notification, and records the supplied routing context without enrolling the requester in report nurture.
+4. The Function’s managed identity sends a sanitized `brief.requested` projection directly to Dream Dataverse; an optional HMAC-protected webhook can fan out a separately reviewed event.
+5. Dataverse resolves or creates the native Contact under the Global Enterprise Account, records campaign source and consent, and runs the explicit follow-up playbook only for report requests.
 
 The exact projection, idempotency, consent, suppression, and secret-handling rules are defined in [`CRM-BRIDGE-CONTRACT.md`](./CRM-BRIDGE-CONTRACT.md). The machine-readable canonical payload is [`dataverse-bridge-contract.schema.json`](./dataverse-bridge-contract.schema.json). The live Function implements this projection directly with its managed identity; the optional HMAC webhook uses the same contract when enabled.
 
@@ -41,7 +42,7 @@ Recommended `GE Brief Engagement` fields:
 | `ge_preferred_next_step` | Choice/text | Requested next step; never treat it as a commitment to a meeting. |
 | `ge_source_url` | URL | Page where the request started. |
 | `ge_source_campaign` | Text | Campaign, squeeze-page, partner, or UTM source. |
-| `ge_consent_scope` | Choice | `report-specific-follow-up`, `occasional-notes`, or `none`. |
+| `ge_consent_scope` | Choice/text | `report-specific-follow-up`, `occasional-notes`, or `none` for reports; `principal-dialogue` for inquiry-only contact routing. |
 | `ge_consent_captured_at` | Date/time | Time the permission was captured. |
 | `ge_delivery_status` | Choice | `pending`, `sent`, `failed`, `bounced`, or `expired`. |
 | `ge_delivery_sent_at` | Date/time | Delivery timestamp. |
@@ -52,6 +53,8 @@ Recommended `GE Brief Engagement` fields:
 | `ge_last_event_at` | Date/time | Technical replay guard; update only when an accepted source event is newer. |
 
 Do not store the PDF, SAS URL, unsubscribe token, or the Function’s private Blob path in Dataverse. A signed URL is a delivery artifact with a short lifetime, not a CRM record. Keep the report key and delivery status; if someone needs the document later, generate a fresh link through an authenticated internal workflow.
+
+Principal-dialogue submissions use `ge_report_key=principal-dialogue` and `ge_report_title=Principal dialogue` as their engagement classification. The submitted free-text title remains on the native Contact, while the canonical reader-role and conversation-context keys are stored separately in `ge_role` and `ge_context`; the human-readable labels remain in the protected event and internal notification. The engagement links to that Contact through `ge_contact`. The `principal-dialogue` consent scope authorizes inquiry follow-up only and must not start the report nurture sequence or general newsletter.
 
 ## Relationship stages
 

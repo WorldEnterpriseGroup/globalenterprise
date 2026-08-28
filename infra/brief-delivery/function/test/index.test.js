@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { briefRequest, contactRequest, displayFormValue, health, isCorporateEmail, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
+import { briefRequest, buildDataverseContactFields, buildDataverseEngagement, contactRequest, displayFormValue, health, isCorporateEmail, parseContactTaxonomy, renderContactEmail, renderEmail, unsubscribe } from "../src/index.js";
 
 test("corporate email policy rejects consumer mailboxes but allows custom company domains", () => {
   for (const email of ["reader@gmail.com", "reader@googlemail.com", "reader@hotmail.com", "reader@hotmail.co.uk", "reader@outlook.com", "reader@yahoo.com", "reader@yahoo.co.uk"]) {
@@ -24,6 +24,54 @@ test("form values are stored as readable labels while legacy labels remain reada
   assert.equal(displayFormValue("Next 90 days", "decision_horizon"), "Next 90 days");
   assert.equal(displayFormValue("unknown_value", "role"), "unknown_value");
   assert.equal(displayFormValue("__proto__", "role"), "__proto__");
+});
+
+test("principal-dialogue taxonomies accept canonical pairs and reject crossed or unknown values", () => {
+  const taxonomy = parseContactTaxonomy({
+    reader_role: "professor_researcher",
+    conversation_context: "research_partnership_strategic_inquiry",
+  });
+  assert.deepEqual(taxonomy, {
+    readerRole: "professor_researcher",
+    readerRoleLabel: "Professor, researcher, lab, or academic partner",
+    conversationContext: "research_partnership_strategic_inquiry",
+    conversationContextLabel: "Research partnership or strategic inquiry",
+  });
+  assert.equal(parseContactTaxonomy({ reader_role: "unknown", conversation_context: "research_partnership_strategic_inquiry" }), null);
+  assert.equal(parseContactTaxonomy({ reader_role: "research_partnership_strategic_inquiry", conversation_context: "professor_researcher" }), null);
+});
+
+test("Dataverse contact and engagement projections preserve title and routing fields", () => {
+  const record = {
+    id: "11111111-1111-4111-8111-111111111111",
+    kind: "principal-dialogue",
+    email: "reader@example.com",
+    name: "A Reader",
+    title: "Deputy Director",
+    organization: "Example Organization",
+    report: "Principal dialogue",
+    reportSlug: "principal-dialogue",
+    formKind: "principal-dialogue",
+    context: "Research partnership or strategic inquiry",
+    qualification: {
+      readerRole: "professor_researcher",
+      readerRoleLabel: "Professor, researcher, lab, or academic partner",
+      conversationContext: "research_partnership_strategic_inquiry",
+      conversationContextLabel: "Research partnership or strategic inquiry",
+    },
+    decisionHorizon: "Next 90 days",
+    sourceUrl: "https://globalenterprise.com/contact/",
+    consent: { scope: "principal-dialogue" },
+    delivery: { status: "sent" },
+  };
+  const contact = buildDataverseContactFields(record);
+  assert.equal(contact.jobtitle, "Deputy Director");
+  const engagement = buildDataverseEngagement(record, true, "22222222-2222-4222-8222-222222222222");
+  assert.equal(engagement.ge_reportkey, "principal-dialogue");
+  assert.equal(engagement.ge_role, "professor_researcher");
+  assert.equal(engagement.ge_context, "research_partnership_strategic_inquiry");
+  assert.equal(engagement.ge_decisionhorizon, "Next 90 days");
+  assert.equal(engagement["ge_contact@odata.bind"], "/contacts(22222222-2222-4222-8222-222222222222)");
 });
 
 test("brief request fails closed before provider configuration", async () => {

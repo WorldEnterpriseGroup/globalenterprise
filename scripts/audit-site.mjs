@@ -90,6 +90,21 @@ function selectOptionValues(html, name) {
   return [...select.matchAll(/<option\b[^>]*\bvalue="([^"]+)"/gi)].map((match) => match[1]);
 }
 
+function checkExactTaxonomy(file, name, renderedValues, expectedValues) {
+  if (renderedValues.length !== expectedValues.length) {
+    errors.push(`${file}: ${name} taxonomy expected ${expectedValues.length} values, found ${renderedValues.length}`);
+  }
+  if (new Set(renderedValues).size !== renderedValues.length) {
+    errors.push(`${file}: ${name} taxonomy contains duplicate values`);
+  }
+  for (const value of renderedValues) {
+    if (!expectedValues.includes(value)) errors.push(`${file}: ${name} taxonomy contains unknown ${value}`);
+  }
+  for (const value of expectedValues) {
+    if (!renderedValues.includes(value)) errors.push(`${file}: ${name} taxonomy is missing ${value}`);
+  }
+}
+
 async function internalTarget(href) {
   const parsed = new URL(href, "https://globalenterprise.com");
   if (parsed.origin !== "https://globalenterprise.com") return null;
@@ -199,12 +214,8 @@ const contactHtml = await readFile(join(root.pathname, "contact/index.html"), "u
 const renderedReaderRoles = selectOptionValues(contactHtml, "reader_role");
 const renderedContexts = selectOptionValues(contactHtml, "conversation_context");
 if (!contactHtml) errors.push("contact/index.html: missing rendered contact form");
-for (const value of contactReaderRoleValues) {
-  if (!renderedReaderRoles.includes(value)) errors.push(`contact/index.html: reader_role taxonomy is missing ${value}`);
-}
-for (const value of contactContextValues) {
-  if (!renderedContexts.includes(value)) errors.push(`contact/index.html: conversation_context taxonomy is missing ${value}`);
-}
+checkExactTaxonomy("contact/index.html", "reader_role", renderedReaderRoles, contactReaderRoleValues);
+checkExactTaxonomy("contact/index.html", "conversation_context", renderedContexts, contactContextValues);
 if (renderedReaderRoles.some((value) => renderedContexts.includes(value))) {
   errors.push("contact/index.html: reader_role and conversation_context taxonomies must remain distinct");
 }
