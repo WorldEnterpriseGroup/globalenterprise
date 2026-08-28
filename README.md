@@ -73,3 +73,4 @@ npm run audit:live
 The production audit requires the progressive motion runtime on every generated HTML route in addition to the existing heading, SEO, link, media, diagram, content, and sitemap checks. Browser review should cover normal motion, reduced motion, JavaScript disabled, keyboard focus, 320–390px mobile widths, and a production-build scroll through each route family.
 
 `npm run audit:live` is a post-deploy smoke check for the primary public routes. Set `LIVE_SITE_URL` when validating a preview or alternate origin.
+The GitHub Pages workflow also runs `npm run audit:provenance` with the workflow SHA to verify that GitLab `gh-pages` remains the source of truth. Run it locally with `RELEASE_SHA=<full-commit-sha> npm run audit:provenance`.

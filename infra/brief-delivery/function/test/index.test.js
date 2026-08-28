@@ -19,6 +19,7 @@ test("health response is safe before provider configuration", async () => {
 
 test("form values are stored as readable labels while legacy labels remain readable", () => {
   assert.equal(displayFormValue("federal_enterprise_architecture_feaf", "context"), "Federal enterprise architecture / FEAF");
+  assert.equal(displayFormValue("professor_researcher", "reader_role"), "Professor, researcher, lab, or academic partner");
   assert.equal(displayFormValue("executive_leadership", "role"), "Executive leadership");
   assert.equal(displayFormValue("Next 90 days", "decision_horizon"), "Next 90 days");
   assert.equal(displayFormValue("unknown_value", "role"), "unknown_value");
@@ -66,6 +67,7 @@ test("contact email template is branded, escaped, and reply-ready", () => {
   const { html, plain } = renderContactEmail({
     name: "A <reader>",
     title: "COO",
+    readerRole: "Professor, researcher, lab, or academic partner",
     email: "reader@example.com",
     organization: "Example & Co",
     context: "Enterprise transformation",
@@ -75,6 +77,8 @@ test("contact email template is branded, escaped, and reply-ready", () => {
   assert.match(html, /GLOBAL ENTERPRISE|Global Enterprise/);
   assert.match(html, /A &lt;reader&gt;/);
   assert.match(html, /Example &amp; Co/);
+  assert.match(html, /Reader role/);
+  assert.match(plain, /Reader role: Professor, researcher, lab, or academic partner/);
   assert.match(html, /Make the operating decision clear\.<br>Then move it\./);
   assert.match(plain, /reader@example\.com/);
 });
