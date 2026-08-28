@@ -76,7 +76,7 @@ The Front Door WAF should receive a rate-limit rule for the brief POST route. Ke
 
 ## Dynamics 365 recommendation
 
-The Function writes a minimal lead event and consented nurture state to Blob Storage, then projects the accepted event directly into Dream Dataverse with its user-assigned managed identity. `NURTURE_WEBHOOK_URL` remains an optional HMAC extension for a separately reviewed downstream workflow; it is not required for the CRM write path.
+The Function writes a minimal lead event and consented nurture state to Blob Storage, then projects the accepted event directly into Dream Dataverse with its user-assigned managed identity. Principal-dialogue records use a separate contact outbox with bounded retry and human-review handling for ambiguous identity matches; they never enter report nurture. `NURTURE_WEBHOOK_URL` remains an optional HMAC extension for a separately reviewed downstream workflow; it is not required for the CRM write path.
 
 Dream Dataverse owns the native Contact relationship, the Global Enterprise Account association, engagement history, owner BU, pipeline stage, tasks, suppression, and reporting. It does not own the PDF binary or act as the public download gate. The first nurture stages are explicit and report-specific: immediate delivery, a worksheet prompt after three days, a decision-room prompt after ten days, and a working-session invitation after twenty-one days. Every message carries an unsubscribe link and the sequence stops on opt-out.
 
