@@ -147,6 +147,19 @@ const FORM_VALUE_LABELS = {
     institutional_strategy_modernization_resilience: "Institutional strategy, modernization, or resilience",
     research_partnership_strategic_inquiry: "Research partnership or strategic inquiry",
   },
+  reader_role: {
+    national_public_executive: "National, federal, state, local, or education executive",
+    federal_ea_feaf_architect: "Federal EA / FEAF or enterprise architecture practitioner",
+    enterprise_cio_coo_portfolio: "Enterprise CIO, CTO, COO, or portfolio leader",
+    itil_service_devsecops_operator: "ITIL, service, transformation, or DevSecOps operator",
+    acquisition_contracting_cor: "Contracting officer, COR, or acquisition official",
+    prime_sme_teaming_partner: "Prime, SME, subcontractor, or teaming partner",
+    professor_researcher: "Professor, researcher, lab, or academic partner",
+    early_career_learner: "Intern, student, apprentice, or professional learner",
+    experienced_talent: "Experienced specialist exploring a career",
+    analyst_public_reader: "Analyst, journalist, or public reader",
+    other_cross_functional: "Other / cross-functional",
+  },
   use_case: {
     ai_rollout_governance: "AI rollout and governance",
     data_platform_cost_controls: "Data platform and cost controls",
@@ -196,6 +209,12 @@ function displayFormValue(value, field) {
   const normalized = clean(value, 200);
   const labels = FORM_VALUE_LABELS[field];
   return labels && Object.prototype.hasOwnProperty.call(labels, normalized) ? labels[normalized] : normalized;
+}
+
+function hasKnownFormValue(value, field) {
+  const normalized = clean(value, 200);
+  const labels = FORM_VALUE_LABELS[field];
+  return Boolean(normalized && labels && Object.prototype.hasOwnProperty.call(labels, normalized));
 }
 
 const CONSUMER_EMAIL_ROOTS = new Set(["gmail.com", "googlemail.com", "hotmail.com", "outlook.com", "yahoo.com"]);
@@ -592,11 +611,12 @@ async function sendEmail({ to, name, report, link, stage = 0, unsubscribeUrl }) 
   return result.id || null;
 }
 
-function renderContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
+function renderContactEmail({ name, title, email, organization, readerRole, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
   const safeMandate = escapeHtmlMultiline(mandate, 4000).replace(/\n/g, "<br>");
   const rows = [
     ["Name", name],
-    ["Title / role", title],
+    ["Title", title],
+    ["Reader role", readerRole],
     ["Work email", email],
     ["Organization", organization],
     ["Conversation context", context],
@@ -627,9 +647,10 @@ function renderContactEmail({ name, title, email, organization, context, mandate
   return { html, plain };
 }
 
-async function sendContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
+async function sendContactEmail({ name, title, email, organization, qualification, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
   if (!emailClient || !ACS_SENDER_ADDRESS) throw new Error("email_not_configured");
-  const { html, plain } = renderContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl });
+  const readerRole = qualification?.readerRoleLabel || qualification?.readerRole || qualification?.role || "";
+  const { html, plain } = renderContactEmail({ name, title, email, organization, readerRole, context, mandate, decisionHorizon, systemScale, sourceUrl });
   const poller = await emailClient.beginSend({
     senderAddress: ACS_SENDER_ADDRESS,
     replyTo: [{ address: email, displayName: name || undefined }],
@@ -973,7 +994,10 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const name = clean(body.name, 160);
   const title = clean(body.title, 160);
   const organization = clean(body.organization, 200);
-  const contextValue = displayFormValue(body.conversation_context || body.context, "context");
+  const readerRoleKey = clean(body.reader_role, 120);
+  const readerRole = displayFormValue(readerRoleKey, "reader_role");
+  const conversationContextKey = clean(body.conversation_context || body.context, 200);
+  const contextValue = displayFormValue(conversationContextKey, "context");
   const mandate = cleanMultiline(body.mandate, 4000);
   const decisionHorizon = displayFormValue(body.decision_horizon, "decision_horizon");
   const systemScale = displayFormValue(body.system_scale, "system_scale");
@@ -981,7 +1005,7 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const sourceUrl = sanitizeSourceUrl(body.source_url || request.headers.get("referer"));
   const remoteIp = clientIp(request);
 
-  if (!name || !title || !organization || !contextValue || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
+  if (!name || !title || !organization || !hasKnownFormValue(readerRoleKey, "reader_role") || !hasKnownFormValue(conversationContextKey, "context") || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
     return response(400, "Please provide the required dialogue context and consent.", headers);
   }
   if (!(await verifyTurnstile(clean(body["cf-turnstile-response"], 4096), remoteIp))) return response(400, "Please complete the verification challenge.", headers);
@@ -1004,6 +1028,12 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
     title,
     organization,
     context: contextValue,
+    qualification: {
+      readerRole: readerRoleKey,
+      readerRoleLabel: readerRole,
+      conversationContext: conversationContextKey,
+      conversationContextLabel: contextValue,
+    },
     mandate,
     decisionHorizon,
     systemScale,
@@ -1024,7 +1054,7 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
 
   if (dataverseConfigured()) {
     try {
-      record.dataverseContactId = await upsertDataverseContact({ email, name, qualification: { role: title } });
+      record.dataverseContactId = await upsertDataverseContact({ email, name, qualification: { role: readerRole } });
     } catch (error) {
       context.error("Contact Dataverse sync failed", { id, error: safeErrorCode(error) });
     }
