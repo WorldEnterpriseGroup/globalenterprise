@@ -30,9 +30,10 @@ jobs:
         with:
           node-version: 24.18.0
           cache: npm
-      - name: Verify GitLab source-of-truth provenance
+      - name: Verify mirrored release provenance
         env:
           RELEASE_SHA: ${{ github.sha }}
+          GITLAB_PROVENANCE_MODE: mirror
         run: npm run audit:provenance
       - name: Install dependencies
         run: npm ci
