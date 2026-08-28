@@ -6,24 +6,23 @@ const resourceSlug = Astro.url.searchParams.get("resource");
 const report = businessReports.find((item) => item.slug === resourceSlug);
 ---
 
-<Base title="Your report is ready | Global Enterprise" description="Thanks for requesting a business report from Global Enterprise.">
+<Base title="Your report is ready | Global Enterprise" description="Thanks for requesting a business report from Global Enterprise." noindex>
   <section class="bg-cobalt py-24 text-white md:py-36">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">Download requested</p>
+        <p class="eyebrow text-accent">Download requested</p>
         <h1 class="section-title mt-7 max-w-4xl">Thank you. The request is in queue.</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/75">
-          We have your request. If you used email, you should receive the requested material and a short follow-up from our team with practical context.
+          We have your request. Check your inbox for a private download link to the requested material and a short, report-specific follow-up sequence.
         </p>
         {report ? <p class="mt-6 max-w-2xl text-white/80">{`Requested report: ${report.title}.`} </p> : <p class="mt-6 max-w-2xl text-white/80">If you requested a report, you will find it in the follow-up.</p>}
-        {report && <a class="btn-primary mt-10" href={report.file} download>Download here anyway <span aria-hidden="true">↗</span></a>}
         <div class="mt-10 flex flex-wrap gap-4">
           <a class="btn-ghost text-white border-white/45" href="/resources/">Back to all reports <span aria-hidden="true">↗</span></a>
-          <a class="btn-ghost text-white border-white/45" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a>
+          <a class="btn-ghost text-white border-white/45" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-      <div class="border-l-2 border-lime pl-6">
-        <p class="eyebrow text-lime">Next step</p>
+      <div class="border-l-2 border-accent pl-6">
+        <p class="eyebrow text-accent">Next step</p>
         <p class="mt-4 text-lg leading-relaxed text-white/75">Want more than a report? We can run a one-hour mandate session and convert this into an execution sequence.</p>
       </div>
     </div>

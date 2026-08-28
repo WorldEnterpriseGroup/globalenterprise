@@ -1,0 +1,75 @@
+---
+import Base from "@/layouts/Base.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import TrademarkNotice from "@/components/TrademarkNotice.astro";
+import { site } from "@/data/site";
+---
+
+<Base title="Trust center | Global Enterprise" description="Global Enterprise identity, confidentiality, delivery assurance, privacy boundaries, and public trust commitments." keywords={["Global Enterprise trust center", "confidential consulting", "enterprise consulting controls", "enterprise data handling"]}>
+  <section class="bg-cobalt py-20 text-white md:py-28">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
+      <div>
+        <p class="eyebrow text-accent">Trust center</p>
+        <h1 class="section-title mt-7 max-w-5xl">Clear identity. Discreet work. Explicit boundaries.</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">A serious partnership starts with knowing who is responsible, what the public channel can hold, how the work is delivered, and what we will never claim without evidence.</p>
+      </div>
+      <div class="border-l-2 border-accent pl-6">
+        <p class="eyebrow text-accent">Current statement</p>
+        <p class="mt-5 max-w-sm text-lg leading-relaxed text-white/75">Reviewed August 11, 2026. This page describes the public operating boundary; engagement-specific controls are agreed before sensitive work begins.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <SectionHeading eyebrow="Identity" title="The company behind the conversation." text="The public brand, operating jurisdiction, and delivery model are stated here so procurement, privacy, and contracting conversations start from the same facts." />
+      <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Public identity</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.name}</p><p class="mt-2 text-sm leading-relaxed text-muted">{site.legalName} · {site.entityType}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Jurisdiction</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.jurisdiction}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Operating model</p><p class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">{site.operatingModel}</p></div>
+        <div class="bg-white p-8"><p class="eyebrow text-cobalt">Public contact</p><a class="mt-5 block font-display text-2xl font-medium tracking-[-0.04em] text-cobalt hover:text-ink" href={`mailto:${site.email}`}>{site.email}</a><a class="mt-2 block text-sm text-muted hover:text-cobalt" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-paper">
+    <div class="container-site">
+      <SectionHeading eyebrow="The public boundary" title="What we can promise before the engagement begins." />
+      <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
+        <article class="bg-paper p-8 md:min-h-[22rem] md:p-10"><h2 class=" font-display text-3xl font-medium tracking-[-0.05em]">Confidentiality</h2><p class="mt-5 leading-relaxed text-muted">We can publish abstract mechanisms without publishing client, company, product, or operating identifiers. Engagement-specific NDA and information-sharing requirements are established before sensitive material is exchanged.</p></article>
+        <article class="bg-paper p-8 md:min-h-[22rem] md:p-10"><h2 class=" font-display text-3xl font-medium tracking-[-0.05em]">Delivery assurance</h2><p class="mt-5 leading-relaxed text-muted">Our own source history is part of the method: work is documented, versioned, reviewed, tested, and released through explicit gates. We transfer the operating cadence rather than creating dependency on a heroic individual.</p></article>
+        <article class="bg-paper p-8 md:min-h-[22rem] md:p-10"><h2 class=" font-display text-3xl font-medium tracking-[-0.05em]">Evidence discipline</h2><p class="mt-5 leading-relaxed text-muted">We separate public fact, internal portfolio proof, interpretation, and recommendation. We do not publish client names, awards, certifications, metrics, or endorsements unless the evidence and permission are in place.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <SectionHeading eyebrow="Data and security boundary" title="The public form is for context, not controlled information." text="A public website cannot replace a secure engagement channel. We establish the appropriate route when the work involves sensitive, classified, export-controlled, regulated, or otherwise restricted material." />
+      <div class="space-y-7 text-lg leading-relaxed text-muted">
+        <p><strong class="text-ink">Public forms.</strong> Contact, report, newsletter, and Global Brief forms collect only the context needed to respond. Do not send secrets, credentials, classified material, export-controlled information, patient information, or sensitive operational details.</p>
+        <p><strong class="text-ink">Service boundary.</strong> Leadership engagement, report, and Global Brief requests route through Global Enterprise’s first-party brief-delivery service on Azure. The Signal newsletter request remains a separate, manual-review form until its native subscription workflow is enabled. Plausible provides privacy-focused aggregate analytics. See the <a class="text-cobalt underline underline-offset-4" href="/privacy/">privacy notice</a> for the current handling statement.</p>
+        <p><strong class="text-ink">Engagement controls.</strong> Data residency, access roles, retention, secure transfer, incident contacts, subcontractors, and environment boundaries are scoped to the engagement rather than implied by this public site.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-ink text-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div><p class="eyebrow text-accent">Procurement and fit</p><h2 class="section-title mt-5 max-w-3xl">The right next question is welcome.</h2></div>
+      <div class="space-y-6 text-lg leading-relaxed text-white/70"><p>We can begin with a private mandate conversation, a targeted diagnostic, or a longer transformation partnership. We will tell you what we can support, what needs a different specialist, and what information belongs in a protected channel.</p><a class="btn-primary" href="/contact/">Start a leadership engagement <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+  <section class="section-pad bg-paper">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <SectionHeading eyebrow="Procurement" title="A public starting point for vendor diligence." text="Use the vendor and trust pack to see what is public, what is engagement-specific, and what should be confirmed before contracting." />
+      <div class="space-y-6 text-lg leading-relaxed text-muted"><p>The pack covers legal identity, public-site controls, data and security boundaries, third-party services, accessibility posture, and open diligence items. It does not substitute for a current questionnaire response or a scoped security review.</p><a class="btn-dark" href="/trust/vendor-pack/">Open the vendor &amp; trust pack <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+  <section class="border-t border-line bg-white py-12">
+    <div class="container-site grid gap-6 md:grid-cols-[.55fr_1.45fr]">
+      <p class="eyebrow text-cobalt">Third-party names</p>
+      <TrademarkNotice />
+    </div>
+  </section>
+</Base>

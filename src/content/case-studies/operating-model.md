@@ -5,6 +5,11 @@ sector: "Enterprise services"
 service: "Operating model design"
 result: "A shared system for decisions, priorities, and accountability"
 eyebrow: "Field note · Operating model"
+environment: "A distributed portfolio of ventures, products, and operating teams"
+timeframe: "Multi-year operating-model evolution"
+scope: ["Decision rights", "Portfolio cadence", "Measures and handoffs"]
+evidenceNote: "Confidential internal portfolio proof; identifiers and product names intentionally withheld."
+confidential: true
 ---
 
 ## The brief
@@ -26,3 +31,9 @@ We looked at decision latency, the number of handoffs required for priority work
 ## Why the pattern travels
 
 The same design problem appears in federal agencies, healthcare enterprises, and commercial organizations: strategy is clear at the top but loses resolution as it moves through services, platforms, and teams. The intervention is to make the system legible at the point where a person has to act.
+
+## What we can say publicly
+
+This pattern reflects years of forming, operating, and growing organizations where the work crossed disciplines and locations. The public version intentionally leaves out names and sensitive operating details.
+
+The evidence is in the operating history: ideas moved from strategy into products, products into maintained systems, and maintained systems into the next venture or capability. That is the standard we bring to an institution that needs transformation to compound instead of reset.

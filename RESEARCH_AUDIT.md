@@ -1,6 +1,6 @@
 # Evidence audit
 
-Audited 23 articles in `src/content/insights/` for stale evidence and repeated quantified claims.
+Audited 30 articles in `src/content/insights/` for stale evidence and repeated quantified claims.
 
 ## Findings
 
@@ -26,6 +26,7 @@ The library was revised with distinct research and a more specific consulting im
 - Federal/public-service articles now connect current Data.gov, UN, NATO, and service-management evidence.
 - Platform, supplier, and responsible-AI articles now use NATO, NIST, and FDA material for distinct operating questions.
 - The flagship 2035 article combines DOE, UN, NATO, and Data.gov into an original long-horizon thesis.
+- The international cluster now adds cross-border operating-model, regional context, distributed leadership, AI sovereignty, and resilience perspectives without inventing local offices, clients, metrics, or regional outcomes.
 
 After remediation, the insight library has zero cross-article duplicate quantified claims and zero stale pre-August 2026 references. Shared primary sources are intentionally reused when they establish a different domain constraint; the check reports those overlaps for editorial review instead of confusing citation reuse with repeated reasoning.
 

@@ -1,0 +1,46 @@
+---
+import Base from "@/layouts/Base.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
+
+const audienceKeywords = ["Global Enterprise organization map", "federal enterprise architecture", "ITIL consulting", "research partnerships", "government transformation", "consulting careers", "prime contractor teaming"];
+---
+
+<Base title="Organization map | Global Enterprise" description="A quiet map of the specialist paths connected to Global Enterprise." keywords={audienceKeywords} noindex>
+  <section class="bg-ink py-20 text-white md:py-28">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
+      <div>
+        <p class="eyebrow text-accent">Organization map</p>
+        <h1 class="section-title mt-7 max-w-5xl">Follow the work to its natural next step.</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">Global Enterprise is the direct home for government, enterprise, architecture, service, procurement, and transformation questions. When a specialist organization owns the next experience, this page keeps the handoff clear without interrupting the main site.</p>
+      </div>
+      <aside class="border-l-2 border-accent pl-6">
+        <p class="eyebrow text-accent">A quiet routing layer</p>
+        <p class="mt-5 max-w-sm text-lg leading-relaxed text-white/75">The content stays connected. The next action goes to the organization best equipped to serve the question.</p>
+      </aside>
+    </div>
+  </section>
+
+  <AudiencePathways eyebrow="Connected workbenches" title="When the work belongs somewhere else, the handoff stays clear." intro="This map is for orientation, not a required starting point. Stay with Global Enterprise for institutional advisory, or follow a clearly labeled destination when another organization owns the next experience." />
+
+  <section class="section-pad bg-white" aria-labelledby="audience-boundary-title">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+      <div>
+        <p class="eyebrow text-cobalt">How the constellation works</p>
+        <h2 id="audience-boundary-title" class="section-title mt-5 max-w-3xl">One operating standard. Distinct reader homes.</h2>
+      </div>
+      <div class="grid gap-px border border-line bg-line sm:grid-cols-2">
+        <article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Global Enterprise</p><h3 class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">Institutional decisions</h3><p class="mt-4 leading-relaxed text-muted">Governments, Fortune 500s, architects, service operators, transformation leaders, acquisition officials, and analysts stay here for advisory, insights, reports, trust material, and the leadership engagement path.</p></article>
+        <article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Research &amp; learning</p><h3 class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">Knowledge and early-career journeys</h3><p class="mt-4 leading-relaxed text-muted">Professors and researchers move to INSTAR Lab. Interns, apprentices, fellows, and professional learners move to Ignite Curiosity. The public site remains the context layer that explains why the work matters.</p></article>
+        <article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Talent</p><h3 class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">Career journeys</h3><p class="mt-4 leading-relaxed text-muted">Anyone looking for a career with the organization moves to Tao Staff, with the Global Enterprise careers page providing working context and the right expectation boundary.</p></article>
+        <article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Teaming</p><h3 class="mt-5 font-display text-2xl font-medium tracking-[-0.04em]">Pursuit and delivery partners</h3><p class="mt-4 leading-relaxed text-muted">Primes, subcontractors, SMEs, and capture teams move to DreamLimited for teaming and pursuit pathways, while Global Enterprise retains the public vendor and delivery boundary.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-accent" aria-label="Organization next step">
+    <div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between">
+      <div><p class="eyebrow text-ink">Still deciding?</p><h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Start with the question, not the label.</h2></div>
+      <div class="flex flex-wrap gap-4"><a class="btn-dark" href="/contact/">Bring the mandate to Global Enterprise <span aria-hidden="true">↗</span></a><a class="btn-ghost bg-white text-ink" href="/visual-sitemap/">View the full site map <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+</Base>

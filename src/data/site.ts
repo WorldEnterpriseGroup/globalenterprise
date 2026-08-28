@@ -1,15 +1,30 @@
+// The production delivery boundary is first-party and keeps report/contact
+// intake on the same Azure Function. The Signal still uses the legacy form
+// route until its native subscription workflow is enabled separately.
 const formEndpoint = "https://formsubmit.co/info@globalenterprise.com";
+const briefEndpoint = import.meta.env.PUBLIC_BRIEF_API_URL?.trim() || "https://briefs.globalenterprise.com/api/brief-request";
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_API_URL?.trim() || briefEndpoint;
 
 export const site = {
   name: "Global Enterprise",
+  legalName: "Global Enterprise Standard Corporation",
+  entityType: "S Corporation",
   shortName: "Global",
   url: "https://globalenterprise.com",
   description:
-    "Global Enterprise is a senior strategy, AI/ML, data, frontier research, and enterprise change partner for institutions shaping the next order of complexity.",
+    "Global Enterprise is a strategy and technology partner for governments, public agencies, corporations, and national institutions shaping enterprise architecture, ITIL service systems, modernization, AI/ML, data, energy, communications, and operating models at institutional scale.",
   email: "info@globalenterprise.com",
   phone: "+1 929 229 2918",
-  location: "New York · Remote-first · Built for the world",
+  location: "Delaware, USA · Global infrastructure advisory network",
+  jurisdiction: "Delaware, USA",
+  operatingModel: "Global delivery across time zones and operating contexts",
   formEndpoint,
+  briefEndpoint,
+  contactEndpoint,
+  briefDeliveryReady: Boolean(briefEndpoint),
+  contactDeliveryReady: Boolean(contactEndpoint),
+  publicFormProvider: "Global Enterprise delivery service",
+  publicFormNotice: "Public forms are for routing and context only; do not submit sensitive, classified, export-controlled, patient, or credential information.",
   analytics: {
     plausibleDomain: "globalenterprise.com",
   },
@@ -20,16 +35,68 @@ export const site = {
 
 export const navItems = [
   { label: "Capabilities", href: "/services/" },
-  { label: "Approach", href: "/about/" },
+  { label: "M&A integration", href: "/services/mergers-acquisitions/" },
+  { label: "About", href: "/about/" },
   { label: "Industries", href: "/industries/" },
-  { label: "Work", href: "/case-studies/" },
+  { label: "Work", href: "/work/" },
   { label: "Insights", href: "/insights/" },
   { label: "Careers", href: "/careers/" },
 ];
 
+export const regionContexts = [
+  {
+    slug: "na",
+    name: "North America",
+    title: "Scale without losing the mission.",
+    description: "Large institutions are being asked to move at institutional speed while carrying public, regulatory, workforce, and infrastructure consequence. The useful question is which decisions belong close to the signal—and which require a shared control surface.",
+    lenses: ["Mission and enterprise architecture", "AI portfolio governance", "Infrastructure and public value"],
+  },
+  {
+    slug: "eu",
+    name: "Europe",
+    title: "Turn principle into operating practice.",
+    description: "Privacy, safety, resilience, competition, and digital sovereignty are not separate workstreams. They become an operating advantage when translated into product choices, data responsibilities, evidence, and a clear path for exception.",
+    lenses: ["Responsible AI and data trust", "Cross-border operating models", "Regulation-to-workflow translation"],
+  },
+  {
+    slug: "mea",
+    name: "Middle East & Africa",
+    title: "Build the platform and the capability together.",
+    description: "Ambitious transformation programs need more than capital and technology. They need local capability, durable institutions, delivery partners, and a sequence that lets a new system become useful before it becomes complex.",
+    lenses: ["Institution building and capability transfer", "Digital and physical infrastructure", "Partner ecosystems and resilience"],
+  },
+  {
+    slug: "asia",
+    name: "Asia-Pacific",
+    title: "Coordinate speed across a connected system.",
+    description: "Manufacturing, logistics, technology, health, and public systems often cross organizational and national boundaries. Advantage comes from making the interfaces, handoffs, and decision rights visible before the network is under stress.",
+    lenses: ["Supply-chain and platform resilience", "Interoperability and data products", "Distributed leadership and change"],
+  },
+  {
+    slug: "latam",
+    name: "Latin America & the Caribbean",
+    title: "Make trust part of the delivery architecture.",
+    description: "Transformation compounds when people can see who owns a decision, how data is used, and what happens when the system fails. Clear service promises and practical feedback loops are the infrastructure for adoption.",
+    lenses: ["Public service and institutional trust", "Inclusive capability building", "Data, identity, and service design"],
+  },
+  {
+    slug: "sa",
+    name: "South America",
+    title: "Build capability around continuity.",
+    description: "Capability has to survive weaker grid quality, uneven logistics, and local operational constraints. The advantage comes from defining what can be standardized versus what must stay local.",
+    lenses: ["Infrastructure continuity", "Decision-rights localization", "Operational translation"],
+  },
+];
+
+export const globalOperatingModel = [
+  { title: "Translate", text: "Turn a shared ambition into local decision rules, service promises, and evidence that the people closest to the work can use." },
+  { title: "Coordinate", text: "Make the dependencies across time zones, partners, regulators, platforms, and capital visible enough to govern." },
+  { title: "Adapt", text: "Preserve the standard while allowing the workflow, language, risk boundary, and delivery rhythm to fit the context." },
+  { title: "Transfer", text: "Leave behind the capability, cadence, and ownership model required for the institution to keep learning after the engagement." },
+];
+
 export const services = [
   {
-    number: "1",
     slug: "operating-model",
     title: "Operating model design",
     short: "Make the work make sense.",
@@ -38,7 +105,46 @@ export const services = [
     tags: ["Strategy", "Policy", "Change"],
   },
   {
-    number: "2",
+    slug: "federal-enterprise-architecture",
+    title: "Federal enterprise architecture / FEAF-informed practice",
+    short: "Make mission architecture governable.",
+    description:
+      "Translate federal mission, policy, portfolio, and service intent into an architecture and transition path teams can govern.",
+    tags: ["Federal Architecture", "FEAF-informed", "Mission Modernization"],
+  },
+  {
+    slug: "solution-architecture",
+    title: "Solution architecture",
+    short: "Connect the solution to the service.",
+    description:
+      "Connect outcomes, interfaces, data, controls, delivery, and operating readiness in a solution architecture teams can build and run.",
+    tags: ["Solution Architecture", "Systems Design", "Interoperability"],
+  },
+  {
+    slug: "procurement-acquisition",
+    title: "Procurement, acquisition & delivery boundaries",
+    short: "Make the scope and boundary legible.",
+    description:
+      "Give contracting officers, CORs, SMEs, and delivery partners a clear view of scope, evidence, assumptions, and delivery boundaries.",
+    tags: ["Procurement", "Acquisition", "Delivery Boundaries"],
+  },
+  {
+    slug: "whole-of-government-international-systems",
+    title: "Whole-of-government & international systems",
+    short: "Coordinate across institutions and borders.",
+    description:
+      "Coordinate architecture, service management, interoperability, and capability transfer across ministries, agencies, regions, and multilateral contexts.",
+    tags: ["Whole-of-Government", "International Systems", "Institutional Resilience"],
+  },
+  {
+    slug: "mergers-acquisitions",
+    title: "Mergers & acquisitions",
+    short: "Make the combined system work.",
+    description:
+      "Design the integration thesis across capital, infrastructure, communications, data, service operations, and markets.",
+    tags: ["M&A", "Integration", "Corporate strategy"],
+  },
+  {
     slug: "intelligent-automation",
     title: "Enterprise AI & ML labs",
     short: "Put intelligence inside the operating model.",
@@ -47,7 +153,6 @@ export const services = [
     tags: ["AI/ML", "AI Labs", "Governance"],
   },
   {
-    number: "3",
     slug: "cloud-data",
     title: "Data labs & AI cost management",
     short: "Make intelligence economically durable.",
@@ -56,7 +161,6 @@ export const services = [
     tags: ["Data Labs", "AI Cost", "FinOps"],
   },
   {
-    number: "4",
     slug: "leadership-talent",
     title: "Leadership & talent",
     short: "Turn capability into capacity.",
@@ -65,7 +169,6 @@ export const services = [
     tags: ["People", "Culture", "Capability"],
   },
   {
-    number: "5",
     slug: "transformation-office",
     title: "ITIL change management",
     short: "Make high-stakes change repeatable.",
@@ -74,7 +177,6 @@ export const services = [
     tags: ["ITIL", "Change", "Mission"],
   },
   {
-    number: "6",
     slug: "research-foresight",
     title: "Quantum intelligence & foresight",
     short: "Work at the edge of the possible.",
@@ -84,21 +186,85 @@ export const services = [
   },
 ];
 
+export type ServiceAudiencePathway = {
+  id: string;
+  priority: "P0" | "P1";
+  eyebrow: string;
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+  serviceSlug: string;
+  supportingHref?: string;
+  supportingLabel?: string;
+};
+
+export const serviceAudiencePathways: ServiceAudiencePathway[] = [
+  {
+    id: "federal-enterprise-architecture",
+    priority: "P0",
+    eyebrow: "Design architecture",
+    title: "Federal enterprise architecture / FEAF-informed practice",
+    description: "For federal CIO, CTO, CDO, CAIO, CISO, mission, portfolio, and architecture teams that need a traceable working set from mandate to transition.",
+    href: "/services/federal-enterprise-architecture/",
+    linkLabel: "Explore the federal architecture pathway",
+    serviceSlug: "federal-enterprise-architecture",
+    supportingHref: "/industries/federal-public-service/",
+    supportingLabel: "See public-service context",
+  },
+  {
+    id: "solution-architecture",
+    priority: "P0",
+    eyebrow: "Design the solution",
+    title: "Solution architecture for consequential services",
+    description: "For enterprise and solution architects, technical authorities, product leaders, and platform teams who need the interfaces, decisions, and operating conditions around a solution made explicit.",
+    href: "/services/solution-architecture/",
+    linkLabel: "Explore the solution architecture pathway",
+    serviceSlug: "solution-architecture",
+    supportingHref: "/services/operating-model/",
+    supportingLabel: "Connect it to the operating model",
+  },
+  {
+    id: "procurement-acquisition",
+    priority: "P0",
+    eyebrow: "Specify and procure",
+    title: "Procurement, acquisition & delivery boundaries",
+    description: "For contracting officers, CORs, acquisition teams, SMEs, and delivery partners who need a procurement-safe view of the problem, evidence, assumptions, and engagement boundary.",
+    href: "/services/procurement-acquisition/",
+    linkLabel: "Explore the acquisition pathway",
+    serviceSlug: "procurement-acquisition",
+    supportingHref: "/trust/vendor-pack/",
+    supportingLabel: "Review the public diligence boundary",
+  },
+  {
+    id: "whole-of-government-international-systems",
+    priority: "P0",
+    eyebrow: "Coordinate institutions",
+    title: "Whole-of-government & international systems",
+    description: "For national, public, and multilateral institution leaders coordinating architecture, services, interoperability, and capability transfer across jurisdictions.",
+    href: "/services/whole-of-government-international-systems/",
+    linkLabel: "Explore the institutional systems pathway",
+    serviceSlug: "whole-of-government-international-systems",
+    supportingHref: "/operations/",
+    supportingLabel: "Read the operating-context thesis",
+  },
+];
+
 export const industries = [
   {
     number: "1",
     title: "Global enterprises & operating systems",
     slug: "enterprise-services",
-    description: "Align operating models, enterprise platforms, and leadership systems as the organization grows more complex.",
+    description: "Align operating models, enterprise service architecture, program governance, and workforce systems as the organization grows more complex.",
     signal: "The UN’s 2026 SDG report says progress is meaningful but uneven, with technology, data, energy transition, and international cooperation requiring a decisive push before 2030.",
     source: "https://unstats.un.org/sdgs/report/2026/",
     sourceLabel: "United Nations · Sustainable Development Goals Report 2026",
-    focus: ["Operating model clarity", "Service and process design", "Leadership capacity"],
-    direction: "The next advantage for enterprise services is not another layer of process. It is an operating model that makes judgment faster, service promises explicit, and scarce expertise easier to move to the work that matters.",
+    focus: ["Enterprise platform and service architecture", "Program and portfolio governance", "Leadership and workforce capacity"],
+    direction: "The next advantage for enterprise services is not another layer of process. It is an operating model that makes platform and service architecture legible, program decisions faster, and scarce workforce capability easier to move to the work that matters.",
     plays: [
-      { label: "Service architecture", title: "Make the invisible handoffs visible.", text: "We map the moments where a customer, employee, or executive experiences the enterprise—not just the boxes in the org chart—then design ownership around the promise." },
-      { label: "Capability portfolio", title: "Treat skills as an operating asset.", text: "The current workforce challenge is not a course catalog. It is a portfolio of role design, leadership practice, and learning loops tied to measurable work." },
-      { label: "Decision velocity", title: "Move authority closer to the signal.", text: "We clarify which decisions belong at the center, which belong in the business, and which should be encoded into a platform or workflow." },
+      { label: "Service architecture", title: "Make the invisible handoffs visible.", text: "We map the moments where a customer, employee, or executive experiences the enterprise—not just the boxes in the org chart—then connect service ownership, platform boundaries, and measures around the promise." },
+      { label: "Program governance", title: "Keep the portfolio tied to the promise.", text: "We connect program decisions to service architecture, dependency maps, funding choices, and the operating cadence leaders need to see trade-offs before they become delivery friction." },
+      { label: "Workforce system", title: "Move capability to the work that matters.", text: "The workforce challenge is not a course catalog. It is role design, leadership practice, and learning loops tied to the platform and service changes the organization has to carry." },
     ],
     href: "/industries/enterprise-services/",
   },
@@ -140,21 +306,21 @@ export const industries = [
     number: "4",
     title: "Technology & data infrastructure",
     slug: "technology-data",
-    description: "Create cloud, data, security, and automation foundations that make technology a business advantage rather than a growing dependency.",
+    description: "Create cloud, data, security, and platform foundations that make technology a business advantage rather than a growing dependency.",
     signal: "NATO’s 2026 Alliance Digital Strategy calls for standardized data labeling, metadata, access controls, federated identity, and interoperable digital platforms through 2035.",
     source: "https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy",
     sourceLabel: "NATO · Alliance Digital Strategy · Vision for 2035",
-    focus: ["Cloud and data architecture", "Third-party risk", "Responsible automation"],
-    direction: "Technology leaders are being asked to create speed without creating fragility. The answer is a platform strategy that treats architecture, security, data quality, and developer experience as one operating system.",
+    focus: ["Platform and data architecture", "Architecture and third-party risk", "Data products and responsible automation"],
+    direction: "Technology leaders are being asked to create speed without creating fragility. The answer is a coherent platform strategy connecting architecture, data quality, security, developer experience, and the workforce that runs them.",
     plays: [
-      { label: "Platform economics", title: "Make the paved road the rational road.", text: "We align reusable platform capabilities to the decisions the business needs to make, so teams gain speed without multiplying hidden dependencies." },
-      { label: "Security by design", title: "Extend accountability through the supply chain.", text: "NATO’s 2035 digital direction makes data labeling, access control, interoperability, and mission assurance strategic capabilities. We connect controls, evidence, contracts, and operational response." },
-      { label: "Data products", title: "Give ownership a job to do.", text: "A data catalog is not a strategy. We design domain ownership, quality measures, access patterns, and decision use cases that make data trustworthy because it is useful." },
+      { label: "Platform economics", title: "Make the paved road the rational road.", text: "We align reusable platform capabilities and reference architecture to the decisions the business needs to make, so teams gain speed without multiplying hidden dependencies." },
+      { label: "Architecture controls", title: "Extend accountability through the supply chain.", text: "NATO’s 2035 digital direction makes data labeling, access control, interoperability, and mission assurance strategic capabilities. We connect controls, evidence, contracts, program dependencies, and operational response." },
+      { label: "Data products", title: "Give ownership a job to do.", text: "A data catalog is not a strategy. We design domain ownership, quality measures, access patterns, and workforce enablement around decision use cases that make data trustworthy because it is useful." },
     ],
     href: "/industries/technology-data/",
   },
   {
-    number: "8",
+    number: "5",
     title: "Frontier intelligence & autonomous systems",
     slug: "frontier-intelligence-autonomous-systems",
     description: "Connect advanced computation, autonomy, intelligence workflows, and enterprise change when the margin for error is narrow.",
@@ -171,7 +337,7 @@ export const industries = [
     href: "/industries/frontier-intelligence-autonomous-systems/",
   },
   {
-    number: "5",
+    number: "6",
     title: "Learning & human capability",
     slug: "education",
     description: "Help education leaders connect mission, operations, and the technology that supports learning communities.",
@@ -188,38 +354,72 @@ export const industries = [
     href: "/industries/education/",
   },
   {
-    number: "6",
+    number: "7",
     title: "AI-native operations",
     slug: "enterprise-ai",
-    description: "Move from scattered pilots to a governed portfolio of AI-enabled work that leaders can measure, improve, and trust.",
+    description: "Move from scattered pilots to a governed AI program and platform portfolio that leaders can measure, improve, and trust.",
     signal: "DOE’s 2026 grid modernization agenda proposes AI-enabled planning, interconnection, operations, and security that could make decision cycles 20–100 times faster while improving cost and reliability.",
     source: "https://www.energy.gov/undersecretaryforscience/genesis-mission/scaling-grid-power-american-economy",
     sourceLabel: "U.S. Department of Energy · Scaling the Grid to Power the American Economy",
-    focus: ["AI portfolio strategy", "Human-in-the-loop workflows", "Governance and adoption"],
-    direction: "Enterprise AI has crossed the pilot threshold. The differentiator now is not access to a model; it is the ability to select valuable work, redesign the workflow, govern the risk, and learn faster than the portfolio changes.",
+    focus: ["AI portfolio and program strategy", "Model, data, and workflow architecture", "Governance, workforce, and adoption"],
+    direction: "Enterprise AI has crossed the pilot threshold. The differentiator now is not access to a model; it is the ability to select valuable work, design the platform and workflow, govern the risk, equip the workforce, and learn faster than the portfolio changes.",
     plays: [
-      { label: "Portfolio design", title: "Fund workflows, not demos.", text: "We rank opportunities by decision value, data readiness, adoption friction, and control requirements, then sequence a portfolio leaders can actually govern." },
-      { label: "AI security", title: "Build for continuous challenge.", text: "Current AI systems sit inside critical workflows and infrastructure. We design evaluation, red-teaming, monitoring, and recovery into the operating rhythm rather than treating assurance as a final gate." },
-      { label: "Adoption system", title: "Give every new capability a home.", text: "The real product is a changed way of working. We define human accountability, exception paths, measures, and the leadership cadence that keeps adoption useful." },
+      { label: "Portfolio design", title: "Fund workflows, not demos.", text: "We rank opportunities by decision value, data readiness, adoption friction, and control requirements, then sequence an AI program leaders can govern across platforms, teams, and releases." },
+      { label: "Architecture assurance", title: "Build for continuous challenge.", text: "AI systems sit inside critical workflows and infrastructure. We design evaluation, monitoring, recovery, and data controls into the platform and operating rhythm rather than treating assurance as a final gate." },
+      { label: "Workforce adoption", title: "Give every new capability a home.", text: "The real product is a changed way of working. We define human accountability, role-based enablement, exception paths, measures, and the leadership cadence that keeps adoption useful." },
     ],
     href: "/industries/enterprise-ai/",
   },
   {
-    number: "7",
+    number: "8",
     title: "Resilient infrastructure & energy",
     slug: "energy-infrastructure",
-    description: "Align capital, grid modernization, digital operations, and resilience as infrastructure becomes the platform for economic growth.",
+    description: "Align capital programs, grid modernization, digital infrastructure, and operating resilience as energy systems become the platform for economic growth.",
     signal: "DOE’s July 2026 Paducah partnership pairs a 1.8 GW AI campus with new generation, 2.6 GW of battery storage, and transmission upgrades—an operating-model problem disguised as a facilities project.",
     source: "https://www.energy.gov/articles/energy-department-announces-partnership-expand-reliable-affordable-energy-access-and-power",
     sourceLabel: "U.S. Department of Energy · Paducah AI and Energy Partnership · July 2026",
-    focus: ["Grid and asset strategy", "Resilience and supply chain", "Capital-to-operations translation"],
-    direction: "DOE’s current AI-and-energy projects make the 2035 question concrete: how do leaders turn generation, storage, transmission, digital operations, and public accountability into reliable service rather than disconnected capital programs?",
+    focus: ["Infrastructure and asset architecture", "Capital program and delivery governance", "Operations workforce and supply resilience"],
+    direction: "DOE’s current AI-and-energy projects make the 2035 question concrete: how do leaders turn generation, storage, transmission, digital operations, workforce readiness, and public accountability into reliable service rather than disconnected capital programs?",
     plays: [
-      { label: "System planning", title: "Sequence the grid before the grid sequences you.", text: "We translate demand, reliability, resilience, and affordability goals into an investment roadmap with explicit dependencies across assets, data, permitting, and operations." },
-      { label: "Digital operations", title: "Make the control room an enterprise capability.", text: "We connect asset data, workforce readiness, cybersecurity, and decision rights so new complexity becomes observable and manageable." },
-      { label: "Supply chain resilience", title: "Treat critical components as strategy.", text: "DOE’s current electricity strategy emphasizes component availability and supply-chain security. We help leaders model the exposure, alternatives, and operating response." },
+      { label: "System planning", title: "Sequence the grid before the grid sequences you.", text: "We translate demand, reliability, resilience, and affordability goals into a capital-program roadmap with explicit dependencies across assets, data, permitting, and operations." },
+      { label: "Digital operations", title: "Make the control room an enterprise capability.", text: "We connect asset and platform architecture, workforce readiness, cybersecurity, and decision rights so new complexity becomes observable and manageable." },
+      { label: "Supply chain resilience", title: "Treat critical components as strategy.", text: "DOE’s current electricity strategy emphasizes component availability and supply-chain security. We help leaders model exposure, alternatives, partner governance, and the operating response." },
     ],
     href: "/industries/energy-infrastructure/",
+  },
+  {
+    number: "9",
+    title: "Logistics & supply networks",
+    slug: "logistics-and-supply-networks",
+    description: "Design and govern supply networks across 3PL strategy, nodes, carriers, warehouses, trade boundaries, and the teams that keep flow moving.",
+    signal: "A resilient supply network makes its handoffs observable: inventory, transport, orders, partner commitments, customs boundaries, and recovery decisions must connect before an exception becomes a service failure.",
+    source: "https://www.wcoomd.org/en/topics/facilitation/instrument-and-tools/frameworks-of-standards.aspx",
+    sourceLabel: "World Customs Organization · Framework of Standards",
+    focus: ["3PL strategy and network design", "Inventory, transport, and order visibility", "Partner governance and continuity"],
+    direction: "Logistics performance is a network question, not a warehouse metric. We connect service promises to network design, control-tower decision rights, inventory and transport visibility, carrier and warehouse governance, customs and trade boundaries, exception management, continuity planning, and reverse logistics.",
+    plays: [
+      { label: "Network design", title: "Design the flow around the service promise.", text: "We shape 3PL strategy, node roles, carrier and warehouse capacity, and network alternatives around service requirements, cost-to-serve, geography, and the boundaries that cannot be ignored." },
+      { label: "Control tower", title: "Make exceptions actionable before they become failures.", text: "We connect inventory, transport, and order visibility into a control-tower operating rhythm with clear event definitions, triage thresholds, owners, and escalation paths." },
+      { label: "Continuity and returns", title: "Govern the partners and boundaries that keep flow moving.", text: "We establish carrier, warehouse, and partner decision rights across customs and trade boundaries, then design continuity, recovery, and reverse-logistics paths that remain usable under disruption." },
+    ],
+    href: "/industries/logistics-and-supply-networks/",
+  },
+  {
+    number: "10",
+    title: "State, local & education (SLED)",
+    slug: "sled",
+    description: "Help state agencies, local governments, and K–12 and higher-education institutions modernize services, govern data, and adopt AI in ways that remain accountable to residents and communities.",
+    signal: "NLC’s 2026 State of the Cities report puts economic development, infrastructure, and housing at the center of local priorities, while budget and management and public health and safety remain key issues.",
+    source: "https://www.nlc.org/resource/state-of-the-cities-2026/",
+    sourceLabel: "National League of Cities · State of the Cities 2026 · July 2026",
+    focus: ["Resident-centered digital service delivery", "Data governance and public trust", "Workforce and AI readiness"],
+    direction: "SLED systems have to make public value visible close to the people who use the service. The useful operating model connects mandate, funding, data, procurement, technology, workforce capability, and resident feedback without asking every institution to become an enterprise software company.",
+    plays: [
+      { label: "Service delivery", title: "Make the resident journey the unit of change.", text: "We connect policy intent, service design, casework, data, and frontline feedback so modernization improves the experience people actually have with the institution." },
+      { label: "Trust and data", title: "Give public data and AI a boundary people can understand.", text: "We map data ownership, access, privacy, model use, human review, and recovery into a governance pattern that supports useful automation without hiding accountability." },
+      { label: "Workforce and delivery", title: "Build capacity where the service is delivered.", text: "We align procurement, platform choices, ITIL change practice, training, and local ownership so the capability survives beyond a grant, pilot, or leadership cycle." },
+    ],
+    href: "/industries/sled/",
   },
 ];
 
@@ -271,10 +471,15 @@ export const businessReports = [
       "This evergreen operating report keeps the focus on public evidence. It helps leaders separate a genuine bottleneck from an avoidable delay, then sequence decisions that improve execution speed without adding fragility.",
     highlights: ["Mandate definition, ownership, and escalation mechanics", "Evidence pathways for operational decisions", "Where AI and human review should remain explicitly coupled", "How capability gaps show up before cost or compliance gaps"],
     takeaways: ["A decision stack is legible when owners are explicit.", "Most modernization risk sits in handoffs, not the code stack.", "Data is only useful when it is governed to the point of work."],
-    file: "/reports/enterprise-decision-readiness.txt",
+    storageObject: "enterprise-decision-readiness.pdf",
+    htmlFile: "/reports/enterprise-decision-readiness.html",
+    format: "PDF field guide",
+    readingTime: "45-minute working read",
+    depth: "5,700-word thesis, diagnostic, horizon table, decision worksheet, and source notes",
     sources: [
       { label: "UN SDG Report 2026", url: "https://unstats.un.org/sdgs/report/2026/" },
       { label: "Data.gov catalog", url: "https://data.gov/" },
+      { label: "World Economic Forum · Future of Jobs 2025", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/" },
     ],
   },
   {
@@ -286,10 +491,15 @@ export const businessReports = [
       "Use this report to move from tool-level questions to workflow-level control. It translates publicly observed interoperability and security expectations into a practical operating rhythm.",
     highlights: ["Signals for API and interoperability readiness", "Control boundaries for human-in-the-loop workflows", "Measure, monitor, and recovery patterns that keep trust intact"],
     takeaways: ["Control design should be anchored in the workflow, not the model stack.", "Governance should preserve useful authority at every layer.", "Public institutions and enterprise systems both need a deliberate exception process."],
-    file: "/reports/ai-governance-controls.txt",
+    storageObject: "ai-governance-controls.pdf",
+    htmlFile: "/reports/ai-governance-controls.html",
+    format: "PDF field guide",
+    readingTime: "40-minute working read",
+    depth: "4,900-word thesis, control model, architecture diagram, implementation worksheet, and source notes",
     sources: [
       { label: "ONC API access brief", url: "https://healthit.gov/data/data-briefs/hospital-use-of-apis-to-enable-data-sharing-between-ehrs-and-third-party-technology/" },
       { label: "NATO Digital Strategy 2026", url: "https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy" },
+      { label: "CISA et al. · Secure by Design for AI systems", url: "https://www.cisa.gov/resources-tools/resources/shifting-balance-cybersecurity-risk-principles-and-approaches-secure-design-software" },
     ],
   },
   {
@@ -301,18 +511,46 @@ export const businessReports = [
       "The report converts complex modernization choices into a staged sequence. It helps teams spot what should be retired, wrapped, replaced, or redesigned first.",
     highlights: ["Portfolio-level sequencing across mission, systems, and skills", "Cost, dependency, and continuity risks in one view", "Capital-to-operations transition plans that preserve capability"],
     takeaways: ["Modernization is a management problem before it is a technology problem.", "Resilience starts with explicit transition design between legacy and new systems.", "The first durable win is usually in decision rights, not tooling."],
-    file: "/reports/modernization-investment-priority.txt",
+    storageObject: "modernization-investment-priority.pdf",
+    htmlFile: "/reports/modernization-investment-priority.html",
+    format: "PDF field guide",
+    readingTime: "40-minute working read",
+    depth: "4,100-word thesis, portfolio screen, transition gates, investment worksheet, and source notes",
     sources: [
       { label: "DOE AI-enabled grid planning context", url: "https://www.energy.gov/undersecretaryforscience/genesis-mission/scaling-grid-power-american-economy" },
+      { label: "International Energy Agency · Energy and AI", url: "https://www.iea.org/reports/energy-and-ai" },
       { label: "NIST AI risk and reliability work", url: "https://www.nist.gov/" },
+    ],
+  },
+  {
+    slug: "global-operating-model-brief",
+    eyebrow: "Global operating model",
+    title: "The Global Operating Model Field Report",
+    summary: "A 3,000-word executive field report on the next global operating model: translation and coordination across AI, sovereignty, infrastructure, partners, time zones, language, and local legitimacy.",
+    description:
+      "The next global operating model will not be a headquarters playbook translated into local languages. It will be a living translation and coordination system—one that lets a common ambition travel across AI, sovereignty, infrastructure, partners, time zones, language, and local legitimacy without flattening the context that makes execution possible.",
+    highlights: ["The translation loop: context, translate, decide, and learn", "Six forces changing the model: AI, sovereignty, infrastructure, partners, language, and local legitimacy", "The architecture of a translation system: decision rights, identity and data, language, partners, infrastructure, and trust", "A detailed regional working worksheet and practical build sequence"],
+    takeaways: ["Preserve intent while changing mechanism across local contexts.", "Coordination will beat replication.", "Make authority, evidence, interfaces, and learning explicit."],
+    storageObject: "global-operating-model-brief.pdf",
+    htmlFile: "/reports/global-operating-model-brief.html",
+    format: "PDF field guide",
+    readingTime: "35–45-minute working read",
+    depth: "3,000-word thesis, translation loop, six-force scan, regional worksheet, and source notes",
+    sources: [
+      { label: "United Nations · Sustainable Development Goals Report 2026", url: "https://unstats.un.org/sdgs/report/2026/" },
+      { label: "NATO · Alliance Digital Strategy", url: "https://www.nato.int/en/about-us/official-texts-and-resources/official-texts/2026/01/13/alliance-digital-strategy" },
+      { label: "Data.gov · public data catalog", url: "https://data.gov/" },
+      { label: "NIST · AI Risk Management Framework", url: "https://www.nist.gov/itl/ai-risk-management-framework" },
+      { label: "OECD · AI Principles", url: "https://www.oecd.org/en/topics/ai-principles.html" },
+      { label: "European Commission · AI Act overview", url: "https://digital-strategy.ec.europa.eu/en/factpages/ai-act" },
     ],
   },
 ];
 
 export const experienceHighlights = [
-  { number: "20+", label: "years at the frontier of change", text: "Our work has evolved with emerging technology and ITIL change practice for more than two decades, always translating new capability into durable operating advantage." },
-  { number: "AI", label: "award-recognized AI leadership", text: "Our founders have been recognized repeatedly for AI leadership. We bring that research posture to enterprise AI/ML, AI cost management, and governed adoption." },
-  { number: "501c3", label: "research institute partnership", text: "Through our partnership with INSTAR Lab Inc, a 501(c)(3) research institute, we contribute to cutting-edge research across frontier intelligence and emerging systems." },
+  { number: "20+", label: "years at the frontier of change", text: "Our work has evolved with emerging technology and ITIL change practice for more than two decades, always translating new capability into durable operating advantage.", href: "/about/" },
+  { number: "AI", label: "frontier AI research posture", text: "We bring a research posture to enterprise AI/ML, AI cost management, and governed adoption—while keeping named profiles and permissioned recognition claims in the diligence path.", href: "/services/intelligent-automation/" },
+  { number: "501c3", label: "research institute partnership", text: "Through our partnership with INSTAR Lab Inc, a 501(c)(3) research institute, we contribute to cutting-edge research across frontier intelligence and emerging systems.", href: "/insights/" },
 ];
 
 export const engagements = [
@@ -434,12 +672,44 @@ export const solutionPages = [
     moves: ["Define the strategic question before selecting the frontier technology", "Test the signal, economics, and organizational readiness together", "Create a path from research insight to a governed enterprise experiment"],
     serviceSlugs: ["research-foresight", "cloud-data", "intelligent-automation"],
   },
+  {
+    slug: "digital-infrastructure-resilience",
+    eyebrow: "Digital infrastructure & resilience",
+    title: "Build digital infrastructure that can absorb change and keep service moving.",
+    description: "Connect platform and data architecture, cyber and operational controls, recovery design, capital decisions, and the workforce required to run resilient digital services.",
+    promise: "Resilience is more than a backup plan; it is a designed relationship between architecture, operating practice, investment, and recovery ownership.",
+    focus: ["Platform and data architecture", "Service continuity and recovery design", "Capital, controls, and operating workforce"],
+    moves: ["Map critical service dependencies across platforms, data, suppliers, and people", "Sequence resilience work around the failure modes and decisions that matter most", "Transfer recovery runbooks, ownership, and learning cadence into the operating model"],
+    serviceSlugs: ["cloud-data", "operating-model", "transformation-office"],
+  },
+  {
+    slug: "supply-network-operations",
+    eyebrow: "Supply network operations",
+    title: "Turn a distributed supply network into a system leaders can see and steer.",
+    description: "Bring 3PL strategy, network design, control-tower operations, inventory and transport visibility, partner governance, trade boundaries, and reverse logistics into one decision path.",
+    promise: "A supply network becomes resilient when every important handoff has a signal, an owner, an exception path, and a credible recovery option.",
+    focus: ["Network and 3PL operating strategy", "Control-tower visibility and exception management", "Continuity, partner governance, and reverse logistics"],
+    moves: ["Model the network, service promise, nodes, partners, and boundary conditions", "Design event visibility and exception queues around decisions rather than dashboards", "Rehearse continuity and reverse flows with the carriers, warehouses, and teams that carry them"],
+    serviceSlugs: ["operating-model", "cloud-data", "transformation-office"],
+  },
+  {
+    slug: "portfolio-delivery",
+    eyebrow: "Portfolio delivery",
+    title: "Make the portfolio a sequence of decisions, not a list of projects.",
+    description: "Connect mandate, architecture, funding, dependencies, delivery programs, workforce capacity, and service continuity so leaders can choose what to do next with evidence.",
+    promise: "A portfolio earns confidence when each release creates evidence for the next investment decision and leaves the organization better able to deliver.",
+    focus: ["Portfolio strategy and decision rights", "Program architecture and delivery sequencing", "Workforce capacity, change, and continuity"],
+    moves: ["Make value, dependencies, risk, and capacity visible across the portfolio", "Choose releases that create learning without exposing service continuity", "Give program and operating leaders a cadence for reprioritization, recovery, and capability transfer"],
+    serviceSlugs: ["operating-model", "transformation-office", "leadership-talent"],
+  },
 ];
 
 export const navigationPanel = {
   explore: [
-    { label: "Our point of view", href: "/about/", description: "How a future-facing advisory house makes complexity governable." },
-    { label: "Selected work", href: "/case-studies/", description: "Field notes from operating models, AI, and institutional change." },
+    { label: "Our point of view", href: "/about/", description: "How we use M&A and operating discipline to make frontier capability governable." },
+    { label: "Operations", href: "/operations/", description: "How we bring world ideas together across regions, partners, and time zones." },
+    { label: "Proof of practice", href: "/proof/", description: "Confidential field evidence from ventures, products, and systems we have built and grown." },
+    { label: "Selected work", href: "/work/", description: "Field notes from operating models, AI, and institutional change." },
     { label: "Insights", href: "/insights/", description: "Evidence and original analysis for the moment when the signal becomes a decision." },
     { label: "Business reports", href: "/resources/", description: "Research-backed, decision-ready reports for leaders carrying institutional consequence." },
     { label: "Strategic pathways", href: "/solutions/", description: "Focused entry points for consequential decisions across the system." },
@@ -448,9 +718,10 @@ export const navigationPanel = {
   industries,
   company: [
     { label: "Team", href: "/team/", description: "The senior disciplines we bring close to the decision." },
-    { label: "Careers", href: "/careers/", description: "Thoughtful operators with range are always welcome." },
+    { label: "Careers", href: "/careers/", description: "Institutional operators and leaders for enterprise-scale mandates." },
     { label: "FAQ", href: "/faq/", description: "The essentials for a senior partnership." },
-    { label: "Contact", href: "/contact/", description: "Request a private principal dialogue." },
+    { label: "Trust center", href: "/trust/", description: "Identity, discretion, delivery assurance, and data boundaries." },
+    { label: "Contact", href: "/contact/", description: "Request a leadership engagement." },
   ],
   feature: {
     label: "Research partnership",
@@ -463,10 +734,11 @@ export const navigationPanel = {
 export const faqItems = [
   { question: "What belongs in an executive brief?", answer: "The mandate, the consequence, the decision that is blocked, and the scale of the system around it. Do not send classified, export-controlled, or otherwise sensitive material through the public form; we establish the right channel for that context." },
   { question: "What level of work do you take on?", answer: "We advise at the level where strategy becomes operational: enterprise AI/ML portfolios, AI cost management, data lab build-outs, mission systems, modernization, quantum intelligence, and the change architecture that makes the result durable." },
+  { question: "Do you work on mergers and acquisitions?", answer: "Yes. We help corporate development and operating leaders define the capability thesis behind a transaction, assess dependencies across infrastructure, communications, data, capital, markets, and service, and establish the post-close operating and change system. We do not present public-site material as securities, valuation, legal, or investment advice." },
   { question: "Do you work with internal teams or take over delivery?", answer: "Both, in the right proportion. We can shape the strategy, stand up the lab or transformation office, support delivery, or embed alongside an existing team. The goal is stronger institutional capability, not dependency." },
   { question: "How do you approach AI in a regulated or mission-critical environment?", answer: "We begin with the decision and the risk boundary, not the model. We map the workflow, define human accountability, establish evaluation and recovery controls, and use NIST plus agency or sector requirements as operating inputs." },
   { question: "What is the INSTAR Lab partnership?", answer: "INSTAR Lab Inc is our 501(c)(3) research institute partner. Together we contribute to cutting-edge research and keep a live bridge between frontier inquiry, responsible experimentation, and enterprise decisions." },
-  { question: "Where do you work?", answer: "We work with leaders whose decisions shape complex institutions, infrastructure, technology, and human systems across North America and beyond. Sensitive engagements are scoped through an appropriate secure channel." },
+  { question: "Where do you work?", answer: "We are Delaware-based with a global delivery footprint across time zones, industries, and operating contexts. We support leaders in government, infrastructure, and enterprise transformations, with sensitive engagements moving through an appropriate secure channel." },
 ];
 
 export const principles = [
@@ -498,6 +770,9 @@ export const footerColumns = [
       { label: "Book a conversation", href: "/contact/" },
       { label: "Capabilities", href: "/services/" },
       { label: "Solutions", href: "/solutions/" },
+      { label: "Operations", href: "/operations/" },
+      { label: "Proof of practice", href: "/proof/" },
+      { label: "Trust center", href: "/trust/" },
       { label: "Team", href: "/team/" },
       { label: "FAQ", href: "/faq/" },
       { label: "Visual sitemap", href: "/visual-sitemap/" },

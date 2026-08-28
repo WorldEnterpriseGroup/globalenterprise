@@ -1,0 +1,77 @@
+<figure class="fte-diagram" data-diagram-id="service-research-foresight-frontier-path" aria-labelledby="fte-title" aria-describedby="fte-caption fte-note">
+  <div class="fte-header">
+    <div>
+      <p class="eyebrow text-cobalt">Route artifact · research and foresight</p>
+      <h2 id="fte-title" class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">Move a frontier signal through a decision path.</h2>
+      <p id="fte-caption" class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">Research earns its place when a leader can see what is known, what is uncertain, which assumption matters, and what low-regret experiment should run next. The path separates sensing from committing.</p>
+    </div>
+    <div class="fte-stamp" aria-hidden="true"><span>F → E</span><small>READINESS PATH</small></div>
+  </div>
+
+  <div class="fte-visual" role="img" aria-label="A six-stage path from scan through decision, with uncertainty narrowing as evidence and readiness increase." tabindex="0">
+    <div class="fte-axis"><span>uncertainty</span><i aria-hidden="true"></i><span>decision confidence</span></div>
+    <ol class="fte-path" aria-hidden="true">
+      <li><span>Signal</span><strong>Scan</strong><small>horizon</small></li>
+      <li><span>Question</span><strong>Frame</strong><small>boundary</small></li>
+      <li><span>Evidence</span><strong>Test</strong><small>assumption</small></li>
+      <li><span>Scenario</span><strong>Model</strong><small>implication</small></li>
+      <li><span>Readiness</span><strong>Prepare</strong><small>capability</small></li>
+      <li><span>Option</span><strong>Decide</strong><small>commitment</small></li>
+    </ol>
+  </div>
+
+  <ol class="fte-stages" aria-label="Six stages from frontier research to enterprise decision" tabindex="0">
+    <li><span class="fte-number">Scan</span><h3>Collect the signal.</h3><p>Track research, market, policy, competitor, and technical shifts without treating novelty as proof.</p><strong>Artifact · signal ledger</strong></li>
+    <li><span class="fte-number">Frame</span><h3>Ask the consequential question.</h3><p>Connect the signal to a decision, exposure, time horizon, and stakeholder who can act.</p><strong>Artifact · inquiry brief</strong></li>
+    <li><span class="fte-number">Test</span><h3>Buy information cheaply.</h3><p>Use a bounded experiment, benchmark, or expert review to challenge the assumption carrying the most risk.</p><strong>Artifact · evidence memo</strong></li>
+    <li><span class="fte-number">Model</span><h3>Make scenarios comparable.</h3><p>Describe plausible futures, leading indicators, constraints, and the choices that remain reversible.</p><strong>Artifact · scenario register</strong></li>
+    <li><span class="fte-number">Prepare</span><h3>Build readiness before urgency.</h3><p>For quantum or other frontier shifts, identify data, skills, interfaces, suppliers, security, and governance dependencies.</p><strong>Artifact · readiness backlog</strong></li>
+    <li><span class="fte-number">Decide</span><h3>Commit to a next move.</h3><p>Choose the option, trigger, owner, and review date; keep the evidence path open for the next update.</p><strong>Artifact · decision record</strong></li>
+  </ol>
+
+  <div class="fte-footer">
+    <p id="fte-note"><strong>Accessible reading:</strong> the stage sequence are the authoritative path. The diagonal line is a visual metaphor for uncertainty becoming more useful—not a forecast.</p>
+    <p class="fte-legend"><span><i class="is-cobalt"></i>research</span><span><i class="is-accent"></i>readiness</span><span><i class="is-ink"></i>decision</span></p>
+  </div>
+</figure>
+
+<style>
+  .fte-diagram { border: 1px solid var(--color-line); background: white; padding: clamp(1.25rem, 4vw, 3rem); }
+  .fte-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 2rem; border-bottom: 1px solid var(--color-line); padding-bottom: 1.5rem; }
+  .fte-stamp { display: grid; gap: 0.35rem; border-left: 2px solid var(--color-cobalt); padding: 0.2rem 0 0.2rem 0.8rem; color: var(--color-cobalt); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; line-height: 1; text-transform: uppercase; }
+  .fte-stamp span { font-size: 1.5rem; letter-spacing: -0.05em; }
+  .fte-stamp small { color: var(--color-muted); font-size: 0.55rem; }
+  .fte-visual { position: relative; overflow-x: auto; margin-top: 1.5rem; border: 1px solid var(--color-line); background: #f7f8fb; padding: 1.3rem 1rem 1.1rem; }
+  .fte-axis { display: flex; justify-content: space-between; min-width: 58rem; color: var(--color-muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .fte-axis i { position: absolute; top: 3.1rem; right: 8%; left: 8%; height: 2px; transform: rotate(-8deg); transform-origin: center; background: linear-gradient(90deg, var(--color-cobalt), #9dbd74, var(--color-ink)); }
+  .fte-path { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(6, minmax(8.5rem, 1fr)); gap: 0.9rem; min-width: 58rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+  .fte-path li { display: grid; justify-items: center; gap: 0.5rem; text-align: center; }
+  .fte-path span { display: grid; width: 2.9rem; height: 2.9rem; place-items: center; border: 2px solid var(--color-cobalt); border-radius: 999px; background: white; color: var(--color-cobalt); font-size: 0.63rem; font-weight: 700; }
+  .fte-path li:nth-child(4) span, .fte-path li:nth-child(5) span { border-color: #9dbd74; color: #5b6f45; }
+  .fte-path li:last-child span { border-color: var(--color-ink); color: var(--color-ink); }
+  .fte-path strong { font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; letter-spacing: -0.04em; }
+  .fte-path small { color: var(--color-muted); font-size: 0.62rem; }
+  .fte-stages { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.65rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+  .fte-stages li { display: flex; min-height: 15.2rem; flex-direction: column; border-top: 3px solid var(--color-cobalt); background: var(--color-paper); padding: 1rem; }
+  .fte-stages li:nth-child(4), .fte-stages li:nth-child(5) { border-top-color: #9dbd74; }
+  .fte-stages li:last-child { border-top-color: var(--color-ink); }
+  .fte-number { color: var(--color-cobalt); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; }
+  .fte-stages h3 { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; letter-spacing: -0.04em; }
+  .fte-stages p { margin-top: 0.55rem; color: var(--color-muted); font-size: 0.77rem; line-height: 1.45; }
+  .fte-stages strong { margin-top: auto; padding-top: 1rem; color: var(--color-ink); font-size: 0.62rem; line-height: 1.35; }
+  .fte-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--color-line); margin-top: 1rem; padding-top: 1.2rem; }
+  .fte-footer > p:first-child { max-width: 39rem; color: var(--color-muted); font-size: 0.78rem; line-height: 1.55; }
+  .fte-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem 1.1rem; color: var(--color-muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4; text-transform: uppercase; }
+  .fte-legend span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+  .fte-legend i { width: 0.55rem; height: 0.55rem; border-radius: 999px; background: var(--color-line); }
+  .fte-legend i.is-cobalt { background: var(--color-cobalt); }
+  .fte-legend i.is-accent { background: #9dbd74; }
+  .fte-legend i.is-ink { background: var(--color-ink); }
+  @media (max-width: 767px) {
+    .fte-header { grid-template-columns: 1fr; gap: 1rem; }
+    .fte-stamp { justify-self: start; }
+    .fte-stages { grid-template-columns: repeat(6, minmax(13rem, 1fr)); overflow-x: auto; padding-bottom: 0.25rem; }
+    .fte-footer { flex-direction: column; gap: 1rem; }
+    .fte-legend { justify-content: flex-start; }
+  }
+</style>

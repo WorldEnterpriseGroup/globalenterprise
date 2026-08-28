@@ -1,12 +1,11 @@
 ---
 import Base from "@/layouts/Base.astro";
-import SignalChart from "@/components/SignalChart.astro";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { services } from "@/data/site";
 import { getCollection, render } from "astro:content";
+import { resolveEvidenceSource } from "@/data/evidence-routes";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("insights");
+  const entries = (await getCollection("insights")).filter((entry) => !entry.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
@@ -14,7 +13,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const formatDate = (value: Date, options: Intl.DateTimeFormatOptions) => value.toLocaleDateString("en-US", { timeZone: "UTC", ...options });
 const date = entry.data.date ? formatDate(entry.data.date, { year: "numeric", month: "long", day: "numeric" }) : undefined;
-const allInsights = await getCollection("insights");
+const allInsights = (await getCollection("insights")).filter((entry) => !entry.data.draft);
 const related = allInsights.filter((candidate) => candidate.id !== entry.id && (entry.data.related.includes(candidate.id) || candidate.data.category === entry.data.category)).slice(0, 3);
 const keywords = entry.data.keywords.length > 0 ? entry.data.keywords : [entry.data.category, "enterprise strategy", "operating model", "transformation"];
 const sectionTitles = (entry.body?.match(/^##\s+(.+)$/gm) ?? []).map((heading) => heading.replace(/^##\s+/, "")).slice(0, 3);
@@ -30,49 +29,100 @@ const serviceByCategory: Record<string, string> = {
   "Healthcare & life sciences": "cloud-data",
   "Technology & data": "cloud-data",
   "Enterprise services": "operating-model",
+  "Research & foresight": "research-foresight",
+  "AI Cost Management": "cloud-data",
+  Leadership: "leadership-talent",
+  "Quantum Intelligence": "research-foresight",
+  Resilience: "transformation-office",
+  Governance: "cloud-data",
+  Execution: "transformation-office",
 };
 const relatedService = services.find((service) => service.slug === serviceByCategory[entry.data.category]) ?? services[0];
-const chartVariant = `article-${entry.id}`;
+const resolvedSources = entry.data.sources.map((source) => resolveEvidenceSource(source));
 ---
 
 <Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} type="article" keywords={keywords} author={entry.data.author} publishedTime={entry.data.date?.toISOString()} modifiedTime={entry.data.updatedDate?.toISOString() ?? entry.data.date?.toISOString()}>
-  <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
-  <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end"><div><p class="eyebrow text-lime">{entry.data.eyebrow ?? "Perspective"} · {entry.data.category}</p><h1 class="section-title mt-7 max-w-5xl">{entry.data.title}</h1><p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/65">{entry.data.description}</p><div class="mt-8 flex flex-wrap gap-5 text-sm text-white/60"><span>{date}</span>{entry.data.updatedDate && <><span>·</span><span>Updated {formatDate(entry.data.updatedDate, { month: "short", year: "numeric" })}</span></>}<span>·</span><span>{entry.data.readingTime}</span><span>·</span><span>By {entry.data.author}</span></div></div><div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Reading map</p><p class="mt-5 max-w-xs text-lg leading-relaxed text-white/75">Thesis → mechanism → evidence → implication → next move.</p></div></div></section>
-  <section class="section-pad bg-white" data-article-experience><div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24"><aside><p class="eyebrow">A practical note</p><div class="mt-8 border-y border-line py-6"><p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">In brief</p><p class="mt-4 leading-relaxed text-muted">{entry.data.description}</p>{sectionTitles.length > 0 && <ul class="mt-5 space-y-3 text-sm font-bold leading-relaxed"><li class="flex gap-3"><span class="text-cobalt">Thesis</span><span>Follow the argument through {sectionTitles[0].toLowerCase()}.</span></li>{sectionTitles[1] && <li class="flex gap-3"><span class="text-cobalt">Decision</span><span>Consider the decision behind {sectionTitles[1].toLowerCase()}.</span></li>}{sectionTitles[2] && <li class="flex gap-3"><span class="text-cobalt">Action</span><span>Carry the implication into the operating model.</span></li>}</ul>}</div><div class="article-share-tools mt-8" aria-label="Share this perspective"><button class="article-share-button" type="button" data-share-copy data-track="share_copy">Copy link</button><button class="article-share-button" type="button" data-share-native data-track="share_native">Share ↗</button><span class="sr-only" aria-live="polite" data-share-status></span></div><a class="btn-ghost mt-8" href="/insights/">Back to insights <span aria-hidden="true">↗</span></a>{entry.data.sources.length > 0 && <div class="mt-12 border-t border-line pt-6"><p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Sources</p><ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted">{entry.data.sources.map((source) => <li><a class="underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a></li>)}</ul></div>}<div class="mt-12 border-t border-line pt-6"><p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">A useful next capability</p><a class="mt-4 block font-display text-2xl font-medium tracking-[-0.04em] hover:text-cobalt" href={`/services/${relatedService.slug}/`}>{relatedService.title} ↗</a><p class="mt-3 text-sm leading-relaxed text-muted">{relatedService.short}</p></div></aside><article class="prose max-w-3xl text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5"><Content /></article></div></section>
-  <section class="section-pad bg-paper"><div class="container-site"><SignalChart variant={chartVariant} eyebrow={`${entry.data.category} · visual diagnostic`} title="Read the implication as a system, not a headline." /></div></section>
-  {related.length > 0 && <section class="section-pad bg-paper"><div class="container-site"><p class="eyebrow text-cobalt">Continue the argument</p><h2 class="section-title mt-5 max-w-3xl">More on {entry.data.category.toLowerCase()} and the next operating decision.</h2><div class="mt-12 grid gap-px border border-line bg-line md:grid-cols-3">{related.map((item) => <a class="group bg-paper p-8 transition-colors hover:bg-white" href={`/insights/${item.id}/`}><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{item.data.category} · {item.data.readingTime}</p><h3 class="mt-8 font-display text-2xl font-medium leading-tight tracking-[-0.04em] group-hover:text-cobalt">{item.data.title}</h3><p class="mt-4 text-sm leading-relaxed text-muted">{item.data.description}</p><span class="mt-8 inline-block text-cobalt">Read next ↗</span></a>)}</div></div></section>}
-  <NewsletterSignup dark />
+  <section class="bg-ink py-20 text-white md:py-28">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
+      <div>
+        <p class="eyebrow text-accent">{entry.data.eyebrow ?? "Perspective"} · {entry.data.category}</p>
+        <h1 class="section-title mt-7 max-w-5xl">{entry.data.title}</h1>
+        <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/65">{entry.data.description}</p>
+        <div class="mt-8 flex flex-wrap gap-5 text-sm text-white/60">
+          <span>{date}</span>
+          {entry.data.updatedDate && <><span>·</span><span>Updated {formatDate(entry.data.updatedDate, { month: "short", year: "numeric" })}</span></>}
+          <span>·</span>
+          <span>{entry.data.readingTime}</span>
+          <span>·</span>
+          <span>By {entry.data.author}</span>
+        </div>
+      </div>
+      <div class="border-l-2 border-accent pl-6">
+        <p class="eyebrow text-accent">Reading map</p>
+        <p class="mt-5 max-w-xs text-lg leading-relaxed text-white/75">Thesis → mechanism → evidence → implication → next move.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white" data-article-experience>
+    <div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24">
+      <aside>
+        <p class="eyebrow">A practical note</p>
+        <div class="mt-8 border-y border-line py-6">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">In brief</p>
+          <p class="mt-4 leading-relaxed text-muted">{entry.data.description}</p>
+          {sectionTitles.length > 0 && (
+            <ul class="mt-5 space-y-3 text-sm font-bold leading-relaxed">
+              <li class="flex gap-3"><span class="text-cobalt">Thesis</span><span>Follow the argument through {sectionTitles[0].toLowerCase()}.</span></li>
+              {sectionTitles[1] && <li class="flex gap-3"><span class="text-cobalt">Decision</span><span>Consider the decision behind {sectionTitles[1].toLowerCase()}.</span></li>}
+              {sectionTitles[2] && <li class="flex gap-3"><span class="text-cobalt">Action</span><span>Carry the implication into the operating model.</span></li>}
+            </ul>
+          )}
+        </div>
+        <div class="article-share-tools mt-8" aria-label="Share this perspective">
+          <button class="article-share-button" type="button" data-share-copy data-track="share_copy">Copy link</button>
+          <button class="article-share-button" type="button" data-share-native data-track="share_native">Share ↗</button>
+          <span class="sr-only" aria-live="polite" data-share-status></span>
+        </div>
+        <a class="btn-ghost mt-8" href="/insights/">Back to insights <span aria-hidden="true">↗</span></a>
+        {resolvedSources.length > 0 && (
+          <div class="mt-12 border-t border-line pt-6">
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Sources</p>
+            <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted">
+              {resolvedSources.map((source) => <li><a class="underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={source.displayUrl}>{source.label} ↗</a></li>)}
+            </ul>
+          </div>
+        )}
+        <div class="mt-12 border-t border-line pt-6">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">A useful next capability</p>
+          <a class="mt-4 block font-display text-2xl font-medium tracking-[-0.04em] hover:text-cobalt" href={`/services/${relatedService.slug}/`}>{relatedService.title} ↗</a>
+          <p class="mt-3 text-sm leading-relaxed text-muted">{relatedService.short}</p>
+        </div>
+      </aside>
+      <article class="prose max-w-3xl text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  {related.length > 0 &&
+    <section class="section-pad bg-paper">
+      <div class="container-site">
+        <p class="eyebrow text-cobalt">Continue the argument</p>
+        <h2 class="section-title mt-5 max-w-3xl">More on {entry.data.category.toLowerCase()} and the next operating decision.</h2>
+        <div class="mt-12 grid gap-px border border-line bg-line md:grid-cols-3">
+          {related.map((item) => (
+            <a class="group bg-paper p-8 transition-colors hover:bg-white" href={`/insights/${item.id}/`}>
+              <p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{item.data.category} · {item.data.readingTime}</p>
+              <h3 class="mt-8 font-display text-2xl font-medium leading-tight tracking-[-0.04em] group-hover:text-cobalt">{item.data.title}</h3>
+              <p class="mt-4 text-sm leading-relaxed text-muted">{item.data.description}</p>
+              <span class="mt-8 inline-block text-cobalt">Read next ↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  }
 </Base>
 
-<script>
-  const initializeArticleExperience = () => {
-    const root = document.querySelector<HTMLElement>("[data-article-experience]");
-    if (!root || root.hasAttribute("data-bound")) return;
-    root.setAttribute("data-bound", "true");
-    const progress = document.querySelector<HTMLElement>("[data-reading-progress]");
-    const updateProgress = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (progress) progress.style.width = `${max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0}%`;
-    };
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
-    updateProgress();
-    const status = root.querySelector<HTMLElement>("[data-share-status]");
-    root.querySelector<HTMLButtonElement>("[data-share-copy]")?.addEventListener("click", async (event) => {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        if (status) status.textContent = "Link copied.";
-        (event.currentTarget as HTMLButtonElement).textContent = "Copied";
-      } catch {
-        if (status) status.textContent = "Copy unavailable; use your browser address bar.";
-      }
-    });
-    root.querySelector<HTMLButtonElement>("[data-share-native]")?.addEventListener("click", async () => {
-      if (navigator.share) await navigator.share({ title: document.title, url: window.location.href });
-      else if (status) status.textContent = "Native sharing is unavailable on this device.";
-    });
-  };
-
-  initializeArticleExperience();
-  document.addEventListener("astro:page-load", initializeArticleExperience);
-</script>
+<script is:inline src="/scripts/insight-article.js"></script>

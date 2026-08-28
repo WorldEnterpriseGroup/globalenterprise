@@ -1,16 +1,99 @@
 ---
 import Base from "@/layouts/Base.astro";
-import EvidenceBand from "@/components/EvidenceBand.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import SignalChart from "@/components/SignalChart.astro";
+import AssetImage from "@/components/AssetImage.astro";
 import { industries } from "@/data/site";
+
+const contextThreads = [
+  {
+    label: "Infrastructure and interfaces",
+    title: "The network is the operating environment.",
+    description: "Platforms, energy systems, and supply networks make dependencies visible before capacity, trade, or service continuity is under pressure.",
+    links: [
+      { label: "Technology & data infrastructure", href: "/industries/technology-data/" },
+      { label: "Resilient infrastructure & energy", href: "/industries/energy-infrastructure/" },
+      { label: "Logistics & supply networks", href: "/industries/logistics-and-supply-networks/" },
+    ],
+  },
+  {
+    label: "Intelligence and capability",
+    title: "New capability needs a place to land.",
+    description: "AI, frontier systems, and education all depend on a workforce, architecture, and governance model that turns possibility into useful practice.",
+    links: [
+      { label: "AI-native operations", href: "/industries/enterprise-ai/" },
+      { label: "Frontier intelligence & autonomous systems", href: "/industries/frontier-intelligence-autonomous-systems/" },
+      { label: "Learning & human capability", href: "/industries/education/" },
+    ],
+  },
+  {
+    label: "Institutions and service",
+    title: "Trust is carried through the service.",
+    description: "Enterprises, health systems, and public institutions have different mandates but share the work of translating policy, evidence, and judgment into a service people can use.",
+    links: [
+      { label: "Global enterprises & operating systems", href: "/industries/enterprise-services/" },
+      { label: "Bio & health systems", href: "/industries/healthcare-life-sciences/" },
+      { label: "Digital public institutions", href: "/industries/federal-public-service/" },
+      { label: "State, local & education (SLED)", href: "/industries/sled/" },
+    ],
+  },
+];
 ---
 
-<Base title="Future contexts | Global Enterprise" description="Global Enterprise works across the systems where intelligence, infrastructure, technology, human capability, and digital institutions compound." image="/media/generated/energy-grid.avif" keywords={["future-facing consulting", "AI-native operating model", "frontier intelligence strategy", "resilient infrastructure strategy", "enterprise transformation"]}>
-  <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end"><div><p class="eyebrow text-lime">Future contexts</p><h1 class="section-title mt-7 max-w-5xl">The sectors will change. The underlying questions will not.</h1><p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">We work across the systems where intelligence, infrastructure, technology, and human judgment compound. The context changes the expression; the discipline remains rigorous.</p></div><figure class="relative overflow-hidden bg-cobalt"><img src="/media/generated/energy-grid.avif" width="1536" height="1024" loading="eager" decoding="async" alt="Operators watching an energy landscape through a control-room window" class="aspect-[16/9] w-full object-cover opacity-90" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/65">Eight future contexts · one discipline: make the system worthy of trust</figcaption></figure></div></section>
-  <section class="section-pad bg-white"><div class="container-site"><SectionHeading eyebrow="Where we work" title="Deep enough to be useful. Broad enough to see the pattern." /><div class="mt-14 divide-y divide-line border-y border-line">{industries.map((industry) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_1.2fr_auto] md:items-center" href={industry.href}><span class="font-display text-4xl text-cobalt">{industry.number}</span><div><h2 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{industry.title}</h2><p class="mt-2 text-xs font-bold uppercase tracking-[0.1em] text-cobalt">{industry.sourceLabel}</p></div><p class="max-w-xl text-sm leading-relaxed text-muted">{industry.description}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div></div></section>
-  <section class="section-pad bg-paper"><div class="container-site"><SignalChart variant="industries-overview" /></div></section>
-  <EvidenceBand eyebrow="Across future contexts" title="The evidence changes the question." text="Context matters because consequence, time horizon, and trust boundary are different. We use public research, frontier signals, and the organization’s own evidence to find the decision beneath the problem." limit={5} />
+<Base title="Industries | Global Enterprise" description="Global Enterprise works across the systems where intelligence, infrastructure, technology, human capability, and digital institutions compound." image="/media/generated/energy-grid.avif" keywords={["future-facing consulting", "AI-native operating model", "frontier intelligence strategy", "resilient infrastructure strategy", "enterprise transformation"]}>
+  <section class="bg-ink py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end"><div><p class="eyebrow text-accent">Industries</p><h1 class="section-title mt-7 max-w-5xl">The sectors will change. The underlying questions will not.</h1><p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">We work across the systems where intelligence, infrastructure, technology, and human judgment compound. The context changes the expression; the discipline remains rigorous.</p></div><figure class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/generated/energy-grid.avif" width={1536} height={1024} loading="eager" fetchpriority="high" decoding="async" sizes="(min-width: 1024px) 42vw, 100vw" alt="Operators watching an energy landscape through a control-room window" class="aspect-[16/9] w-full object-cover opacity-90" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/65">Ten industries · one discipline: make the system worthy of trust</figcaption></figure></div></section>
+  <section class="section-pad bg-white"><div class="container-site"><SectionHeading eyebrow="Where we work" title="Deep enough to be useful. Broad enough to see the pattern." /><div class="mt-14 divide-y divide-line border-y border-line">{industries.map((industry) => <a class="group grid gap-5 py-7 md:grid-cols-[1fr_1.2fr_auto] md:items-center" href={industry.href}><div><h2 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{industry.title}</h2><p class="mt-2 text-xs font-bold uppercase tracking-[0.1em] text-cobalt">{industry.sourceLabel}</p></div><p class="max-w-xl text-sm leading-relaxed text-muted">{industry.description}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div></div></section>
+  <section class="section-pad bg-paper">
+    <div class="container-site">
+      <div class="industries-threads-intro"><SectionHeading eyebrow="The cross-industry scan" title="One discipline, three operating threads." text="The sectors are not interchangeable. These threads show where infrastructure, intelligence, and institutional service create different decisions—and where the interfaces matter most." /></div>
+      <div class="industries-threads">
+        {contextThreads.map((thread) => (
+          <article class="industries-thread">
+            <div class="industries-thread-heading"><div><p class="eyebrow text-cobalt">{thread.label}</p><h2>{thread.title}</h2></div></div>
+            <p class="mt-5 max-w-xl text-sm leading-relaxed text-muted">{thread.description}</p>
+            <ul class="industries-thread-links mt-8">
+              {thread.links.map((link) => <li><a href={link.href}>{link.label}<span aria-hidden="true">↗</span></a></li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section id="institutional-contexts" class="section-pad bg-white" aria-labelledby="institutional-contexts-title">
+    <div class="container-site">
+      <SectionHeading eyebrow="Context to capability" title="Choose the institutional route behind the sector question." text="Industry context changes the mechanism. These first-party service routes help a federal, architecture, acquisition, or cross-institution reader move from context to a concrete working set." />
+      <div class="mt-12 grid gap-px border border-line bg-line md:grid-cols-2">
+        <a class="group bg-white p-7 transition-colors hover:bg-paper md:p-8" href="/services/federal-enterprise-architecture/"><p class="eyebrow text-cobalt">Federal architecture</p><h2 class="mt-6 font-display text-2xl font-medium tracking-[-0.05em] group-hover:text-cobalt">FEAF-informed enterprise architecture practice</h2><p class="mt-4 text-sm leading-relaxed text-muted">Trace mission, capability, information, technology, controls, and investment into an architecture and transition path.</p><span class="mt-8 inline-flex text-sm font-bold text-cobalt">Open the service route <span class="ml-2" aria-hidden="true">↗</span></span></a>
+        <a class="group bg-white p-7 transition-colors hover:bg-paper md:p-8" href="/services/solution-architecture/"><p class="eyebrow text-cobalt">Solution design</p><h2 class="mt-6 font-display text-2xl font-medium tracking-[-0.05em] group-hover:text-cobalt">Solution architecture for consequential services</h2><p class="mt-4 text-sm leading-relaxed text-muted">Make boundaries, interfaces, data flows, controls, delivery, and operating readiness explicit.</p><span class="mt-8 inline-flex text-sm font-bold text-cobalt">Open the service route <span class="ml-2" aria-hidden="true">↗</span></span></a>
+        <a class="group bg-white p-7 transition-colors hover:bg-paper md:p-8" href="/services/procurement-acquisition/"><p class="eyebrow text-cobalt">Acquisition context</p><h2 class="mt-6 font-display text-2xl font-medium tracking-[-0.05em]">Procurement and delivery boundaries</h2><p class="mt-4 text-sm leading-relaxed text-muted">Give buyers, CORs, SMEs, and delivery teams a shared view of scope, evidence, assumptions, and responsibilities.</p><span class="mt-8 inline-flex text-sm font-bold text-cobalt">Open the service route <span class="ml-2" aria-hidden="true">↗</span></span></a>
+        <a class="group bg-white p-7 transition-colors hover:bg-paper md:p-8" href="/services/whole-of-government-international-systems/"><p class="eyebrow text-cobalt">Institutional systems</p><h2 class="mt-6 font-display text-2xl font-medium tracking-[-0.05em]">Whole-of-government and international systems</h2><p class="mt-4 text-sm leading-relaxed text-muted">Coordinate shared services, interoperability, sovereignty, and capability transfer across institutions and borders.</p><span class="mt-8 inline-flex text-sm font-bold text-cobalt">Open the service route <span class="ml-2" aria-hidden="true">↗</span></span></a>
+      </div>
+    </div>
+  </section>
+  <AudiencePathways
+    id="industries-audience-pathways"
+    eyebrow="Quiet audience routing"
+    title="The sector is a context, not a gate."
+    intro="Public institutions, enterprise leaders, and practitioners can follow the relevant context without stopping to choose an audience. The routes remain first-party and decision-led."
+    compact
+    pathwayIds={["national-and-federal-leaders", "state-local-education-institutions", "architects-and-operators"]}
+  />
   <section class="section-pad bg-paper"><div class="container-site grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-24"><SectionHeading eyebrow="The future agenda" title="What has to be true for this system to work?" /><div><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">That question travels across sectors. The answer is always shaped by the mission, the people, and the decisions the organization has to make next.</p><div class="mt-10 grid gap-5 sm:grid-cols-3"><div class="border-t border-line pt-4"><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">AI</p><p class="mt-3 text-sm leading-relaxed text-muted">Scale with measurement, governance, and an accountable human role.</p></div><div class="border-t border-line pt-4"><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">Resilience</p><p class="mt-3 text-sm leading-relaxed text-muted">Design continuity into the platform, supplier, and workforce system.</p></div><div class="border-t border-line pt-4"><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">Capability</p><p class="mt-3 text-sm leading-relaxed text-muted">Build the skills and decision rights the future model actually requires.</p></div></div></div></div></section>
-  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Talk to us about the future system behind the problem.</h2><a class="btn-dark shrink-0" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div></section>
+  <section class="bg-accent"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Talk to us about the future system behind the problem.</h2><a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a></div></section>
 </Base>
+
+<style>
+  .industries-threads-intro { max-width: 52rem; }
+  .industries-threads { display: grid; gap: 1px; margin-top: clamp(2rem, 5vw, 4rem); border: 1px solid var(--color-line); background: var(--color-line); }
+  .industries-thread { min-width: 0; padding: clamp(1.25rem, 3vw, 2.5rem); background: var(--color-paper); }
+  .industries-thread-heading { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: start; }
+  .industries-thread-index { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.5rem; line-height: 1; }
+  .industries-thread h2 { margin-top: 0.8rem; font-family: var(--font-display); font-size: clamp(1.65rem, 3vw, 2.55rem); font-weight: 400; letter-spacing: -0.05em; line-height: 1.05; }
+  .industries-thread-links { display: grid; gap: 0; margin-bottom: 0; padding: 0; border-top: 1px solid var(--color-line); list-style: none; }
+  .industries-thread-links li { border-bottom: 1px solid var(--color-line); }
+  .industries-thread-links li:last-child { border-bottom: 0; }
+  .industries-thread-links a { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: 0.8rem; color: var(--color-ink); font-size: 0.83rem; font-weight: 700; line-height: 1.4; }
+  .industries-thread-links a:hover { color: var(--color-cobalt); }
+  .industries-thread-links span { flex: 0 0 auto; color: var(--color-cobalt); font-size: 1.1rem; font-weight: 400; }
+  @media (min-width: 900px) { .industries-threads { grid-template-columns: repeat(3, minmax(0, 1fr)); } .industries-thread + .industries-thread { border-left: 1px solid var(--color-line); } }
+</style>

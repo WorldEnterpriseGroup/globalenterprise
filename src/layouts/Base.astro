@@ -12,6 +12,9 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageAlt?: string;
   type?: "website" | "article";
   noindex?: boolean;
   keywords?: string[];
@@ -21,27 +24,58 @@ interface Props {
   serviceSchema?: { name: string; description: string };
 }
 
-const { title, description, image = "/og-image.svg", type = "website", noindex = false, keywords = [], author = site.name, publishedTime, modifiedTime, serviceSchema } = Astro.props;
+const { title, description, image, imageWidth, imageHeight, imageAlt, type = "website", noindex = false, keywords = [], author = site.name, publishedTime, modifiedTime, serviceSchema } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const pathname = Astro.url.pathname;
 const pageVisual = visualForPath(pathname);
-const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/");
-const socialImagePath = image === "/og-image.svg" ? "/og-image.png" : image;
+const showContextualNext = pathname !== "/" && !pathname.startsWith("/resources/") && pathname !== "/resources/" && !pathname.startsWith("/contact/") && !pathname.startsWith("/audiences/") && !pathname.startsWith("/careers/") && !pathname.startsWith("/visual-sitemap/");
+const truncateForMetadata = (value: string, limit: number) => {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  if (normalized.length <= limit) return normalized;
+  const candidate = normalized.slice(0, limit - 1).trimEnd();
+  const boundary = candidate.lastIndexOf(" ");
+  const clipped = boundary > Math.floor(limit * 0.6) ? candidate.slice(0, boundary) : candidate;
+  return `${clipped}…`;
+};
+const seoTitle = truncateForMetadata(title, 60);
+const seoDescription = truncateForMetadata(description, 160);
+const socialFamilyFallbacks = [
+  { match: (path: string) => path.startsWith("/services/"), src: "/media/original/services-control-room.avif", alt: "Operators reviewing an enterprise systems control room" },
+  { match: (path: string) => path.startsWith("/solutions/"), src: "/media/original/solutions-care-handoff.avif", alt: "A careful handoff between people working on a complex service" },
+  { match: (path: string) => path.startsWith("/industries/"), src: "/media/generated/energy-grid.avif", alt: "Operators watching an energy landscape through a control-room window" },
+  { match: (path: string) => path.startsWith("/work/") || path.startsWith("/case-studies/"), src: "/media/original/work-field-visit.avif", alt: "An operations team walking through an industrial control room" },
+  { match: (path: string) => path.startsWith("/insights/"), src: "/media/original/insights-field-notes.avif", alt: "A marked-up report, notebook, and pen on a researcher’s desk" },
+  { match: (path: string) => path.startsWith("/resources/"), src: "/media/original/home-evidence-archive.avif", alt: "A researcher selecting a folder from a quiet archive" },
+];
+const socialFamilyFallback = socialFamilyFallbacks.find((item) => item.match(pathname));
+const fallbackImage = pageVisual.src || socialFamilyFallback?.src || "/og-image.avif";
+const socialImagePath = (image?.trim() || fallbackImage) === "/og-image.svg" ? "/og-image.avif" : image?.trim() || fallbackImage;
 const socialImage = new URL(socialImagePath, site.url).toString();
+const socialImageExtension = socialImagePath.split("?")[0].toLowerCase();
+const socialImageType = socialImageExtension.endsWith(".svg") ? "image/svg+xml" : socialImageExtension.endsWith(".png") ? "image/png" : socialImageExtension.endsWith(".webp") ? "image/webp" : "image/avif";
+const socialImageAlt = imageAlt?.trim() || (pageVisual.imageId === "none" ? socialFamilyFallback?.alt ?? seoTitle : pageVisual.alt);
+const socialImageWidth = imageWidth ?? 1200;
+const socialImageHeight = imageHeight ?? 630;
 const logo = new URL("/favicon.svg", site.url).toString();
 const breadcrumbLabels: Record<string, string> = {
   about: "Approach",
+  audiences: "Organization map",
   careers: "Careers",
   "case-studies": "Work",
+  work: "Work",
   contact: "Contact",
   faq: "FAQ",
+  operations: "Operations",
+  proof: "Proof of practice",
   industries: "Industries",
   insights: "Insights",
   privacy: "Privacy",
   resources: "Resources",
+  region: "Regional contexts",
   services: "Capabilities",
   team: "Team",
   terms: "Terms",
+  trust: "Trust center",
 };
 const breadcrumbItems = [{ name: site.name, item: new URL("/", site.url).toString() }, ...pathname.split("/").filter(Boolean).map((segment, index, segments) => ({
   name: index === segments.length - 1 ? title.split(" | ")[0] : breadcrumbLabels[segment] ?? segment.replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase()),
@@ -57,14 +91,14 @@ const graph = [
   description: site.description,
   email: site.email,
   telephone: site.phone,
-  areaServed: "Worldwide",
+  areaServed: "Cross-border and multi-region mandates",
   serviceType: ["Strategic consulting", "Enterprise AI and ML", "Data lab build-out", "AI cost management", "Quantum intelligence", "ITIL change management"],
   knowsAbout: ["AI-native operating models", "Enterprise AI labs", "Data and compute economics", "Quantum intelligence", "Frontier systems", "Institutional change"],
   ...(site.social.linkedin ? { sameAs: [site.social.linkedin] } : {}),
   },
   { "@type": "WebSite", "@id": `${site.url}/#website`, name: site.name, url: site.url, description: site.description, publisher: { "@id": `${site.url}/#organization` } },
   { "@type": type === "article" ? "Article" : "WebPage", "@id": canonical, name: title, headline: type === "article" ? title : undefined, url: canonical, description, isPartOf: { "@id": `${site.url}/#website` }, ...(type === "article" ? { author: { "@type": "Organization", name: author }, publisher: { "@id": `${site.url}/#organization` }, mainEntityOfPage: { "@id": canonical }, datePublished: publishedTime, dateModified: modifiedTime ?? publishedTime, image: socialImage } : {}) },
-  ...(serviceSchema ? [{ "@type": "Service", name: serviceSchema.name, description: serviceSchema.description, provider: { "@id": `${site.url}/#organization` }, areaServed: "Worldwide", url: canonical }] : []),
+  ...(serviceSchema ? [{ "@type": "Service", name: serviceSchema.name, description: serviceSchema.description, provider: { "@id": `${site.url}/#organization` }, areaServed: "Cross-border and multi-region mandates", url: canonical }] : []),
   { "@type": "BreadcrumbList", itemListElement: breadcrumbItems.map((item, index) => ({ "@type": "ListItem", position: index + 1, name: item.name, item: item.item })) },
 ];
 ---
@@ -76,30 +110,36 @@ const graph = [
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#315b8e" />
-    <link rel="preload" href="/font/roboto-regular-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
-    <link rel="preload" href="/font/robotocondensed-regular-webfont.woff" as="font" type="font/woff" crossorigin="anonymous" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io; manifest-src 'self'; upgrade-insecure-requests" />
+    <link rel="preload" href="/font/roboto-regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/font/robotocondensed-regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/font/roboto-bold-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/font/robotocondensed-bold-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
     <meta name="author" content={author} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <meta property="og:type" content={type} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content={pageVisual.alt} />
-    <meta property="og:image:type" content={socialImage.endsWith(".svg") ? "image/svg+xml" : socialImage.endsWith(".png") ? "image/png" : "image/avif"} />
-    <meta name="twitter:image:alt" content={pageVisual.alt} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:image:type" content={socialImageType} />
+    <meta property="og:image:width" content={String(socialImageWidth)} />
+    <meta property="og:image:height" content={String(socialImageHeight)} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={seoTitle} />
+    <meta name="twitter:description" content={seoDescription} />
     <meta name="twitter:image" content={socialImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} insights`} href="/rss.xml" />
     {site.analytics.plausibleDomain && <script is:inline defer data-domain={site.analytics.plausibleDomain} src="https://plausible.io/js/script.js"></script>}
@@ -107,7 +147,7 @@ const graph = [
     <ClientRouter />
   </head>
   <body data-route-signature={pageVisual.signature} data-route-image={pageVisual.imageId}>
-    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-lime focus:px-4 focus:py-3 focus:text-ink" href="#main-content">Skip to content</a>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-3 focus:text-ink" href="#main-content">Skip to content</a>
     <MotionSystem />
     <Header />
     <main id="main-content" class:list={[pathname === "/" ? "" : "site-main-with-header"]}>
@@ -115,43 +155,7 @@ const graph = [
     </main>
     {showContextualNext && <ContextualNext />}
     <Footer />
-    <script>
-      const initializeSiteAnalytics = () => {
-        if (document.documentElement.hasAttribute("data-analytics-bound")) return;
-        document.documentElement.setAttribute("data-analytics-bound", "true");
-        const analyticsWindow = window as any;
-        analyticsWindow.plausible = analyticsWindow.plausible || function (...args: unknown[]) {
-          (analyticsWindow.plausible.q = analyticsWindow.plausible.q || []).push(args);
-        };
-        const track = (eventName: string, props: Record<string, string> = {}) => {
-          const analyticsWindow = window as Window & { plausible?: (name: string, options?: { props?: Record<string, string> }) => void; gtag?: (...args: unknown[]) => void };
-          analyticsWindow.plausible?.(eventName, { props });
-          analyticsWindow.gtag?.("event", eventName, props);
-          window.dispatchEvent(new CustomEvent("site:analytics", { detail: { eventName, props } }));
-        };
-        document.addEventListener("click", (event) => {
-          const target = event.target instanceof Element ? event.target.closest<HTMLElement>("a, button") : null;
-          if (!target) return;
-          const href = target.getAttribute("href") ?? "";
-          const explicit = target.dataset.track;
-          const eventName = explicit ?? (href.startsWith("/contact/") ? "cta_click" : href.startsWith("/insights/") ? "insight_open" : href.startsWith("/solutions/") ? "solution_open" : "");
-          if (!eventName) return;
-          track(eventName, { label: target.dataset.trackLabel ?? target.textContent?.replace(/\s+/g, " ").trim().slice(0, 80) ?? "", href });
-        });
-        document.addEventListener("focusin", (event) => {
-          const target = event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement ? event.target : null;
-          const form = target?.closest<HTMLFormElement>("form[data-lead-form]");
-          if (!form || form.hasAttribute("data-form-started")) return;
-          form.setAttribute("data-form-started", "true");
-          track("form_start", { form: form.dataset.formKind ?? "lead" });
-        });
-        document.addEventListener("submit", (event) => {
-          const form = event.target instanceof HTMLFormElement && event.target.matches("[data-lead-form]") ? event.target : null;
-          if (form) track("form_submit", { form: form.dataset.formKind ?? "lead" });
-        });
-      };
-      initializeSiteAnalytics();
-      document.addEventListener("astro:page-load", initializeSiteAnalytics);
-    </script>
+    <script is:inline src="/scripts/corporate-email-validation.js"></script>
+    <script is:inline src="/scripts/site-analytics.js"></script>
   </body>
 </html>

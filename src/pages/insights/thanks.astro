@@ -1,17 +1,30 @@
 ---
 import Base from "@/layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const source = Astro.url.searchParams.get("source");
+const isGlobalBrief = source === "global-brief";
+const insights = (await getCollection("insights")).filter((entry) => !entry.data.draft);
+const preferredNextRead = isGlobalBrief ? "global-operating-model-is-translation" : "ai-at-scale";
+const nextRead = insights.find((entry) => entry.id === preferredNextRead) ?? insights[0];
+
+if (!nextRead) {
+  throw new Error("The insights thanks page requires at least one published insight for its next-read link.");
+}
+
+const nextReadHref = `/insights/${nextRead.id}/`;
 ---
 
-<Base title="You are subscribed | Global Enterprise" description="You are subscribed to The Signal from Global Enterprise." noindex>
+<Base title={isGlobalBrief ? "Your global field guide is ready | Global Enterprise" : "Your request is received | Global Enterprise"} description={isGlobalBrief ? "Download the Global Operating Model Field Guide from Global Enterprise." : "Your request to receive The Signal from Global Enterprise is received."} noindex>
   <section class="bg-ink py-24 text-white md:py-36">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.8fr] lg:items-end">
       <div>
-        <p class="eyebrow text-lime">The Signal</p>
-        <h1 class="section-title mt-7 max-w-4xl">You are on the list.</h1>
-        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">We will send occasional evidence-led notes for the people carrying the next decision.</p>
-        <div class="mt-10 flex flex-wrap gap-4"><a class="btn-primary" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a><a class="btn-ghost" href="/">Back to home <span aria-hidden="true">↗</span></a></div>
+        <p class="eyebrow text-accent">{isGlobalBrief ? "The Global Brief" : "The Signal"}</p>
+        <h1 class="section-title mt-7 max-w-4xl">{isGlobalBrief ? "Your field guide is ready." : "Your request is in queue."}</h1>
+        <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/70">{isGlobalBrief ? "Check your inbox for a private link to the full field guide. It includes a framework, context lens, management artifacts, worksheet, and source notes. We will keep the follow-up specific to this request." : "We will review the request before sending occasional evidence-led notes for the people carrying the next decision."}</p>
+        <div class="mt-10 flex flex-wrap gap-4"><a class="btn-ghost" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a><a class="btn-ghost" href="/">Back to home <span aria-hidden="true">↗</span></a></div>
       </div>
-      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Good next read</p><a class="mt-5 block max-w-sm text-2xl font-display font-medium tracking-[-0.04em] hover:text-lime" href="/insights/ai-at-scale/">AI at scale is an operating model decision ↗</a></div>
+      <div class="border-l-2 border-accent pl-6"><p class="eyebrow text-accent">Good next read</p><a class="mt-5 block max-w-sm text-2xl font-display font-medium tracking-[-0.04em] hover:text-accent" href={nextReadHref}>{nextRead.data.title} <span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
 </Base>

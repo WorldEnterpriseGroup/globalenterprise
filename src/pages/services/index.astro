@@ -1,18 +1,209 @@
 ---
 import Base from "@/layouts/Base.astro";
-import EvidenceBand from "@/components/EvidenceBand.astro";
-import SectionHeading from "@/components/SectionHeading.astro";
-import ArchitectureMap from "@/components/ArchitectureMap.astro";
-import AssetImage from "@/components/AssetImage.astro";
-import IntelligenceStack from "@/components/IntelligenceStack.astro";
-import { services } from "@/data/site";
+import AudiencePathways from "@/components/AudiencePathways.astro";
+import { serviceAudiencePathways, services } from "@/data/site";
+
+const atlasRows = [
+  {
+    slug: "mergers-acquisitions",
+    title: "Mergers & acquisitions",
+    question: "What capability is the transaction meant to make possible across capital, infrastructure, communications, markets, and service?",
+    outputs: "Integration thesis · dependency map · service transition and value scorecard",
+    lane: "Corporate integration",
+  },
+  {
+    slug: "operating-model",
+    title: "Operating model & enterprise architecture",
+    question: "Which decisions, services, and interfaces have to become clearer for the enterprise to move?",
+    outputs: "Target operating model · decision-rights register · transition architecture",
+    lane: "System design",
+  },
+  {
+    slug: "federal-enterprise-architecture",
+    title: "Federal enterprise architecture / FEAF-informed practice",
+    question: "How can a federal architecture office trace mission and capability intent into investment and transition decisions?",
+    outputs: "Mandate-to-capability map · architecture views · investment traceability register",
+    lane: "Federal architecture",
+  },
+  {
+    slug: "solution-architecture",
+    title: "Solution architecture",
+    question: "What solution boundary, interface, control, and operating condition must be true for the service to work?",
+    outputs: "Solution intent brief · interface register · transition and readiness record",
+    lane: "Solution design",
+  },
+  {
+    slug: "procurement-acquisition",
+    title: "Procurement, acquisition & delivery boundaries",
+    question: "What can a buyer, COR, SME, or delivery team state clearly before the procurement or delivery conversation begins?",
+    outputs: "Scope and assumptions matrix · evidence index · delivery-boundary register",
+    lane: "Acquisition context",
+  },
+  {
+    slug: "whole-of-government-international-systems",
+    title: "Whole-of-government & international systems",
+    question: "How can shared services and interoperability travel across ministries, agencies, regions, and multilateral contexts?",
+    outputs: "Shared/federated architecture map · decision-rights register · capability-transfer roadmap",
+    lane: "Institutional systems",
+  },
+  {
+    slug: "intelligent-automation",
+    title: "Enterprise AI, ML & intelligent automation",
+    question: "Where can intelligence enter the workflow with evidence, human accountability, and a safe exit?",
+    outputs: "AI / ML portfolio · evaluation path · MLOps / LLMOps service runbook",
+    lane: "Intelligence",
+  },
+  {
+    slug: "cloud-data",
+    title: "Data labs, analytics & AI cost management",
+    question: "How should data, compute, sovereignty, and unit economics support the next decision?",
+    outputs: "Data-product map · FinOps controls · multicloud sovereignty register",
+    lane: "Data & economics",
+  },
+  {
+    slug: "leadership-talent",
+    title: "Leadership, workforce planning & change",
+    question: "Which roles, practices, and leadership signals will let the new system land in real work?",
+    outputs: "Workforce scenarios · capability heatmap · role and change agreements",
+    lane: "Human capability",
+  },
+  {
+    slug: "transformation-office",
+    title: "IT service & change management",
+    question: "How can a portfolio release change safely, keep service continuity, and learn from the result?",
+    outputs: "Portfolio cadence · change gates · service transition and outcome review",
+    lane: "Service & delivery",
+  },
+  {
+    slug: "research-foresight",
+    title: "Quantum readiness & strategic foresight",
+    question: "Which frontier signals deserve a bounded test, a readiness move, or a deliberate decision to wait?",
+    outputs: "Signal ledger · scenario register · quantum-readiness backlog",
+    lane: "Frontier signal",
+  },
+] as const;
+
+const serviceSlugSet = new Set(services.map((service) => service.slug));
+const atlas = atlasRows.filter((row) => serviceSlugSet.has(row.slug));
 ---
 
-<Base title="Capabilities | Global Enterprise" description="Explore Global Enterprise capabilities across AI/ML, data labs, AI cost management, operating models, quantum intelligence, and enterprise change." image="/media/original/services-control-room.avif" keywords={["enterprise AI consulting", "AI cost management", "data lab build out", "quantum intelligence consulting", "ITIL change management"]}>
-  <section class="bg-paper py-20 md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end"><div><p class="eyebrow">Capabilities</p><h1 class="section-title mt-7 max-w-5xl">Capability is the difference between a strategy on paper and a system that can carry it.</h1><p class="body-copy mt-8 max-w-2xl text-xl">We connect frontier intelligence to operating discipline: AI/ML, data labs, cost governance, architecture, human capability, and change systems that can carry consequential decisions.</p></div><div><div class="border-l-2 border-cobalt pl-6"><p class="font-display text-6xl font-medium tracking-[-0.08em] text-cobalt">06</p><p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">Connected disciplines, sequenced around the decision rather than sold as isolated workstreams.</p></div><figure class="mt-8 overflow-hidden border border-line bg-white shadow-[.8rem_.8rem_0_rgba(16,19,29,.08)]"><AssetImage src="/media/original/services-control-room.avif" width={1536} height={1024} loading="eager" decoding="async" alt="An operator walking through a real utility control room lined with analog meters" class="aspect-[16/9] w-full object-cover" /><figcaption class="border-t border-line px-4 py-3 text-xs leading-relaxed text-muted">Capability is what remains operable after the strategy leaves the room.</figcaption></figure></div></div></section>
-  <section class="bg-white"><div class="container-site"><IntelligenceStack /></div></section>
-  <section class="bg-white"><div class="container-site divide-y divide-line border-y border-line">{services.map((service) => <a class="group grid gap-5 py-8 md:grid-cols-[4rem_1.2fr_1fr_auto] md:items-center" href={`/services/${service.slug}/`}><span class="font-display text-4xl font-bold tracking-[-0.08em] text-cobalt">{service.number}</span><div><h2 class="font-display text-3xl font-medium tracking-[-0.06em] transition-colors group-hover:text-cobalt">{service.title}</h2><p class="mt-2 text-sm font-bold text-cobalt">{service.short}</p></div><div><p class="max-w-md leading-relaxed text-muted">{service.description}</p><div class="mt-3 flex flex-wrap gap-2">{service.tags.map((tag) => <span class="pill">{tag}</span>)}</div></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div></section>
-  <section class="section-pad bg-paper"><div class="container-site"><ArchitectureMap variant="services-portfolio" eyebrow="Capability architecture · connected disciplines" title="Six capabilities, one operating system." caption="The portfolio is strongest when strategy, workflow, platform, capability, and evidence reinforce each other instead of becoming parallel workstreams." /></div></section>
-  <EvidenceBand eyebrow="The evidence behind the portfolio" title="Capabilities are only useful when they change an outcome." text="These signals explain why we bring operating model, technology, AI, and capability work together instead of selling isolated workstreams." limit={4} />
-  <section class="section-pad bg-ink text-white"><div class="container-site grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><SectionHeading eyebrow="Where we start" title="A mandate, not a package." /><div><p class="text-2xl font-bold leading-snug tracking-[-0.03em] md:text-4xl">The right first move depends on the institutional question, the consequence, and the horizon in front of you.</p><p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/65">We begin with the decision surface: what must be true, what is getting in the way, and what evidence would justify the next release of capability.</p><a class="btn-primary mt-8" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div></div></section>
+<Base title="Capabilities | Global Enterprise" description="An atlas of Global Enterprise capabilities across federal and solution architecture, procurement context, whole-of-government systems, M&A integration, AI, data, service change, workforce capability, and frontier readiness." keywords={["federal enterprise architecture", "FEAF-informed practice", "solution architecture", "procurement acquisition", "whole-of-government systems", "M&A integration", "AI ML labs", "data labs", "IT service change management"]}>
+  <section class="bg-paper py-20 md:py-28">
+    <div class="container-site grid gap-12 lg:grid-cols-[1fr_.72fr] lg:items-end">
+      <div>
+        <p class="eyebrow">Capability atlas</p>
+        <h1 class="section-title mt-7 max-w-5xl">Eleven disciplines for the system behind the decision.</h1>
+        <p class="body-copy mt-8 max-w-2xl text-xl">Global Enterprise connects architecture, intelligence, data, service, people, and frontier research so a strategy can become a system that carries consequence.</p>
+      </div>
+      <aside class="border-l-2 border-cobalt pl-6" aria-label="How the atlas is organized">
+        <p class="font-display text-3xl font-medium tracking-[-0.06em] text-cobalt">Connected disciplines</p>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">A connected portfolio, organized around the question a leader needs to answer and the artifact that makes the next move visible.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="capability-atlas" class="bg-white py-16 md:py-24" aria-labelledby="atlas-title">
+    <div class="container-site">
+      <div class="grid gap-8 border-b border-line pb-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+        <div>
+          <p class="eyebrow">The overall capability system</p>
+          <h2 id="atlas-title" class="section-title mt-5 max-w-3xl">Start with the constraint. Leave with an operating artifact.</h2>
+        </div>
+        <p class="max-w-2xl text-lg leading-relaxed text-muted">Each route answers a different enterprise question. The rows are the canonical map; the detail routes show the composition, evidence, and working artifacts for that discipline.</p>
+      </div>
+
+      <ol class="mt-10 divide-y divide-line border-y border-line" aria-label="Global Enterprise capability atlas">
+        {atlas.map((row) => (
+          <li class="group grid gap-7 py-8 md:grid-cols-[1fr_1.15fr_auto] md:items-start">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">{row.lane}</p>
+              <h3 class="mt-3 font-display text-3xl font-medium tracking-[-0.06em]"><a class="transition-colors group-hover:text-cobalt" href={`/services/${row.slug}/`}>{row.title}</a></h3>
+            </div>
+            <div>
+              <p class="leading-relaxed text-muted">{row.question}</p>
+              <p class="mt-4 text-sm font-bold leading-relaxed text-ink">{row.outputs}</p>
+            </div>
+            <a class="ink-link md:mt-7" href={`/services/${row.slug}/`} aria-label={`Open ${row.title}`}>Inspect</a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="institutional-pathways" class="section-pad bg-paper" aria-labelledby="institutional-pathways-title">
+    <div class="container-site">
+      <div class="grid gap-8 border-b border-line pb-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+        <div>
+          <p class="eyebrow text-cobalt">Institutional working sets</p>
+          <h2 id="institutional-pathways-title" class="section-title mt-5 max-w-3xl">Four first-party routes for the questions that need a sharper boundary.</h2>
+        </div>
+        <p class="max-w-2xl text-lg leading-relaxed text-muted">These pathways are consultative starting points. They help a reader name the decision, inspect the working artifacts, and choose an honest next conversation without implying certification, authorization, a contract vehicle, or a client relationship.</p>
+      </div>
+
+      <div class="mt-10 grid gap-px border border-line bg-line md:grid-cols-2">
+        {serviceAudiencePathways.map((pathway) => (
+          <article class="flex flex-col bg-white p-7 md:p-8">
+            <p class="eyebrow text-cobalt">{pathway.eyebrow}</p>
+            <h3 class="mt-6 font-display text-2xl font-medium leading-tight tracking-[-0.05em]"><a class="transition-colors hover:text-cobalt" href={pathway.href}>{pathway.title}</a></h3>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{pathway.description}</p>
+            <div class="mt-auto flex flex-col items-start gap-3 pt-8">
+              <a class="ink-link" href={pathway.href}>{pathway.linkLabel} <span aria-hidden="true">↗</span></a>
+              {pathway.supportingHref && pathway.supportingLabel && <a class="text-xs font-bold uppercase tracking-[0.1em] text-muted underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={pathway.supportingHref}>{pathway.supportingLabel}</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AudiencePathways
+    id="capability-audience-pathways"
+    eyebrow="Quiet audience routing"
+    title="Start with the question you carry."
+    intro="The capability atlas stays content-led. This small, filtered set simply helps federal, architecture, and acquisition readers find the first-party route that matches the work in front of them."
+    compact
+    pathwayIds={["national-and-federal-leaders", "architects-and-operators", "acquisition-evaluators"]}
+  />
+
+  <section class="section-pad bg-paper" aria-labelledby="interfaces-title">
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-20">
+      <div>
+        <p class="eyebrow">How the disciplines connect</p>
+        <h2 id="interfaces-title" class="section-title mt-5 max-w-2xl">The capability atlas is a set of interfaces, not a menu.</h2>
+        <p class="mt-6 max-w-md leading-relaxed text-muted">Architecture makes the system legible. Intelligence and data make signals useful. Service and delivery make change safe. People and foresight make the system adoptable and ready for what comes next.</p>
+      </div>
+      <div class="overflow-x-auto border-y border-line">
+        <table class="w-full min-w-[42rem] border-collapse text-left">
+          <caption class="py-4 text-left text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Shared operating questions</caption>
+          <thead><tr class="border-b border-line text-xs uppercase tracking-[0.12em] text-muted"><th class="px-3 py-3 font-bold">Interface</th><th class="px-3 py-3 font-bold">Question</th><th class="px-3 py-3 font-bold">Connected routes</th></tr></thead>
+          <tbody class="text-sm leading-relaxed">
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Decision</th><td class="px-3 py-4 text-muted">Who can decide, with what evidence, and at what boundary?</td><td class="px-3 py-4 font-bold">Architecture · AI · service</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Capacity</th><td class="px-3 py-4 text-muted">What data, compute, funding, and workforce capacity can carry the choice?</td><td class="px-3 py-4 font-bold">Data · people · portfolio</td></tr>
+            <tr><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Readiness</th><td class="px-3 py-4 text-muted">What must be true before the next release, experiment, or commitment?</td><td class="px-3 py-4 font-bold">Change · foresight · governance</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 md:py-24" aria-labelledby="starting-title">
+    <div class="container-site grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+      <div>
+        <p class="eyebrow">Choose a starting point</p>
+        <h2 id="starting-title" class="section-title mt-5 max-w-2xl">Bring the constraint, not a preselected package.</h2>
+      </div>
+      <div class="grid gap-px border border-line bg-line md:grid-cols-3">
+        <div class="bg-white p-7"><p class="font-display text-2xl font-medium tracking-[-0.04em]">A decision</p><p class="mt-4 text-sm leading-relaxed text-muted">You need an executive-level view of what must be true and which evidence would justify a move.</p></div>
+        <div class="bg-white p-7"><p class="font-display text-2xl font-medium tracking-[-0.04em]">A system</p><p class="mt-4 text-sm leading-relaxed text-muted">You need architecture, workflow, control, and capability designed together around a service.</p></div>
+        <div class="bg-white p-7"><p class="font-display text-2xl font-medium tracking-[-0.04em]">A transfer</p><p class="mt-4 text-sm leading-relaxed text-muted">You need an operating cadence and artifacts your leaders and teams can keep using.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-accent" aria-label="Capability conversation">
+    <div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between">
+      <div><p class="eyebrow text-ink">Make the next move visible</p><h2 class="mt-5 max-w-2xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Start with the system behind the question.</h2></div>
+      <a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
 </Base>

@@ -8,20 +8,26 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "npm run check && npm run build && node scripts/audit-site.mjs",
     "audit": "npm run build && node scripts/audit-site.mjs",
-    "audit:evidence": "node scripts/audit-evidence.mjs"
+    "audit:evidence": "node scripts/audit-evidence.mjs",
+    "audit:security": "node scripts/audit-security.mjs",
+    "reports:pdf": "npm run build && node scripts/generate-report-pdfs.mjs && npm run build",
+    "audit:live": "node scripts/audit-live.mjs",
+    "edge:security": "node scripts/apply-cloudflare-edge-security.mjs",
+    "e2e:briefs": "node scripts/e2e-brief-delivery.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.0",
+    "astro": "^7.2.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@tailwindcss/typography": "^0.5.16",
-    "typescript": "^5.8.3"
+    "typescript": "^6.0.3"
   }
 }

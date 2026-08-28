@@ -1,0 +1,39 @@
+# Production edge security
+
+`public/_headers` is the source-of-truth contract for the static artifact, but GitHub Pages does not apply that file as an HTTP header policy. The production CDN/DNS edge must mirror it.
+
+The artifact also includes `public/.nojekyll`. GitHub Pages uses its presence to preserve dot-prefixed metadata, including `/.well-known/security.txt`; the repository security audit fails if that preservation marker is removed.
+
+Run the repository check before deployment:
+
+```bash
+npm run audit:security
+```
+
+Run the live check after the edge configuration changes:
+
+```bash
+LIVE_SITE_URL=https://globalenterprise.com npm run audit:security
+```
+
+The live check exposes any remaining deployment gap at the CDN/DNS edge. GitHub Pages can publish the artifact, but it cannot apply `public/_headers`; the production edge must mirror the contract before the live check can pass. This is an edge configuration task, not an Astro source change.
+
+The repository includes an idempotent Cloudflare API helper for the no-cost response-header rule. Preview it with `npm run edge:security -- --dry-run`, then run `CLOUDFLARE_API_TOKEN=… npm run edge:security` from a secure environment with zone read and Transform Rules edit permissions. It resolves `globalenterprise.com`, creates or updates only the named response-header rule, and preserves other rules in an existing transform ruleset. It does not create Workers, Routes, Pages projects, or paid products. Never commit or paste the token into the repository or chat.
+
+Cloudflare Browser Insights should remain disabled while Plausible is the approved analytics system; otherwise its injected script is blocked by the intentional CSP. After the edge rule and telemetry choice are applied, run `LIVE_SITE_URL=https://globalenterprise.com npm run audit:security` and a browser console check.
+
+The edge should mirror these response headers on HTML and static assets:
+
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()`
+- `X-Frame-Options: SAMEORIGIN` (the compact visual sitemap uses a same-origin preview frame)
+- `Cross-Origin-Opener-Policy: same-origin`
+- `Cross-Origin-Resource-Policy: same-origin`
+- `X-Permitted-Cross-Domain-Policies: none`
+- The CSP in `public/_headers`, including the current `formsubmit.co` form action and Plausible endpoints.
+
+The shipped CSP has no executable `script-src 'unsafe-inline'` allowance. Analytics and interaction code are external assets; JSON-LD remains data, not executable JavaScript. Inline styles are still permitted because Astro pages intentionally use component-scoped style blocks and a small number of inline style attributes. The built-output audit rejects executable inline scripts before deployment.
+
+Astro pages also emit the same executable/resource directives as a document-level meta fallback because the current host is GitHub Pages. Browser-unsupported controls such as `frame-ancestors` remain HTTP-only; the fallback protects script execution in browsers but does not replace the production edge header.

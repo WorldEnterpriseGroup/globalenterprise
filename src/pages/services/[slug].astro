@@ -1,21 +1,257 @@
 ---
 import Base from "@/layouts/Base.astro";
-import ArchitectureMap from "@/components/ArchitectureMap.astro";
+import DataScienceLifecycle from "@/components/DataScienceLifecycle.astro";
+import FrontierToEnterprisePath from "@/components/FrontierToEnterprisePath.astro";
+import SovereigntyControlSurface from "@/components/SovereigntyControlSurface.astro";
+import TransformationGateSequence from "@/components/TransformationGateSequence.astro";
+import WorkforceCapabilityLoop from "@/components/WorkforceCapabilityLoop.astro";
+import OrganizationHandoff from "@/components/OrganizationHandoff.astro";
 import { getCollection, render } from "astro:content";
+import { resolveEvidenceSource } from "@/data/evidence-routes";
+import { solutionPages } from "@/data/site";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("servicePages");
+  const entries = (await getCollection("servicePages")).filter((entry) => !entry.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const routeHeadings = headings.filter((heading) => heading.depth === 2);
+const connectedSolutions = solutionPages.filter((solution) => solution.serviceSlugs.includes(entry.id)).slice(0, 3);
+const isOperatingModel = entry.id === "operating-model";
+const isMergersAcquisitions = entry.id === "mergers-acquisitions";
+const isIntelligentAutomation = entry.id === "intelligent-automation";
+const isCloudData = entry.id === "cloud-data";
+const isLeadership = entry.id === "leadership-talent";
+const isTransformation = entry.id === "transformation-office";
+const isResearch = entry.id === "research-foresight";
+
+const routeLabels: Record<string, { kicker: string; promise: string; artifact: string; next: string }> = {
+  "operating-model": { kicker: "Decision architecture", promise: "Make the interfaces between strategy, architecture, and delivery visible.", artifact: "Mandate map · decision-rights register · transition architecture", next: "Bring a decision that keeps stalling across functions." },
+  "mergers-acquisitions": { kicker: "Integration thesis", promise: "Turn a transaction into a more capable operating system across borders.", artifact: "Integration thesis · dependency map · service transition and value scorecard", next: "Bring a transaction whose value depends on the systems around the asset." },
+  "intelligent-automation": { kicker: "Managed intelligence", promise: "Move a useful workflow from model curiosity to accountable service.", artifact: "Evaluation path · service runbook · adoption review", next: "Bring a workflow where judgment, cost, or volume is under pressure." },
+  "cloud-data": { kicker: "Data and economics", promise: "Make data, compute, sovereignty, and unit economics legible together.", artifact: "Data-product map · FinOps control · sovereignty register", next: "Bring a workload whose value or boundary is hard to see." },
+  "leadership-talent": { kicker: "Workforce capacity", promise: "Give changing work a role, practice, and leadership system that can absorb it.", artifact: "Capability heatmap · workforce scenarios · change agreement", next: "Bring a strategy that has outgrown the roles carrying it." },
+  "transformation-office": { kicker: "Service change", promise: "Make high-consequence change visible, releasable, and learnable.", artifact: "Portfolio cadence · gate record · service transition note", next: "Bring a program where delivery and continuity are pulling apart." },
+  "research-foresight": { kicker: "Frontier readiness", promise: "Turn an uncertain signal into a test, a readiness move, or a deliberate decision to wait.", artifact: "Signal ledger · scenario register · decision record", next: "Bring a frontier question before it becomes an urgent commitment." },
+};
+const route = routeLabels[entry.id] ?? routeLabels["operating-model"];
+const frameworkNotes: Record<string, { title: string; text: string }> = {
+  "operating-model": { title: "Service management without method theater.", text: "Where teams use ITIL® language, we translate service value, ownership, incident and problem learning, change control, and continual improvement into the local operating model. The framework informs the conversation; it does not replace judgment." },
+  "leadership-talent": { title: "Workforce practice tied to real demand.", text: "We connect SHRM®-familiar workforce planning concerns—role demand, talent supply, mobility, leadership, and capability development—to the work and service outcomes changing underneath them." },
+  "transformation-office": { title: "Delivery fluency across portfolio and teams.", text: "We can work with teams using SAFe®, Nexus™, PMP®, agile, or lean language, translating their existing cadence into explicit portfolio decisions, dependencies, release evidence, service transition, and outcome review." },
+};
+const frameworkNote = frameworkNotes[entry.id];
 ---
 
-<Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} keywords={[entry.data.title, ...entry.data.tags, "enterprise transformation"]} serviceSchema={{ name: entry.data.title, description: entry.data.description }}>
-  <section class="bg-cobalt py-20 text-white md:py-28"><div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.18fr_.8fr] lg:items-end"><div><p class="eyebrow text-lime">{entry.data.eyebrow}</p><p class="mt-7 font-display text-7xl font-bold tracking-[-0.08em] text-lime">{entry.data.number}</p></div><div><h1 class="section-title max-w-4xl">{entry.data.title}</h1><p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/75">{entry.data.description}</p></div><div class="border-l border-white/25 pl-6"><p class="eyebrow text-lime">Operating contract</p><p class="mt-5 max-w-xs text-lg leading-relaxed text-white/75">A useful capability has a data path, a human path, and a control path.</p></div></div></section>
-  <section class="section-pad bg-white"><div class="container-site grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-24"><div><p class="eyebrow">Capability note</p><div class="mt-8 flex flex-wrap gap-2">{entry.data.tags.map((tag) => <span class="pill">{tag}</span>)}</div><a class="btn-dark mt-10" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div><article class="prose max-w-3xl text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5"><Content /></article></div></section>
-  <section class="section-pad bg-paper"><div class="container-site"><ArchitectureMap variant={`service-${entry.id}`} eyebrow={`${entry.data.title} · technical view`} title="The capability has to connect to the system around it." caption="A useful capability is not an isolated workstream; it has a data path, a human path, and a control path that can be operated after launch." /></div></section>
-  <section class="section-pad bg-paper"><div class="container-site"><p class="eyebrow">How the work moves</p><h2 class="section-title mt-5 max-w-4xl">From strategic question to an institution that can carry the answer.</h2><div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3"><article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Frame</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">Name the consequence</h3><p class="mt-4 leading-relaxed text-muted">Clarify the mandate, the decision, the horizon, and the boundary that makes the work consequential.</p></article><article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Shape</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">Design the system</h3><p class="mt-4 leading-relaxed text-muted">Design the workflow, architecture, economics, roles, evidence, and controls around the people who will operate the change.</p></article><article class="bg-paper p-8 md:p-10"><p class="eyebrow text-cobalt">Transfer</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">Make it durable</h3><p class="mt-4 leading-relaxed text-muted">Create the measures, cadence, and capability that let the institution improve the system after the engagement.</p></article></div></div></section>
-  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-5xl font-bold tracking-[-0.07em]">Design the capability the mandate cannot do without.</h2><a class="btn-dark shrink-0" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div></section>
+<Base title={`${entry.data.title} | Global Enterprise`} description={entry.data.description} image="/media/original/services-control-room.avif" imageWidth={1536} imageHeight={1024} imageAlt="Operators reviewing an enterprise systems control room" keywords={[entry.data.title, ...entry.data.tags, "enterprise transformation"]} serviceSchema={{ name: entry.data.title, description: entry.data.description }}>
+  <section class:list={["py-20 md:py-28", isTransformation ? "bg-ink text-white" : isResearch ? "bg-paper" : "bg-cobalt text-white"]}>
+    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.18fr_.8fr] lg:items-end">
+      <div>
+        <p class:list={["eyebrow", isTransformation ? "text-accent" : isResearch ? "text-cobalt" : "text-accent"]}>{entry.data.eyebrow}</p>
+        <p class:list={["mt-8 text-xs font-bold uppercase tracking-[0.14em]", isTransformation ? "text-accent" : isResearch ? "text-cobalt" : "text-white/65"]}>{route.kicker}</p>
+      </div>
+      <div>
+        <h1 class="section-title max-w-4xl">{entry.data.title}</h1>
+        <p class:list={["mt-7 max-w-2xl text-xl leading-relaxed", isTransformation ? "text-white/70" : isResearch ? "text-muted" : "text-white/75"]}>{entry.data.description}</p>
+      </div>
+      <div class:list={["border-l-2 pl-6", isTransformation ? "border-accent" : isResearch ? "border-cobalt" : "border-white/30"]}>
+        <p class:list={["eyebrow", isTransformation ? "text-accent" : isResearch ? "text-cobalt" : "text-accent"]}>Route promise</p>
+        <p class:list={["mt-5 max-w-xs text-lg leading-relaxed", isTransformation ? "text-white/75" : isResearch ? "text-muted" : "text-white/75"]}>{route.promise}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-[minmax(18rem,.85fr)_minmax(0,1.75fr)] lg:items-start lg:gap-16">
+      <aside class="service-detail-rail">
+        <p class="eyebrow">Capability guide</p>
+
+        <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Read this route</p>
+          <nav class="service-detail-rail-nav" aria-label={`Sections in ${entry.data.title}`}>
+            <ol>
+              {routeHeadings.map((heading, index) => <li><a href={`#${heading.slug}`}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><strong>{heading.text}</strong></a></li>)}
+            </ol>
+          </nav>
+        </div>
+
+        <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Capability signals</p>
+          <div class="mt-4 flex flex-wrap gap-2">{entry.data.tags.map((tag) => <span class="pill">{tag}</span>)}</div>
+        </div>
+
+        <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Working artifacts</p>
+          <p class="mt-4 text-sm leading-relaxed text-muted">{route.artifact}</p>
+        </div>
+
+        {connectedSolutions.length > 0 && <div class="service-detail-rail-section">
+          <p class="service-detail-rail-label">Connected pathways</p>
+          <div class="service-detail-rail-links">
+            {connectedSolutions.map((solution) => <a href={`/solutions/${solution.slug}/`}><span class="block text-[0.68rem] font-bold uppercase tracking-[0.12em] text-cobalt">{solution.eyebrow}</span><strong class="mt-1 block">{solution.title}</strong></a>)}
+          </div>
+        </div>}
+
+        {entry.data.sources.length > 0 && <div class="service-detail-rail-section"><p class="service-detail-rail-label">Source notes</p><ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted">{entry.data.sources.map((source) => { const resolvedSource = resolveEvidenceSource(source); return <li><a class="underline decoration-cobalt/30 underline-offset-4 hover:text-cobalt" href={resolvedSource.displayUrl}>{resolvedSource.label} ↗</a></li>; })}</ul></div>}
+        <a class="btn-dark mt-8" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
+      </aside>
+      <article id="service-reading" class="prose max-w-none text-lg leading-relaxed text-muted prose-headings:font-display prose-headings:tracking-[-0.06em] prose-headings:text-ink prose-h2:mt-12 prose-h2:text-4xl prose-p:my-5 prose-li:my-2"><Content /></article>
+    </div>
+  </section>
+
+  {isOperatingModel && <section class="section-pad bg-paper" data-diagram-id="service-operating-model-decision-architecture" aria-labelledby="operating-architecture-title">
+    <div class="container-site">
+      <div class="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+        <div>
+          <p class="eyebrow">Route artifact · operating model</p>
+          <h2 id="operating-architecture-title" class="section-title mt-5 max-w-3xl">A decision architecture that keeps the system honest.</h2>
+        </div>
+        <p class="max-w-2xl text-lg leading-relaxed text-muted">The operating model connects the question, the service, the architecture, and the forum that can resolve an exception. It is intentionally inspectable: each layer has a decision owner and a handoff into the next.</p>
+      </div>
+      <div class="mt-12 overflow-x-auto border-y border-line">
+        <table class="w-full min-w-[46rem] border-collapse text-left">
+          <caption class="py-4 text-left text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Operating decision architecture</caption>
+          <thead><tr class="border-b border-line text-xs uppercase tracking-[0.12em] text-muted"><th class="px-3 py-3 font-bold">Layer</th><th class="px-3 py-3 font-bold">Question</th><th class="px-3 py-3 font-bold">Owner / forum</th><th class="px-3 py-3 font-bold">Evidence</th></tr></thead>
+          <tbody class="text-sm leading-relaxed">
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Intent</th><td class="px-3 py-4 text-muted">What outcome and service promise are we protecting?</td><td class="px-3 py-4 font-bold">Executive sponsor · mandate review</td><td class="px-3 py-4 text-muted">Outcome brief</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Architecture</th><td class="px-3 py-4 text-muted">Which capabilities, interfaces, data, and controls carry it?</td><td class="px-3 py-4 font-bold">Enterprise architect · design authority</td><td class="px-3 py-4 text-muted">Transition architecture</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Delivery</th><td class="px-3 py-4 text-muted">What is the smallest safe increment we can test?</td><td class="px-3 py-4 font-bold">Product / service owner · delivery review</td><td class="px-3 py-4 text-muted">Release hypothesis</td></tr>
+            <tr><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Learning</th><td class="px-3 py-4 text-muted">What changed, what did we learn, and who can act next?</td><td class="px-3 py-4 font-bold">Outcome owner · improvement forum</td><td class="px-3 py-4 text-muted">Decision record</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>}
+
+  {isIntelligentAutomation && <section class="section-pad bg-paper"><div class="container-site"><DataScienceLifecycle /></div></section>}
+  {isMergersAcquisitions && <section class="section-pad bg-paper" data-diagram-id="service-mergers-acquisitions-integration-system" aria-labelledby="mna-integration-system-title">
+    <div class="container-site">
+      <div class="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+        <div><p class="eyebrow">Route artifact · transaction system</p><h2 id="mna-integration-system-title" class="section-title mt-5 max-w-3xl">The deal is a system of interfaces.</h2></div>
+        <p class="max-w-3xl text-lg leading-relaxed text-muted">The integration thesis becomes operational when each dependency has a decision owner, a transition gate, and a measure that can be reviewed after close. This is the minimum view before a synergy narrative becomes a service promise.</p>
+      </div>
+      <div class="mt-12 overflow-x-auto border-y border-line">
+        <table class="w-full min-w-[56rem] border-collapse text-left">
+          <caption class="py-4 text-left text-xs font-bold uppercase tracking-[0.14em] text-cobalt">Cross-border M&amp;A integration system</caption>
+          <thead><tr class="border-b border-line text-xs uppercase tracking-[0.12em] text-muted"><th class="px-3 py-3 font-bold">Surface</th><th class="px-3 py-3 font-bold">Before close</th><th class="px-3 py-3 font-bold">Day 1 / 100 / 365</th><th class="px-3 py-3 font-bold">Evidence</th></tr></thead>
+          <tbody class="text-sm leading-relaxed">
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Physical + energy</th><td class="px-3 py-4 text-muted">Map power, cooling, facilities, spectrum, orbit, and supply-chain dependencies.</td><td class="px-3 py-4 text-muted">Protect continuity, assign owners, and fund the constrained path.</td><td class="px-3 py-4 font-bold">Availability · energy per service</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Communications</th><td class="px-3 py-4 text-muted">Trace terrestrial and satellite paths, coverage, latency, sovereignty, and partner exposure.</td><td class="px-3 py-4 text-muted">Test degraded modes, recovery, and the customer-facing service promise.</td><td class="px-3 py-4 font-bold">Reach · quality · recovery time</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Data + intelligence</th><td class="px-3 py-4 text-muted">Confirm ownership, provenance, access, model evaluation, and human review.</td><td class="px-3 py-4 text-muted">Make authoritative sources and exception paths usable in the combined workflow.</td><td class="px-3 py-4 font-bold">Provenance · decision latency</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Finance + capital</th><td class="px-3 py-4 text-muted">Expose cash flows, funding gates, insurance, liquidity, and capital allocation.</td><td class="px-3 py-4 text-muted">Move capital to the constrained path and preserve optionality through volatility.</td><td class="px-3 py-4 font-bold">Capital deployed · decision latency</td></tr>
+            <tr class="border-b border-line"><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Market + customer</th><td class="px-3 py-4 text-muted">Map the brand, channel, pricing, language, regulatory boundary, and adoption friction.</td><td class="px-3 py-4 text-muted">Carry a credible customer promise through the markets where the capability must work.</td><td class="px-3 py-4 font-bold">Adoption · retention · service quality</td></tr>
+            <tr><th scope="row" class="px-3 py-4 font-display text-xl font-medium tracking-[-0.03em]">Service + change</th><td class="px-3 py-4 text-muted">Name owners, incidents, problems, changes, configuration, continuity, and release risk.</td><td class="px-3 py-4 text-muted">Run the combined service, learn from failure, and improve the operating model.</td><td class="px-3 py-4 font-bold">Change failure · recovery · improvement</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>}
+  {isCloudData && <section class="section-pad bg-paper"><div class="container-site"><SovereigntyControlSurface /></div></section>}
+  {isLeadership && <section class="section-pad bg-paper"><div class="container-site"><WorkforceCapabilityLoop /></div></section>}
+  {isTransformation && <section class="section-pad bg-ink"><div class="container-site"><TransformationGateSequence /></div></section>}
+  {isResearch && <section class="section-pad bg-paper"><div class="container-site"><FrontierToEnterprisePath /></div></section>}
+  {isResearch && <OrganizationHandoff destinationKey="instarLab" eyebrow="Research collaboration" title="Keep the question close to the evidence." text="When a frontier question needs an academic, laboratory, or independent research setting, the work can continue with the research community connected to this practice." linkLabel="Continue research with INSTAR Lab" supportingHref="/insights/" supportingLabel="Read the Global Enterprise research record" />}
+
+  {frameworkNote && <section class:list={["section-pad", isTransformation ? "bg-white" : "bg-paper"]} aria-labelledby="framework-title">
+    <div class="container-site grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start">
+      <div><p class="eyebrow">Framework fluency</p><h2 id="framework-title" class="section-title mt-5 max-w-2xl">{frameworkNote.title}</h2></div>
+      <div class="max-w-3xl border-l-2 border-cobalt pl-6 text-lg leading-relaxed text-muted"><p>{frameworkNote.text}</p><p class="mt-5 text-sm">Nominative references describe working fluency only; they do not imply certification, authorization, partnership, endorsement, or proprietary courseware.</p></div>
+    </div>
+  </section>}
+
+  <section class="bg-accent">
+    <div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between">
+      <div><p class="eyebrow text-ink">A useful next move</p><h2 class="mt-5 max-w-2xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">{route.next}</h2></div>
+      <a class="btn-dark shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .service-detail-rail {
+    border-top: 2px solid var(--color-cobalt);
+    padding-top: 1.25rem;
+  }
+
+  .service-detail-rail-section {
+    border-top: 1px solid var(--color-line);
+    padding-block: 1.1rem;
+  }
+
+  .service-detail-rail-label {
+    color: var(--color-cobalt);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .service-detail-rail-nav {
+    margin-top: 0.75rem;
+  }
+
+  .service-detail-rail-nav ol {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .service-detail-rail-nav li + li {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .service-detail-rail-nav a {
+    color: var(--color-ink);
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+    padding: 0.75rem 0;
+    text-decoration: none;
+  }
+
+  .service-detail-rail-nav a:hover,
+  .service-detail-rail-nav a:focus-visible,
+  .service-detail-rail-links a:hover,
+  .service-detail-rail-links a:focus-visible {
+    color: var(--color-cobalt);
+  }
+
+  .service-detail-rail-nav span {
+    color: var(--color-cobalt);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+
+  .service-detail-rail-nav strong,
+  .service-detail-rail-links strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .service-detail-rail-links {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 0.75rem;
+  }
+
+  .service-detail-rail-links a {
+    color: var(--color-ink);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    .service-detail-rail {
+      align-self: start;
+      position: sticky;
+      top: 7.5rem;
+    }
+  }
+</style>

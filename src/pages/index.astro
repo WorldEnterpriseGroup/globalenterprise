@@ -1,60 +1,353 @@
 ---
 import Base from "@/layouts/Base.astro";
-import EvidenceBand from "@/components/EvidenceBand.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import StartingPoint from "@/components/StartingPoint.astro";
-import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import GlobalPlatformLandscape from "@/components/GlobalPlatformLandscape.astro";
 import MediaInterlude from "@/components/MediaInterlude.astro";
 import SystemMap from "@/components/SystemMap.astro";
 import AssetImage from "@/components/AssetImage.astro";
 import { getCollection } from "astro:content";
-import { businessReports, experienceHighlights, services, site } from "@/data/site";
+import { businessReports, experienceHighlights, regionContexts, services, site } from "@/data/site";
+import { type EvidenceSource, resolveEvidenceSource } from "@/data/evidence-routes";
 
-const insights = (await getCollection("insights")).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)).slice(0, 3);
-const cases = await getCollection("caseStudies");
+const insightEntries = await getCollection("insights");
+const serviceEntries = await getCollection("servicePages");
+const insights = insightEntries.filter((entry) => !entry.data.draft).sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)).slice(0, 3);
+const cases = (await getCollection("caseStudies")).filter((entry) => !entry.data.draft);
 const featuredReports = businessReports.slice(0, 3);
+const horizonInsight = insightEntries.find((entry) => entry.id === "the-path-to-2050-is-an-operating-model");
+const integrationService = serviceEntries.find((entry) => entry.id === "mergers-acquisitions");
+const mnaService = services.find((service) => service.slug === "mergers-acquisitions");
+const changeService = services.find((service) => service.slug === "transformation-office");
+type SourceInput = Pick<EvidenceSource, "url" | "label">;
+
+const integrationSurfaces = [
+  {
+    label: "Physical + energy",
+    title: "Make the load-bearing layer visible.",
+    text: "Power, cooling, facilities, transmission, spectrum, orbit, maintenance, and supply-chain dependencies determine whether the asset can work at all.",
+    href: "/industries/energy-infrastructure/",
+  },
+  {
+    label: "Satellite, telecom + global communications",
+    title: "Treat reach as a service, not an asset count.",
+    text: "Trace terrestrial and satellite paths, network diversity, latency, availability, coverage, sovereignty, and partner exposure across the combined system.",
+    href: "/industries/technology-data/",
+  },
+  {
+    label: "Data + intelligence",
+    title: "Keep evidence attached to authority.",
+    text: "Make ownership, provenance, access, quality, evaluation, cybersecurity, and human review explicit before a new capability enters the workflow.",
+    href: "/services/cloud-data/",
+  },
+  {
+    label: "Global finance + capital",
+    title: "Move capital to the constraint.",
+    text: "Follow cash flows, funding gates, insurance, liquidity, capital allocation, and the value of optionality under uncertainty—not just the synergy slide.",
+    href: "/services/mergers-acquisitions/",
+  },
+  {
+    label: "Marketing + customer systems",
+    title: "Make the promise travel.",
+    text: "The brand, channel, pricing, language, regulatory boundary, and adoption friction determine whether a combined capability becomes useful in each market.",
+    href: "/services/operating-model/",
+  },
+  {
+    label: "ITIL service + change",
+    title: "Make the combined capability supportable.",
+    text: "Service ownership, incidents, problems, changes, configuration, releases, continuity, knowledge, and continual improvement keep integration from becoming unrecorded exceptions.",
+    href: "/services/transformation-office/",
+  },
+];
+
+const scorecardMeasures = [
+  { measure: "Time from signal to an authorized decision", question: "Can the combined system turn information into accountable action?", href: "/services/operating-model/" },
+  { measure: "Service availability, recovery time, and change failure rate", question: "Can service ownership carry the integration through release and failure?", href: "/services/transformation-office/" },
+  { measure: "Energy used per unit of useful computation or delivered service", question: "Does additional capability convert energy into useful service?", href: "/industries/energy-infrastructure/" },
+  { measure: "Connectivity reach and quality by market, region, and customer segment", question: "Can satellite, telecom, and terrestrial paths deliver the intended reach?", href: "/industries/technology-data/" },
+  { measure: "Critical data with an owner, provenance, access rule, and refresh expectation", question: "Can finance, operations, and leaders trust the inputs?", href: "/services/cloud-data/" },
+  { measure: "Customer retention and adoption by market, channel, and language", question: "Does the marketing and customer system make the promise adoptable across borders?", href: "/services/operating-model/" },
+  { measure: "Capital deployed against the constraint that limits growth", question: "Is global finance moving capital to the actual bottleneck?", href: "/services/mergers-acquisitions/" },
+];
+
+const sourceLinks = [...(horizonInsight?.data.sources ?? []), ...(integrationService?.data.sources ?? [])] as SourceInput[];
+const mappedSourceLinks = sourceLinks.map((source) => resolveEvidenceSource(source)).filter(
+  (source, index, sources) => sources.findIndex((candidate) => candidate.displayUrl === source.displayUrl) === index,
+);
+const decisionHubs = [
+  {
+    city: "Africa",
+    region: "Middle East & Africa",
+    image: "/media/original/home-hub-mea.avif",
+    imageAlt: "Local technicians beside a solar and water infrastructure corridor at dawn",
+  },
+  {
+    city: "North America",
+    region: "North America",
+    image: "/media/original/home-hub-na.avif",
+    imageAlt: "An operations crew reviewing a route map beside layered rail, road, and public infrastructure",
+  },
+  {
+    city: "Europe",
+    region: "Europe",
+    image: "/media/original/home-hub-eu.avif",
+    imageAlt: "A researcher annotating a systems diagram beside a European tram and civic building",
+  },
+  {
+    city: "Latin America & Caribbean",
+    region: "Latin America & the Caribbean",
+    image: "/media/original/home-hub-latam.avif",
+    imageAlt: "A public-service team walking through a wet hillside service corridor after rain",
+  },
+  {
+    city: "South America",
+    region: "South America",
+    image: "/media/original/home-hub-sa.avif",
+    imageAlt: "A field technician checking a communications relay above a South American mountain logistics corridor",
+  },
+  {
+    city: "Asia-Pacific",
+    region: "Asia-Pacific",
+    image: "/media/original/home-hub-asia.avif",
+    imageAlt: "Two port operators reviewing a route board beside containers and intermodal equipment at dawn",
+  },
+].map((hub) => ({ ...hub, context: regionContexts.find((context) => context.name === hub.region) }));
 ---
 
-<Base title="Global Enterprise | Strategy for the next system" description={site.description} image="/media/hero-city.avif">
-  <div class="home-compact">
+<Base title="Global Enterprise | Global operating systems for infrastructure and public missions" description={site.description} image="/media/hero-city.avif">
+<div class="home-compact home-homepage-3k">
   <section class="hero-home">
     <AssetImage src="/media/original/hero-city.avif" width={1600} height={900} loading="eager" fetchpriority="high" decoding="async" sizes="100vw" alt="A global city skyline in clear morning light" class="hero-home-image" />
-    <div class="container-site relative z-10 flex min-h-[min(42rem,calc(100vh-1rem))] items-center py-20">
+    <div class="hero-home-content container-site relative z-10 flex min-h-[min(38rem,calc(100vh-1rem))] items-center py-14">
       <div class="max-w-3xl text-white">
-        <p class="eyebrow text-lime">When one decision changes the room</p>
-        <h1 class="display-title mt-8">The advisory partner for the <span class="text-white/90">next order of complexity.</span></h1>
-        <p class="mt-7 max-w-2xl text-lg leading-relaxed text-white/75">We turn frontier intelligence into operating models, trusted data institutions, and change systems that hold when the stakes move.</p>
-        <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary bg-white" href="/contact/" data-track="hero_cta" data-track-label="Request a principal dialogue">Request a principal dialogue <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/resources/" data-track="hero_cta" data-track-label="Explore business reports">Explore business reports <span aria-hidden="true">↗</span></a></div>
-        <div class="mt-20 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Sense</p><p class="mt-1">The signal</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Shape</p><p class="mt-1">The intelligence</p></div><div><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Steer</p><p class="mt-1">The institution</p></div></div>
+        <p class="eyebrow text-accent">Federal enterprise architecture and service systems for nations.</p>
+        <h1 class="display-title mt-6">Enterprise architecture for governments carrying the world&apos;s largest mandates.</h1>
+        <p class="mt-5 max-w-2xl text-base leading-relaxed text-white/75">We advise entire governments—G-7 participants, NATO members, UN member states, and other national systems—on Federal Enterprise Architecture Frameworks, ITIL for Nations, and the operating models that make public capability reliable.</p>
+        <div class="mt-7 flex flex-wrap gap-4"><a class="btn-primary bg-white" href="/contact/" data-track="hero_cta" data-track-label="Request a leadership engagement">Request a leadership engagement <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/resources/" data-track="hero_cta" data-track-label="Explore business reports">Explore business reports <span aria-hidden="true">↗</span></a></div>
+        <div class="mt-14 grid max-w-2xl gap-6 border-t border-white/25 pt-6 text-sm text-white/65 sm:grid-cols-3"><a class="home-hero-stat" href="/industries/federal-public-service/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Federal scale</p><p class="mt-1">Ministries and missions <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/industries/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">International mandate</p><p class="mt-1">G-7 · NATO · UN members <span aria-hidden="true">↗</span></p></a><a class="home-hero-stat" href="/services/"><p class="font-display text-lg uppercase tracking-[0.12em] text-white">Service discipline</p><p class="mt-1">Architecture and ITIL <span aria-hidden="true">↗</span></p></a></div>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><span class="font-bold text-ink">The question changes. The standard holds.</span><span>AI-native operations</span><span>Frontier intelligence</span><span>Resilient infrastructure</span><span>Human capability</span></div></section>
+  <section class="border-b border-line bg-white py-8"><div class="container-site flex flex-wrap items-center justify-between gap-x-8 gap-y-4 text-sm text-muted"><a class="home-thesis-link font-bold text-ink" href="/industries/federal-public-service/">National architecture comes first. <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/federal-enterprise-architecture/">Federal enterprise architecture <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/transformation-office/">ITIL for Nations <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/services/whole-of-government-international-systems/">Cross-government interoperability <span aria-hidden="true">↗</span></a><a class="home-thesis-link" href="/operations/">Regional service delivery <span aria-hidden="true">↗</span></a></div></section>
 
   <MediaInterlude
-    src="/media/original/home-mandate-briefing.avif"
-    alt="A senior planner tracing a route across a large paper map while colleagues watch"
+    src="/media/original/home-mandate-global-v2.avif"
+    alt="A monumental international government and corporate district in morning light"
     eyebrow="The mandate"
-    caption="A decision becomes real when someone can point to the route, the trade-off, and the consequence."
-    index="01"
+    caption="The mandate spans ministries, missions, and public systems. The operating architecture has to carry that scale."
     tone="white"
-    ratio="standard"
+    ratio="wide"
     position="50% 30%"
+    className="media-interlude-mandate"
     showEyebrow={false}
   >
-    <SectionHeading eyebrow="The mandate" title="When the future moves faster than the institution, judgment becomes infrastructure." />
-    <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of intelligence, authority, economics, trust, and the capacity to change without losing the plot.</p><p class="body-copy mt-7 max-w-2xl">Global Enterprise works at that seam. We bring a calm, senior view across frontier research, data, AI/ML, operating models, and change so leaders can make the next order of complexity governable.</p><a class="ink-link mt-8" href="/about/">Our point of view <span aria-hidden="true"></span></a></div>
+    <SectionHeading eyebrow="The mandate" title="National capability needs an operating architecture that can cross ministries, missions, and borders." />
+    <div class="mt-9"><p class="max-w-2xl text-2xl leading-snug tracking-[-0.03em] text-ink md:text-3xl">The hardest problems are not isolated technology decisions. They are questions of how policy, institutions, data, infrastructure, and public services become one governable system without losing judgment, trust, or control.</p><p class="body-copy mt-7 max-w-2xl">We work across entire governments to define the reference architectures, service management disciplines, decision rights, and transformation cadence that turn national mandates into reliable public outcomes.</p><a class="ink-link mt-8" href="/industries/federal-public-service/">Our federal point of view <span aria-hidden="true"></span></a></div>
   </MediaInterlude>
 
-  <StartingPoint mediaSrc="/media/original/home-field-controls.avif" mediaAlt="A field engineer checking an old utility control cabinet with a paper checklist" mediaCaption="Start with the operating condition, not the preferred narrative." mediaRatio="wide" />
+  <section class="home-federal-architecture section-pad bg-ink text-white" aria-labelledby="home-federal-architecture-title">
+    <div class="container-site">
+      <div class="home-federal-architecture-heading">
+        <div>
+          <p class="eyebrow text-accent">01 · Federal operating systems</p>
+          <h2 id="home-federal-architecture-title" class="section-title mt-5 max-w-4xl">We help entire governments adopt enterprise architecture at federal scale.</h2>
+        </div>
+        <div>
+          <p class="max-w-2xl text-lg leading-relaxed text-white/70">Our lead consultants connect national mandates to reference architectures, service disciplines, and delivery governance—the work required for the largest countries to make cross-government capability reliable.</p>
+          <a class="ink-link mt-8 text-white" href="/industries/federal-public-service/">Explore federal and public service advisory <span aria-hidden="true"></span></a>
+        </div>
+      </div>
+      <div class="home-federal-practices mt-12" aria-label="Federal advisory disciplines">
+        <a class="home-federal-practice" href="/services/federal-enterprise-architecture/"><span class="home-federal-practice-index">01</span><h3>Federal Enterprise Architecture</h3><p>Reference models, capability maps, standards, and governance that align ministries around a shared national architecture.</p></a>
+        <a class="home-federal-practice" href="/services/transformation-office/"><span class="home-federal-practice-index">02</span><h3>ITIL for Nations</h3><p>Service ownership, incident and change practice, continuity, and continual improvement for essential public services.</p></a>
+        <a class="home-federal-practice" href="/services/whole-of-government-international-systems/"><span class="home-federal-practice-index">03</span><h3>Cross-government interoperability</h3><p>Data, identity, platforms, and decision rights that let departments exchange evidence without losing sovereignty or accountability.</p></a>
+      </div>
+    </div>
+  </section>
 
-  <SystemMap mediaSrc="/media/original/home-system-infrastructure.avif" mediaAlt="Rail, utility pipes, and power lines crossing a river at dawn" mediaCaption="The system is not an abstraction. It is a set of physical and human dependencies." />
+  <section class="section-pad bg-white" aria-labelledby="home-hubs-title">
+        <div class="container-site">
+          <div class="home-context-lede">
+            <div>
+              <p class="eyebrow text-cobalt">Six regional lenses</p>
+              <h2 id="home-hubs-title" class="section-title mt-5 max-w-3xl">One federal standard. Six operating contexts.</h2>
+              <p class="body-copy mt-7 max-w-3xl">The architecture stays coherent while implementation changes with regulation, infrastructure, language, public-service capacity, and regional priorities. These six lenses help national leaders carry a common standard into local reality.</p>
+            </div>
+            <aside class="home-hubs-principle">
+              <p class="eyebrow text-cobalt">What travels</p>
+              <p class="mt-4 font-display text-3xl font-medium tracking-[-0.05em]">Mandate → architecture → service → outcome.</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted">A federal reference model only matters when ministries, operators, and communities can use it under real conditions.</p>
+            </aside>
+          </div>
+          <div class="home-hub-grid mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            {decisionHubs.map((hub) => (
+              <a class="home-hub-card bg-white" href={hub.context ? `/region/${hub.context.slug}/` : "/operations/"}>
+                <div class="home-hub-media">
+                  <AssetImage src={hub.image} width={1536} height={1024} alt={hub.imageAlt} class="home-hub-image" loading="lazy" decoding="async" sizes="(min-width: 1280px) 16vw, (min-width: 640px) 50vw, 100vw" />
+                </div>
+                <div class="home-hub-copy">
+                  <p class="eyebrow text-cobalt">{hub.region}</p>
+                  <h3 class="mt-2 font-display text-3xl font-medium tracking-[-0.05em]">{hub.city}</h3>
+                  <p class="home-hub-title">{hub.context?.title ?? "A connected operating context."}</p>
+                  <p class="home-hub-description">{hub.context?.description ?? "A context lens for decisions that cross markets, institutions, and infrastructure."}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p class="mt-6 text-xs leading-relaxed text-muted">Context note: the hub names identify operating perspectives used in this narrative. They do not establish physical offices. Representatives and advisory channels are active across Africa, the Caribbean, Latin America, South America, and the broader global network.</p>
+          <div class="home-hub-footnote mt-6 flex flex-wrap gap-3">
+            <a class="btn-dark" href="/operations/">Explore region-driven operations <span aria-hidden="true">↗</span></a>
+            <a class="btn-ghost" href="/services/mergers-acquisitions/">View M&amp;A integration routes <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+  </section>
 
-  <EvidenceBand eyebrow="Signals worth designing around" title="The public record is moving fast. Your operating model has to keep up." text="We use public evidence to sharpen the question, then work with leaders to turn it into a strategy that fits their mission, risk, and capacity." limit={4} photoSrc="/media/original/home-evidence-archive.avif" photoAlt="A researcher selecting a worn folder from shelves in a quiet archive" photoCaption="The record is not decoration. It changes what a serious leader can responsibly decide." />
+  <StartingPoint mediaSrc="/media/original/home-pressure-point.avif" mediaAlt="A field engineer checking a weathered utility control cabinet with a paper checklist at dusk" mediaCaption="When the preferred path fails, the operating truth lives in the physical control, the person who can act, and the evidence they can trust." mediaRatio="wide" />
 
-  <section class="section-pad bg-white">
-    <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+  <GlobalPlatformLandscape />
+
+  <details class="home-collapse-block">
+    <summary class="home-collapse-summary home-collapse-summary-thesis">
+      <div class="container-site home-thesis-summary">
+        <div class="home-summary-folio"><span>02</span><span>Thesis and integration</span></div>
+        <div>
+          <p class="eyebrow text-cobalt">Capability is the combined system</p>
+          <h2 class="section-title mt-5 max-w-3xl">Make the integration thesis visible before the integration plan.</h2>
+        </div>
+        <div class="home-thesis-summary-index"><strong>2050</strong><span>What can the combined system make reliable?</span><span>Open the thesis ↘</span></div>
+      </div>
+    </summary>
+    <div class="home-collapse-content">
+      <section class="section-pad bg-paper home-thesis" aria-labelledby="home-thesis-title">
+        <div class="container-site">
+          <div class="grid gap-10 lg:grid-cols-[1.08fr_.92fr] lg:items-end lg:gap-24">
+            <div>
+              <p class="eyebrow text-cobalt">The 2050 thesis</p>
+              <h2 id="home-thesis-title" class="section-title mt-5 max-w-4xl">By 2050, capability will be judged by what the combined system can make reliable.</h2>
+              <p class="body-copy mt-7 max-w-3xl">{horizonInsight?.data.description ?? "M&A, energy, communications, and machine intelligence are becoming one infrastructure question: can civilization compound capability without losing control?"}</p>
+            </div>
+            <aside class="home-thesis-boundary" aria-label="Kardashev thesis boundary">
+              <p class="eyebrow text-cobalt">A forcing lens, not a forecast</p>
+              <h3 class="mt-4 font-display text-3xl font-medium tracking-[-0.05em]">Kardashev is a direction, not a dashboard.</h3>
+              <p class="mt-4 text-sm leading-relaxed text-muted">The Kardashev scale is a speculative lens for thinking about energy use. It is not a corporate maturity score or permission to consume without limits. The useful question is whether more energy becomes more useful, resilient, and widely available capability without losing human control.</p>
+            </aside>
+          </div>
+
+          <div class="mt-12 grid gap-px border border-line bg-line sm:grid-cols-3" aria-label="Current system signals">
+            <a class="home-signal-card bg-white p-6 md:p-7" href="/insights/un-desa-population-scale-is-an-operating-constraint/">
+              <p class="font-display text-4xl font-medium tracking-[-0.06em] text-cobalt">9.6B</p>
+              <h3 class="mt-5 font-display text-xl font-medium tracking-[-0.04em]">people projected in 2050</h3>
+              <p class="mt-3 text-sm leading-relaxed text-muted">UN DESA medium projection. Population scale changes the infrastructure question.</p>
+              <span class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4">UN DESA ↗</span>
+            </a>
+            <a class="home-signal-card bg-white p-6 md:p-7" href="/insights/itu-connectivity-is-not-access/">
+              <p class="font-display text-4xl font-medium tracking-[-0.06em] text-cobalt">6B / 2.2B</p>
+              <h3 class="mt-5 font-display text-xl font-medium tracking-[-0.04em]">online / offline</h3>
+              <p class="mt-3 text-sm leading-relaxed text-muted">ITU latest estimate. Reach still depends on quality, affordability, skills, and geography.</p>
+              <span class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4">ITU ↗</span>
+            </a>
+            <a class="home-signal-card bg-white p-6 md:p-7" href="/insights/iea-energy-and-ai-grid-capacity/">
+              <p class="font-display text-4xl font-medium tracking-[-0.06em] text-cobalt">945 TWh</p>
+              <h3 class="mt-5 font-display text-xl font-medium tracking-[-0.04em]">data-centre electricity by 2030</h3>
+              <p class="mt-3 text-sm leading-relaxed text-muted">IEA projection. Digital expansion is also a power, grid, permitting, and resilience decision.</p>
+              <span class="mt-5 inline-flex text-xs font-bold uppercase tracking-[0.1em] text-cobalt underline decoration-cobalt/30 underline-offset-4">IEA ↗</span>
+            </a>
+          </div>
+
+          <div class="home-thesis-grid mt-14">
+            <a class="home-thesis-card" href="/services/operating-model/">
+              <span class="home-thesis-card-index" aria-hidden="true">01</span>
+              <h3>Capability, not accumulation</h3>
+              <p>A bigger data centre, larger constellation, or faster acquisition is not automatically progress. The test is lower friction between energy and useful work, broader access, better recovery, and governance that keeps pace with the power assembled.</p>
+            </a>
+            <a class="home-thesis-card" href="/services/mergers-acquisitions/">
+              <span class="home-thesis-card-index" aria-hidden="true">02</span>
+              <h3>M&A as integration</h3>
+              <p>A transaction can combine a communications network with a satellite platform, a finance business with a data capability, an industrial operator with an energy asset, or a global brand with a distribution system. The point is a capability neither side could operate as effectively alone.</p>
+            </a>
+            <a class="home-thesis-card" href="/services/transformation-office/">
+              <span class="home-thesis-card-index" aria-hidden="true">03</span>
+              <h3>The operating model is the bridge</h3>
+              <p>Energy, computation, communications, capital, and human capability only compound when ownership, evidence, service discipline, and local context travel with the strategy.</p>
+            </a>
+          </div>
+
+          <div class="home-source-note mt-10">
+            <p><strong>Evidence trail.</strong> This homepage distills the existing <a href={horizonInsight ? `/insights/${horizonInsight.id}/` : "/insights/"}>2050 thesis</a> and <a href={integrationService ? "/services/mergers-acquisitions/" : "/services/"}>M&amp;A integration capability</a>; external source notes and review dates remain on those routes.</p>
+            {mappedSourceLinks.length > 0 && <div class="home-source-links" aria-label="Sources for the 2050 thesis">{mappedSourceLinks.map((source) => <a href={source.displayUrl}>{source.label} <span aria-hidden="true">↗</span></a>)}</div>}
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad bg-white home-integration" aria-labelledby="home-integration-title">
+        <div class="container-site">
+          <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end lg:gap-24">
+            <div>
+              <p class="eyebrow text-cobalt">Cross-border M&amp;A</p>
+              <h2 id="home-integration-title" class="section-title mt-5 max-w-3xl">Make the integration thesis visible before the integration plan.</h2>
+            </div>
+            <div>
+              <p class="body-copy max-w-3xl">{integrationService?.data.description ?? "Design the integration thesis that turns a transaction into a more capable cross-border operating system."}</p>
+              <p class="mt-5 max-w-3xl text-sm leading-relaxed text-muted">Financial diligence remains necessary, but it cannot answer the whole question. The combined system also joins networks, energy exposure, data, brands, talent, service commitments, regulatory obligations, and the decision rights that keep those parts coherent.</p>
+              <a class="ink-link mt-7" href="/services/mergers-acquisitions/">{mnaService?.title ?? "Explore M&amp;A and operating integration"} <span aria-hidden="true"></span></a>
+            </div>
+          </div>
+
+          <ol class="home-integration-grid mt-14" aria-label="Six integration surfaces">
+            {integrationSurfaces.map((surface, index) => (
+              <li>
+                <a class="home-integration-surface" href={surface.href}>
+                  <span class="home-integration-index" aria-hidden="true">0{index + 1}</span>
+                  <p class="eyebrow text-cobalt">{surface.label}</p>
+                  <h3>{surface.title}</h3>
+                  <p>{surface.text}</p>
+                </a>
+              </li>
+            ))}
+          </ol>
+
+          <div class="home-measurement mt-16">
+            <div class="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end lg:gap-24">
+              <div>
+                <p class="eyebrow text-cobalt">Measure the capability</p>
+                <h3 class="mt-5 font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Value is a service outcome.</h3>
+              </div>
+              <p class="max-w-3xl text-lg leading-relaxed text-muted">A post-close scorecard should show whether the combined system is becoming more capable, not only whether integration activities are complete.</p>
+            </div>
+            <div class="home-measurement-table-wrap mt-10" tabindex="0" role="region" aria-label="Suggested operating scorecard">
+              <table class="home-measurement-table">
+                <caption>Suggested operating measures from the existing M&amp;A and 2050 thesis. These are measures to design, not reported outcomes.</caption>
+                <thead><tr><th scope="col">Measure</th><th scope="col">Question it keeps visible</th></tr></thead>
+                <tbody>{scorecardMeasures.map((item) => <tr><th scope="row"><a href={item.href}>{item.measure} <span aria-hidden="true">↗</span></a></th><td>{item.question}</td></tr>)}</tbody>
+              </table>
+            </div>
+            <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+              <a class="ink-link" href={changeService ? "/services/transformation-office/" : "/services/"}>{changeService?.title ?? "Explore ITIL change management"} <span aria-hidden="true"></span></a>
+              <p class="text-muted">Measurement language is a planning frame, not a claim of client performance.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <SystemMap mediaSrc="/media/original/home-field-controls.avif" mediaAlt="Rail, utility pipes, and power lines crossing a river at dawn" mediaCaption="The system is not an abstraction. It is a set of physical and human dependencies." />
+    </div>
+  </details>
+
+  <details class="home-collapse-block">
+    <summary class="home-collapse-summary home-collapse-summary-evidence">
+      <div class="container-site home-evidence-summary">
+        <div class="home-summary-folio"><span>03</span><span>Evidence and perspectives</span></div>
+        <div>
+          <p class="eyebrow text-accent">Proof, field notes, and perspective</p>
+          <h2 class="section-title mt-5 max-w-3xl">See how the thesis behaves in the world.</h2>
+        </div>
+        <div class="home-evidence-summary-rail"><span><b>03</b> reports</span><span><b>{cases.length}</b> field notes</span><span><b>∞</b> questions to carry</span><span>Open the evidence ↘</span></div>
+      </div>
+    </summary>
+    <div class="home-collapse-content">
+    <section class="section-pad bg-white">
+      <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
       <div>
         <p class="eyebrow text-cobalt">Decision-ready business reports</p>
         <h2 class="section-title mt-5">Research built to enter the working session.</h2>
@@ -62,9 +355,8 @@ const featuredReports = businessReports.slice(0, 3);
         <a class="btn-dark mt-8" href="/resources/">Browse the report library <span aria-hidden="true">↗</span></a>
       </div>
       <div class="border-y border-line">
-        {featuredReports.map((report, index) => (
+        {featuredReports.map((report) => (
           <a class="report-index-row group" href={`/resources/${report.slug}/`} data-track="home_report_cta" data-track-label={report.slug}>
-            <span class="report-index-number">0{index + 1}</span>
             <span>
               <span class="eyebrow text-cobalt">{report.eyebrow}</span>
               <strong>{report.title}</strong>
@@ -77,36 +369,499 @@ const featuredReports = businessReports.slice(0, 3);
     </div>
   </section>
 
-  <MediaInterlude src="/media/original/home-consequence-field.avif" alt="A technician standing on a walkway above the basins and pipes of a water treatment facility" eyebrow="Why Global Enterprise" caption="The standard is proximity to the consequence: the place where a strategy becomes someone’s Tuesday." index="02" tone="white" reverse showEyebrow={false} ratio="standard" position="66% 50%">
+  <MediaInterlude src="/media/original/home-global-institutions-v2.avif" alt="A major international capital where government institutions, corporate towers, transit, bridges, and waterways meet" eyebrow="Why Global Enterprise" caption="We work at the scale where corporate ambition, public institutions, and city systems shape one another." tone="white" reverse showEyebrow={false} ratio="wide" position="50% 50%">
     <SectionHeading eyebrow="Why Global Enterprise" title="Experience that sits close to the consequence." text="Our perspective comes from working across the places where strategy becomes operational: federal missions, healthcare enterprises, technology platforms, and the people who have to carry change." />
-    <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <article class="bg-white p-8 md:p-10"><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h3><p class="mt-4 leading-relaxed text-muted">{item.text}</p></article>)}</div>
+    <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">{experienceHighlights.map((item) => <a class="home-experience-card bg-white p-8 md:p-10" href={item.href ?? "/about/"}><p class="font-display text-5xl font-medium tracking-[-0.06em] text-cobalt">{item.number}</p><h3 class="mt-12 font-display text-2xl font-medium tracking-[-0.04em]">{item.label}</h3><p class="mt-4 leading-relaxed text-muted">{item.text}</p><span class="mt-6 inline-flex text-cobalt" aria-hidden="true">Explore ↗</span></a>)}</div>
   </MediaInterlude>
 
-  <MediaInterlude src="/media/original/home-capability-workflow.avif" alt="Two systems technicians comparing a wiring diagram and components beside an open industrial cabinet" eyebrow="Capabilities" caption="Architecture is useful only when the people operating it can see the relationship between the parts." index="03" tone="paper" showEyebrow={false} ratio="wide" position="54% 50%">
+  <MediaInterlude src="/media/original/home-global-digital-infrastructure-v2.avif" alt="A hyperscale digital infrastructure campus connected to the energy and skyline of a major city" eyebrow="Capabilities" caption="Enterprise capability connects digital infrastructure, energy, data, and institutional governance at city scale." tone="paper" showEyebrow={false} ratio="wide" position="50% 50%">
     <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Capabilities" title="A connected view of change." text="Choose the pressure point. We will connect it to the wider system." /><a class="btn-ghost shrink-0" href="/services/">View all capabilities <span aria-hidden="true">↗</span></a></div>
-    <div class="mt-14 divide-y divide-line border-y border-line">{services.slice(0, 4).map((service) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_auto] md:items-center" href={`/services/${service.slug}/`}><span class="font-display text-3xl text-cobalt">{service.number}</span><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
+    <div class="mt-14 divide-y divide-line border-y border-line">{services.slice(0, 4).map((service) => <a class="group grid gap-5 py-7 md:grid-cols-[1fr_auto] md:items-center" href={`/services/${service.slug}/`}><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
   </MediaInterlude>
 
-  <MediaInterlude src="/media/original/home-field-note.avif" alt="A hard hat, notebook, and work gloves resting on a steel railing above an industrial facility" eyebrow="Selected work" caption="A field note begins with what the system leaves on the railing: evidence, residue, and the next question." index="04" tone="white" reverse showEyebrow={false} ratio="wide" position="38% 50%">
-    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Selected work" title="Progress that survives the presentation." text="Three field notes, presented as decisions and outcomes—not a gallery of repeated stock scenes." /><a class="btn-ghost shrink-0" href="/case-studies/">View all work <span aria-hidden="true">↗</span></a></div>
-    <div class="mt-14 divide-y divide-line border-y border-line">{cases.map((entry, index) => <a class="group grid gap-5 py-7 md:grid-cols-[4rem_1fr_1.1fr_auto] md:items-center" href={`/case-studies/${entry.id}/`}><span class="font-display text-4xl text-cobalt">0{index + 1}</span><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.service}</p><h3 class="mt-2 font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{entry.data.title}</h3></div><p class="max-w-xl text-sm leading-relaxed text-muted">{entry.data.result}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
+  <MediaInterlude src="/media/original/home-global-port-v2.avif" alt="A vast international container port and intermodal logistics network beside a global city" eyebrow="Selected work" caption="The proof of strategy is visible in systems that move capital, goods, information, and public value across borders." tone="white" reverse showEyebrow={false} ratio="wide" position="50% 50%">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end"><SectionHeading eyebrow="Selected work" title="Progress that survives the presentation." text="Three field notes, presented as decisions and outcomes—not a gallery of repeated stock scenes." /><a class="btn-ghost shrink-0" href="/work/">View all work <span aria-hidden="true">↗</span></a></div>
+    <div class="mt-14 divide-y divide-line border-y border-line">{cases.map((entry) => <a class="group grid gap-5 py-7 md:grid-cols-[1fr_1.1fr_auto] md:items-center" href={`/case-studies/${entry.id}/`}><div><p class="text-xs font-bold uppercase tracking-[0.12em] text-cobalt">{entry.data.service}</p><h3 class="mt-2 font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{entry.data.title}</h3></div><p class="max-w-xl text-sm leading-relaxed text-muted">{entry.data.result}</p><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}</div>
   </MediaInterlude>
 
-  <MediaInterlude src="/media/original/home-listening-room.avif" alt="A researcher listening at an analog audio console with printed notes" eyebrow="Perspective" caption="Attention is a practice: listen long enough for the signal to become a useful question." index="05" tone="ink" showEyebrow={false} ratio="wide">
-    <div><p class="eyebrow text-lime">Perspective</p><h2 class="section-title mt-5">Useful ideas for the people carrying the next move.</h2><a class="btn-primary mt-8" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a></div>
-    <div class="mt-10 divide-y divide-white/15 border-y border-white/15">{insights.map((insight) => <a class="group block py-6" href={`/insights/${insight.id}/`}><div class="flex items-start justify-between gap-5"><div><p class="text-xs uppercase tracking-[0.12em] text-white/50">{insight.data.category} · {insight.data.readingTime}</p><h3 class="mt-3 max-w-xl font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-lime">{insight.data.title}</h3></div><span class="text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></div></a>)}</div>
+  <MediaInterlude src="/media/original/home-global-outlook-v2.avif" alt="A major international financial and civic skyline illuminated across the water at twilight" eyebrow="Perspective" caption="A global perspective keeps the city, the institution, and the market in the same field of view." tone="ink" showEyebrow={false} ratio="wide">
+    <div><p class="eyebrow text-accent">Perspective</p><h2 class="section-title mt-5">Useful ideas for the people carrying the next move.</h2><a class="btn-primary mt-8" href="/insights/">Explore insights <span aria-hidden="true">↗</span></a></div>
+    <div class="mt-10 divide-y divide-white/15 border-y border-white/15">{insights.map((insight) => <a class="group block py-6" href={`/insights/${insight.id}/`}><div class="flex items-start justify-between gap-5"><div><p class="text-xs uppercase tracking-[0.12em] text-white/50">{insight.data.category} · {insight.data.readingTime}</p><h3 class="mt-3 max-w-xl font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-accent">{insight.data.title}</h3></div><span class="text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></div></a>)}</div>
   </MediaInterlude>
 
-  <NewsletterSignup dark />
+  </div>
+  </details>
 
-  <section class="bg-lime"><div class="container-site flex flex-col gap-8 py-14 md:flex-row md:items-center md:justify-between"><div><p class="eyebrow text-ink">Make the next move visible</p><h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring us the mandate behind the question.</h2><p class="mt-6 max-w-2xl text-sm leading-relaxed text-ink/70">Need decision support now, not just perspective?</p></div><div class="flex flex-wrap gap-4"><a class="btn-dark shrink-0" href="/contact/" data-track="home_bottom_cta" data-track-label="principal dialogue">Request a principal dialogue <span aria-hidden="true">↗</span></a><a class="btn-ghost bg-white text-ink shrink-0" href="/resources/" data-track="home_bottom_cta" data-track-label="download report">Get an operating report <span aria-hidden="true">↗</span></a></div></div></section>
+  <section class="bg-accent"><div class="container-site flex flex-col gap-8 py-14 md:flex-row md:items-center md:justify-between"><div><p class="eyebrow text-ink">Make the next move visible</p><h2 class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring us the mandate behind the question.</h2><p class="mt-6 max-w-2xl text-sm leading-relaxed text-ink/70">Need decision support now, not just perspective?</p></div><div class="flex flex-wrap gap-4"><a class="btn-dark w-full shrink-0 sm:w-auto" href="/contact/" data-track="home_bottom_cta" data-track-label="leadership engagement">Request a leadership engagement <span aria-hidden="true">↗</span></a><a class="btn-ghost bg-white text-ink w-full shrink-0 sm:w-auto" href="/resources/" data-track="home_bottom_cta" data-track-label="download report">Get an operating report <span aria-hidden="true">↗</span></a></div></div></section>
   </div>
 </Base>
 
 <style>
+.home-homepage-3k {
+    --home-page-landing-surge: clamp(3rem, 7vh, 5rem);
+    padding-bottom: var(--home-page-landing-surge);
+    min-height: clamp(2500px, calc(100vh + 1700px), 3000px);
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(100% - 280px),
+        color-mix(in oklab, var(--color-line) 18%, transparent) 100%
+      );
+  }
+
+  .hero-home-content {
+    transform: translateY(clamp(1.25rem, 4vh, 3rem));
+  }
+
+  .home-collapse-block {
+    border-top: 1px solid var(--color-line);
+    scroll-margin-top: 2.5rem;
+  }
+
+  .home-collapse-block > .home-collapse-summary,
+  .home-collapse-block + .home-collapse-block {
+    transition: border-color 240ms ease, background-color 240ms ease;
+  }
+
+  .home-collapse-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0;
+    display: block;
+    padding-block: clamp(1.5rem, 2.8vw, 2.25rem);
+  }
+
+  .home-collapse-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .home-collapse-summary::marker,
+  .home-collapse-summary::-ms-expand {
+    display: none;
+  }
+
+  .home-collapse-summary:focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 4px;
+  }
+
+  .home-thesis-summary,
+  .home-evidence-summary {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .home-summary-folio {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    color: var(--color-cobalt);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .home-summary-folio span:first-child {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: 0;
+  }
+
+  .home-collapse-summary-evidence .home-summary-folio,
+  .home-collapse-summary-evidence .section-title { color: white; }
+
+  .home-federal-architecture-heading {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .home-federal-practices {
+    display: grid;
+    gap: 1px;
+    border: 1px solid rgb(255 255 255 / 20%);
+    background: rgb(255 255 255 / 20%);
+  }
+
+  .home-federal-practice {
+    display: block;
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: rgb(255 255 255 / 6%);
+    color: white;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .home-federal-practice:hover,
+  .home-federal-practice:focus-visible { background: var(--color-cobalt); }
+
+  .home-federal-practice-index {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+  }
+
+  .home-federal-practice h3 {
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .home-federal-practice p {
+    margin-top: 0.85rem;
+    color: rgb(255 255 255 / 68%);
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  .home-collapse-summary-thesis {
+    background: var(--color-accent);
+  }
+
+  .home-thesis-summary-index {
+    display: grid;
+    gap: 0.45rem;
+    padding-left: 1.2rem;
+    border-left: 2px solid color-mix(in srgb, var(--color-cobalt) 40%, transparent);
+    color: var(--color-cobalt);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .home-thesis-summary-index strong {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 500;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+  }
+
+  .home-thesis-summary-index span:last-child,
+  .home-evidence-summary-rail span:last-child {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home-collapse-summary-evidence {
+    background: var(--color-cobalt);
+    color: white;
+  }
+
+  .home-evidence-summary-rail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgb(255 255 255 / 25%);
+    color: rgb(255 255 255 / 70%);
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .home-evidence-summary-rail b {
+    display: block;
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+
+  .home-context-lede {
+    display: grid;
+    gap: 1.5rem;
+    align-items: end;
+  }
+
+  .home-hubs-principle {
+    padding: 1.25rem 0 0;
+    border-top: 2px solid var(--color-cobalt);
+  }
+
+  @media (min-width: 900px) {
+    .home-federal-architecture-heading { grid-template-columns: minmax(0, 0.85fr) minmax(20rem, 1.15fr); gap: clamp(2rem, 5vw, 5rem); }
+    .home-federal-practices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .home-thesis-summary { grid-template-columns: auto minmax(0, 1fr) minmax(12rem, 0.55fr); }
+    .home-evidence-summary { grid-template-columns: auto minmax(0, 1fr) minmax(14rem, 0.65fr); }
+    .home-context-lede { grid-template-columns: minmax(0, 1.05fr) minmax(17rem, 0.55fr); gap: clamp(2rem, 5vw, 5rem); }
+    .home-hubs-principle { padding: 0 0 0 1.5rem; border-top: 0; border-left: 2px solid var(--color-cobalt); }
+  }
+
+  .home-collapse-content {
+    border-top: 1px solid var(--color-line);
+    padding-top: clamp(0.6rem, 1.7vw, 1.4rem);
+  }
+
+  .home-collapse-cta-wrap {
+    margin-top: 1.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .home-thesis-boundary {
+    border-left: 3px solid var(--color-cobalt);
+    padding: 1.25rem 0 1.25rem 1.25rem;
+  }
+
+  .home-thesis-grid,
+  .home-integration-grid {
+    display: grid;
+    gap: 1px;
+    margin-inline: 0;
+    padding: 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-line);
+    list-style: none;
+  }
+
+  .home-thesis-card {
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    background: white;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .home-thesis-card:hover,
+  .home-thesis-card:focus-visible,
+  .home-experience-card:hover,
+  .home-experience-card:focus-visible,
+  .home-hub-card:hover,
+  .home-hub-card:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, white); }
+
+  .home-thesis-card-index,
+  .home-integration-index {
+    display: block;
+    color: var(--color-cobalt);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+  }
+
+  .home-thesis-card h3,
+  .home-integration-surface h3 {
+    margin-top: 2.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .home-thesis-card p,
+  .home-integration-surface p:last-child {
+    margin-top: 1rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .home-hub-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease;
+  }
+
+  .home-hub-media {
+    border-bottom: 1px solid var(--color-line);
+    aspect-ratio: 2.8 / 1;
+    min-height: 0;
+    background: #dce3eb;
+    overflow: hidden;
+  }
+
+  .home-hub-image {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .home-hub-copy {
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+
+  .home-hub-copy h3 {
+    margin-top: 0.35rem;
+    font-size: clamp(1.45rem, 2vw, 1.85rem);
+  }
+
+  .home-hub-title {
+    margin-top: 0.45rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+
+  .home-hub-description {
+    display: -webkit-box;
+    margin-top: 0.45rem;
+    overflow: hidden;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .home-source-note {
+    border-top: 1px solid var(--color-line);
+    padding-top: 1rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .home-source-note strong {
+    color: var(--color-ink);
+  }
+
+  .home-source-note a,
+  .home-source-links a {
+    color: var(--color-cobalt);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .home-source-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 0.8rem;
+  }
+
+  .home-integration-surface {
+    display: block;
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .home-integration-surface:hover,
+  .home-integration-surface:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, var(--color-paper)); }
+
+  .home-integration-surface h3 {
+    margin-top: 1.5rem;
+  }
+
+  .home-measurement {
+    border-top: 1px solid var(--color-line);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .home-measurement-table-wrap {
+    overflow: auto;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+  }
+
+  .home-measurement-table-wrap:focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 3px;
+  }
+
+  .home-measurement-table {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .home-measurement-table caption {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .home-measurement-table th,
+  .home-measurement-table td {
+    width: 50%;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    padding: 1rem;
+    vertical-align: top;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    text-align: left;
+  }
+
+  .home-measurement-table th:last-child,
+  .home-measurement-table td:last-child {
+    border-right: 0;
+  }
+
+  .home-measurement-table thead th {
+    background: var(--color-ink);
+    border-color: rgb(255 255 255 / 20%);
+    color: white;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .home-measurement-table tbody th {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .home-measurement-table tbody th a { color: inherit; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-cobalt) 35%, transparent); text-underline-offset: 0.2em; }
+  .home-measurement-table tbody th a:hover,
+  .home-measurement-table tbody th a:focus-visible { color: var(--color-cobalt); }
+
+  .home-hero-stat,
+  .home-thesis-link { color: inherit; text-decoration: none; }
+  .home-hero-stat:hover,
+  .home-hero-stat:focus-visible,
+  .home-thesis-link:hover,
+  .home-thesis-link:focus-visible { color: var(--color-cobalt); }
+  .home-hero-stat:hover span,
+  .home-hero-stat:focus-visible span { color: var(--color-accent); }
+
+  .home-signal-card,
+  .home-experience-card { color: var(--color-ink); text-decoration: none; transition: background-color 180ms ease; }
+
+  .home-measurement-table tbody td {
+    color: var(--color-muted);
+  }
+
+  .home-measurement-table tbody tr:last-child th,
+  .home-measurement-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .home-thesis-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .home-integration-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   .report-index-row {
     display: grid;
-    grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 1.25rem;
     align-items: start;
     padding-block: clamp(1.5rem, 3vw, 2.25rem);
@@ -114,7 +869,6 @@ const featuredReports = businessReports.slice(0, 3);
   }
 
   .report-index-row:last-child { border-bottom: 0; }
-  .report-index-number { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.75rem; line-height: 1; }
   .report-index-row strong { display: block; margin-top: 0.65rem; font-family: var(--font-display); font-size: clamp(1.4rem, 2.3vw, 2rem); font-weight: 400; line-height: 1.05; letter-spacing: -0.035em; }
   .report-index-summary { display: block; max-width: 42rem; margin-top: 0.7rem; color: var(--color-muted); font-size: 0.88rem; line-height: 1.55; }
   .report-index-arrow { font-size: 1.4rem; transition: transform 180ms ease; }
@@ -122,7 +876,11 @@ const featuredReports = businessReports.slice(0, 3);
   .report-index-row:hover .report-index-arrow { transform: translate(0.25rem, -0.25rem); }
 
   @media (max-width: 520px) {
-    .report-index-row { grid-template-columns: 2.5rem minmax(0, 1fr); }
+    .report-index-row { grid-template-columns: minmax(0, 1fr); }
     .report-index-arrow { display: none; }
+  }
+
+  @media (max-width: 767px) {
+    .home-hub-media { aspect-ratio: 16 / 9; }
   }
 </style>

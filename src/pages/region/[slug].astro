@@ -1,0 +1,134 @@
+---
+import Base from "@/layouts/Base.astro";
+import { regionPages, regionDirectory } from "@/data/regions";
+import { regionContexts } from "@/data/site";
+
+export function getStaticPaths() {
+  return regionPages.map((region) => ({ params: { slug: region.slug }, props: { region } }));
+}
+
+const { region } = Astro.props;
+const context = regionContexts.find((item) => item.slug === region.slug);
+const regionIndex = regionDirectory.findIndex((item) => item.slug === region.slug);
+const previousRegion = regionDirectory[(regionIndex - 1 + regionDirectory.length) % regionDirectory.length];
+const nextRegion = regionDirectory[(regionIndex + 1) % regionDirectory.length];
+---
+
+<Base title={`${region.name}: ${region.title} | Global Enterprise`} description={region.description} image="/media/original/home-global-institutions-v2.avif" keywords={[region.name, "regional operating model", "commercial federal SLED", "digital infrastructure", "Global Enterprise"]}>
+  <div class="region-page">
+    <section class="region-hero bg-ink text-white">
+      <div class="container-site grid gap-12 py-20 md:py-28 lg:grid-cols-[.86fr_1.14fr] lg:items-end lg:gap-24">
+        <div>
+          <p class="eyebrow text-accent">Regional operating context · {region.name}</p>
+          <h1 class="section-title mt-7 max-w-4xl">{region.title}</h1>
+          <p class="mt-7 max-w-2xl text-xl leading-relaxed text-white/70">{region.description}</p>
+          <div class="mt-9 flex flex-wrap gap-4"><a class="btn-primary" href="/contact/">Bring this context to GE <span aria-hidden="true">↗</span></a><a class="btn-ghost text-white" href="/operations/#contexts">Back to all contexts <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <aside class="region-hero-note">
+          <p class="eyebrow text-accent">GE reading of the chapter</p>
+          <p class="mt-5 max-w-xl font-display text-3xl font-medium leading-tight tracking-[-0.05em]">{region.chapter.title}</p>
+          <p class="mt-5 max-w-xl leading-relaxed text-white/65">{region.chapter.text}</p>
+          <p class="mt-6 border-t border-white/20 pt-5 text-xs leading-relaxed text-white/50">This is an authored strategic lens, not a forecast, policy position, or claim of physical office presence. Local validation is part of the work.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-pad bg-white" aria-labelledby="region-chapter-title">
+      <div class="container-site grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+        <div>
+          <p class="eyebrow text-cobalt">{region.chapter.label}</p>
+          <h2 id="region-chapter-title" class="section-title mt-5 max-w-3xl">What this chapter asks leaders to make visible.</h2>
+        </div>
+        <div>
+          <p class="body-copy max-w-3xl">{region.chapter.text}</p>
+          <ul class="region-signal-list mt-10">
+            {region.chapter.signals.map((signal) => <li><span aria-hidden="true">↗</span>{signal}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-paper" aria-labelledby="region-lenses-title">
+      <div class="container-site">
+        <div class="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end lg:gap-24">
+          <div><p class="eyebrow text-cobalt">Context lenses</p><h2 id="region-lenses-title" class="section-title mt-5 max-w-3xl">The regional conditions we put into the room.</h2></div>
+          <p class="max-w-3xl text-lg leading-relaxed text-muted">{context?.description ?? "A regional context for decisions that cross markets, institutions, infrastructure, and service promises."}</p>
+        </div>
+        <div class="region-lens-grid mt-12">
+          {(context?.lenses ?? []).map((lens, index) => <div class="region-lens-card"><span>0{index + 1}</span><h3>{lens}</h3></div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-white" aria-labelledby="region-sectors-title">
+      <div class="container-site">
+        <div class="max-w-3xl"><p class="eyebrow text-cobalt">Commercial · Federal · SLED</p><h2 id="region-sectors-title" class="section-title mt-5">Three systems, one stronger civilization.</h2><p class="body-copy mt-6">Digital and intellectual growth becomes durable when enterprise investment, public mission, and local learning reinforce one another. Each sector keeps its own accountability; the connection is designed where capability crosses the boundary.</p></div>
+        <div class="region-sector-grid mt-14">
+          {region.sectors.map((sector) => (
+            <article class="region-sector-card">
+              <p class="eyebrow text-cobalt">{sector.label}</p>
+              <h3>{sector.title}</h3>
+              <p class="mt-5 leading-relaxed text-muted">{sector.text}</p>
+              <ul class="mt-7 space-y-3 text-sm leading-relaxed text-muted">{sector.moves.map((move) => <li class="flex gap-3"><span class="text-cobalt" aria-hidden="true">↗</span><span>{move}</span></li>)}</ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-cobalt text-white" aria-labelledby="region-convergence-title">
+      <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+        <div><p class="eyebrow text-accent">The convergence</p><h2 id="region-convergence-title" class="section-title mt-5 max-w-3xl">{region.convergence.title}</h2></div>
+        <div><p class="max-w-3xl text-xl leading-relaxed text-white/75">{region.convergence.text}</p><ul class="region-dark-list mt-10">{region.convergence.moves.map((move) => <li><span aria-hidden="true">↗</span>{move}</li>)}</ul></div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-paper" aria-labelledby="region-horizon-title">
+      <div class="container-site">
+        <div class="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-24"><div><p class="eyebrow text-cobalt">Roadmap ahead · 20 years</p><h2 id="region-horizon-title" class="section-title mt-5 max-w-3xl">{region.horizon.title}</h2></div><p class="body-copy max-w-3xl">{region.horizon.text}</p></div>
+        <ol class="region-roadmap mt-14">
+          {region.horizon.steps.map((step, index) => <li><div class="region-roadmap-marker">0{index + 1}</div><div><p class="eyebrow text-cobalt">{step.label}</p><h3>{step.title}</h3><p>{step.text}</p></div></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section-pad bg-white" aria-labelledby="region-difference-title">
+      <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
+        <div><p class="eyebrow text-cobalt">How Global Enterprise makes a difference</p><h2 id="region-difference-title" class="section-title mt-5 max-w-3xl">{region.difference.title}</h2></div>
+        <div><p class="body-copy max-w-3xl">{region.difference.text}</p><ul class="region-signal-list mt-10">{region.difference.moves.map((move) => <li><span aria-hidden="true">↗</span>{move}</li>)}</ul></div>
+      </div>
+    </section>
+
+    <section class="section-pad bg-accent" aria-labelledby="region-contact-title">
+      <div class="container-site grid gap-8 md:grid-cols-[1fr_auto] md:items-end"><div><p class="eyebrow text-ink">A first conversation</p><h2 id="region-contact-title" class="mt-5 max-w-3xl font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">{region.leadership.title}</h2><p class="mt-6 max-w-3xl leading-relaxed text-ink/70">{region.leadership.text}</p></div><a class="btn-dark shrink-0" href="/contact/">Contact Global Enterprise <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <nav class="region-next-nav" aria-label="More regional contexts"><div class="container-site grid gap-5 sm:grid-cols-2"><a href={`/region/${previousRegion.slug}/`}><span>Previous context</span><strong>← {previousRegion.name}</strong></a><a class="text-right" href={`/region/${nextRegion.slug}/`}><span>Next context</span><strong>{nextRegion.name} →</strong></a></div></nav>
+  </div>
+</Base>
+
+<style>
+  .region-hero-note { padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid rgb(255 255 255 / 20%); background: color-mix(in srgb, var(--color-cobalt) 46%, transparent); }
+  .region-signal-list, .region-dark-list { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+  .region-signal-list li, .region-dark-list li { display: flex; gap: 0.8rem; align-items: flex-start; padding: 1rem 0; border-top: 1px solid var(--color-line); color: var(--color-muted); font-size: 0.92rem; line-height: 1.55; }
+  .region-signal-list li span, .region-dark-list li span { flex: 0 0 auto; color: var(--color-cobalt); font-weight: 700; }
+  .region-dark-list li { border-color: rgb(255 255 255 / 17%); color: rgb(255 255 255 / 70%); }
+  .region-dark-list li span { color: var(--color-accent); }
+  .region-lens-grid, .region-sector-grid { display: grid; gap: 1px; border: 1px solid var(--color-line); background: var(--color-line); }
+  .region-lens-card { min-height: 10rem; padding: 1.5rem; background: white; }
+  .region-lens-card span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.15rem; }
+  .region-lens-card h3 { max-width: 18rem; margin-top: 2.5rem; font-family: var(--font-display); font-size: clamp(1.35rem, 2.2vw, 1.9rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.05; }
+  .region-sector-card { min-width: 0; padding: clamp(1.5rem, 3vw, 2.5rem); background: var(--color-paper); }
+  .region-sector-card h3 { margin-top: 2rem; font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.4rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1.05; }
+  .region-roadmap { display: grid; gap: 1px; margin: 0; padding: 0; border: 1px solid var(--color-line); background: var(--color-line); list-style: none; }
+  .region-roadmap li { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; min-width: 0; padding: clamp(1.5rem, 3vw, 2.5rem); background: white; }
+  .region-roadmap-marker { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.2rem; }
+  .region-roadmap h3 { margin-top: 1.5rem; font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2.15rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.05; }
+  .region-roadmap p:last-child { max-width: 48rem; margin-top: 0.9rem; color: var(--color-muted); line-height: 1.65; }
+  .region-next-nav { padding-block: 1.25rem; background: var(--color-ink); color: white; }
+  .region-next-nav a { display: grid; gap: 0.35rem; padding-block: 1rem; }
+  .region-next-nav a span { color: var(--color-accent); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .region-next-nav a strong { font-family: var(--font-display); font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 500; letter-spacing: -0.04em; }
+  .region-next-nav a:hover strong, .region-next-nav a:focus-visible strong { color: var(--color-accent); }
+  @media (min-width: 768px) { .region-lens-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .region-sector-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .region-roadmap li { grid-template-columns: 5rem 1fr; } }
+</style>

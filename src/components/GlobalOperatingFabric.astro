@@ -1,0 +1,217 @@
+---
+import { globalOperatingModel } from "@/data/site";
+
+const headingId = "global-operating-fabric-heading";
+const descriptionId = "global-operating-fabric-description";
+---
+
+<figure class="global-operating-fabric" data-diagram-id="global-operating-fabric" aria-labelledby={headingId} aria-describedby={descriptionId}>
+  <figcaption class="global-operating-fabric-header">
+    <div>
+      <p class="eyebrow text-cobalt">Global operating fabric</p>
+      <h2 id={headingId} class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">Connect the mandate, the network, and the local decision.</h2>
+      <p id={descriptionId} class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">A shared operating fabric keeps standards coherent while letting evidence, context, and accountable judgment travel to the place where work happens.</p>
+    </div>
+    <div class="global-operating-fabric-key" aria-hidden="true"><span></span><span>Shared thread</span></div>
+  </figcaption>
+
+  <div class="global-operating-fabric-visual" aria-hidden="true">
+    <div class="global-operating-fabric-rail global-operating-fabric-rail-top"><span>Mandate</span><i></i><span>Shared standard</span><i></i><span>Local decision</span></div>
+    <div class="global-operating-fabric-core"><span class="global-operating-fabric-core-label">GLOBAL<br />OPERATING<br />FABRIC</span></div>
+    <div class="global-operating-fabric-rail global-operating-fabric-rail-bottom"><span>Evidence</span><i></i><span>Dependencies</span><i></i><span>Capability</span></div>
+  </div>
+
+  <ol class="global-operating-fabric-sequence">
+    {globalOperatingModel.map((step) => (
+      <li class="global-operating-fabric-step">
+        <div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <p class="global-operating-fabric-note">Read the diagram as a loop: translate the mandate, coordinate the dependencies, adapt to context, and transfer the capability that keeps the system learning.</p>
+</figure>
+
+<style>
+  .global-operating-fabric {
+    margin: 0;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+  }
+
+  .global-operating-fabric-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .global-operating-fabric-key {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .global-operating-fabric-key span:first-child {
+    display: block;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 999px;
+    background: var(--color-cobalt);
+    box-shadow: 0 0 0 0.25rem rgb(49 91 142 / 12%);
+  }
+
+  .global-operating-fabric-visual {
+    position: relative;
+    display: grid;
+    min-height: 18rem;
+    margin-top: clamp(2rem, 5vw, 4rem);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    overflow: hidden;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    background: var(--color-ink);
+    isolation: isolate;
+  }
+
+  .global-operating-fabric-visual::before,
+  .global-operating-fabric-visual::after {
+    position: absolute;
+    z-index: -1;
+    display: block;
+    content: "";
+    border: 1px solid rgb(255 255 255 / 15%);
+    border-radius: 999px;
+  }
+
+  .global-operating-fabric-visual::before {
+    width: min(80vw, 44rem);
+    aspect-ratio: 1;
+  }
+
+  .global-operating-fabric-visual::after {
+    width: min(52vw, 27rem);
+    aspect-ratio: 1;
+    border-color: rgb(183 232 67 / 38%);
+  }
+
+  .global-operating-fabric-core {
+    display: grid;
+    width: clamp(7.5rem, 18vw, 11rem);
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1px solid var(--color-accent);
+    border-radius: 999px;
+    background: var(--color-cobalt);
+    box-shadow: 0 0 0 0.75rem rgb(49 91 142 / 35%), 0 1.25rem 3rem rgb(0 0 0 / 24%);
+    color: white;
+    text-align: center;
+  }
+
+  .global-operating-fabric-core-label {
+    font-size: clamp(0.62rem, 1vw, 0.78rem);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.45;
+  }
+
+  .global-operating-fabric-rail {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.35rem, 1.2vw, 1rem);
+    color: rgb(255 255 255 / 72%);
+    font-size: clamp(0.58rem, 1vw, 0.72rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .global-operating-fabric-rail-top { inset-block-start: 1.25rem; }
+  .global-operating-fabric-rail-bottom { inset-block-end: 1.25rem; color: var(--color-accent); }
+
+  .global-operating-fabric-rail i {
+    display: block;
+    width: clamp(1rem, 4vw, 3.5rem);
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  .global-operating-fabric-sequence {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: clamp(1.5rem, 4vw, 3rem) 0 0;
+    padding: 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-line);
+    list-style: none;
+  }
+
+  .global-operating-fabric-step {
+    min-width: 0;
+    min-height: 12rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    background: var(--color-paper);
+  }
+
+  .global-operating-fabric-step-index {
+    display: block;
+    color: var(--color-cobalt);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+
+  .global-operating-fabric-step h3 {
+    margin-top: 2.4rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2vw, 1.85rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+  }
+
+  .global-operating-fabric-step p {
+    margin-top: 0.65rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  .global-operating-fabric-note {
+    max-width: 58rem;
+    margin: 1.25rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .global-operating-fabric-sequence { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .global-operating-fabric-step:nth-child(-n + 2) { border-bottom: 1px solid var(--color-line); }
+  }
+
+  @media (max-width: 600px) {
+    .global-operating-fabric-header { display: block; }
+    .global-operating-fabric-key { margin-top: 1.5rem; }
+    .global-operating-fabric-visual { min-height: 15rem; padding-inline: 0.75rem; }
+    .global-operating-fabric-rail { max-width: calc(100% - 1.5rem); overflow: hidden; font-size: 0.52rem; }
+    .global-operating-fabric-sequence { grid-template-columns: 1fr; }
+    .global-operating-fabric-step, .global-operating-fabric-step:nth-child(-n + 2) { min-height: 0; border-bottom: 1px solid var(--color-line); }
+    .global-operating-fabric-step:last-child { border-bottom: 0; }
+    .global-operating-fabric-step h3 { margin-top: 1.5rem; }
+  }
+</style>

@@ -1,0 +1,152 @@
+---
+import AssetImage from "@/components/AssetImage.astro";
+
+interface PlatformNode {
+  label: string;
+  text: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  mediaSrc?: string;
+  mediaAlt?: string;
+  mediaCaption?: string;
+}
+
+const {
+  eyebrow = "The global platform",
+  title = "An international business system is more than a technology stack.",
+  text = "Institutions, capital, infrastructure, digital systems, supply networks, and workforce capacity reinforce one another. The outcome is the operating system leaders have to make governable.",
+  mediaSrc = "/media/original/home-platform-convergence.avif",
+  mediaAlt = "A gloved engineer tracing a paper systems sketch beside fiber, copper, and cooling infrastructure",
+  mediaCaption = "The platform is physical before it is abstract: authority, foundations, execution, and human judgment have to connect.",
+} = Astro.props;
+
+const platformGroups: { label: string; nodes: PlatformNode[] }[] = [
+  {
+    label: "Authority",
+    nodes: [
+      { label: "Institutions", text: "Public, civic, and enterprise mandates set the outcome and the boundary.", href: "/industries/federal-public-service/" },
+      { label: "Capital", text: "Funding, investment, and risk choices determine what can move and when.", href: "/services/mergers-acquisitions/" },
+    ],
+  },
+  {
+    label: "Foundations",
+    nodes: [
+      { label: "Infrastructure", text: "Energy, transport, facilities, and physical assets carry the work.", href: "/industries/energy-infrastructure/" },
+      { label: "Cloud / data / AI", text: "Digital platforms, information, models, and controls turn signal into action.", href: "/services/cloud-data/" },
+    ],
+  },
+  {
+    label: "Execution",
+    nodes: [
+      { label: "Supply networks", text: "Partners, suppliers, and logistics connect decisions across borders.", href: "/industries/logistics-and-supply-networks/" },
+      { label: "Workforce", text: "Roles, skills, leadership, and trust make new capability usable.", href: "/services/leadership-talent/" },
+    ],
+  },
+];
+
+const outcome: PlatformNode = {
+  label: "Outcomes",
+  text: "Services, resilience, public value, and durable performance are the test of the system.",
+  href: "/services/operating-model/",
+};
+---
+
+<section class="platform-landscape section-pad bg-white" aria-labelledby="platform-landscape-title">
+  <div class="container-site">
+    <div class="platform-landscape-heading">
+      <div class="max-w-3xl">
+        <p class="eyebrow">{eyebrow}</p>
+        <h2 id="platform-landscape-title" class="section-title mt-5">{title}</h2>
+        <p class="body-copy mt-6 max-w-2xl">{text}</p>
+      </div>
+      <figure class="platform-landscape-media">
+        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 900px) 34vw, 100vw" class="platform-landscape-media-image" />
+        <figcaption>{mediaCaption}</figcaption>
+      </figure>
+    </div>
+
+    <div class="platform-landscape-visual" aria-label="Six connected layers of an international business system">
+      <ol class="platform-landscape-groups" aria-label="Layers of an international business system">
+        {platformGroups.map((group, groupIndex) => (
+          <li class:list={["platform-landscape-group", `platform-landscape-group-${groupIndex + 1}`]}>
+            <p class="platform-landscape-group-label">{group.label}</p>
+            <ol class="platform-landscape-nodes">
+              {group.nodes.map((node) => (
+                <li>
+                  <a class="platform-landscape-node" href={node.href}>
+                  <span class="platform-landscape-node-marker" aria-hidden="true"></span>
+                  <div>
+                    <h3>{node.label}</h3>
+                    <p>{node.text}</p>
+                  </div>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))}
+      </ol>
+
+      <div class="platform-landscape-outcome">
+        <div class="platform-landscape-outcome-folio"><span>04</span><span>The test</span></div>
+        <a class="platform-landscape-outcome-link" href={outcome.href}>
+          <span class="platform-landscape-node-marker" aria-hidden="true"></span>
+          <div>
+            <h3>{outcome.label}</h3>
+            <p>{outcome.text}</p>
+          </div>
+          <span class="platform-landscape-outcome-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="platform-landscape-actions">
+      <p>Scale changes the question. Start with the dependency that is making the decision harder to carry.</p>
+      <div class="flex flex-wrap gap-4">
+        <a class="btn-dark" href="/operations/">Explore operating contexts <span aria-hidden="true">↗</span></a>
+        <a class="btn-ghost" href="/contact/">Bring the mandate <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .platform-landscape-heading { display: grid; gap: 2rem; align-items: start; }
+  .platform-landscape-media { margin: 0; padding: 0.7rem; border: 1px solid var(--color-line); background: var(--color-paper); }
+  .platform-landscape-media-image { display: block; aspect-ratio: 1.45 / 1; width: 100%; object-fit: cover; filter: saturate(0.78) contrast(1.04); }
+  .platform-landscape-media figcaption { margin-top: 0.7rem; color: var(--color-muted); font-size: 0.68rem; line-height: 1.45; }
+  .platform-landscape-visual { display: grid; gap: 1rem; margin-top: clamp(2rem, 4vw, 3.5rem); }
+  .platform-landscape-groups { display: grid; gap: 1px; margin: 0; padding: 0; border: 1px solid var(--color-line); background: var(--color-line); list-style: none; }
+  .platform-landscape-group { min-width: 0; padding: clamp(1rem, 2vw, 1.4rem); background: var(--color-paper); }
+  .platform-landscape-group-label { margin: 0 0 1rem; color: var(--color-cobalt); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; line-height: 1.2; text-transform: uppercase; }
+  .platform-landscape-nodes { display: grid; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
+  .platform-landscape-node { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; min-width: 0; min-height: 8.5rem; padding: 1rem; border: 1px solid var(--color-line); background: white; color: var(--color-ink); text-decoration: none; transition: background-color 180ms ease, color 180ms ease, transform 180ms ease; }
+  .platform-landscape-node:hover, .platform-landscape-node:focus-visible { background: color-mix(in srgb, var(--color-cobalt) 8%, white); transform: translateY(-0.15rem); }
+  .platform-landscape-node-marker { display: block; width: 0.55rem; height: 0.55rem; margin-top: 0.35rem; border-radius: 999px; background: var(--color-cobalt); box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--color-cobalt) 13%, transparent); }
+  .platform-landscape-node h3 { margin: 0; font-family: var(--font-display); font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.05; }
+  .platform-landscape-node p { max-width: 28rem; margin: 0.55rem 0 0; color: var(--color-muted); font-size: 0.82rem; line-height: 1.55; }
+  .platform-landscape-group-2 { background: color-mix(in srgb, var(--color-accent) 28%, var(--color-paper)); }
+  .platform-landscape-group-2 .platform-landscape-node-marker { background: var(--color-ink); box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--color-ink) 11%, transparent); }
+  .platform-landscape-group-3 { background: color-mix(in srgb, var(--color-cobalt) 7%, var(--color-paper)); }
+  .platform-landscape-outcome { display: grid; gap: 1rem; padding: clamp(1.1rem, 2.5vw, 1.6rem); border: 1px solid var(--color-ink); background: var(--color-ink); color: white; }
+  .platform-landscape-outcome-folio { display: flex; gap: 0.8rem; align-items: center; color: var(--color-accent); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .platform-landscape-outcome-folio span:first-child { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0; }
+  .platform-landscape-outcome-link { display: grid; grid-template-columns: auto 1fr auto; gap: 0.8rem; align-items: start; padding-top: 1rem; border-top: 1px solid rgb(255 255 255 / 20%); color: white; text-decoration: none; }
+  .platform-landscape-outcome-link:hover h3, .platform-landscape-outcome-link:focus-visible h3 { color: var(--color-accent); }
+  .platform-landscape-outcome-link .platform-landscape-node-marker { background: var(--color-accent); box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--color-accent) 18%, transparent); }
+  .platform-landscape-outcome-link h3 { margin: 0; font-family: var(--font-display); font-size: clamp(1.35rem, 2.3vw, 2rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.05; }
+  .platform-landscape-outcome-link p { max-width: 40rem; margin: 0.5rem 0 0; color: rgb(255 255 255 / 70%); font-size: 0.82rem; line-height: 1.55; }
+  .platform-landscape-outcome-arrow { color: var(--color-accent); font-size: 1.5rem; }
+  .platform-landscape-actions { display: grid; gap: 1.5rem; align-items: center; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--color-line); }
+  .platform-landscape-actions > p { max-width: 38rem; margin: 0; color: var(--color-muted); font-size: 0.9rem; line-height: 1.6; }
+  @media (min-width: 768px) {
+    .platform-landscape-heading, .platform-landscape-actions { grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr); }
+    .platform-landscape-groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1100px) { .platform-landscape-actions { display: flex; justify-content: space-between; } }
+</style>

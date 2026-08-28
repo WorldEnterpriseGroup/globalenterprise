@@ -1,0 +1,69 @@
+<figure class="tgs-diagram" data-diagram-id="service-transformation-office-gate-sequence" aria-labelledby="tgs-title" aria-describedby="tgs-caption tgs-note">
+  <div class="tgs-header">
+    <div>
+      <p class="eyebrow text-accent">Route artifact · service and change</p>
+      <h2 id="tgs-title" class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">A change cadence with a gate at every promise.</h2>
+      <p id="tgs-caption" class="mt-5 max-w-2xl text-sm leading-relaxed text-white/70">Programs move safely when the portfolio, service owner, delivery team, and people affected by the change can see the next decision. Gates are evidence reviews, not ceremony.</p>
+    </div>
+    <p class="tgs-code" aria-hidden="true">CHANGE / SERVICE<br /><span>GATE SEQUENCE</span></p>
+  </div>
+
+  <div class="tgs-visual" role="img" aria-label="Five change gates progress from mandate to service learning: align, shape, release, stabilize, learn." tabindex="0">
+    <div class="tgs-line" aria-hidden="true"></div>
+    <ol class="tgs-gates">
+      <li><span>Mandate</span><strong>Align</strong><small>outcome · owner</small></li>
+      <li><span>Portfolio</span><strong>Shape</strong><small>backlog · risk</small></li>
+      <li><span>Evidence</span><strong>Release</strong><small>approval · control</small></li>
+      <li><span>Service</span><strong>Stabilize</strong><small>support · continuity</small></li>
+      <li><span>Outcome</span><strong>Learn</strong><small>signal · next move</small></li>
+    </ol>
+  </div>
+
+  <ol class="tgs-evidence" aria-label="Evidence required at each change gate" tabindex="0">
+    <li><span class="tgs-index">Align</span><h3>Make the outcome govern the backlog.</h3><p>Portfolio sponsors agree the service promise, boundary, decision owner, and measures that make the work worth doing.</p><strong>Gate evidence · mandate and dependency map</strong></li>
+    <li><span class="tgs-index">Shape</span><h3>Make delivery small enough to learn.</h3><p>Teams slice the work, expose risk, and choose an agile or lean delivery rhythm that fits the service and its constraints.</p><strong>Gate evidence · release hypothesis</strong></li>
+    <li><span class="tgs-index">Release</span><h3>Change the service with a visible decision.</h3><p>Test results, readiness, communications, rollback, and the accountable approver travel together through the change window.</p><strong>Gate evidence · release record</strong></li>
+    <li><span class="tgs-index">Stabilize</span><h3>Protect continuity after the launch.</h3><p>Support teams own the new normal, incidents and requests are observable, and exceptions have a route back to the program.</p><strong>Gate evidence · service transition note</strong></li>
+    <li><span class="tgs-index">Learn</span><h3>Turn the result into the next portfolio choice.</h3><p>Leaders review outcome, adoption, cost, risk, and unresolved dependencies before funding the next increment.</p><strong>Gate evidence · outcome review</strong></li>
+  </ol>
+
+  <div class="tgs-footer">
+    <p id="tgs-note"><strong>Accessible reading:</strong> the evidence list is authoritative. The line and circles above provide a visual route through the same five decisions.</p>
+    <p class="tgs-legend"><span><i class="is-accent"></i>decision gate</span><span><i class="is-paper"></i>service evidence</span></p>
+  </div>
+</figure>
+
+<style>
+  .tgs-diagram { border: 1px solid rgb(255 255 255 / 22%); background: var(--color-ink); color: white; padding: clamp(1.25rem, 4vw, 3rem); }
+  .tgs-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 2rem; border-bottom: 1px solid rgb(255 255 255 / 20%); padding-bottom: 1.5rem; }
+  .tgs-header .eyebrow { color: var(--color-accent); }
+  .tgs-code { color: var(--color-accent); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; line-height: 1.4; text-align: right; }
+  .tgs-code span { color: rgb(255 255 255 / 52%); font-size: 0.55rem; }
+  .tgs-visual { position: relative; margin-top: 1.5rem; overflow-x: auto; border: 1px solid rgb(255 255 255 / 18%); background: rgb(255 255 255 / 5%); padding: 2rem 1rem 1.5rem; }
+  .tgs-gates { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(5, minmax(9rem, 1fr)); gap: 1rem; min-width: 52rem; margin: 0; padding: 0; list-style: none; }
+  .tgs-line { position: absolute; z-index: 0; top: 3.7rem; right: 8%; left: 8%; height: 1px; background: var(--color-accent); }
+  .tgs-gates li { display: grid; justify-items: center; gap: 0.55rem; text-align: center; }
+  .tgs-gates span { display: grid; width: 3.1rem; height: 3.1rem; place-items: center; border: 2px solid var(--color-accent); border-radius: 999px; background: var(--color-ink); color: var(--color-accent); font-size: 0.65rem; font-weight: 700; }
+  .tgs-gates strong { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; letter-spacing: -0.04em; }
+  .tgs-gates small { color: rgb(255 255 255 / 62%); font-size: 0.62rem; line-height: 1.3; }
+  .tgs-evidence { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.65rem; min-width: 0; margin: 1rem 0 0; padding: 0; list-style: none; }
+  .tgs-evidence li { display: flex; min-height: 15.2rem; flex-direction: column; border-top: 3px solid var(--color-accent); background: rgb(255 255 255 / 7%); padding: 1rem; }
+  .tgs-index { color: var(--color-accent); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; }
+  .tgs-evidence h3 { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; letter-spacing: -0.04em; }
+  .tgs-evidence p { margin-top: 0.55rem; color: rgb(255 255 255 / 67%); font-size: 0.77rem; line-height: 1.45; }
+  .tgs-evidence strong { margin-top: auto; padding-top: 1rem; color: white; font-size: 0.62rem; line-height: 1.35; }
+  .tgs-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; border-top: 1px solid rgb(255 255 255 / 20%); margin-top: 1rem; padding-top: 1.2rem; }
+  .tgs-footer > p:first-child { max-width: 39rem; color: rgb(255 255 255 / 64%); font-size: 0.78rem; line-height: 1.55; }
+  .tgs-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem 1.1rem; color: rgb(255 255 255 / 67%); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4; text-transform: uppercase; }
+  .tgs-legend span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+  .tgs-legend i { width: 0.55rem; height: 0.55rem; border-radius: 999px; background: rgb(255 255 255 / 30%); }
+  .tgs-legend i.is-accent { background: var(--color-accent); }
+  .tgs-legend i.is-paper { background: white; }
+  @media (max-width: 767px) {
+    .tgs-header { grid-template-columns: 1fr; gap: 1rem; }
+    .tgs-code { text-align: left; }
+    .tgs-evidence { grid-template-columns: repeat(5, minmax(13rem, 1fr)); overflow-x: auto; padding-bottom: 0.25rem; }
+    .tgs-footer { flex-direction: column; gap: 1rem; }
+    .tgs-legend { justify-content: flex-start; }
+  }
+</style>

@@ -1,0 +1,40 @@
+name: Validate Global Enterprise
+
+on:
+  pull_request:
+    branches: [gh-pages]
+  push:
+    branches: [demo]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_BRIEF_API_URL: ${{ vars.PUBLIC_BRIEF_API_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.18.0
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Type and content checks
+        run: npm run check
+      - name: Evidence audit
+        run: npm run audit:evidence
+      - name: Build site
+        run: npm run build
+      - name: Security configuration and built-output audit
+        run: npm run audit:security
+      - name: Production route audit
+        run: node scripts/audit-site.mjs

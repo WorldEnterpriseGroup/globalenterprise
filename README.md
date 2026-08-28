@@ -17,7 +17,7 @@ npm run build
 npm run preview
 ```
 
-The build is fully prerendered and deploys to GitHub Pages through `.github/workflows/deploy.yml`. The `public/CNAME` file preserves `globalenterprise.com` for Pages deployments.
+The build is fully prerendered and deploys to GitHub Pages through `.github/workflows/deploy.yml`. The `public/CNAME` file preserves `globalenterprise.com` for Pages deployments. The Pages environment is intentionally gated to the `gh-pages` branch; the workflow mirrors that policy.
 
 ## Site capabilities
 
@@ -31,6 +31,11 @@ The build is fully prerendered and deploys to GitHub Pages through `.github/work
 - Focused solution pages at `/solutions/` for enterprise AI, modernization, operating model, and healthcare transformation
 - Privacy-first Plausible analytics with CTA, form, diagnostic, insight, and solution events
 - Visual sitemap at `/visual-sitemap/` plus a live-preview compact map at `/visual-sitemap/compact.html`
+- Public proof and trust surfaces at `/proof/`, `/trust/`, and `/trust/vendor-pack/`, with abstract portfolio evidence, procurement facts, and explicit data boundaries
+- Four deep PDF field guides, each with a browser-readable HTML edition, generated editorial photography, technical diagrams, practical frameworks, worksheets, source notes, and explicit limitations. The private PDF source files live in `infra/brief-delivery/source-pdfs/` for upload to Blob Storage; the public site carries only the HTML editions.
+- Rebuild the PDF editions with `npm run reports:pdf`; the workflow uses the local production build and installed Google Chrome, with no external network dependency, and writes outside the public build
+- Report and Global Brief forms use the `PUBLIC_BRIEF_API_URL` GitHub Actions repository variable when configured. Set it to the Front Door-backed Function route before promoting the gated workflow; contact and newsletter forms remain on the legacy public routing path until their CRM workflow is approved.
+- Edge-ready security headers in `public/_headers`, an auditable `npm run audit:security` check, and a public vulnerability-reporting path at `/.well-known/security.txt`; GitHub Pages requires these headers to be mirrored in the production edge/CDN (see `docs/production-edge-security.md`)
 
 ## Rendering and motion
 
@@ -62,6 +67,9 @@ npm run check
 npm run build
 npm run audit:evidence
 node scripts/audit-site.mjs
+npm run audit:live
 ```
 
 The production audit requires the progressive motion runtime on every generated HTML route in addition to the existing heading, SEO, link, media, diagram, content, and sitemap checks. Browser review should cover normal motion, reduced motion, JavaScript disabled, keyboard focus, 320–390px mobile widths, and a production-build scroll through each route family.
+
+`npm run audit:live` is a post-deploy smoke check for the primary public routes. Set `LIVE_SITE_URL` when validating a preview or alternate origin.

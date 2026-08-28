@@ -1,7 +1,8 @@
 ---
 import Base from "@/layouts/Base.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 import SignalIcon from "@/components/SignalIcon.astro";
-import SignalChart from "@/components/SignalChart.astro";
+import ControlTowerBoard from "@/components/ControlTowerBoard.astro";
 import { industries, services } from "@/data/site";
 
 export function getStaticPaths() {
@@ -18,6 +19,10 @@ const relatedServices = services.filter((service) => {
   if (industry.slug === "energy-infrastructure") return ["cloud-data", "transformation-office", "research-foresight"].includes(service.slug);
   if (industry.slug === "healthcare-life-sciences") return ["operating-model", "cloud-data", "intelligent-automation"].includes(service.slug);
   if (industry.slug === "federal-public-service") return ["operating-model", "transformation-office", "cloud-data"].includes(service.slug);
+  if (industry.slug === "logistics-and-supply-networks") return ["operating-model", "cloud-data", "transformation-office"].includes(service.slug);
+  if (industry.slug === "sled") return ["operating-model", "intelligent-automation", "transformation-office"].includes(service.slug);
+  if (industry.slug === "technology-data") return ["cloud-data", "operating-model", "transformation-office"].includes(service.slug);
+  if (industry.slug === "enterprise-services") return ["operating-model", "leadership-talent", "transformation-office"].includes(service.slug);
   return services.slice(0, 3).some((candidate) => candidate.slug === service.slug);
 });
 const insightLinks: Record<string, { title: string; href: string; text: string }[]> = {
@@ -28,24 +33,32 @@ const insightLinks: Record<string, { title: string; href: string; text: string }
   education: [{ title: "Skills are a system", href: "/insights/skills-are-a-system/", text: "Turning future skills into an institutional capability." }, { title: "AI at scale", href: "/insights/ai-at-scale/", text: "What adoption asks of leaders beyond the pilot." }],
   "enterprise-ai": [{ title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating model question behind the adoption statistic." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "Why responsible AI belongs in the management system." }],
   "frontier-intelligence-autonomous-systems": [{ title: "2035 is a design constraint", href: "/insights/2035-is-a-design-constraint/", text: "Why long-horizon capability requires decisions now." }, { title: "AI at scale", href: "/insights/ai-at-scale/", text: "The operating system behind frontier capability." }],
-  "energy-infrastructure": [{ title: "The grid is an operating model", href: "/insights/ai-at-scale/", text: "A future-facing view of infrastructure, intelligence, and execution." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "What supply-chain exposure means for resilient delivery." }],
+  "energy-infrastructure": [{ title: "The energy transition is an operating model challenge", href: "/insights/energy-transition-is-an-operating-model/", text: "The 2035 grid agenda will be won by organizations that can coordinate infrastructure, data, regulation, and public trust as one system." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "What supply-chain exposure means for resilient delivery." }],
+  "logistics-and-supply-networks": [{ title: "Resilience crosses borders", href: "/insights/resilience-crosses-borders/", text: "Why continuity depends on the interfaces between networks, partners, and institutions." }, { title: "Third party is your operating model", href: "/insights/third-party-is-your-operating-model/", text: "How partner architecture becomes part of operational resilience." }],
+  sled: [{ title: "Public service needs product management", href: "/insights/public-service-is-a-product/", text: "Why mission, policy, technology, and lived service have to be managed together." }, { title: "Responsible AI is management", href: "/insights/responsible-ai-is-management/", text: "How governance becomes a practical public-service operating capability." }],
 };
 const insights = insightLinks[industry.slug] ?? [];
 const title = `${industry.title} strategy and transformation | Global Enterprise`;
-const description = `${industry.description} Evidence-led strategy and transformation support for ${industry.title.toLowerCase()} leaders.`;
-const chartVariant = `industry-${industry.slug}`;
+const displayIndustryTitle = industry.slug === "sled" ? industry.title : industry.title.toLowerCase();
+const description = `${industry.description} Evidence-led strategy and transformation support for ${displayIndustryTitle} leaders.`;
+const isLogistics = industry.slug === "logistics-and-supply-networks";
+const isFederalPublicService = industry.slug === "federal-public-service";
+const isSledInstitution = ["education", "sled"].includes(industry.slug);
+const surfaceTitle = `Make ${industry.focus[0].toLowerCase()} visible before the system is under pressure.`;
+const surfaceText = `${industry.description} The operating surface connects the sector's architecture, program rhythm, evidence, and human accountability.`;
+const movesTitle = `Three operating moves for ${displayIndustryTitle}.`;
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} image="/media/generated/energy-grid.avif" imageWidth={1600} imageHeight={1067} imageAlt="Operators watching an energy landscape through a control-room window">
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[.82fr_1.18fr] lg:items-end">
       <div>
-        <a class="eyebrow text-lime" href="/industries/">Industries · Back to all</a>
-        <p class="mt-12 font-display text-5xl font-medium tracking-[-0.06em] text-white/25 md:text-7xl">{industry.number}</p>
-        <h1 class="section-title mt-5 max-w-4xl">The next chapter of {industry.title.toLowerCase()} will be won in the operating model.</h1>
+        <a class="eyebrow text-accent" href="/industries/">Industries · Back to all</a>
+
+        <h1 class="section-title mt-5 max-w-4xl">The next chapter of {displayIndustryTitle} will be won in the operating model.</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">{industry.description}</p>
       </div>
-      <div class="border-l-2 border-lime pl-6"><p class="eyebrow text-lime">Sector lens</p><p class="mt-5 max-w-sm font-display text-4xl font-medium leading-tight tracking-[-0.05em] text-white/85">{industry.focus[0]}</p><p class="mt-5 max-w-sm text-sm leading-relaxed text-white/60">A sector perspective, grounded in public evidence and translated into operating choices.</p></div>
+      <div class="border-l-2 border-accent pl-6"><p class="eyebrow text-accent">Sector lens</p><p class="mt-5 max-w-sm font-display text-4xl font-medium leading-tight tracking-[-0.05em] text-white/85">{industry.focus[0]}</p><p class="mt-5 max-w-sm text-sm leading-relaxed text-white/60">A sector perspective, grounded in public evidence and translated into operating choices.</p></div>
     </div>
   </section>
 
@@ -80,12 +93,21 @@ const chartVariant = `industry-${industry.slug}`;
     </div>
   </section>
 
-  <section class="section-pad bg-white"><div class="container-site"><SignalChart variant={chartVariant} eyebrow={`${industry.title} · operating signal`} /></div></section>
+  {isLogistics ? <section class="section-pad bg-white"><div class="container-site"><ControlTowerBoard /></div></section> : <section class="section-pad bg-white" data-diagram-id={`industry-${industry.slug}-operating-surface`}>
+    <div class="container-site">
+      <div class="sector-operating-surface">
+        <div class="sector-operating-surface-intro"><p class="eyebrow text-cobalt">{industry.title} · operating surface</p><h2 class="section-title mt-5 max-w-3xl">{surfaceTitle}</h2><p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">{surfaceText}</p></div>
+        <ol class="sector-operating-surface-list">
+          {industry.focus.map((item, index) => <li><strong>{item}</strong><p>{industry.plays[index]?.text}</p></li>)}
+        </ol>
+      </div>
+    </div>
+  </section>}
 
   <section class="section-pad bg-paper">
     <div class="container-site">
       <div class="flex flex-col justify-between gap-7 md:flex-row md:items-end">
-        <div><p class="eyebrow text-cobalt">Three moves that matter</p><h2 class="section-title mt-5 max-w-4xl">From signal to a system leaders can run.</h2></div>
+        <div><p class="eyebrow text-cobalt">Three moves that matter</p><h2 class="section-title mt-5 max-w-4xl">{movesTitle}</h2></div>
         <p class="max-w-sm text-sm leading-relaxed text-muted">The work is sequenced around the decisions that unlock the next layer of performance.</p>
       </div>
       <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
@@ -99,12 +121,40 @@ const chartVariant = `industry-${industry.slug}`;
       <div><p class="eyebrow text-cobalt">How we can help</p><h2 class="mt-6 font-display text-4xl font-medium tracking-[-0.05em] md:text-5xl">Bring the mandate, the constraint, and the ambition.</h2></div>
       <div>
         <div class="divide-y divide-line border-y border-line">
-          {relatedServices.map((service) => <a class="group grid gap-4 py-7 md:grid-cols-[4rem_1fr_auto] md:items-center" href={`/services/${service.slug}/`}><span class="font-display text-3xl text-cobalt">{service.number}</span><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}
+          {relatedServices.map((service) => <a class="group grid gap-4 py-7 md:grid-cols-[1fr_auto] md:items-center" href={`/services/${service.slug}/`}><div><h3 class="font-display text-2xl font-medium tracking-[-0.04em] transition-colors group-hover:text-cobalt">{service.title}</h3><p class="mt-2 text-sm text-muted">{service.description}</p></div><span class="text-2xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">↗</span></a>)}
         </div>
         <div class="mt-12"><p class="eyebrow">Read the argument</p><div class="mt-5 grid gap-4 sm:grid-cols-2">{insights.map((insight) => <a class="group border border-line p-6 transition-colors hover:border-cobalt" href={insight.href}><p class="font-display text-xl font-medium tracking-[-0.04em] group-hover:text-cobalt">{insight.title}</p><p class="mt-3 text-sm leading-relaxed text-muted">{insight.text}</p><span class="mt-6 inline-block text-cobalt">↗</span></a>)}</div></div>
       </div>
     </div>
   </section>
 
-  <section class="bg-cobalt text-white"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Bring us the future system behind the challenge.</h2><a class="btn-primary shrink-0" href="/contact/">Request a principal dialogue <span aria-hidden="true">↗</span></a></div></section>
+  {isFederalPublicService && <AudiencePathways
+    id="industry-federal-public-service-audience-pathways"
+    eyebrow="Institutional route"
+    title="Federal architecture and cross-institution systems are distinct starting points."
+    intro="Federal EA teams can follow the FEAF-informed architecture route. National, public, and multilateral leaders can use the whole-of-government and international systems route."
+    compact
+    servicePathwayIds={["federal-enterprise-architecture", "whole-of-government-international-systems"]}
+  />}
+  {isSledInstitution && <AudiencePathways
+    id="industry-education-audience-pathways"
+    eyebrow="Institutional route"
+    title="Keep the public-institution context close to the work."
+    intro="State, local, and education institutions can follow the public-institution operations route, with education context alongside it."
+    compact
+    pathwayIds={["state-local-education-institutions"]}
+  />}
+
+  <section class="bg-cobalt text-white"><div class="container-site flex flex-col gap-8 py-16 md:flex-row md:items-center md:justify-between"><h2 class="max-w-2xl font-display text-4xl font-medium tracking-[-0.05em]">Bring us the future system behind the challenge.</h2><a class="btn-primary shrink-0" href="/contact/">Request a leadership engagement <span aria-hidden="true">↗</span></a></div></section>
 </Base>
+
+<style>
+  .sector-operating-surface { display: grid; gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .sector-operating-surface-list { display: grid; gap: 0; margin: 0; padding: 0; border-top: 1px solid var(--color-line); list-style: none; }
+  .sector-operating-surface-list li { display: grid; grid-template-columns: 3rem minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 1rem; align-items: start; padding-block: 1.4rem; border-bottom: 1px solid var(--color-line); }
+  .sector-operating-surface-list li > span { color: var(--color-cobalt); font-family: var(--font-display); font-size: 1.35rem; line-height: 1; }
+  .sector-operating-surface-list strong { font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.8rem); font-weight: 400; letter-spacing: -0.04em; line-height: 1.05; }
+  .sector-operating-surface-list p { color: var(--color-muted); font-size: 0.86rem; line-height: 1.55; }
+  @media (min-width: 1024px) { .sector-operating-surface { grid-template-columns: 0.7fr 1.3fr; } }
+  @media (max-width: 700px) { .sector-operating-surface-list li { grid-template-columns: 2.5rem minmax(0, 1fr); } .sector-operating-surface-list p { grid-column: 2; } }
+</style>

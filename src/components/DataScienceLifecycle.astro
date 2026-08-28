@@ -1,0 +1,153 @@
+<figure class="dsl-diagram" data-diagram-id="service-intelligent-automation-data-science-lifecycle" aria-labelledby="dsl-title" aria-describedby="dsl-caption dsl-note">
+  <div class="dsl-header">
+    <div>
+      <p class="eyebrow text-cobalt">Route artifact · intelligent automation</p>
+      <h2 id="dsl-title" class="mt-5 max-w-3xl font-display text-3xl font-medium tracking-[-0.05em] md:text-4xl">A data science lifecycle that can become a service.</h2>
+      <p id="dsl-caption" class="mt-5 max-w-2xl text-sm leading-relaxed text-muted">The lifecycle keeps discovery, model work, workflow design, and production care in one accountable path. Each stage has an observable output and a human decision before the next stage opens.</p>
+    </div>
+    <div class="dsl-stamp" aria-hidden="true"><span>DS</span><small>LIFECYCLE</small></div>
+  </div>
+
+  <div class="dsl-visual" aria-hidden="true">
+    <svg viewBox="0 0 900 150" role="presentation">
+      <path class="dsl-line" d="M80 74 H820" />
+      <path class="dsl-arrow" d="M815 68 l10 6 -10 6" />
+      <circle cx="80" cy="74" r="26" /><circle cx="228" cy="74" r="26" /><circle cx="376" cy="74" r="26" /><circle cx="524" cy="74" r="26" /><circle cx="672" cy="74" r="26" /><circle cx="820" cy="74" r="26" />
+      <text x="80" y="79">OBS</text><text x="228" y="79">FRM</text><text x="376" y="79">BLD</text><text x="524" y="79">EVA</text><text x="672" y="79">OPS</text><text x="820" y="79">LRN</text>
+    </svg>
+  </div>
+
+  <ol class="dsl-stages" aria-label="Six stages of the data science lifecycle" tabindex="0">
+    <li>
+      <span class="dsl-stage-number">Observe</span>
+      <h3>Observe</h3>
+      <p>Decision friction, workflow signals, and user context.</p>
+      <small>Output · opportunity brief</small>
+    </li>
+    <li>
+      <span class="dsl-stage-number">Frame</span>
+      <h3>Frame</h3>
+      <p>Value, risk, data boundary, and an accountable owner.</p>
+      <small>Output · service hypothesis</small>
+    </li>
+    <li>
+      <span class="dsl-stage-number">Build</span>
+      <h3>Build</h3>
+      <p>Data product, feature or prompt design, and workflow seam.</p>
+      <small>Output · reproducible asset</small>
+    </li>
+    <li>
+      <span class="dsl-stage-number">Evaluate</span>
+      <h3>Evaluate</h3>
+      <p>Quality, safety, bias, cost, latency, and human review.</p>
+      <small>Output · release evidence</small>
+    </li>
+    <li>
+      <span class="dsl-stage-number">Operate</span>
+      <h3>Operate</h3>
+      <p>MLOps or LLMOps telemetry, support, escalation, and rollback.</p>
+      <small>Output · managed service</small>
+    </li>
+    <li>
+      <span class="dsl-stage-number">Learn</span>
+      <h3>Learn</h3>
+      <p>Adoption, outcome, drift, and the next portfolio decision.</p>
+      <small>Output · renewal signal</small>
+    </li>
+  </ol>
+
+  <div class="dsl-footer">
+    <p id="dsl-note"><strong>Accessible reading:</strong> read the stage list in order. The line above is a visual summary, not a separate interaction.</p>
+    <p class="dsl-legend"><span><i class="dsl-dot is-cobalt"></i>evidence</span><span><i class="dsl-dot is-accent"></i>human decision</span><span><i class="dsl-dot is-ink"></i>service control</span></p>
+  </div>
+</figure>
+
+<style>
+  .dsl-diagram {
+    border: 1px solid var(--color-line);
+    background: white;
+    padding: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .dsl-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 2rem;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 1.5rem;
+  }
+
+  .dsl-stamp {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 4.5rem;
+    border-left: 2px solid var(--color-cobalt);
+    padding: 0.2rem 0 0.2rem 0.8rem;
+    color: var(--color-cobalt);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .dsl-stamp span { font-size: 1.5rem; letter-spacing: -0.05em; }
+  .dsl-stamp small { color: var(--color-muted); font-size: 0.55rem; }
+
+  .dsl-visual {
+    margin-top: 1.5rem;
+    border: 1px solid var(--color-line);
+    background: #f7f8fb;
+    padding: 1rem 1rem 0.25rem;
+  }
+
+  .dsl-visual svg { display: block; width: 100%; min-width: 38rem; }
+  .dsl-line { fill: none; stroke: var(--color-line); stroke-width: 2; }
+  .dsl-arrow { fill: none; stroke: var(--color-cobalt); stroke-width: 2; }
+  .dsl-visual circle { fill: white; stroke: var(--color-cobalt); stroke-width: 2; }
+  .dsl-visual text { fill: var(--color-cobalt); font-family: Roboto, sans-serif; font-size: 12px; font-weight: 700; text-anchor: middle; }
+
+  .dsl-stages {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(8.8rem, 1fr));
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .dsl-stages li {
+    display: flex;
+    min-height: 12.5rem;
+    flex-direction: column;
+    border-top: 3px solid var(--color-cobalt);
+    background: var(--color-paper);
+    padding: 1rem;
+  }
+
+  .dsl-stages li:nth-child(2n) { border-top-color: #9dbd74; }
+  .dsl-stage-number { color: var(--color-cobalt); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; }
+  .dsl-stages h3 { margin-top: 1.8rem; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; letter-spacing: -0.04em; }
+  .dsl-stages p { margin-top: 0.55rem; color: var(--color-muted); font-size: 0.78rem; line-height: 1.45; }
+  .dsl-stages small { margin-top: auto; padding-top: 1rem; color: var(--color-ink); font-size: 0.63rem; font-weight: 700; line-height: 1.35; }
+
+  .dsl-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--color-line); margin-top: 1rem; padding-top: 1.2rem; }
+  .dsl-footer > p:first-child { max-width: 39rem; color: var(--color-muted); font-size: 0.78rem; line-height: 1.55; }
+  .dsl-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.8rem 1.1rem; color: var(--color-muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4; text-transform: uppercase; }
+  .dsl-legend span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+  .dsl-dot { width: 0.55rem; height: 0.55rem; border-radius: 999px; background: var(--color-line); }
+  .dsl-dot.is-cobalt { background: var(--color-cobalt); }
+  .dsl-dot.is-accent { background: #9dbd74; }
+  .dsl-dot.is-ink { background: var(--color-ink); }
+
+  @media (max-width: 767px) {
+    .dsl-header { grid-template-columns: 1fr; gap: 1rem; }
+    .dsl-stamp { justify-self: start; }
+    .dsl-visual { overflow-x: auto; }
+    .dsl-stages { overflow-x: auto; padding-bottom: 0.25rem; }
+    .dsl-stages li { min-width: 8.8rem; }
+    .dsl-footer { flex-direction: column; gap: 1rem; }
+    .dsl-legend { justify-content: flex-start; }
+  }
+</style>

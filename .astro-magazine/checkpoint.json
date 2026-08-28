@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0.0",
+  "checkpoint_id": "",
+  "run_id": "",
+  "phase": "discovery",
+  "status": "unknown",
+  "last_event": {
+    "seq": 0,
+    "hash": ""
+  },
+  "counts": {
+    "routes": 0,
+    "articles": 0,
+    "briefs": 0,
+    "media": 0,
+    "claims": 0,
+    "sources": 0
+  },
+  "artifact_hashes": {},
+  "active_leases": [],
+  "active_handoffs": [],
+  "active_assignments": [],
+  "completed_artifacts": [],
+  "gate_results": [],
+  "accepted_exceptions": [],
+  "blockers": [],
+  "last_verified": {
+    "timestamp": "",
+    "repository_identity": "",
+    "build_identity": "",
+    "commands": [],
+    "evidence": []
+  },
+  "next_action": {
+    "owner": "",
+    "scope": "",
+    "action": "",
+    "prerequisites": []
+  },
+  "updated_at": "2026-08-24T12:19:29.289Z"
+}

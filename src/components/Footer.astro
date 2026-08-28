@@ -1,28 +1,34 @@
 ---
 import { footerColumns, site } from "@/data/site";
+import TrademarkNotice from "@/components/TrademarkNotice.astro";
 ---
 
 <footer class="border-t border-line bg-ink text-white">
   <div class="container-site section-pad grid gap-12 lg:grid-cols-[1.35fr_.8fr_.8fr_1.1fr]">
     <div>
       <a class="mb-7 flex items-center gap-3" href="/" aria-label={`${site.name} home`}>
-        <span class="grid size-9 place-items-center bg-lime text-lg font-bold text-ink">GE</span>
-        <span class="font-display text-lg font-bold uppercase tracking-[-0.04em]">Global <span class="text-lime">Enterprise</span></span>
+        <span class="grid size-9 place-items-center bg-accent text-lg font-bold text-ink">GE</span>
+        <span class="font-display text-lg font-bold uppercase tracking-[-0.04em]">Global <span class="text-accent">Enterprise</span></span>
       </a>
-      <p class="max-w-sm text-lg leading-relaxed text-white/65">Where intelligence meets the institution, the work has to hold.</p>
-      <a class="mt-8 inline-flex text-sm font-bold text-lime underline decoration-lime/40 underline-offset-4 hover:decoration-lime" href={`mailto:${site.email}`}>{site.email}</a>
+      <p class="max-w-sm text-lg leading-relaxed text-white/65">Global consulting for infrastructure-scale programs: M&amp;A integration, solution strategy, enterprise architecture, and ITIL-led modernization. We support corporations, public agencies, and national-level transformation programs through enterprise-grade operating systems.</p>
+      <p class="mt-6 text-sm text-white/55">{site.location}</p>
+      <p class="mt-2 text-xs uppercase tracking-[0.12em] text-white/40">Global operating network · Africa · Europe · North America · Latin America · Caribbean · South America · Asia-Pacific</p>
+      <div class="mt-6 flex flex-col gap-2 text-sm font-bold"><a class="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent" href={`mailto:${site.email}`}>{site.email}</a><a class="text-white/75 hover:text-accent" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a></div>
     </div>
     {footerColumns.map((column) => (
       <div>
         <p class="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-white/45">{column.title}</p>
         <ul class="space-y-3">
-          {column.links.map((link) => <li><a class="text-white/80 transition-colors hover:text-lime" href={link.href}>{link.label}</a></li>)}
+          {column.links.map((link) => <li><a class="text-white/80 transition-colors hover:text-accent" href={link.href}>{link.label}</a></li>)}
         </ul>
       </div>
     ))}
   </div>
+  <div class="container-site pb-6">
+    <TrademarkNotice compact />
+  </div>
   <div class="container-site flex flex-col gap-4 border-t border-white/15 py-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
     <p>© {new Date().getFullYear()} Global Enterprise. Built for what comes next.</p>
-    <div class="flex gap-5"><a class="hover:text-lime" href="/privacy/">Privacy</a><a class="hover:text-lime" href="/terms/">Terms</a>{site.social.linkedin && <a class="hover:text-lime" href={site.social.linkedin} rel="me">LinkedIn ↗</a>}</div>
+    <div class="flex gap-5"><a class="hover:text-accent" href="/privacy/">Privacy</a><a class="hover:text-accent" href="/terms/">Terms</a>{site.social.linkedin && <a class="hover:text-accent" href={site.social.linkedin} rel="me">LinkedIn ↗</a>}</div>
   </div>
 </footer>

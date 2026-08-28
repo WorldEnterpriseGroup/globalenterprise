@@ -2,22 +2,22 @@
 import Base from "@/layouts/Base.astro";
 import { site } from "@/data/site";
 import AssetImage from "@/components/AssetImage.astro";
-import IntelligenceStack from "@/components/IntelligenceStack.astro";
+import AudiencePathways from "@/components/AudiencePathways.astro";
 ---
 
-<Base title="Principal dialogue | Global Enterprise" description="A private first conversation for leaders shaping high-consequence systems across AI/ML, data, frontier intelligence, and enterprise change." image="/media/original/contact-workbench.avif" keywords={["principal advisory dialogue", "enterprise AI strategy", "AI cost management", "data lab build out", "quantum intelligence", "ITIL change management"]}>
+<Base title="Leadership engagement | Global Enterprise" description="A private first conversation for leaders shaping cross-border M&A, enterprise and public-sector modernization, infrastructure, communications, finance, AI/ML, and operating systems." image="/media/original/contact-workbench.avif" keywords={["M&A integration", "public-sector modernization", "cross-border strategy", "satellite infrastructure", "telecommunications strategy", "global finance", "enterprise AI strategy", "ITIL change management"]}>
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[1fr_.65fr_.55fr] lg:items-end">
       <div class="min-w-0">
-        <p class="eyebrow text-lime">When the decision reaches beyond the room</p>
+        <p class="eyebrow text-accent">When the decision reaches beyond the room</p>
         <h1 class="section-title mt-7 max-w-4xl">Bring the mandate behind the question.</h1>
         <p class="mt-8 max-w-2xl text-xl leading-relaxed text-white/65">We begin where intelligence, economics, trust, and change have to hold at the same time. Not a generic discovery call—an initial conversation about the decision, the system around it, and what would make it move.</p>
       </div>
       <div class="border-t border-white/20 pt-7 text-white/70">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-lime">Direct line</p>
-        <a class="mt-4 block text-2xl font-bold text-white hover:text-lime" href={`mailto:${site.email}`}>{site.email}</a>
-        <a class="mt-2 block text-lg text-white/70 hover:text-lime" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a>
-        <p class="mt-6 max-w-xs text-sm leading-relaxed text-white/45">New York · Global reach · Sensitive context handled through the appropriate channel</p>
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-accent">Direct line</p>
+        <a class="mt-4 block text-2xl font-bold text-white hover:text-accent" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="mt-2 block text-lg text-white/70 hover:text-accent" href={`tel:${site.phone.replaceAll(" ", "")}`}>{site.phone}</a>
+        <p class="mt-6 max-w-xs text-sm leading-relaxed text-white/45">{site.location} · Sensitive context handled through the appropriate channel</p>
       </div>
       <figure class="relative overflow-hidden bg-cobalt"><AssetImage src="/media/original/contact-workbench.avif" width={1536} height={1024} loading="eager" decoding="async" alt="Hands arranging working papers and a notebook on a wooden table" class="aspect-[16/9] w-full object-cover opacity-85" /><figcaption class="absolute inset-x-0 bottom-0 bg-ink/75 p-4 text-xs uppercase tracking-[0.12em] text-white/70">A serious conversation starts with the real brief.</figcaption></figure>
     </div>
@@ -39,40 +39,50 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
         </div>
         <div class="mt-10 border-t border-line pt-7">
           <p class="text-xs font-bold uppercase tracking-[0.14em] text-cobalt">What happens next</p>
-          <p class="mt-4 leading-relaxed text-muted">A senior member of the team reads the brief before we meet. We arrive with a point of view, a small set of hypotheses, and a clear sense of whether our capabilities are the right fit.</p>
+          <p class="mt-4 leading-relaxed text-muted">An engagement lead reviews the brief before we meet. We arrive with a point of view, a targeted hypothesis set, and a clear sense of whether our capabilities are the right fit.</p>
         </div>
       </div>
 
-      <form class="grid min-w-0 gap-6" action={site.formEndpoint} method="POST" data-lead-form data-form-kind="principal-dialogue">
-        <input type="hidden" name="_subject" value="Principal dialogue · Global Enterprise" />
-        <input type="hidden" name="_next" value={`${site.url}/contact/thanks/`} />
-        <input type="hidden" name="_template" value="table" />
+      <form class="grid min-w-0 gap-6" action={site.contactEndpoint || site.formEndpoint} method="POST" data-lead-form data-form-kind="principal-dialogue" aria-describedby="contact-form-errors">
+        <input type="hidden" name="form_kind" value="principal-dialogue" />
+        <input type="hidden" name="source_url" value={`${site.url}/contact/`} />
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden" />
+        <div id="contact-form-errors" class="form-error-summary" data-form-summary role="alert" aria-live="assertive" tabindex="-1" hidden></div>
         <div class="grid gap-6 sm:grid-cols-2">
-          <label class="grid gap-2 text-sm font-bold" for="contact-name">Name<input id="contact-name" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="name" autocomplete="name" required /></label>
-          <label class="grid gap-2 text-sm font-bold" for="contact-title">Title / role<input id="contact-title" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="title" autocomplete="organization-title" required /></label>
+          <label class="grid gap-2 text-sm font-bold" for="contact-name">Name<input id="contact-name" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="name" autocomplete="name" required aria-required="true" aria-invalid="false" /></label>
+          <label class="grid gap-2 text-sm font-bold" for="contact-title">Title / role<input id="contact-title" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="title" autocomplete="organization-title" required aria-required="true" aria-invalid="false" /></label>
         </div>
         <div class="grid gap-6 sm:grid-cols-2">
-          <label class="grid gap-2 text-sm font-bold" for="contact-email">Work email<input id="contact-email" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="email" name="email" autocomplete="email" required /></label>
-          <label class="grid gap-2 text-sm font-bold" for="contact-organization">Organization<input id="contact-organization" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="organization" autocomplete="organization" required /></label>
+          <label class="grid gap-2 text-sm font-bold" for="contact-email">Work email<input id="contact-email" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="email" name="email" autocomplete="email" required aria-required="true" aria-invalid="false" /></label>
+          <label class="grid gap-2 text-sm font-bold" for="contact-organization">Organization<input id="contact-organization" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="text" name="organization" autocomplete="organization" required aria-required="true" aria-invalid="false" /></label>
+          <label class="grid gap-2 text-sm font-bold" for="contact-phone">Phone <span class="text-xs font-normal uppercase tracking-[0.1em] text-muted">Optional</span><input id="contact-phone" class="border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" type="tel" name="phone" autocomplete="tel" inputmode="tel" aria-required="false" aria-invalid="false" /></label>
         </div>
-        <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-context">Conversation context<select id="contact-context" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="conversation_context" required><option value="" selected disabled>Select the closest context</option><option>AI/ML portfolio, lab, or operating model</option><option>Data lab, platform, or AI cost management</option><option>Frontier intelligence, quantum, or advanced systems</option><option>Enterprise transformation and change architecture</option><option>Institutional strategy, modernization, or resilience</option><option>Research partnership or strategic inquiry</option></select></label>
-        <label class="grid gap-2 text-sm font-bold" for="contact-mandate">The mandate<textarea id="contact-mandate" class="min-h-44 resize-y border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="mandate" placeholder="State the decision, the horizon, and what is at stake. Please do not include classified, export-controlled, or sensitive information in this form." required></textarea></label>
+        <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-role">Your role in the work<select id="contact-role" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="reader_role" required aria-required="true" aria-invalid="false"><option value="" selected disabled>Choose the closest role</option><option value="national_public_executive">National, federal, state, local, or education executive</option><option value="federal_ea_feaf_architect">Federal EA / FEAF or enterprise architecture practitioner</option><option value="enterprise_cio_coo_portfolio">Enterprise CIO, CTO, COO, or portfolio leader</option><option value="itil_service_devsecops_operator">ITIL, service, transformation, or DevSecOps operator</option><option value="acquisition_contracting_cor">Contracting officer, COR, or acquisition official</option><option value="prime_sme_teaming_partner">Prime, SME, subcontractor, or teaming partner</option><option value="professor_researcher">Professor, researcher, lab, or academic partner</option><option value="early_career_learner">Intern, student, apprentice, or professional learner</option><option value="experienced_talent">Experienced specialist exploring a career</option><option value="analyst_public_reader">Analyst, journalist, or public reader</option><option value="other_cross_functional">Other / cross-functional</option></select></label>
+        <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-context">Conversation context<select id="contact-context" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="conversation_context" required aria-required="true" aria-invalid="false"><option value="" selected disabled>Select the closest context</option><option value="federal_enterprise_architecture_feaf">Federal enterprise architecture / FEAF</option><option value="state_local_education_institution">State, local, or education institution strategy</option><option value="national_international_government_architecture">National or international government architecture</option><option value="itil_service_management_public_service">ITIL service management or public-service operations</option><option value="prime_subcontractor_sme_teaming">Prime, subcontractor, SME, or teaming conversation</option><option value="public_procurement_acquisition_contract_evaluation">Public procurement, acquisition, or contract evaluation</option><option value="ma_corporate_integration_portfolio">M&amp;A, corporate integration, or portfolio strategy</option><option value="satellite_telecommunications_global_communications">Satellite, telecommunications, or global communications</option><option value="energy_compute_digital_infrastructure">Energy, compute, or digital infrastructure</option><option value="global_finance_market_marketing_systems">Global finance, market, or marketing systems</option><option value="ai_ml_portfolio_lab_operating_model">AI/ML portfolio, lab, or operating model</option><option value="data_lab_platform_ai_cost_management">Data lab, platform, or AI cost management</option><option value="frontier_intelligence_quantum_advanced_systems">Frontier intelligence, quantum, or advanced systems</option><option value="enterprise_transformation_change_architecture">Enterprise transformation and change architecture</option><option value="institutional_strategy_modernization_resilience">Institutional strategy, modernization, or resilience</option><option value="research_partnership_strategic_inquiry">Research partnership or strategic inquiry</option></select></label>
+        <label class="grid gap-2 text-sm font-bold" for="contact-mandate">The mandate<textarea id="contact-mandate" class="min-h-44 resize-y border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="mandate" placeholder="State the decision, the horizon, and what is at stake. Please do not include classified, export-controlled, or sensitive information in this form." required aria-required="true" aria-invalid="false"></textarea></label>
         <div class="grid gap-6 sm:grid-cols-2">
-          <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-timing">Decision horizon<select id="contact-timing" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="decision_horizon"><option value="">Select if useful</option><option>Immediate / active decision</option><option>Next 90 days</option><option>2027–2028 horizon</option><option>2030–2035 horizon</option><option>Long-range research</option></select></label>
-          <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-scale">Scale of the system<select id="contact-scale" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="system_scale"><option value="">Select if useful</option><option>Enterprise / institution</option><option>Portfolio / multi-program</option><option>Mission-critical platform</option><option>Research or emerging capability</option></select></label>
+          <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-timing">Decision horizon<select id="contact-timing" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="decision_horizon" aria-required="false" aria-invalid="false"><option value="">Select if useful</option><option value="immediate_active_decision">Immediate / active decision</option><option value="next_90_days">Next 90 days</option><option value="2027_2028_horizon">2027–2028 horizon</option><option value="2030_2035_horizon">2030–2035 horizon</option><option value="long_range_research">Long-range research</option></select></label>
+          <label class="grid min-w-0 gap-2 text-sm font-bold" for="contact-scale">Scale of the system<select id="contact-scale" class="min-h-14 w-full min-w-0 max-w-full border-b-2 border-line bg-transparent px-0 py-3 text-lg font-normal outline-none transition-colors focus:border-cobalt" name="system_scale" aria-required="false" aria-invalid="false"><option value="">Select if useful</option><option value="cross_border_transaction_corporate_portfolio">Cross-border transaction or corporate portfolio</option><option value="enterprise_institution">Enterprise / institution</option><option value="portfolio_multi_program">Portfolio / multi-program</option><option value="mission_critical_platform">Mission-critical platform</option><option value="research_emerging_capability">Research or emerging capability</option></select></label>
         </div>
-        <label class="flex items-start gap-3 text-sm leading-relaxed text-muted" for="contact-consent"><input id="contact-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required />I agree to be contacted about this inquiry. I understand that this form is not a secure channel for classified or controlled information.</label>
-        <button class="btn-dark w-fit" type="submit" data-track="contact_submit">Request the dialogue <span aria-hidden="true">↗</span></button>
+        <label class="flex items-start gap-3 text-sm leading-relaxed text-muted" for="contact-consent"><input id="contact-consent" class="mt-1 size-4 accent-cobalt" type="checkbox" name="consent" value="yes" required aria-required="true" aria-invalid="false" />I agree to be contacted about this inquiry. I understand that this form is not a secure channel for classified or controlled information.</label>
+        <button class="btn-dark w-fit" type="submit" data-track="contact_submit">Request a leadership engagement <span aria-hidden="true">↗</span></button>
+        <p class="max-w-2xl text-xs leading-relaxed text-muted">This first-party public form is for routing and context only. Do not include classified, export-controlled, patient, credential, or otherwise sensitive information. Review our <a class="underline decoration-cobalt underline-offset-4" href="/trust/">Trust center</a> and <a class="underline decoration-cobalt underline-offset-4" href="/privacy/">privacy notice</a> before sharing information.</p>
       </form>
     </div>
   </section>
 
-  <section class="bg-paper"><div class="container-site"><IntelligenceStack /></div></section>
+  <AudiencePathways
+    id="contact-next-pathways"
+    eyebrow="Connected routes"
+    title="Keep the question moving to the right home."
+    intro="Global Enterprise remains the direct home for institutional advisory. For research, learning, talent, or teaming, these verified organization routes make the next step explicit."
+    compact
+    pathwayIds={["research-and-academic-partners", "early-career-learners", "experienced-talent", "prime-and-subcontractor-teams"]}
+  />
 
   <section class="section-pad bg-ink text-white">
     <div class="container-site grid gap-10 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
-      <div><p class="eyebrow text-lime">The standard</p><h2 class="section-title mt-5 max-w-3xl">We are built for the questions that outlast a planning cycle.</h2></div>
+      <div><p class="eyebrow text-accent">The standard</p><h2 class="section-title mt-5 max-w-3xl">We are built for the questions that outlast a planning cycle.</h2></div>
       <div class="grid gap-6 text-lg leading-relaxed text-white/65 md:grid-cols-3 md:gap-8">
         <p><strong class="block text-white">Discretion.</strong> The right channel for the right level of context.</p>
         <p><strong class="block text-white">Precision.</strong> Clear hypotheses before a room is convened.</p>
@@ -80,4 +90,11 @@ import IntelligenceStack from "@/components/IntelligenceStack.astro";
       </div>
     </div>
   </section>
+
+  <style>
+    form[data-lead-form] .form-error-summary, form[data-lead-form] .form-field-error { display: block; margin-top: 0.45rem; color: var(--color-cobalt); font-size: 0.78rem; line-height: 1.5; }
+    form[data-lead-form] .form-error-summary { margin-bottom: 0.25rem; padding-left: 0.75rem; border-left: 2px solid var(--color-cobalt); }
+    form[data-lead-form] .form-error-summary[hidden], form[data-lead-form] .form-field-error[hidden] { display: none; }
+    form[data-lead-form] [aria-invalid="true"] { border-color: var(--color-cobalt); }
+  </style>
 </Base>

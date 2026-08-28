@@ -5,12 +5,36 @@ import { join, relative } from "node:path";
 const root = new URL("../dist/", import.meta.url);
 const errors = [];
 const htmlFiles = [];
-const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/contact/thanks/", "/insights/thanks/"];
+const utilityRoutes = ["/privacy/", "/terms/", "/404/", "/visual-sitemap/", "/audiences/", "/contact/thanks/", "/insights/thanks/", "/resources/thanks/", "/trust/vendor-pack/", "/global/"];
+const redirectFiles = new Set(["global/index.html"]);
 const editorialDirectory = new URL("../src/content/insights/", import.meta.url);
+const sourcePdfDirectory = new URL("../infra/brief-delivery/source-pdfs/", import.meta.url);
 const freshnessBaseline = "2026-08-10";
 const routeImages = new Map();
 const renderedPhotos = new Map();
 const diagramIds = new Map();
+const audienceDestinationContracts = [
+  "https://ignitecuriosity.org/",
+  "https://taostaff.com/",
+  "https://instarlab.org/",
+  "https://dreamlimited.org/",
+];
+const audienceDestinationRouteContracts = [
+  { destination: "https://ignitecuriosity.org/", files: ["careers/index.html", "contact/index.html"] },
+  { destination: "https://taostaff.com/", files: ["careers/index.html", "contact/index.html"] },
+  { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html", "insights/topics/research-and-foresight/index.html", "contact/index.html"] },
+  { destination: "https://dreamlimited.org/", files: ["trust/vendor-pack/index.html", "contact/index.html"] },
+];
+const approvedOrganizationMapFiles = new Set(["audiences/index.html", "visual-sitemap/index.html"]);
+const quietShellMarkers = ["Who this is for", "Audience routes", "Other homes in the organization"];
+const renderedAudienceDestinations = new Set();
+const reportDocuments = [
+  "reports/enterprise-decision-readiness.html",
+  "reports/ai-governance-controls.html",
+  "reports/modernization-investment-priority.html",
+  "reports/global-operating-model-brief.html",
+];
+const reportPdfs = reportDocuments.map((report) => report.replace(/^reports\//, "").replace(/\.html$/, ".pdf"));
 
 async function walk(directory) {
   for (const name of await readdir(directory)) {
@@ -49,7 +73,25 @@ await walk(root.pathname);
 for (const path of htmlFiles) {
   const file = relative(root.pathname, path) || "index.html";
   const html = await readFile(path, "utf8");
-  if (file === "visual-sitemap/compact.html" || file === "404.html") continue;
+  if (file === "visual-sitemap/compact.html" || file === "404.html" || redirectFiles.has(file)) continue;
+  if (file.startsWith("reports/")) continue;
+  for (const destination of audienceDestinationContracts) {
+    if (html.includes(destination)) renderedAudienceDestinations.add(destination);
+  }
+  for (const contract of audienceDestinationRouteContracts) {
+    if (contract.files.includes(file) && !html.includes(contract.destination)) errors.push(`${file}: missing contextual destination ${contract.destination}`);
+  }
+  const links = [...html.matchAll(/\bhref="([^"]+)"/gi)].map((match) => match[1].replaceAll("&amp;", "&"));
+  if (links.includes("/audiences/") && !approvedOrganizationMapFiles.has(file)) errors.push(`${file}: organization map link escaped its approved site-tool surfaces`);
+  for (const destination of audienceDestinationContracts) {
+    if (links.includes(destination) && !audienceDestinationRouteContracts.some((contract) => contract.destination === destination && contract.files.includes(file)) && file !== "audiences/index.html") {
+      errors.push(`${file}: outbound audience destination is not approved for this route (${destination})`);
+    }
+  }
+  for (const marker of quietShellMarkers) {
+    if (html.includes(marker)) errors.push(`${file}: audience segmentation leaked into the shared shell (${marker})`);
+  }
+  if (html.includes("https://dreamlimited.com/")) errors.push(`${file}: parked DreamLimited domain must not be used; link to dreamlimited.org`);
   requiredMarkup(html, /<title>[^<]+<\/title>/i, "title", file);
   requiredMarkup(html, /<meta name="description" content="[^"]+"/i, "meta description", file);
   requiredMarkup(html, /<link rel="canonical" href="https:\/\/globalenterprise\.com\//i, "canonical", file);
@@ -58,7 +100,10 @@ for (const path of htmlFiles) {
   requiredMarkup(html, /<body[^>]+data-route-signature="[^"]+"/i, "route signature", file);
   requiredMarkup(html, /<body[^>]+data-route-image="[^"]+"/i, "route image assignment", file);
   requiredMarkup(html, /data-motion-progress/i, "progressive motion system", file);
-  requiredMarkup(html, /<link rel="preload" href="\/font\/roboto-regular-webfont\.woff" as="font"/i, "primary font preload", file);
+  const progressCues = html.match(/data-motion-progress/g) ?? [];
+  if (progressCues.length !== 1) errors.push(`${file}: expected one scroll progress cue, found ${progressCues.length}`);
+  if (html.includes("reading-progress")) errors.push(`${file}: legacy article progress cue is still rendered`);
+  requiredMarkup(html, /<link rel="preload" href="\/font\/roboto-regular-webfont\.(?:woff2|woff)" as="font"/i, "primary font preload", file);
   if (/<section class="[^"]*\bsection-pad\b[^"]*"[^>]*>\s*<div class="container-site"[^>]*>\s*<section class="intelligence-stack\b/i.test(html)) {
     errors.push(`${file}: intelligence stack is wrapped in duplicate section padding`);
   }
@@ -96,7 +141,7 @@ for (const path of htmlFiles) {
     if (owner && owner !== file) errors.push(`${file}: technical diagram ${id} is already shown on ${owner}`);
     diagramIds.set(id, file);
   }
-  const isDiagramRoute = !file.startsWith("insights/thanks/") && (/^(?:services|solutions|industries|case-studies)\/[^/]+\/index\.html$/.test(file) || /^insights\/[^/]+\/index\.html$/.test(file));
+  const isDiagramRoute = /^(?:services|solutions|industries|case-studies)\/[^/]+\/index\.html$/.test(file);
   if (isDiagramRoute && !file.includes("/topics/") && !html.includes("data-diagram-id=")) {
     errors.push(`${file}: substantial detail route is missing its one technical visual`);
   }
@@ -112,6 +157,36 @@ for (const path of htmlFiles) {
     const target = await internalTarget(href);
     if (target && !((await stat(target).catch(() => null))?.isFile?.())) errors.push(`${file}: broken internal link ${href}`);
   }
+}
+
+for (const destination of audienceDestinationContracts) {
+  if (!renderedAudienceDestinations.has(destination)) errors.push(`audience routing: missing rendered destination ${destination}`);
+}
+
+for (const report of reportDocuments) {
+  const path = join(root.pathname, report);
+  const html = await readFile(path, "utf8").catch(() => "");
+  if (!html) {
+    errors.push(`${report}: missing deep report document`);
+    continue;
+  }
+  if (!/<h1\b/i.test(html)) errors.push(`${report}: missing report title`);
+  if ((html.match(/<h2\b/gi) ?? []).length < 4) errors.push(`${report}: deep report needs at least four structured sections`);
+  if (!/<(?:div|section)\b[^>]*class="[^"]*\breport-worksheet\b/i.test(html)) errors.push(`${report}: missing reusable worksheet`);
+  if (!/https:\/\/[^"'<>]+/i.test(html)) errors.push(`${report}: missing public source links`);
+  const wordCount = html.replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").trim().split(/\s+/).filter(Boolean).length;
+  if (wordCount < 1000) errors.push(`${report}: report is too thin (${wordCount} words)`);
+}
+
+for (const report of reportPdfs) {
+  const path = join(sourcePdfDirectory.pathname, report);
+  const info = await stat(path).catch(() => null);
+  if (!info?.isFile() || info.size < 100_000) {
+    errors.push(`infra/brief-delivery/source-pdfs/${report}: missing or unusually small generated PDF`);
+  }
+  const publicPath = join(root.pathname, "reports", report);
+  const publicInfo = await stat(publicPath).catch(() => null);
+  if (publicInfo?.isFile()) errors.push(`reports/${report}: PDF must remain outside the public build`);
 }
 
 const robots = await readFile(new URL("../public/robots.txt", import.meta.url), "utf8");
@@ -143,8 +218,9 @@ const editorialParagraphs = new Map();
 for (const name of editorialFiles) {
   const markdown = await readFile(join(editorialDirectory.pathname, name), "utf8");
   if (!markdown.includes(`lastReviewed: ${freshnessBaseline}`)) errors.push(`src/content/insights/${name}: missing August 2026 review date`);
-  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(markdown)) errors.push(`src/content/insights/${name}: stale pre-August 2026 reference`);
   const body = markdown.replace(/^---[\s\S]*?---\s*/m, "");
+  const bodyWithoutUrls = body.replace(/https?:\/\/\S+/g, "");
+  if (/\b(?:2025|2024|2023|2022|2021|2020|2019)\b/.test(bodyWithoutUrls)) errors.push(`src/content/insights/${name}: stale pre-August 2026 reference`);
   for (const paragraph of body.split(/\n\s*\n/).map((value) => value.replace(/\s+/g, " ").trim())) {
     if (paragraph.length < 140 || paragraph.startsWith("#") || paragraph.startsWith("- ")) continue;
     const existing = editorialParagraphs.get(paragraph) ?? [];
@@ -165,4 +241,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`✓ audited ${htmlFiles.length} HTML files, ${routeImages.size} route photo assignments / ${renderedPhotos.size} rendered one-time photos, ${diagramIds.size} one-time diagrams, ${insightPages} insight pages, and ${topicPages} topic pages`);
+console.log(`✓ audited ${htmlFiles.length} HTML files, ${reportDocuments.length} deep report documents and ${reportPdfs.length} private PDFs, ${routeImages.size} route photo assignments / ${renderedPhotos.size} rendered one-time photos, ${diagramIds.size} one-time diagrams, ${insightPages} insight pages, and ${topicPages} topic pages`);

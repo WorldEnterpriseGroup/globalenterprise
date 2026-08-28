@@ -5,29 +5,36 @@ import { startingPoints } from "@/data/site";
 interface Props {
   mediaSrc?: string;
   mediaAlt?: string;
+  mediaDecorative?: boolean;
   mediaCaption?: string;
   mediaRatio?: "standard" | "wide" | "cinematic" | "tall";
 }
 
-const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = Astro.props;
+const { mediaSrc, mediaAlt, mediaDecorative = false, mediaCaption = "", mediaRatio = "standard" } = Astro.props;
+
+if (mediaSrc && !mediaDecorative && !mediaAlt?.trim()) {
+  throw new Error("StartingPoint requires mediaAlt when mediaSrc is supplied, or mediaDecorative={true} for decorative media.");
+}
+
+const resolvedMediaAlt = mediaDecorative ? "" : mediaAlt?.trim() ?? "";
 ---
 
 <section class="section-pad bg-cobalt text-white" data-starting-point>
   <div class="container-site grid gap-12 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
     <div>
       {mediaSrc && <figure class="mb-9 overflow-hidden border border-white/20 bg-ink shadow-[1rem_1rem_0_rgba(16,19,29,.25)]">
-        <AssetImage src={mediaSrc} alt={mediaAlt} width={1536} height={1024} loading="lazy" decoding="async" class:list={["starting-point-image", `starting-point-image-ratio-${mediaRatio}`, "w-full", "object-cover", "opacity-90"]} />
+        <AssetImage src={mediaSrc} alt={resolvedMediaAlt} width={1536} height={1024} loading="lazy" decoding="async" sizes="(min-width: 1024px) 36vw, 100vw" class:list={["starting-point-image", `starting-point-image-ratio-${mediaRatio}`, "w-full", "object-cover", "opacity-90"]} />
         {mediaCaption && <figcaption class="border-t border-white/15 px-4 py-3 text-xs leading-relaxed text-white/55">{mediaCaption}</figcaption>}
       </figure>}
-      <p class="eyebrow text-lime">Find your starting point</p>
+      <p class="eyebrow text-accent">Find your starting point</p>
       <h2 class="section-title mt-5">What is certain under pressure?</h2>
       <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/70">Pick the pressure point that most affects your enterprise and we will direct you to the most decisive first move.</p>
     </div>
     <div>
-      <div class="grid gap-3" role="list" aria-label="Starting point choices">
+      <div class="grid gap-3" role="group" aria-label="Starting point choices">
         {startingPoints.map((point, index) => (
-          <button class="starting-point-option" type="button" role="listitem" data-starting-point-option={point.id} aria-controls="starting-point-result" aria-expanded={index === 0 ? "true" : "false"}>
-            <span class="eyebrow text-lime">{["Mandate", "Intelligence", "Economics", "Capability"][index]}</span>
+          <button id={`starting-point-option-${point.id}`} class="starting-point-option" type="button" data-starting-point-option={point.id} aria-controls="starting-point-result" aria-pressed={index === 0 ? "true" : "false"}>
+            <span class="eyebrow text-accent">{["Mandate", "Intelligence", "Economics", "Capability"][index]}</span>
             <span class="text-left font-display text-xl font-medium tracking-[-0.03em]">{point.label}</span>
             <span aria-hidden="true">↗</span>
           </button>
@@ -35,7 +42,7 @@ const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = 
       </div>
       <div id="starting-point-result" class="starting-point-result mt-5" data-starting-point-result aria-live="polite">
         {startingPoints.map((point, index) => (
-          <div class:list={["starting-point-answer", index === 0 ? "is-active" : ""]} data-starting-point-answer={point.id} hidden={index !== 0}>
+          <div class:list={["starting-point-answer", index === 0 ? "is-active" : ""]} data-starting-point-answer={point.id} role="region" aria-labelledby={`starting-point-option-${point.id}`} hidden={index !== 0}>
             <p class="text-lg leading-relaxed text-white/80">{point.text}</p>
             <a class="btn-primary mt-6" href={point.href} data-track="diagnostic_result" data-track-label={point.id}>{point.linkLabel} <span aria-hidden="true">↗</span></a>
           </div>
@@ -45,28 +52,7 @@ const { mediaSrc, mediaAlt = "", mediaCaption = "", mediaRatio = "standard" } = 
   </div>
 </section>
 
-<script>
-  const initializeStartingPoint = () => {
-    document.querySelectorAll("[data-starting-point]").forEach((root) => {
-      if (root.hasAttribute("data-bound")) return;
-      root.setAttribute("data-bound", "true");
-      const options = root.querySelectorAll<HTMLElement>("[data-starting-point-option]");
-      const answers = root.querySelectorAll<HTMLElement>("[data-starting-point-answer]");
-      options.forEach((option) => option.addEventListener("click", () => {
-        const id = option.dataset.startingPointOption;
-        options.forEach((candidate) => candidate.setAttribute("aria-expanded", String(candidate === option)));
-        answers.forEach((answer) => {
-          const active = answer.dataset.startingPointAnswer === id;
-          answer.hidden = !active;
-          answer.classList.toggle("is-active", active);
-        });
-      }));
-    });
-  };
-
-  initializeStartingPoint();
-  document.addEventListener("astro:page-load", initializeStartingPoint);
-</script>
+<script is:inline src="/scripts/starting-point.js"></script>
 
 <style>
   :global(.starting-point-image) { display: block; aspect-ratio: 4 / 3; }

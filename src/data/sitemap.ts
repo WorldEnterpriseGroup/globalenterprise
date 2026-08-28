@@ -1,4 +1,4 @@
-import { businessReports, industries, services, solutionPages } from "@/data/site";
+import { businessReports, industries, regionContexts, services, solutionPages } from "@/data/site";
 
 export const sitemapGroups = [
   {
@@ -6,10 +6,12 @@ export const sitemapGroups = [
     pages: [
       { label: "Home", href: "/", description: "The advisory partner for the next order of complexity.", kind: "front door" },
       { label: "Our approach", href: "/about/", description: "How we make future complexity governable.", kind: "company" },
+      { label: "Operations", href: "/operations/", description: "How we coordinate strategy, delivery, and operating contexts across regions, partners, and time zones.", kind: "operations" },
+      { label: "Proof of practice", href: "/proof/", description: "Confidential evidence from ventures, products, and systems we have built and grown.", kind: "proof" },
       { label: "Selected work", href: "/case-studies/", description: "Field notes from the work.", kind: "proof" },
       { label: "Insights", href: "/insights/", description: "Evidence and original analysis for leaders shaping what comes next.", kind: "thinking" },
       { label: "Team", href: "/team/", description: "The disciplines close to the work.", kind: "company" },
-      { label: "Contact", href: "/contact/", description: "Request a private principal dialogue.", kind: "start" },
+      { label: "Contact", href: "/contact/", description: "Request a leadership engagement.", kind: "start" },
     ],
   },
   {
@@ -34,6 +36,13 @@ export const sitemapGroups = [
     ],
   },
   {
+    title: "Regions",
+    pages: [
+      { label: "All regional contexts", href: "/region/", description: "Regional operating contexts across commercial, federal, and SLED capability.", kind: "region" },
+      ...regionContexts.map((region) => ({ label: region.name, href: `/region/${region.slug}/`, description: region.description, kind: "region" })),
+    ],
+  },
+  {
     title: "Work",
     pages: [
       { label: "Operating model", href: "/case-studies/operating-model/", description: "A clearer operating model for a distributed enterprise.", kind: "case study" },
@@ -44,7 +53,13 @@ export const sitemapGroups = [
   {
     title: "Insights",
     pages: [
+      { label: "2035 is a design constraint, not a forecast", href: "/insights/2035-is-a-design-constraint/", description: "Design for the convergence of energy, data, security, and public value.", kind: "insight" },
+      { label: "The path to 2050 is an operating model", href: "/insights/the-path-to-2050-is-an-operating-model/", description: "Treat M&A, energy, communications, and intelligence as one infrastructure question.", kind: "insight" },
       { label: "AI at scale is an operating model decision", href: "/insights/ai-at-scale/", description: "Adoption is no longer the scarce resource.", kind: "insight" },
+      { label: "AI sovereignty is an operating-model question", href: "/insights/ai-sovereignty-is-an-operating-model/", description: "Make data, identity, compute, and decision rights governable.", kind: "insight" },
+      { label: "Clinical AI needs a real-world evidence loop", href: "/insights/clinical-ai-needs-real-world-evidence/", description: "Keep safety, usefulness, drift, and judgment observable after deployment.", kind: "insight" },
+      { label: "Cybersecurity is an operating outcome", href: "/insights/cybersecurity-is-an-operating-outcome/", description: "Make resilience visible in everyday decisions and recovery.", kind: "insight" },
+      { label: "A global operating model is a translation system", href: "/insights/global-operating-model-is-translation/", description: "Translate shared outcomes into local decisions and ownership.", kind: "insight" },
       { label: "Legacy modernization is a product decision", href: "/insights/legacy-is-a-product-decision/", description: "What to retire, wrap, and redesign.", kind: "insight" },
       { label: "Interoperability is not access; it is use", href: "/insights/interoperability-is-a-workflow/", description: "The last mile of healthcare data.", kind: "insight" },
       { label: "Your third parties are part of your operating model", href: "/insights/third-party-is-your-operating-model/", description: "Security beyond the org chart.", kind: "insight" },
@@ -59,10 +74,19 @@ export const sitemapGroups = [
       { label: "Platform teams are a contract with the enterprise", href: "/insights/platform-teams-are-a-contract/", description: "Make the safe path the easy path.", kind: "insight" },
       { label: "Transformation metrics are management, not reporting", href: "/insights/transformation-metrics-are-management/", description: "See whether change is becoming capability.", kind: "insight" },
       { label: "The future of work is workflow design", href: "/insights/future-of-work-is-workflow-design/", description: "Recompose roles, decisions, and learning loops.", kind: "insight" },
+      { label: "Productivity is a workflow outcome", href: "/insights/productivity-is-a-workflow-outcome/", description: "Connect AI productivity to the work system around it.", kind: "insight" },
+      { label: "Public service needs product management", href: "/insights/public-service-is-a-product/", description: "Manage mission, policy, technology, and lived service together.", kind: "insight" },
+      { label: "Regional context is a control, not a localization task", href: "/insights/regional-context-is-a-control/", description: "Treat local knowledge as part of assurance.", kind: "insight" },
+      { label: "Resilience crosses borders before it reaches the board", href: "/insights/resilience-crosses-borders/", description: "See the dependencies that shape continuity outside the org chart.", kind: "insight" },
+      { label: "Resilience is a capital allocation decision", href: "/insights/resilience-is-a-capital-allocation-decision/", description: "Connect infrastructure investment to operating consequence.", kind: "insight" },
       { label: "Governance is a product people have to use", href: "/insights/governance-is-a-product/", description: "Make decisions clearer and safe action faster.", kind: "insight" },
       { label: "Data center growth is a coordination problem", href: "/insights/data-center-permitting-is-an-operating-model/", description: "Coordinate compute, power, permitting, and trust.", kind: "insight" },
       { label: "Compute is a governance problem before it is a cost problem", href: "/insights/compute-is-a-governance-problem/", description: "Connect every unit of compute to a decision, a control, and an outcome.", kind: "insight" },
+      { label: "Time zones are a capability, not a calendar problem", href: "/insights/time-zones-are-a-capability/", description: "Design distributed handoffs, decision rights, and learning loops.", kind: "insight" },
       { label: "Quantum intelligence needs an operating model", href: "/insights/quantum-intelligence-needs-an-operating-model/", description: "Give frontier research a disciplined path into strategy.", kind: "insight" },
+      { label: "IEA energy demand figures are a grid planning warning", href: "/insights/iea-energy-and-ai-grid-capacity/", description: "Sequence power and permitting with the deal.", kind: "insight" },
+      { label: "ITU connectivity numbers are a starting point, not a success metric", href: "/insights/itu-connectivity-is-not-access/", description: "Judge access by reliability, not registration.", kind: "insight" },
+      { label: "UN DESA population scale is an operating constraint", href: "/insights/un-desa-population-scale-is-an-operating-constraint/", description: "Treat population growth as a systems constraint.", kind: "insight" },
       { label: "Enterprise AI topic page", href: "/insights/topics/enterprise-ai/", description: "Follow the AI arguments across the library.", kind: "topic" },
       { label: "Operating model topic page", href: "/insights/topics/operating-model/", description: "Follow the operating model arguments across the library.", kind: "topic" },
       { label: "Leadership topic page", href: "/insights/topics/leadership/", description: "Follow the leadership arguments across the library.", kind: "topic" },
@@ -77,6 +101,7 @@ export const sitemapGroups = [
       { label: "Workforce topic page", href: "/insights/topics/workforce/", description: "Follow the workforce arguments across the library.", kind: "topic" },
       { label: "AI Cost Management topic page", href: "/insights/topics/ai-cost-management/", description: "Follow the arguments about compute economics and governance.", kind: "topic" },
       { label: "Quantum Intelligence topic page", href: "/insights/topics/quantum-intelligence/", description: "Follow the arguments about frontier intelligence and readiness.", kind: "topic" },
+      { label: "Research & foresight topic page", href: "/insights/topics/research-and-foresight/", description: "Follow the arguments about long-horizon system design.", kind: "topic" },
     ],
   },
   {
@@ -84,6 +109,8 @@ export const sitemapGroups = [
     pages: [
       { label: "Careers", href: "/careers/", description: "Bring your point of view to the hard stuff.", kind: "company" },
       { label: "FAQ", href: "/faq/", description: "Useful before the first meeting.", kind: "guidance" },
+      { label: "Trust center", href: "/trust/", description: "Identity, discretion, delivery assurance, and data boundaries.", kind: "company" },
+      { label: "Vendor and trust pack", href: "/trust/vendor-pack/", description: "Public procurement facts, controls, and diligence boundaries.", kind: "company" },
       { label: "Privacy", href: "/privacy/", description: "How information is handled.", kind: "legal" },
       { label: "Terms", href: "/terms/", description: "Site terms and conditions.", kind: "legal" },
     ],
@@ -100,6 +127,7 @@ export const sitemapGroups = [
     pages: [
       { label: "Visual sitemap", href: "/visual-sitemap/", description: "The full site architecture.", kind: "site tool" },
       { label: "Compact sitemap", href: "/visual-sitemap/compact.html", description: "A live page map with an in-context preview.", kind: "site tool" },
+      { label: "Organization map", href: "/audiences/", description: "A quiet map of the specialist paths connected to Global Enterprise.", kind: "site tool" },
     ],
   },
 ];
