@@ -2,7 +2,7 @@
 
 Status: live contract for the direct managed-identity bridge; also used by the optional `NURTURE_WEBHOOK_URL` extension.
 
-This contract is intentionally separate from the delivery ledger. The Function remains the delivery system of record and projects the accepted `brief.requested` event directly to Dream Dataverse with its UAI. When `NURTURE_WEBHOOK_URL` is configured, it also emits the HMAC-protected event below for a private downstream bridge. Every consumer must validate the event, project only the fields below, and write Dataverse by request ID.
+This contract is intentionally separate from the delivery ledger. The Function remains the delivery system of record and projects the accepted `brief.requested` event directly to Dream Dataverse with its UAI. When `NURTURE_WEBHOOK_URL` is configured, it also emits the HMAC-protected event below for a private downstream bridge. Every consumer must validate the event, project only the fields below, and write Dataverse by request ID. Principal-dialogue requests use the separate [`dataverse-principal-dialogue.schema.json`](./dataverse-principal-dialogue.schema.json) contract and never enter this report-nurture event path.
 
 ## Boundary and assumptions
 
@@ -102,6 +102,10 @@ The bridge should derive this small event and use it as the only input to Datave
 
 The projection deliberately excludes `delivery.messageId`, `delivery.expiresAt`, the whole `nurture` object, and any unknown source properties. It must also reject or drop any property named `unsubscribeToken`, `unsubscribeHash`, `unsubscribeUrl`, `sas`, `sasUrl`, `blobPath`, `privateBlobPath`, `pdfUrl`, `pdfLink`, `webhookSecret`, or `signature`.
 
+## Principal-dialogue projection
+
+The `/api/contact-request` path is not a `brief.requested` event and must not be accepted by a report-nurture consumer. Its machine-readable contract is [`dataverse-principal-dialogue.schema.json`](./dataverse-principal-dialogue.schema.json). The direct Function projection writes the requester’s free-text `title` to the native Contact, writes the canonical `readerRole` and `conversationContext` keys to `ge_role` and `ge_context`, links a new engagement through `ge_contact`, and records `ge_consent_scope=principal-dialogue`. It does not write `ge_nurture_stage`, emit `brief.requested`, or enroll the requester in a report sequence.
+
 ## Dataverse mapping
 
 The live table logical name is `ge_briefengagement`, entity set `ge_briefengagements`, and the publisher-prefixed logical names are confirmed in Dream. The mapping below retains the readable contract names; Dataverse removes underscores from the publisher-prefixed logical column names (for example, `ge_request_id` is `ge_requestid`).
@@ -157,6 +161,8 @@ The current producer records one explicit consent scope: `report-specific-follow
 - reactivate a CRM record already marked opted out, bounced, or manual hold.
 
 The Function does not emit a public webhook event when `/api/unsubscribe` is called. Instead, its direct managed-identity bridge updates the matching Dataverse engagement to `ge_suppressionstatus = opted-out` after the private Blob record is marked opted out. Dataverse must not independently send the sequence unless a separately reviewed suppression event or synchronization path is enabled.
+
+Principal-dialogue consent is inquiry-only. Its `principal-dialogue` scope authorizes a human response to that specific request; it is not report-specific follow-up, `occasional-notes`, or permission for any general marketing sequence.
 
 ## Data that must never cross the bridge
 

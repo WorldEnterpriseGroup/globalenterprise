@@ -3,7 +3,6 @@ import { promisify } from "node:util";
 
 const exec = promisify(execFile);
 const repository = process.env.GITLAB_REPOSITORY_URL?.trim() || "https://git.developerdojo.org/WorldEnterpriseGroup/globalenterprise.git";
-const sourceBranch = process.env.GITLAB_SOURCE_BRANCH?.trim() || "demo";
 const releaseBranch = process.env.GITLAB_RELEASE_BRANCH?.trim() || "gh-pages";
 const releaseSha = (process.env.RELEASE_SHA || process.env.GITHUB_SHA || "").trim().toLowerCase();
 const githubRef = process.env.GITHUB_REF_NAME?.trim();
@@ -15,7 +14,11 @@ if (!/^[0-9a-f]{40}$/.test(releaseSha)) {
 
 async function remoteBranchSha(branch) {
   try {
-    const { stdout } = await exec("git", ["ls-remote", repository, `refs/heads/${branch}`], { timeout: 15_000, maxBuffer: 1024 * 1024 });
+    const { stdout } = await exec("git", ["ls-remote", repository, `refs/heads/${branch}`], {
+      timeout: 15_000,
+      maxBuffer: 1024 * 1024,
+      env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+    });
     const [sha] = stdout.trim().split(/\s+/);
     if (!/^[0-9a-f]{40}$/.test(sha || "")) throw new Error(`branch ${branch} did not return a commit SHA`);
     return sha;
@@ -25,8 +28,7 @@ async function remoteBranchSha(branch) {
 }
 
 try {
-  const [sourceSha, gitlabReleaseSha] = await Promise.all([remoteBranchSha(sourceBranch), remoteBranchSha(releaseBranch)]);
-  console.log(`Release receipt: GitLab ${sourceBranch} ${sourceSha}`);
+  const gitlabReleaseSha = await remoteBranchSha(releaseBranch);
   console.log(`Release receipt: GitLab ${releaseBranch} ${gitlabReleaseSha}`);
   console.log(`Release receipt: GitHub workflow ${releaseSha}`);
   if (githubRef && githubRef !== releaseBranch) {
