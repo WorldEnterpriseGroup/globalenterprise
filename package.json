@@ -12,6 +12,7 @@
     "audit": "npm run build && node scripts/audit-site.mjs",
     "audit:evidence": "node scripts/audit-evidence.mjs",
     "audit:security": "node scripts/audit-security.mjs",
+    "audit:provenance": "node scripts/audit-release-provenance.mjs",
     "reports:pdf": "npm run build && node scripts/generate-report-pdfs.mjs && npm run build",
     "audit:live": "node scripts/audit-live.mjs",
     "edge:security": "node scripts/apply-cloudflare-edge-security.mjs",

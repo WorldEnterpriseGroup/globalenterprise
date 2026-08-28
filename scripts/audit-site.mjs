@@ -25,6 +25,37 @@ const audienceDestinationRouteContracts = [
   { destination: "https://instarlab.org/", files: ["services/research-foresight/index.html", "insights/topics/research-and-foresight/index.html", "contact/index.html"] },
   { destination: "https://dreamlimited.org/", files: ["trust/vendor-pack/index.html", "contact/index.html"] },
 ];
+const contactReaderRoleValues = [
+  "national_public_executive",
+  "federal_ea_feaf_architect",
+  "enterprise_cio_coo_portfolio",
+  "itil_service_devsecops_operator",
+  "acquisition_contracting_cor",
+  "prime_sme_teaming_partner",
+  "professor_researcher",
+  "early_career_learner",
+  "experienced_talent",
+  "analyst_public_reader",
+  "other_cross_functional",
+];
+const contactContextValues = [
+  "federal_enterprise_architecture_feaf",
+  "state_local_education_institution",
+  "national_international_government_architecture",
+  "itil_service_management_public_service",
+  "prime_subcontractor_sme_teaming",
+  "public_procurement_acquisition_contract_evaluation",
+  "ma_corporate_integration_portfolio",
+  "satellite_telecommunications_global_communications",
+  "energy_compute_digital_infrastructure",
+  "global_finance_market_marketing_systems",
+  "ai_ml_portfolio_lab_operating_model",
+  "data_lab_platform_ai_cost_management",
+  "frontier_intelligence_quantum_advanced_systems",
+  "enterprise_transformation_change_architecture",
+  "institutional_strategy_modernization_resilience",
+  "research_partnership_strategic_inquiry",
+];
 const approvedOrganizationMapFiles = new Set(["audiences/index.html", "visual-sitemap/index.html"]);
 const quietShellMarkers = ["Who this is for", "Audience routes", "Other homes in the organization"];
 const renderedAudienceDestinations = new Set();
@@ -52,6 +83,26 @@ function requiredMarkup(html, pattern, label, file) {
 function imageKey(source) {
   const filename = source.split("?")[0].split("/").at(-1) ?? source;
   return filename.replace(/\.[a-z0-9]+$/i, "").replace(/\.[a-z0-9_-]{6,}$/i, "");
+}
+
+function selectOptionValues(html, name) {
+  const select = html.match(new RegExp(`<select\\b[^>]*\\bname="${name}"[^>]*>[\\s\\S]*?<\\/select>`, "i"))?.[0] ?? "";
+  return [...select.matchAll(/<option\b[^>]*\bvalue="([^"]+)"/gi)].map((match) => match[1]);
+}
+
+function checkExactTaxonomy(file, name, renderedValues, expectedValues) {
+  if (renderedValues.length !== expectedValues.length) {
+    errors.push(`${file}: ${name} taxonomy expected ${expectedValues.length} values, found ${renderedValues.length}`);
+  }
+  if (new Set(renderedValues).size !== renderedValues.length) {
+    errors.push(`${file}: ${name} taxonomy contains duplicate values`);
+  }
+  for (const value of renderedValues) {
+    if (!expectedValues.includes(value)) errors.push(`${file}: ${name} taxonomy contains unknown ${value}`);
+  }
+  for (const value of expectedValues) {
+    if (!renderedValues.includes(value)) errors.push(`${file}: ${name} taxonomy is missing ${value}`);
+  }
 }
 
 async function internalTarget(href) {
@@ -157,6 +208,16 @@ for (const path of htmlFiles) {
     const target = await internalTarget(href);
     if (target && !((await stat(target).catch(() => null))?.isFile?.())) errors.push(`${file}: broken internal link ${href}`);
   }
+}
+
+const contactHtml = await readFile(join(root.pathname, "contact/index.html"), "utf8").catch(() => "");
+const renderedReaderRoles = selectOptionValues(contactHtml, "reader_role");
+const renderedContexts = selectOptionValues(contactHtml, "conversation_context");
+if (!contactHtml) errors.push("contact/index.html: missing rendered contact form");
+checkExactTaxonomy("contact/index.html", "reader_role", renderedReaderRoles, contactReaderRoleValues);
+checkExactTaxonomy("contact/index.html", "conversation_context", renderedContexts, contactContextValues);
+if (renderedReaderRoles.some((value) => renderedContexts.includes(value))) {
+  errors.push("contact/index.html: reader_role and conversation_context taxonomies must remain distinct");
 }
 
 for (const destination of audienceDestinationContracts) {

@@ -12,6 +12,7 @@ import {
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
 const EXTERNAL_TIMEOUT_MS = 10_000;
+const DATAVERSE_RETRY_MAX_DELAY_MS = 6 * HOUR_MS;
 
 function boundedInteger(value, minimum, maximum, fallback) {
   const parsed = Number(value);
@@ -147,6 +148,19 @@ const FORM_VALUE_LABELS = {
     institutional_strategy_modernization_resilience: "Institutional strategy, modernization, or resilience",
     research_partnership_strategic_inquiry: "Research partnership or strategic inquiry",
   },
+  reader_role: {
+    national_public_executive: "National, federal, state, local, or education executive",
+    federal_ea_feaf_architect: "Federal EA / FEAF or enterprise architecture practitioner",
+    enterprise_cio_coo_portfolio: "Enterprise CIO, CTO, COO, or portfolio leader",
+    itil_service_devsecops_operator: "ITIL, service, transformation, or DevSecOps operator",
+    acquisition_contracting_cor: "Contracting officer, COR, or acquisition official",
+    prime_sme_teaming_partner: "Prime, SME, subcontractor, or teaming partner",
+    professor_researcher: "Professor, researcher, lab, or academic partner",
+    early_career_learner: "Intern, student, apprentice, or professional learner",
+    experienced_talent: "Experienced specialist exploring a career",
+    analyst_public_reader: "Analyst, journalist, or public reader",
+    other_cross_functional: "Other / cross-functional",
+  },
   use_case: {
     ai_rollout_governance: "AI rollout and governance",
     data_platform_cost_controls: "Data platform and cost controls",
@@ -196,6 +210,24 @@ function displayFormValue(value, field) {
   const normalized = clean(value, 200);
   const labels = FORM_VALUE_LABELS[field];
   return labels && Object.prototype.hasOwnProperty.call(labels, normalized) ? labels[normalized] : normalized;
+}
+
+function hasKnownFormValue(value, field) {
+  const normalized = clean(value, 200);
+  const labels = FORM_VALUE_LABELS[field];
+  return Boolean(normalized && labels && Object.prototype.hasOwnProperty.call(labels, normalized));
+}
+
+function parseContactTaxonomy(body = {}) {
+  const readerRole = clean(body.reader_role, 120);
+  const conversationContext = clean(body.conversation_context || body.context, 200);
+  if (!hasKnownFormValue(readerRole, "reader_role") || !hasKnownFormValue(conversationContext, "context")) return null;
+  return {
+    readerRole,
+    readerRoleLabel: displayFormValue(readerRole, "reader_role"),
+    conversationContext,
+    conversationContextLabel: displayFormValue(conversationContext, "context"),
+  };
 }
 
 const CONSUMER_EMAIL_ROOTS = new Set(["gmail.com", "googlemail.com", "hotmail.com", "outlook.com", "yahoo.com"]);
@@ -408,6 +440,25 @@ async function withExistingBlobLease(blob, callback) {
   }
 }
 
+async function withDataverseContactLock(email, callback) {
+  if (!container) return callback();
+  const lockBlob = container.getBlockBlobClient(`locks/dataverse-contact/${hash(email)}.lock`);
+  try {
+    await lockBlob.upload("lock", 4, {
+      blobHTTPHeaders: { blobContentType: "text/plain", blobCacheControl: "no-store" },
+      conditions: { ifNoneMatch: "*" },
+    });
+  } catch (error) {
+    if (![409, 412].includes(error?.statusCode)) throw error;
+  }
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const result = await withExistingBlobLease(lockBlob, callback);
+    if (result !== null && result !== undefined) return result;
+    if (attempt < 4) await new Promise((resolve) => setTimeout(resolve, 100 * (attempt + 1)));
+  }
+  throw new Error("dataverse_contact_lock_busy");
+}
+
 async function enforceRateLimit(key) {
   const blobName = `rate-limits/${hash(key)}.json`;
   const now = Date.now();
@@ -592,11 +643,12 @@ async function sendEmail({ to, name, report, link, stage = 0, unsubscribeUrl }) 
   return result.id || null;
 }
 
-function renderContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
+function renderContactEmail({ name, title, email, organization, readerRole, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
   const safeMandate = escapeHtmlMultiline(mandate, 4000).replace(/\n/g, "<br>");
   const rows = [
     ["Name", name],
-    ["Title / role", title],
+    ["Title", title],
+    ["Reader role", readerRole],
     ["Work email", email],
     ["Organization", organization],
     ["Conversation context", context],
@@ -627,9 +679,10 @@ function renderContactEmail({ name, title, email, organization, context, mandate
   return { html, plain };
 }
 
-async function sendContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
+async function sendContactEmail({ name, title, email, organization, qualification, context, mandate, decisionHorizon, systemScale, sourceUrl }) {
   if (!emailClient || !ACS_SENDER_ADDRESS) throw new Error("email_not_configured");
-  const { html, plain } = renderContactEmail({ name, title, email, organization, context, mandate, decisionHorizon, systemScale, sourceUrl });
+  const readerRole = qualification?.readerRoleLabel || qualification?.readerRole || qualification?.role || "";
+  const { html, plain } = renderContactEmail({ name, title, email, organization, readerRole, context, mandate, decisionHorizon, systemScale, sourceUrl });
   const poller = await emailClient.beginSend({
     senderAddress: ACS_SENDER_ADDRESS,
     replyTo: [{ address: email, displayName: name || undefined }],
@@ -722,47 +775,74 @@ async function findDataverseContact(email) {
   const params = new URLSearchParams({
     "$select": "contactid,fullname,emailaddress1,_parentcustomerid_value,_owningbusinessunit_value",
     "$filter": `emailaddress1 eq ${odataString(email)}`,
-    "$top": "1",
+    "$top": "2",
   });
   const result = await dataverseRequest(`contacts?${params}`);
-  return (await result.json()).value?.[0] || null;
+  return selectDataverseContact((await result.json()).value || []);
+}
+
+function selectDataverseContact(matches) {
+  if (matches.length > 1) {
+    const error = new Error("dataverse_contact_ambiguous");
+    error.code = "dataverse_contact_ambiguous";
+    throw error;
+  }
+  return matches[0] || null;
 }
 
 async function upsertDataverseContact(record) {
-  const existing = await findDataverseContact(record.email);
-  const { firstName, lastName } = splitName(record.name);
+  return withDataverseContactLock(record.email, async () => {
+    const existing = await findDataverseContact(record.email);
+    const { firstName, lastName } = splitName(record.name);
+    const fields = buildDataverseContactFields(record, firstName, lastName);
+    if (existing?.contactid) {
+      await dataverseRequest(`contacts(${existing.contactid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(fields) });
+      return existing.contactid;
+    }
+    const result = await dataverseRequest("contacts", { method: "POST", body: JSON.stringify(fields) });
+    const entityId = result.headers.get("odata-entityid") || "";
+    const match = entityId.match(/contacts\(([^)]+)\)/i);
+    if (!match) throw new Error("dataverse_contact_id_missing");
+    return match[1];
+  });
+}
+
+function buildDataverseContactFields(record, firstName = splitName(record.name).firstName, lastName = splitName(record.name).lastName) {
   const fields = {
     firstname: firstName,
     lastname: lastName,
     emailaddress1: record.email,
-    jobtitle: record.qualification?.role || undefined,
+    // Keep the free-text title supplied by the requester. The canonical
+    // reader-role taxonomy belongs on the engagement row, not in jobtitle.
+    jobtitle: record.title || undefined,
     "parentcustomerid_account@odata.bind": `accounts(${DATAVERSE_ACCOUNT_ID})`,
   };
   Object.keys(fields).forEach((key) => fields[key] === undefined && delete fields[key]);
-  if (existing?.contactid) {
-    await dataverseRequest(`contacts(${existing.contactid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(fields) });
-    return existing.contactid;
-  }
-  const result = await dataverseRequest("contacts", { method: "POST", body: JSON.stringify(fields) });
-  const entityId = result.headers.get("odata-entityid") || "";
-  const match = entityId.match(/contacts\(([^)]+)\)/i);
-  if (!match) throw new Error("dataverse_contact_id_missing");
-  return match[1];
+  return fields;
 }
 
-function buildDataverseEngagement(record, initial) {
+function buildDataverseEngagement(record, initial, contactId = "") {
   const q = record.qualification || {};
+  const isPrincipalDialogue = record.kind === "principal-dialogue";
+  const reportKey = record.reportSlug || (isPrincipalDialogue ? "principal-dialogue" : undefined);
+  const reportTitle = record.report || (isPrincipalDialogue ? "Principal dialogue" : undefined);
+  const context = isPrincipalDialogue
+    ? (q.conversationContext || q.conversationContextLabel)
+    : (record.context || q.conversationContextLabel || q.conversationContext);
+  const role = isPrincipalDialogue
+    ? (q.readerRole || q.readerRoleLabel)
+    : (q.role || q.readerRoleLabel || q.readerRole);
   const fields = {
-    ge_name: clean(`${record.report} · ${record.name || record.email}`, 200),
+    ge_name: clean(`${reportTitle} · ${record.name || record.email}`, 200),
     ge_requestid: record.id,
-    ge_reportkey: record.reportSlug,
-    ge_reporttitle: record.report,
+    ge_reportkey: reportKey,
+    ge_reporttitle: reportTitle,
     ge_emailhash: hash(record.email),
     ge_organization: record.organization,
-    ge_context: record.context,
-    ge_role: q.role,
+    ge_context: context,
+    ge_role: role,
     ge_decisionstage: q.decisionStage,
-    ge_decisionhorizon: q.decisionHorizon,
+    ge_decisionhorizon: record.decisionHorizon || q.decisionHorizon,
     ge_organizationsize: q.organizationSize,
     ge_industry: q.industry,
     ge_primarychallenge: q.primaryChallenge,
@@ -772,9 +852,12 @@ function buildDataverseEngagement(record, initial) {
     ge_consentscope: record.consent?.scope || "report-specific-follow-up",
     ge_deliverystatus: record.delivery?.status || "pending",
   };
+  // ge_contact is CRM-owned after the first write. Do not rebind an existing
+  // engagement during a replay or a later report request.
+  if (initial && dataverseId(contactId)) fields["ge_contact@odata.bind"] = `/contacts(${contactId})`;
   if (initial) {
-    fields.ge_nurturestage = 0;
     fields.ge_suppressionstatus = "active";
+    if (!isPrincipalDialogue) fields.ge_nurturestage = 0;
   }
   // Contact is the native relationship record attached to Account. The event
   // ledger intentionally avoids copying the raw email; the resolved Contact
@@ -784,20 +867,29 @@ function buildDataverseEngagement(record, initial) {
 
 async function syncDataverse(record) {
   if (!dataverseConfigured()) return null;
-  const contactId = await upsertDataverseContact(record);
+  let contactId = "";
+  let identityStatus = "resolved";
+  try {
+    contactId = await upsertDataverseContact(record);
+  } catch (error) {
+    if (error?.code !== "dataverse_contact_ambiguous") throw error;
+    // Keep the engagement row for human resolution rather than creating a
+    // second Contact or overwriting an ambiguous CRM relationship.
+    identityStatus = "ambiguous";
+  }
   const params = new URLSearchParams({ "$select": "ge_briefengagementid,ge_nurturestage,ge_suppressionstatus", "$filter": `ge_requestid eq ${odataString(record.id)}`, "$top": "1" });
   const existingResult = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
   const existing = (await existingResult.json()).value?.[0] || null;
-  const body = buildDataverseEngagement(record, !existing);
+  const body = buildDataverseEngagement(record, !existing, contactId);
   if (existing?.ge_briefengagementid) {
     await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${existing.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(body) });
-    return { contactId, engagementId: existing.ge_briefengagementid, created: false };
+    return { contactId, engagementId: existing.ge_briefengagementid, created: false, identityStatus };
   }
   try {
     const result = await dataverseRequest(DATAVERSE_ENTITY_SET, { method: "POST", body: JSON.stringify(body) });
     const entityId = result.headers.get("odata-entityid") || "";
     const match = entityId.match(new RegExp(`${DATAVERSE_ENTITY_SET}\\(([^)]+)\\)`, "i"));
-    return { contactId, engagementId: match?.[1] || null, created: true };
+    return { contactId, engagementId: match?.[1] || null, created: true, identityStatus };
   } catch (error) {
     // The alternate key on ge_requestid makes retries idempotent. If another
     // invocation won the create race, update that row rather than duplicating it.
@@ -805,11 +897,47 @@ async function syncDataverse(record) {
       const retryResult = await dataverseRequest(`${DATAVERSE_ENTITY_SET}?${params}`);
       const retry = (await retryResult.json()).value?.[0];
       if (retry?.ge_briefengagementid) {
-        await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${retry.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(buildDataverseEngagement(record, false)) });
-        return { contactId, engagementId: retry.ge_briefengagementid, created: false };
+        await dataverseRequest(`${DATAVERSE_ENTITY_SET}(${retry.ge_briefengagementid})`, { method: "PATCH", headers: { "If-Match": "*" }, body: JSON.stringify(buildDataverseEngagement(record, false, contactId)) });
+        return { contactId, engagementId: retry.ge_briefengagementid, created: false, identityStatus };
       }
     }
     throw error;
+  }
+}
+
+function dataverseRetryState(attempts = 0, now = Date.now()) {
+  const normalizedAttempts = Number.isInteger(attempts) && attempts >= 0 ? attempts : 0;
+  const delay = normalizedAttempts === 0
+    ? 0
+    : Math.min(DATAVERSE_RETRY_MAX_DELAY_MS, 60_000 * (2 ** Math.min(normalizedAttempts - 1, 9)));
+  return {
+    status: "pending",
+    attempts: normalizedAttempts,
+    nextAttemptAt: new Date(now + delay).toISOString(),
+  };
+}
+
+function applyDataverseResult(record, result, attempts = 0, now = new Date()) {
+  if (result?.contactId) record.dataverseContactId = result.contactId;
+  if (result?.engagementId) record.dataverseEngagementId = result.engagementId;
+  record.dataverseSync = {
+    status: result?.identityStatus === "ambiguous" ? "needs_review" : "synced",
+    attempts,
+    ...(result?.identityStatus === "ambiguous" ? { identityStatus: "ambiguous" } : {}),
+    syncedAt: now.toISOString(),
+  };
+}
+
+async function syncContactDataverseRecord(record, sync = syncDataverse, now = new Date(), context) {
+  const attempts = Number.isInteger(record.dataverseSync?.attempts) && record.dataverseSync.attempts >= 0 ? record.dataverseSync.attempts : 0;
+  try {
+    const dataverse = await sync(record);
+    applyDataverseResult(record, dataverse, attempts, now);
+    return true;
+  } catch (error) {
+    record.dataverseSync = { ...dataverseRetryState(attempts + 1, now.getTime()), lastError: safeErrorCode(error) };
+    context?.error?.("Contact Dataverse retry failed", { id: record.id, attempts: attempts + 1, error: safeErrorCode(error) });
+    return false;
   }
 }
 
@@ -829,6 +957,7 @@ async function updateDataverseEngagement(record, fields) {
 }
 
 async function notifyNurtureBridge(record) {
+  if (record.kind === "principal-dialogue") return null;
   const dataverse = await syncDataverse(record);
   const config = await nurtureWebhookConfig();
   if (!config) return dataverse;
@@ -973,7 +1102,9 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const name = clean(body.name, 160);
   const title = clean(body.title, 160);
   const organization = clean(body.organization, 200);
-  const contextValue = displayFormValue(body.conversation_context || body.context, "context");
+  const contactTaxonomy = parseContactTaxonomy(body);
+  const readerRole = contactTaxonomy?.readerRoleLabel || "";
+  const contextValue = contactTaxonomy?.conversationContextLabel || "";
   const mandate = cleanMultiline(body.mandate, 4000);
   const decisionHorizon = displayFormValue(body.decision_horizon, "decision_horizon");
   const systemScale = displayFormValue(body.system_scale, "system_scale");
@@ -981,7 +1112,7 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
   const sourceUrl = sanitizeSourceUrl(body.source_url || request.headers.get("referer"));
   const remoteIp = clientIp(request);
 
-  if (!name || !title || !organization || !contextValue || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
+  if (!name || !title || !organization || !contactTaxonomy || mandate.length < 20 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || consent !== "yes") {
     return response(400, "Please provide the required dialogue context and consent.", headers);
   }
   if (!(await verifyTurnstile(clean(body["cf-turnstile-response"], 4096), remoteIp))) return response(400, "Please complete the verification challenge.", headers);
@@ -999,11 +1130,15 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
     id,
     createdAt: now.toISOString(),
     kind: "principal-dialogue",
+    report: "Principal dialogue",
+    reportSlug: "principal-dialogue",
+    formKind: "principal-dialogue",
     email,
     name,
     title,
     organization,
     context: contextValue,
+    qualification: contactTaxonomy,
     mandate,
     decisionHorizon,
     systemScale,
@@ -1022,11 +1157,14 @@ async function contactRequest(request, context, parsedBodyOverride = null) {
     return response(503, "We received the request but could not route the email yet. Please try again shortly.", headers);
   }
 
+  record.dataverseSync = dataverseRetryState(0, now.getTime());
   if (dataverseConfigured()) {
     try {
-      record.dataverseContactId = await upsertDataverseContact({ email, name, qualification: { role: title } });
+      const dataverse = await syncDataverse(record);
+      applyDataverseResult(record, dataverse, 0);
     } catch (error) {
       context.error("Contact Dataverse sync failed", { id, error: safeErrorCode(error) });
+      record.dataverseSync = { ...dataverseRetryState(1), lastError: safeErrorCode(error) };
     }
   }
   await writeJson(contactPath, record);
@@ -1094,7 +1232,7 @@ async function nurtureSweep(context) {
     const leadBlob = container.getBlockBlobClient(item.name);
     await withExistingBlobLease(leadBlob, async (leaseId) => {
       const record = await readJson(item.name);
-      if (!record || record.nurture?.status !== "active" || record.delivery?.status !== "sent") return;
+      if (!record || record.kind === "principal-dialogue" || record.nurture?.status !== "active" || record.delivery?.status !== "sent") return;
       if (!record.nurture.nextStage || record.nurture.nextStage > record.nurture.stages.length) return;
       const stage = record.nurture.stages.find((candidate) => candidate.stage === record.nurture.nextStage);
       if (!stage || stage.sentAt || Date.parse(stage.dueAt) > now) return;
@@ -1120,10 +1258,29 @@ async function nurtureSweep(context) {
   }
 }
 
+async function contactDataverseSweep(context) {
+  if (!container || !dataverseConfigured()) return;
+  const now = Date.now();
+  for await (const item of container.listBlobsFlat({ prefix: "contacts/" })) {
+    if (!item.name.endsWith(".json")) continue;
+    const contactBlob = container.getBlockBlobClient(item.name);
+    await withExistingBlobLease(contactBlob, async (leaseId) => {
+      const record = await readJson(item.name);
+      if (!record || record.kind !== "principal-dialogue" || record.delivery?.status !== "sent") return;
+      if (["synced", "needs_review"].includes(record.dataverseSync?.status)) return;
+      const nextAttemptAt = Date.parse(record.dataverseSync?.nextAttemptAt || "");
+      if (Number.isFinite(nextAttemptAt) && nextAttemptAt > now) return;
+      await syncContactDataverseRecord(record, syncDataverse, new Date(now), context);
+      await writeJson(item.name, record, { leaseId });
+    });
+  }
+}
+
 app.http("briefRequest", { methods: ["POST", "OPTIONS"], authLevel: "anonymous", route: "brief-request", handler: briefRequest });
 app.http("contactRequest", { methods: ["POST", "OPTIONS"], authLevel: "anonymous", route: "contact-request", handler: contactRequest });
 app.http("unsubscribe", { methods: ["GET", "POST", "OPTIONS"], authLevel: "anonymous", route: "unsubscribe", handler: unsubscribe });
 app.http("health", { methods: ["GET"], authLevel: "anonymous", route: "health", handler: health });
 app.timer("nurtureSweep", { schedule: "0 0 * * *", handler: nurtureSweep, runOnStartup: false, useMonitor: true });
+app.timer("contactDataverseSweep", { schedule: "0 */15 * * * *", handler: contactDataverseSweep, runOnStartup: false, useMonitor: true });
 
-export { briefRequest, contactRequest, displayFormValue, health, isCorporateEmail, nurtureSweep, renderContactEmail, renderEmail, unsubscribe };
+export { briefRequest, buildDataverseContactFields, buildDataverseEngagement, contactDataverseSweep, contactRequest, dataverseRetryState, displayFormValue, health, isCorporateEmail, nurtureSweep, parseContactTaxonomy, renderContactEmail, renderEmail, selectDataverseContact, syncContactDataverseRecord, unsubscribe };

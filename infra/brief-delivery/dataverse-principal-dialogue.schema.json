@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://globalenterprise.com/infra/brief-delivery/dataverse-principal-dialogue.schema.json",
+  "title": "Global Enterprise principal-dialogue Dataverse projection",
+  "description": "Minimal internal projection for a principal-dialogue request. This contract is intentionally separate from the report-specific brief.requested contract and never starts report nurture.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "eventType", "eventId", "occurredAt", "person", "engagement"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "eventType": { "const": "principal-dialogue.requested" },
+    "eventId": { "type": "string", "format": "uuid", "maxLength": 80 },
+    "occurredAt": { "type": "string", "format": "date-time", "maxLength": 40 },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["email", "name", "title", "organization"],
+      "properties": {
+        "email": { "type": "string", "format": "email", "maxLength": 320 },
+        "name": { "type": "string", "maxLength": 160 },
+        "title": { "type": "string", "maxLength": 160 },
+        "organization": { "type": "string", "maxLength": 200 },
+        "emailHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "engagement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requestId", "reportKey", "reportTitle", "readerRole", "conversationContext", "consent", "delivery"],
+      "properties": {
+        "requestId": { "type": "string", "format": "uuid", "maxLength": 80 },
+        "reportKey": { "const": "principal-dialogue" },
+        "reportTitle": { "const": "Principal dialogue" },
+        "readerRole": { "type": "string", "pattern": "^[a-z0-9_-]{1,120}$" },
+        "conversationContext": { "type": "string", "pattern": "^[a-z0-9_-]{1,200}$" },
+        "sourceUrl": { "type": ["string", "null"], "format": "uri", "maxLength": 500 },
+        "consent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["granted", "scope", "capturedAt"],
+          "properties": {
+            "granted": { "const": true },
+            "scope": { "const": "principal-dialogue" },
+            "capturedAt": { "type": "string", "format": "date-time", "maxLength": 40 }
+          }
+        },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "properties": {
+            "status": { "enum": ["pending", "sent", "failed"] },
+            "sentAt": { "type": ["string", "null"], "format": "date-time", "maxLength": 40 }
+          }
+        }
+      }
+    }
+  }
+}
