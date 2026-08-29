@@ -17,11 +17,38 @@ pages:
     SITE_DIR: "dist/."
     PAGES_BASE_PATH: "/globalenterprise"
 
-# The shared mirror job runs from GitLab's detached CI checkout and must push
-# exactly CI_COMMIT_SHA to GitHub. The GitLab release handoff also supplies a
-# signed assertion to the GitHub Pages workflow; the workflow rejects a mirror
-# unless that assertion binds this commit, ref, repository, pipeline, and job.
-# Materialize that branch locally so the mirror can publish it.
+# The mirror pushes the exact GitLab gh-pages commit and then an immutable,
+# per-run signed tag. GitHub Pages deploys only from that tag, so a branch push
+# without a GitLab-issued receipt cannot enter production.
 mirror:
+  image: harbor.focuscell.org/dockerhub-proxy/alpine/git:v2.52.0
   before_script:
-    - git branch -f gh-pages "$CI_COMMIT_SHA"
+    - apk add --no-cache curl openssl
+    - test -n "$GITHUB_TOKEN"
+    - test -n "$GITLAB_PROVENANCE_PRIVATE_KEY_B64"
+  script:
+    - |
+      set -eu
+      release_tag="release-provenance-${CI_COMMIT_SHA}-${CI_PIPELINE_ID}-${CI_JOB_ID}"
+      assertion="{\"issuer\":\"gitlab-ci\",\"job_id\":\"${CI_JOB_ID}\",\"pipeline_id\":\"${CI_PIPELINE_ID}\",\"ref\":\"refs/heads/${CI_COMMIT_REF_NAME}\",\"repository\":\"${CI_PROJECT_PATH}\",\"sha\":\"${CI_COMMIT_SHA}\",\"version\":1}"
+      key_file="$(mktemp)"
+      assertion_file="$(mktemp)"
+      signature_file="$(mktemp)"
+      trap 'rm -f "$key_file" "$assertion_file" "$signature_file"' EXIT
+      umask 077
+      printf '%s' "$GITLAB_PROVENANCE_PRIVATE_KEY_B64" | base64 -d > "$key_file"
+      printf '%s' "$assertion" > "$assertion_file"
+      openssl pkeyutl -sign -inkey "$key_file" -in "$assertion_file" -out "$signature_file"
+      signature="$(base64 < "$signature_file" | tr -d '\n=' | tr '+/' '-_')"
+      git remote add github "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" 2>/dev/null || git remote set-url github "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git"
+      # GitLab checks out protected branch pipelines detached. Push the exact
+      # commit SHA to the destination ref instead of assuming a local branch
+      # exists in that runner.
+      # Keep the destination branch append-only. A divergence is a release
+      # incident to investigate, not a reason for CI to erase the remote ref.
+      git push github "${CI_COMMIT_SHA}:refs/heads/gh-pages"
+      git tag -a "$release_tag" "$CI_COMMIT_SHA" -m "provenance-assertion=$assertion" -m "provenance-signature=$signature"
+      git push github "$release_tag"
+      echo "Mirrored gh-pages and published signed release tag for ${CI_COMMIT_SHA}"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "gh-pages" && $CI_COMMIT_REF_PROTECTED == "true"'

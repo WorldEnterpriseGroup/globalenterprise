@@ -8,6 +8,8 @@ const expectedRepository = process.env.GITLAB_REPOSITORY_PATH?.trim() || "WorldE
 const releaseBranch = process.env.GITLAB_RELEASE_BRANCH?.trim() || "gh-pages";
 const releaseSha = (process.env.RELEASE_SHA || "").trim().toLowerCase();
 const githubRef = process.env.GITHUB_REF_NAME?.trim();
+const githubRefType = process.env.GITHUB_REF_TYPE?.trim();
+const githubEvent = process.env.GITHUB_EVENT_NAME?.trim();
 const provenanceMode = process.env.GITLAB_PROVENANCE_MODE?.trim() || "remote";
 
 if (!/^[0-9a-f]{40}$/.test(releaseSha)) {
@@ -35,8 +37,24 @@ async function remoteBranchSha(branch) {
 }
 
 function verifyGithubRef(required = false) {
+  if (provenanceMode === "mirror") {
+    if (githubRefType === "tag") {
+      const match = githubRef?.match(/^release-provenance-([0-9a-f]{40})-[1-9][0-9]*-[1-9][0-9]*$/i);
+      if (!match || match[1].toLowerCase() !== releaseSha) {
+        console.error(`✗ GitHub provenance tag ${githubRef || "(missing)"} does not bind ${releaseSha}`);
+        return false;
+      }
+      return true;
+    }
+    if (githubEvent === "workflow_dispatch" && githubRef === releaseBranch) return true;
+    if (required) {
+      console.error(`✗ GitHub mirror ref must be a signed release tag or a manual ${releaseBranch} dispatch`);
+      return false;
+    }
+    return true;
+  }
   if (!githubRef && required) {
-    console.error(`✗ GitHub ref is missing; expected ${releaseBranch} in mirror mode`);
+    console.error(`✗ GitHub ref is missing; expected ${releaseBranch}`);
     return false;
   }
   if (githubRef && githubRef !== releaseBranch) {

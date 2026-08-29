@@ -1,6 +1,43 @@
 const apiBase = "https://api.cloudflare.com/client/v4";
 const phase = "http_response_headers_transform";
-const zoneName = process.env.CLOUDFLARE_ZONE_NAME?.trim() || "globalenterprise.com";
+const siteProfile = process.env.CLOUDFLARE_SITE_PROFILE?.trim() || "globalenterprise";
+const siteConfigurations = {
+  globalenterprise: {
+    zoneName: "globalenterprise.com",
+    ruleRef: "globalenterprise-security-headers",
+    ruleDescription: "Apply the repository public/_headers security contract at the Cloudflare edge.",
+    headers: {
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "X-Permitted-Cross-Domain-Policies": "none",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+      "X-Frame-Options": "SAMEORIGIN",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "same-origin",
+      "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io https://static.cloudflareinsights.com; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io https://cloudflareinsights.com; manifest-src 'self'; upgrade-insecure-requests",
+    },
+  },
+  hardmagic: {
+    zoneName: "hardmagic.com",
+    ruleRef: "hardmagic-security-headers",
+    ruleDescription: "Apply the HardMagic public/_headers security contract at the Cloudflare edge.",
+    headers: {
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "X-Permitted-Cross-Domain-Policies": "none",
+      "Permissions-Policy": "accelerometer=(), camera=(), clipboard-read=(), clipboard-write=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), publickey-credentials-get=(), usb=(), xr-spatial-tracking=(), autoplay=(self \"https://www.youtube-nocookie.com\"), fullscreen=(self \"https://www.youtube-nocookie.com\"), picture-in-picture=(self \"https://www.youtube-nocookie.com\")",
+      "X-Frame-Options": "DENY",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "same-origin",
+      "Content-Security-Policy": "default-src 'none'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://briefs.hardmagic.com; script-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://challenges.cloudflare.com; font-src 'self'; media-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://cloudflareinsights.com https://*.cloudflareinsights.com; frame-src 'self' https://challenges.cloudflare.com https://www.youtube-nocookie.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests",
+    },
+  },
+};
+const siteConfiguration = siteConfigurations[siteProfile];
+if (!siteConfiguration) throw new Error(`Unknown CLOUDFLARE_SITE_PROFILE ${siteProfile}; expected ${Object.keys(siteConfigurations).join(" or ")}.`);
+const zoneName = process.env.CLOUDFLARE_ZONE_NAME?.trim() || siteConfiguration.zoneName;
 const token = process.env.CLOUDFLARE_API_TOKEN?.trim();
 const configuredZoneId = process.env.CLOUDFLARE_ZONE_ID?.trim();
 const dryRun = process.argv.includes("--dry-run");
@@ -16,21 +53,9 @@ const globalHeaders = {
   "X-Permitted-Cross-Domain-Policies": "none",
 };
 
-const siteHeaders = {
-  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  ...globalHeaders,
-  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
-  "X-Frame-Options": "SAMEORIGIN",
-  "Cross-Origin-Opener-Policy": "same-origin",
-  "Cross-Origin-Resource-Policy": "same-origin",
-  "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io https://static.cloudflareinsights.com; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io https://cloudflareinsights.com; manifest-src 'self'; upgrade-insecure-requests",
-};
-
-const ruleRef = allZones ? "worldenterprise-global-security-baseline" : "globalenterprise-security-headers";
-const ruleDescription = allZones
-  ? "Apply the domain-neutral security baseline across active Cloudflare zones."
-  : "Apply the repository public/_headers security contract at the Cloudflare edge.";
-const edgeHeaders = allZones ? globalHeaders : siteHeaders;
+const ruleRef = allZones ? "worldenterprise-global-security-baseline" : siteConfiguration.ruleRef;
+const ruleDescription = allZones ? "Apply the domain-neutral security baseline across active Cloudflare zones." : siteConfiguration.ruleDescription;
+const edgeHeaders = allZones ? globalHeaders : siteConfiguration.headers;
 const headerParameters = Object.fromEntries(Object.entries(edgeHeaders).map(([name, value]) => [name, { operation: "set", value }]));
 const desiredRule = {
   ref: ruleRef,
@@ -43,7 +68,7 @@ const desiredRule = {
 function usageMessage() {
   return allZones
     ? "Cloudflare global edge security dry run; no API request made. Use --all-zones with a token to apply the baseline to every active zone."
-    : `Cloudflare edge security dry run for ${zoneName}; no API request made.`;
+    : `Cloudflare ${siteProfile} edge security dry run for ${zoneName}; no API request made.`;
 }
 
 if (dryRun && !token) {
@@ -152,7 +177,7 @@ async function upsertZone(zone) {
 
   if (!existing) {
     const payload = {
-      name: allZones ? "World Enterprise global security response headers" : "Global Enterprise security response headers",
+      name: allZones ? "World Enterprise global security response headers" : `${siteProfile} security response headers`,
       description: ruleDescription,
       kind: "zone",
       phase,

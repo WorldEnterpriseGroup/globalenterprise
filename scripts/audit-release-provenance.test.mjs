@@ -36,7 +36,9 @@ function runAudit(overrides = {}) {
   const environment = {
     ...process.env,
     GITHUB_ACTIONS: "true",
-    GITHUB_REF_NAME: "gh-pages",
+    GITHUB_REF_NAME: `release-provenance-${releaseSha}-1001-2002`,
+    GITHUB_REF_TYPE: "tag",
+    GITHUB_EVENT_NAME: "push",
     GITLAB_PROVENANCE_MODE: "mirror",
     RELEASE_SHA: releaseSha,
     GITLAB_PROVENANCE_ASSERTION: JSON.stringify(assertion),
@@ -83,4 +85,10 @@ test("rejects arbitrary GitHub SHA provenance", async () => {
   const result = await runAudit({ RELEASE_SHA: undefined, GITHUB_SHA: "c".repeat(40), GITLAB_PROVENANCE_ASSERTION: undefined, GITLAB_PROVENANCE_SIGNATURE: undefined });
   assert.notEqual(result.code, 0);
   assert.match(result.stderr, /explicit RELEASE_SHA/);
+});
+
+test("rejects a signed assertion delivered from the wrong GitHub tag", async () => {
+  const result = await runAudit({ GITHUB_REF_NAME: `release-provenance-${"b".repeat(40)}-1001-2002` });
+  assert.notEqual(result.code, 0);
+  assert.match(result.stderr, /does not bind/);
 });
