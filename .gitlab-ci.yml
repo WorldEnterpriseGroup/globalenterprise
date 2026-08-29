@@ -21,12 +21,11 @@ pages:
 # per-run signed tag. GitHub Pages deploys only from that tag, so a branch push
 # without a GitLab-issued receipt cannot enter production.
 mirror:
-  # alpine/git runs as an unprivileged user, which prevents the job from
-  # installing its signing dependencies. Use the root Alpine base explicitly
-  # and install only the three tools this bounded mirror job needs.
-  image: harbor.focuscell.org/dockerhub-proxy/library/alpine:3.22
+  # The GitLab runner enforces an unprivileged/read-only container. The Azure
+  # CLI image already carries git, OpenSSL, base64, and the shell utilities
+  # needed by this bounded signing job, so it needs no package installation.
+  image: mcr.microsoft.com/azure-cli:2.89.0
   before_script:
-    - apk add --no-cache curl openssl
     - test -n "$GITHUB_TOKEN"
     - test -n "$GITLAB_PROVENANCE_PRIVATE_KEY_B64"
   script:
