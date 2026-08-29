@@ -47,6 +47,8 @@ mirror:
       # OpenSSL 3.3 requires raw-input mode for Ed25519 signatures.
       openssl pkeyutl -sign -rawin -inkey "$key_file" -in "$assertion_file" -out "$signature_file"
       signature="$(base64 < "$signature_file" | tr -d '\n=' | tr '+/' '-_')"
+      git config user.name "Codex Release Bot"
+      git config user.email "codex-release@users.noreply.github.com"
       git remote add github "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" 2>/dev/null || git remote set-url github "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git"
       # GitLab checks out protected branch pipelines detached. Push the exact
       # commit SHA to the destination ref instead of assuming a local branch
