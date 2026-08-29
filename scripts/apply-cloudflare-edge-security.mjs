@@ -1,6 +1,43 @@
 const apiBase = "https://api.cloudflare.com/client/v4";
 const phase = "http_response_headers_transform";
-const zoneName = process.env.CLOUDFLARE_ZONE_NAME?.trim() || "globalenterprise.com";
+const siteProfile = process.env.CLOUDFLARE_SITE_PROFILE?.trim() || "globalenterprise";
+const siteConfigurations = {
+  globalenterprise: {
+    zoneName: "globalenterprise.com",
+    ruleRef: "globalenterprise-security-headers",
+    ruleDescription: "Apply the repository public/_headers security contract at the Cloudflare edge.",
+    headers: {
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "X-Permitted-Cross-Domain-Policies": "none",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+      "X-Frame-Options": "SAMEORIGIN",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "same-origin",
+      "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io https://static.cloudflareinsights.com; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io https://cloudflareinsights.com; manifest-src 'self'; upgrade-insecure-requests",
+    },
+  },
+  hardmagic: {
+    zoneName: "hardmagic.com",
+    ruleRef: "hardmagic-security-headers",
+    ruleDescription: "Apply the HardMagic public/_headers security contract at the Cloudflare edge.",
+    headers: {
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "X-Permitted-Cross-Domain-Policies": "none",
+      "Permissions-Policy": "accelerometer=(), camera=(), clipboard-read=(), clipboard-write=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), publickey-credentials-get=(), usb=(), xr-spatial-tracking=(), autoplay=(self \"https://www.youtube-nocookie.com\"), fullscreen=(self \"https://www.youtube-nocookie.com\"), picture-in-picture=(self \"https://www.youtube-nocookie.com\")",
+      "X-Frame-Options": "DENY",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "same-origin",
+      "Content-Security-Policy": "default-src 'none'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://briefs.hardmagic.com; script-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://challenges.cloudflare.com; font-src 'self'; media-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://cloudflareinsights.com https://*.cloudflareinsights.com; frame-src 'self' https://challenges.cloudflare.com https://www.youtube-nocookie.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests",
+    },
+  },
+};
+const siteConfiguration = siteConfigurations[siteProfile];
+if (!siteConfiguration) throw new Error(`Unknown CLOUDFLARE_SITE_PROFILE ${siteProfile}; expected ${Object.keys(siteConfigurations).join(" or ")}.`);
+const zoneName = process.env.CLOUDFLARE_ZONE_NAME?.trim() || siteConfiguration.zoneName;
 const token = process.env.CLOUDFLARE_API_TOKEN?.trim();
 const configuredZoneId = process.env.CLOUDFLARE_ZONE_ID?.trim();
 const dryRun = process.argv.includes("--dry-run");
@@ -16,34 +53,23 @@ const globalHeaders = {
   "X-Permitted-Cross-Domain-Policies": "none",
 };
 
-const siteHeaders = {
-  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  ...globalHeaders,
-  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
-  "X-Frame-Options": "SAMEORIGIN",
-  "Cross-Origin-Opener-Policy": "same-origin",
-  "Cross-Origin-Resource-Policy": "same-origin",
-  "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io; manifest-src 'self'; upgrade-insecure-requests",
-};
-
-const ruleRef = allZones ? "worldenterprise-global-security-baseline" : "globalenterprise-security-headers";
-const ruleDescription = allZones
-  ? "Apply the domain-neutral security baseline across active Cloudflare zones."
-  : "Apply the repository public/_headers security contract at the Cloudflare edge.";
-const edgeHeaders = allZones ? globalHeaders : siteHeaders;
+const ruleRef = allZones ? "worldenterprise-global-security-baseline" : siteConfiguration.ruleRef;
+const ruleDescription = allZones ? "Apply the domain-neutral security baseline across active Cloudflare zones." : siteConfiguration.ruleDescription;
+const edgeHeaders = allZones ? globalHeaders : siteConfiguration.headers;
 const headerParameters = Object.fromEntries(Object.entries(edgeHeaders).map(([name, value]) => [name, { operation: "set", value }]));
 const desiredRule = {
   ref: ruleRef,
   description: ruleDescription,
   expression: "true",
   action: "rewrite",
+  enabled: true,
   action_parameters: { headers: headerParameters },
 };
 
 function usageMessage() {
   return allZones
     ? "Cloudflare global edge security dry run; no API request made. Use --all-zones with a token to apply the baseline to every active zone."
-    : `Cloudflare edge security dry run for ${zoneName}; no API request made.`;
+    : `Cloudflare ${siteProfile} edge security dry run for ${zoneName}; no API request made.`;
 }
 
 if (dryRun && !token) {
@@ -110,16 +136,6 @@ async function resolveNamedZone() {
   return zone;
 }
 
-function rulesetPayload(detail, rules) {
-  return {
-    name: detail.name ?? (allZones ? "World Enterprise global security response headers" : "Global Enterprise security response headers"),
-    description: detail.description ?? ruleDescription,
-    kind: detail.kind ?? "zone",
-    phase: detail.phase ?? phase,
-    rules,
-  };
-}
-
 function stableStringify(value) {
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
   if (value && typeof value === "object") {
@@ -133,13 +149,36 @@ function ruleMatches(currentRule) {
   return stableStringify(comparable) === stableStringify(desiredRule);
 }
 
+function ruleFingerprints(rules) {
+  return rules.map((rule) => stableStringify(rule));
+}
+
+function assertPostMutation(detail, expectedNonOwnedRules) {
+  const rules = Array.isArray(detail?.rules) ? detail.rules : [];
+  const ownedRules = rules.filter((rule) => rule.ref === ruleRef);
+  if (ownedRules.length !== 1 || !ruleMatches(ownedRules[0])) {
+    throw new Error(`Cloudflare post-mutation verification found an invalid ${ruleRef} rule`);
+  }
+
+  const actualNonOwnedRules = rules.filter((rule) => rule.ref !== ruleRef);
+  if (stableStringify(ruleFingerprints(actualNonOwnedRules)) !== stableStringify(ruleFingerprints(expectedNonOwnedRules))) {
+    throw new Error("Cloudflare post-mutation verification found a changed non-owned rule");
+  }
+  return detail;
+}
+
+async function verifyPostMutation(zone, rulesetId, expectedNonOwnedRules) {
+  const detail = await cloudflareResult(`/zones/${zone.id}/rulesets/${rulesetId}`);
+  return assertPostMutation(detail, expectedNonOwnedRules);
+}
+
 async function upsertZone(zone) {
   const rulesets = await cloudflareResult(`/zones/${zone.id}/rulesets?phase=${phase}&per_page=50`);
   const existing = (rulesets ?? []).find((ruleset) => ruleset.phase === phase && (ruleset.kind === "zone" || !ruleset.kind));
 
   if (!existing) {
     const payload = {
-      name: allZones ? "World Enterprise global security response headers" : "Global Enterprise security response headers",
+      name: allZones ? "World Enterprise global security response headers" : `${siteProfile} security response headers`,
       description: ruleDescription,
       kind: "zone",
       phase,
@@ -147,25 +186,45 @@ async function upsertZone(zone) {
     };
     if (dryRun) return { zone: zone.name, action: "create", ruleset: payload };
     const created = await cloudflareResult(`/zones/${zone.id}/rulesets`, { method: "POST", body: JSON.stringify(payload) });
-    return { zone: zone.name, action: "created", id: created.id };
+    const verified = await verifyPostMutation(zone, created.id, []);
+    return { zone: zone.name, action: "created", id: verified.id ?? created.id };
   }
 
   const detail = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}`);
   const rules = Array.isArray(detail.rules) ? [...detail.rules] : [];
-  const ruleIndex = rules.findIndex((rule) => rule.ref === ruleRef);
-  const currentRule = ruleIndex === -1 ? undefined : rules[ruleIndex];
+  const ownedRules = rules.filter((rule) => rule.ref === ruleRef);
+  if (ownedRules.length > 1) throw new Error(`Cloudflare ruleset contains multiple ${ruleRef} rules; refusing an ambiguous mutation`);
+  const currentRule = ownedRules[0];
+  const ruleIndex = currentRule ? rules.indexOf(currentRule) : -1;
 
   if (currentRule && ruleMatches(currentRule)) {
     return { zone: zone.name, action: "unchanged", id: existing.id };
   }
 
-  if (ruleIndex === -1) rules.push(desiredRule);
-  else rules[ruleIndex] = desiredRule;
+  const nonOwnedRules = rules.filter((rule) => rule.ref !== ruleRef);
+  if (dryRun) return { zone: zone.name, action: ruleIndex === -1 ? "append" : "update", id: existing.id, rules: rules.length + (ruleIndex === -1 ? 1 : 0) };
 
-  const payload = rulesetPayload(detail, rules);
-  if (dryRun) return { zone: zone.name, action: ruleIndex === -1 ? "append" : "update", id: existing.id, rules: rules.length };
-  const updated = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}`, { method: "PUT", body: JSON.stringify(payload) });
-  return { zone: zone.name, action: ruleIndex === -1 ? "appended" : "updated", id: updated.id, preservedRules: rules.length - 1 };
+  let mutationResult;
+  if (ruleIndex === -1) {
+    mutationResult = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}/rules`, {
+      method: "POST",
+      body: JSON.stringify(desiredRule),
+    });
+  } else {
+    if (!currentRule.id) throw new Error(`Cloudflare owned ${ruleRef} rule has no ID; refusing a full-ruleset fallback`);
+    mutationResult = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}/rules/${currentRule.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(desiredRule),
+    });
+  }
+
+  const verified = await verifyPostMutation(zone, existing.id, nonOwnedRules);
+  return {
+    zone: zone.name,
+    action: ruleIndex === -1 ? "appended" : "updated",
+    id: verified.id ?? mutationResult?.id ?? existing.id,
+    preservedRules: nonOwnedRules.length,
+  };
 }
 
 async function runZones(zones) {

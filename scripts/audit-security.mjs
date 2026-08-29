@@ -7,6 +7,7 @@ const securityTxtPath = new URL("public/.well-known/security.txt", root);
 const distPath = new URL("dist/", root);
 const errors = [];
 const warnings = [];
+let canonicalDocumentCsp = null;
 
 const requiredHeaders = {
   "x-content-type-options": (value) => /^nosniff$/i.test(value),
@@ -136,6 +137,7 @@ function validateStaticHeaders(source) {
   }
 
   validateHeaderSet(wildcard, "public/_headers /*");
+  canonicalDocumentCsp = wildcard.get("content-security-policy") ?? null;
   console.log(`✓ public/_headers: ${wildcard.size} headers parsed in the /* block`);
 }
 
@@ -282,7 +284,12 @@ async function validateBuiltOutput() {
       const metaCspMatch = metaCspTag?.match(/\bcontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
       const metaCsp = metaCspMatch?.[1] ?? metaCspMatch?.[2];
       if (!metaCsp) fail(`dist/${relative}: document-level Content-Security-Policy meta fallback is missing`);
-      else parseCsp(metaCsp, `dist/${relative} meta CSP`, { requireFrameAncestors: false });
+      else {
+        parseCsp(metaCsp, `dist/${relative} meta CSP`, { requireFrameAncestors: false });
+        if (canonicalDocumentCsp && metaCsp.trim() !== canonicalDocumentCsp.trim()) {
+          fail(`dist/${relative}: document-level CSP does not match the public/_headers CSP contract`);
+        }
+      }
     }
 
     for (const match of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
