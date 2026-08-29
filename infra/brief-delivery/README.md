@@ -24,7 +24,7 @@ Change the subscription explicitly if Finance or platform ownership says the Glo
 
 ## Deployment sequence
 
-Run the following from the infrastructure repository after review. Use `what-if` first; the normal infrastructure workflow should own the apply. This site repository now includes a manual GitHub Actions workflow at `.github/workflows/deploy-brief-delivery.yml` for the foundation, Function package, sender configuration, and private PDF upload. It requires OIDC variables `BRIEF_AZURE_CLIENT_ID`, `BRIEF_AZURE_TENANT_ID`, and `BRIEF_AZURE_SUBSCRIPTION_ID`; it runs only when the operator types `PROVISION` and the production environment allows it.
+Run the following from the infrastructure repository after review. Use `what-if` first; the normal infrastructure workflow should own the apply. This site repository now includes a manual GitHub Actions workflow at `.github/workflows/deploy-brief-delivery.yml` for the foundation, Function package, sender configuration, and private PDF upload. It requires OIDC variables `BRIEF_AZURE_CLIENT_ID`, `BRIEF_AZURE_TENANT_ID`, and `BRIEF_AZURE_SUBSCRIPTION_ID`; it runs only when the operator types `PROVISION` and the production environment allows it. The checked-in parameters pin the existing shared Front Door profile ID, and the workflow refuses to create the foundation when its what-if reports a resource delete.
 
 ```bash
 az deployment sub what-if \
@@ -39,6 +39,8 @@ az deployment sub create \
   --template-file infra/brief-delivery/main.bicep \
   --parameters infra/brief-delivery/parameters.example.json
 ```
+
+Because direct `azurewebsites.net` origin requests are intentionally blocked, the deployment workflow verifies the Function's management-plane state rather than curling the origin. Verify `/api/health` through the shared Front Door after its route is provisioned.
 
 After the Email Communication Service provisions its Azure-managed domain, retrieve the MailFrom address and set `ACS_SENDER_ADDRESS` on the Function App. A verified `mail.globalenterprise.com` sender should replace the Azure-managed address before a serious campaign launch; it gives recipients a recognizable sender and lets the domain's existing SPF/DKIM policy do its work.
 
@@ -65,6 +67,8 @@ The production site uses `https://briefs.globalenterprise.com/api/brief-request`
 ## Front Door integration
 
 `taodoor-standard` is shared production infrastructure and is tagged as Terraform-managed. Do not add an origin or route by hand. Add the Function hostname as a new origin in the existing infrastructure workflow, add a dedicated `briefs.globalenterprise.com` custom domain, and apply the smallest route possible:
+
+The Function origin itself accepts application traffic only when Azure Front Door supplies the `AzureFrontDoor.Backend` service tag and the `x-azure-fdid` header matches the shared profile ID in `parameters.example.json`. SCM access remains on its separate access-restriction posture.
 
 - `/api/brief-request` → Function origin, no caching;
 - `/api/contact-request` → Function origin, no caching; stores a minimal contact event, sends a branded internal notification, and resolves the requester to the Global Enterprise Account in Dream Dataverse;

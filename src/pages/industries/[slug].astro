@@ -4,6 +4,7 @@ import AudiencePathways from "@/components/AudiencePathways.astro";
 import SignalIcon from "@/components/SignalIcon.astro";
 import ControlTowerBoard from "@/components/ControlTowerBoard.astro";
 import { industries, services } from "@/data/site";
+import { industryVisuals } from "@/data/route-manifest";
 
 export function getStaticPaths() {
   return industries.map((industry) => ({
@@ -13,6 +14,8 @@ export function getStaticPaths() {
 }
 
 const { industry } = Astro.props;
+const industryVisual = industryVisuals[industry.slug];
+if (!industryVisual) throw new Error(`Missing industry visual manifest entry for ${industry.slug}`);
 const relatedServices = services.filter((service) => {
   if (industry.slug === "enterprise-ai") return ["intelligent-automation", "research-foresight", "transformation-office"].includes(service.slug);
   if (industry.slug === "frontier-intelligence-autonomous-systems") return ["research-foresight", "intelligent-automation", "cloud-data"].includes(service.slug);
@@ -49,7 +52,7 @@ const surfaceText = `${industry.description} The operating surface connects the 
 const movesTitle = `Three operating moves for ${displayIndustryTitle}.`;
 ---
 
-<Base title={title} description={description} image="/media/generated/energy-grid.avif" imageWidth={1600} imageHeight={1067} imageAlt="Operators watching an energy landscape through a control-room window">
+<Base title={title} description={description} image={industryVisual.src} imageWidth={industryVisual.width} imageHeight={industryVisual.height} imageAlt={industryVisual.alt}>
   <section class="bg-ink py-20 text-white md:py-28">
     <div class="container-site grid gap-12 lg:grid-cols-[.82fr_1.18fr] lg:items-end">
       <div>
