@@ -1,6 +1,6 @@
 include:
   - project: 'DroidOpsInc/launch-sequence'
-    ref: v0.2.5
+    ref: 7b817a720e9d89217ab74c08e8223909f51d8e26 # verified immutable Launch Sequence commit
     file: '/pipelines/static-site.yml'
 variables:
   GITHUB_REPO: "WorldEnterpriseGroup/globalenterprise"
@@ -17,8 +17,10 @@ pages:
     SITE_DIR: "dist/."
     PAGES_BASE_PATH: "/globalenterprise"
 
-# The shared mirror job is the source-side provenance gate: it runs from
-# GitLab's detached CI checkout and must push exactly CI_COMMIT_SHA to GitHub.
+# The shared mirror job runs from GitLab's detached CI checkout and must push
+# exactly CI_COMMIT_SHA to GitHub. The GitLab release handoff also supplies a
+# signed assertion to the GitHub Pages workflow; the workflow rejects a mirror
+# unless that assertion binds this commit, ref, repository, pipeline, and job.
 # Materialize that branch locally so the mirror can publish it.
 mirror:
   before_script:

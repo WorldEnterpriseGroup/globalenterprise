@@ -121,7 +121,6 @@ jobs:
     env:
       DEPLOY_APPROVED: "true"
       IMAGE_TAG: ${{ inputs.image_tag || github.sha }}
-      STATE_FILE: ${{ runner.temp }}/${{ matrix.service }}.state
     steps:
       - name: Check out source
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
@@ -139,6 +138,8 @@ jobs:
           name: node26-${{ matrix.service }}-digest
           path: ${{ runner.temp }}/digest
       - name: Deploy by digest, wait for Ready, smoke test, and rollback on failure
+        env:
+          STATE_FILE: ${{ runner.temp }}/${{ matrix.service }}.state
         run: |
           digest="$(tr -d '\r\n' < "${RUNNER_TEMP}/digest/${{ matrix.service }}.digest")"
           bash infra/node26-modernization/ci/deploy-and-smoke.sh "${{ matrix.service }}" "$digest"

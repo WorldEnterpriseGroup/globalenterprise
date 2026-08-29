@@ -5,6 +5,15 @@ on:
     # GitHub Pages is configured to accept deployments from gh-pages only.
     branches: [gh-pages]
   workflow_dispatch:
+    inputs:
+      provenance_assertion:
+        description: "Canonical signed GitLab receipt JSON for the commit being deployed"
+        required: false
+        type: string
+      provenance_signature:
+        description: "Base64url Ed25519 signature for the GitLab receipt"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -32,8 +41,14 @@ jobs:
           cache: npm
       - name: Verify mirrored release provenance
         env:
+          # RELEASE_SHA identifies the received GitHub commit; the signed
+          # GitLab receipt below is the authority for whether it may deploy.
           RELEASE_SHA: ${{ github.sha }}
           GITLAB_PROVENANCE_MODE: mirror
+          GITLAB_REPOSITORY_PATH: WorldEnterpriseGroup/globalenterprise
+          GITLAB_PROVENANCE_ASSERTION: ${{ inputs.provenance_assertion || secrets.GITLAB_PROVENANCE_ASSERTION }}
+          GITLAB_PROVENANCE_SIGNATURE: ${{ inputs.provenance_signature || secrets.GITLAB_PROVENANCE_SIGNATURE }}
+          GITLAB_PROVENANCE_PUBLIC_KEY: ${{ vars.GITLAB_PROVENANCE_PUBLIC_KEY }}
         run: npm run audit:provenance
       - name: Install dependencies
         run: npm ci

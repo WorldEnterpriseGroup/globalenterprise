@@ -23,7 +23,7 @@ const siteHeaders = {
   "X-Frame-Options": "SAMEORIGIN",
   "Cross-Origin-Opener-Policy": "same-origin",
   "Cross-Origin-Resource-Policy": "same-origin",
-  "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io; manifest-src 'self'; upgrade-insecure-requests",
+  "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src 'self'; form-action 'self' https://briefs.globalenterprise.com https://formsubmit.co; script-src 'self' https://plausible.io https://static.cloudflareinsights.com; style-src 'self'; style-src-elem 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://plausible.io https://cloudflareinsights.com; manifest-src 'self'; upgrade-insecure-requests",
 };
 
 const ruleRef = allZones ? "worldenterprise-global-security-baseline" : "globalenterprise-security-headers";
@@ -110,16 +110,6 @@ async function resolveNamedZone() {
   return zone;
 }
 
-function rulesetPayload(detail, rules) {
-  return {
-    name: detail.name ?? (allZones ? "World Enterprise global security response headers" : "Global Enterprise security response headers"),
-    description: detail.description ?? ruleDescription,
-    kind: detail.kind ?? "zone",
-    phase: detail.phase ?? phase,
-    rules,
-  };
-}
-
 function stableStringify(value) {
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
   if (value && typeof value === "object") {
@@ -131,6 +121,29 @@ function stableStringify(value) {
 function ruleMatches(currentRule) {
   const comparable = Object.fromEntries(Object.keys(desiredRule).map((key) => [key, currentRule[key]]));
   return stableStringify(comparable) === stableStringify(desiredRule);
+}
+
+function ruleFingerprints(rules) {
+  return rules.map((rule) => stableStringify(rule));
+}
+
+function assertPostMutation(detail, expectedNonOwnedRules) {
+  const rules = Array.isArray(detail?.rules) ? detail.rules : [];
+  const ownedRules = rules.filter((rule) => rule.ref === ruleRef);
+  if (ownedRules.length !== 1 || !ruleMatches(ownedRules[0])) {
+    throw new Error(`Cloudflare post-mutation verification found an invalid ${ruleRef} rule`);
+  }
+
+  const actualNonOwnedRules = rules.filter((rule) => rule.ref !== ruleRef);
+  if (stableStringify(ruleFingerprints(actualNonOwnedRules)) !== stableStringify(ruleFingerprints(expectedNonOwnedRules))) {
+    throw new Error("Cloudflare post-mutation verification found a changed non-owned rule");
+  }
+  return detail;
+}
+
+async function verifyPostMutation(zone, rulesetId, expectedNonOwnedRules) {
+  const detail = await cloudflareResult(`/zones/${zone.id}/rulesets/${rulesetId}`);
+  return assertPostMutation(detail, expectedNonOwnedRules);
 }
 
 async function upsertZone(zone) {
@@ -147,25 +160,45 @@ async function upsertZone(zone) {
     };
     if (dryRun) return { zone: zone.name, action: "create", ruleset: payload };
     const created = await cloudflareResult(`/zones/${zone.id}/rulesets`, { method: "POST", body: JSON.stringify(payload) });
-    return { zone: zone.name, action: "created", id: created.id };
+    const verified = await verifyPostMutation(zone, created.id, []);
+    return { zone: zone.name, action: "created", id: verified.id ?? created.id };
   }
 
   const detail = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}`);
   const rules = Array.isArray(detail.rules) ? [...detail.rules] : [];
-  const ruleIndex = rules.findIndex((rule) => rule.ref === ruleRef);
-  const currentRule = ruleIndex === -1 ? undefined : rules[ruleIndex];
+  const ownedRules = rules.filter((rule) => rule.ref === ruleRef);
+  if (ownedRules.length > 1) throw new Error(`Cloudflare ruleset contains multiple ${ruleRef} rules; refusing an ambiguous mutation`);
+  const currentRule = ownedRules[0];
+  const ruleIndex = currentRule ? rules.indexOf(currentRule) : -1;
 
   if (currentRule && ruleMatches(currentRule)) {
     return { zone: zone.name, action: "unchanged", id: existing.id };
   }
 
-  if (ruleIndex === -1) rules.push(desiredRule);
-  else rules[ruleIndex] = desiredRule;
+  const nonOwnedRules = rules.filter((rule) => rule.ref !== ruleRef);
+  if (dryRun) return { zone: zone.name, action: ruleIndex === -1 ? "append" : "update", id: existing.id, rules: rules.length + (ruleIndex === -1 ? 1 : 0) };
 
-  const payload = rulesetPayload(detail, rules);
-  if (dryRun) return { zone: zone.name, action: ruleIndex === -1 ? "append" : "update", id: existing.id, rules: rules.length };
-  const updated = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}`, { method: "PUT", body: JSON.stringify(payload) });
-  return { zone: zone.name, action: ruleIndex === -1 ? "appended" : "updated", id: updated.id, preservedRules: rules.length - 1 };
+  let mutationResult;
+  if (ruleIndex === -1) {
+    mutationResult = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}/rules`, {
+      method: "POST",
+      body: JSON.stringify(desiredRule),
+    });
+  } else {
+    if (!currentRule.id) throw new Error(`Cloudflare owned ${ruleRef} rule has no ID; refusing a full-ruleset fallback`);
+    mutationResult = await cloudflareResult(`/zones/${zone.id}/rulesets/${existing.id}/rules/${currentRule.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(desiredRule),
+    });
+  }
+
+  const verified = await verifyPostMutation(zone, existing.id, nonOwnedRules);
+  return {
+    zone: zone.name,
+    action: ruleIndex === -1 ? "appended" : "updated",
+    id: verified.id ?? mutationResult?.id ?? existing.id,
+    preservedRules: nonOwnedRules.length,
+  };
 }
 
 async function runZones(zones) {
