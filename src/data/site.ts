@@ -29,7 +29,7 @@ export const site = {
     plausibleDomain: "globalenterprise.com",
   },
   social: {
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/company/globalenterprise",
   },
 };
 
@@ -768,7 +768,6 @@ export const footerColumns = [
     title: "Start here",
     links: [
       { label: "Book a conversation", href: "/contact/" },
-      { label: "Capabilities", href: "/services/" },
       { label: "Solutions", href: "/solutions/" },
       { label: "Operations", href: "/operations/" },
       { label: "Proof of practice", href: "/proof/" },

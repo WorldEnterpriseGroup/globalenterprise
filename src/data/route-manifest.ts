@@ -12,6 +12,8 @@ export type VisualRecord = {
   source: "generated" | "migrated" | "code-native";
   signature: string;
   modes: string[];
+  width?: number;
+  height?: number;
 };
 
 type PhotoDefinition = Omit<VisualRecord, "kind" | "src" | "imageId" | "signature" | "modes"> & { src: string };
@@ -44,6 +46,28 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     createdAt: "2026-08-10",
     source: "generated",
   },
+  "ai-governance": {
+    src: "/media/generated/ai-governance.avif",
+    alt: "Leaders reviewing an enterprise AI governance model",
+    role: "evidence and accountability",
+    focalPoint: "people and bright screen at the right third",
+    promptIntent: "quiet executive review of an AI operating model, editorial documentary light",
+    createdAt: "2026-08-10",
+    source: "generated",
+    width: 1600,
+    height: 1067,
+  },
+  "education-future": {
+    src: "/media/generated/education-future.avif",
+    alt: "Researchers and learners collaborating in a modern space",
+    role: "capability and workforce",
+    focalPoint: "collaborators at the center with open space above",
+    promptIntent: "diverse future-of-work collaboration in a quiet learning environment",
+    createdAt: "2026-08-10",
+    source: "generated",
+    width: 1600,
+    height: 1067,
+  },
   "energy-grid": {
     src: "/media/generated/energy-grid.avif",
     alt: "Operators watching an energy landscape through a control-room window",
@@ -52,6 +76,17 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "documentary control-room view of energy infrastructure at dusk",
     createdAt: "2026-08-10",
     source: "generated",
+  },
+  "enterprise-hero": {
+    src: "/media/generated/enterprise-hero.avif",
+    alt: "Modern city skyline seen from a strategy room",
+    role: "enterprise orientation",
+    focalPoint: "horizon and city edge in the lower third",
+    promptIntent: "quiet global city at first light, sophisticated consulting editorial image",
+    createdAt: "2026-08-10",
+    source: "generated",
+    width: 1600,
+    height: 1067,
   },
   "faq-empty-room": {
     src: "/media/original/faq-empty-room.avif",
@@ -79,6 +114,17 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "migrated city photograph retained as the single home-route image",
     createdAt: "2026-08-10",
     source: "migrated",
+  },
+  "healthcare-data": {
+    src: "/media/generated/healthcare-data.avif",
+    alt: "A care team reviewing a connected clinical data signal",
+    role: "healthcare and life sciences",
+    focalPoint: "care team and clinical display in the right half",
+    promptIntent: "healthcare operations team reviewing trustworthy data, human and calm",
+    createdAt: "2026-08-10",
+    source: "generated",
+    width: 1600,
+    height: 1067,
   },
   "home-consequence-field": {
     src: "/media/original/home-consequence-field.avif",
@@ -151,6 +197,8 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "candid civic infrastructure planning photograph with paper, posture, and consequence",
     createdAt: "2026-08-10",
     source: "generated",
+    width: 1536,
+    height: 1024,
   },
   "home-global-institutions-v2": {
     src: "/media/original/home-global-institutions-v2.avif",
@@ -160,6 +208,8 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "grand documentary cityscape connecting government, enterprise, transit, and metropolitan systems",
     createdAt: "2026-08-13",
     source: "generated",
+    width: 1536,
+    height: 1024,
   },
   "home-global-digital-infrastructure-v2": {
     src: "/media/original/home-global-digital-infrastructure-v2.avif",
@@ -169,6 +219,8 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "credible aerial view of hyperscale digital, energy, logistics, and metropolitan infrastructure",
     createdAt: "2026-08-13",
     source: "generated",
+    width: 1536,
+    height: 1024,
   },
   "home-global-institution-v2": {
     src: "/media/original/home-global-institution-v2.avif",
@@ -205,6 +257,8 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "grand aerial of a global port and intermodal logistics system",
     createdAt: "2026-08-13",
     source: "generated",
+    width: 1536,
+    height: 1024,
   },
   "home-pressure-point": {
     src: "/media/original/home-pressure-point.avif",
@@ -295,6 +349,8 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     promptIntent: "wide documentary infrastructure photograph showing interconnection and resilience",
     createdAt: "2026-08-10",
     source: "generated",
+    width: 1774,
+    height: 887,
   },
   "insights-field-notes": {
     src: "/media/original/insights-field-notes.avif",
@@ -332,6 +388,17 @@ export const imageManifest: Record<string, PhotoDefinition> = {
     createdAt: "2026-08-10",
     source: "generated",
   },
+  "technology-data": {
+    src: "/media/generated/technology-data.avif",
+    alt: "A technology team working with a secure data platform",
+    role: "technology and data",
+    focalPoint: "platform display and hands in the lower right",
+    promptIntent: "technology leadership reviewing a secure data foundation, controlled light",
+    createdAt: "2026-08-10",
+    source: "generated",
+    width: 1600,
+    height: 1067,
+  },
   "work-field-visit": {
     src: "/media/original/work-field-visit.avif",
     alt: "An operations team walking through an industrial control room during a site visit",
@@ -350,6 +417,19 @@ const photo = (imageId: keyof typeof imageManifest, signature: string, modes: st
   signature,
   modes,
 });
+
+export const industryVisuals: Record<string, VisualRecord> = {
+  "enterprise-services": photo("enterprise-hero", "industry detail · enterprise system · public signal · sequence", ["orientation", "evidence", "diagram", "connection"]),
+  "healthcare-life-sciences": photo("healthcare-data", "industry detail · clinical signal · workflow · connection", ["orientation", "evidence", "diagram", "connection"]),
+  "federal-public-service": photo("home-mandate-briefing", "industry detail · public mandate · evidence · transition", ["orientation", "evidence", "sequence", "connection"]),
+  "technology-data": photo("technology-data", "industry detail · platform foundation · controls · next move", ["orientation", "evidence", "diagram", "connection"]),
+  "frontier-intelligence-autonomous-systems": photo("home-global-digital-infrastructure-v2", "industry detail · frontier system · compute · assurance", ["orientation", "evidence", "diagram", "connection"]),
+  education: photo("education-future", "industry detail · learning system · capability · adoption", ["orientation", "observation", "sequence", "connection"]),
+  "enterprise-ai": photo("ai-governance", "industry detail · AI governance · workflow · adoption", ["orientation", "evidence", "diagram", "connection"]),
+  "energy-infrastructure": photo("home-system-infrastructure", "industry detail · infrastructure continuity · dependency · resilience", ["orientation", "observation", "diagram", "connection"]),
+  "logistics-and-supply-networks": photo("home-global-port-v2", "industry detail · supply network · handoff · continuity", ["orientation", "observation", "comparison", "connection"]),
+  sled: photo("home-global-institutions-v2", "industry detail · public service · institutional trust · capability", ["orientation", "observation", "sequence", "connection"]),
+};
 
 const route = (signature: string, modes: string[], role = "authored route composition", alt = "Content-led advisory route composition"): VisualRecord => ({
   kind: "none",
@@ -398,6 +478,8 @@ export function visualForPath(pathname: string): VisualRecord {
   if (exactVisuals[normalized]) return exactVisuals[normalized];
   if (normalized.startsWith("/services/")) return route(`capability detail · ${normalized.split("/")[2]} · technical map · next move`, ["orientation", "prose", "diagram", "connection"], "capability detail");
   if (normalized.startsWith("/solutions/")) return route(`solution detail · ${normalized.split("/")[2]} · architecture · engagement`, ["orientation", "promise", "diagram", "participation"], "solution detail");
+  const industryVisual = Object.entries(industryVisuals).find(([slug]) => normalized === `/industries/${slug}/`)?.[1];
+  if (industryVisual) return industryVisual;
   if (normalized.startsWith("/industries/")) return route(`industry detail · ${normalized.split("/")[2]} · public signal · sequence`, ["orientation", "evidence", "diagram", "connection"], "industry detail");
   if (normalized.startsWith("/region/")) return route(`regional context · ${normalized.split("/")[2]} · current chapter · twenty-year roadmap · sector convergence`, ["orientation", "comparison", "sequence", "evidence", "connection"], "regional operating context", "Regional operating context for commercial, federal, and SLED leaders");
   if (normalized.startsWith("/insights/topics/")) return route(`topic index · ${normalized.split("/")[3]} · argument list · next question`, ["orientation", "index", "connection"], "topic index");
