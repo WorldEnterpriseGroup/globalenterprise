@@ -88,6 +88,8 @@ jobs:
         run: npm run audit:provenance
       - name: Install dependencies
         run: npm ci
+      - name: Run release provenance tests
+        run: node --test scripts/audit-release-provenance.test.mjs
       - name: Type and content checks
         run: npm run check
       - name: Evidence audit
