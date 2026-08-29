@@ -39,7 +39,7 @@ mirror:
       tools_root="$(mktemp -d)"
       trap 'rm -f "$key_file" "$assertion_file" "$signature_file"' EXIT
       umask 077
-      apk --root "$tools_root" --initdb --no-cache --keys-dir /etc/apk/keys --repositories-file /etc/apk/repositories add openssl >/dev/null
+      apk --usermode --root "$tools_root" --initdb --no-cache --keys-dir /etc/apk/keys --repositories-file /etc/apk/repositories add openssl >/dev/null
       export PATH="$tools_root/usr/bin:$PATH"
       export LD_LIBRARY_PATH="$tools_root/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
       printf '%s' "$GITLAB_PROVENANCE_PRIVATE_KEY_B64" | base64 -d > "$key_file"
