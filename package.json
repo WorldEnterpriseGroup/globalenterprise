@@ -16,6 +16,7 @@
     "reports:pdf": "npm run build && node scripts/generate-report-pdfs.mjs && npm run build",
     "audit:live": "node scripts/audit-live.mjs",
     "edge:security": "node scripts/apply-cloudflare-edge-security.mjs",
+    "edge:security:global": "node scripts/apply-cloudflare-edge-security.mjs --all-zones",
     "e2e:briefs": "node scripts/e2e-brief-delivery.mjs"
   },
   "dependencies": {
