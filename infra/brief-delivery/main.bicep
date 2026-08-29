@@ -21,6 +21,9 @@ param allowedOrigins array = [
   'https://www.globalenterprise.com'
 ]
 
+@description('The shared Azure Front Door profile ID (GUID) allowed to reach the Function origin.')
+param frontDoorId string
+
 @description('Set after the Azure-managed or verified custom sender domain is provisioned.')
 @secure()
 param acsSenderAddress string = ''
@@ -70,6 +73,7 @@ module briefInfrastructure 'briefs.bicep' = {
     publicSiteUrl: publicSiteUrl
     briefApiHost: briefApiHost
     allowedOrigins: allowedOrigins
+    frontDoorId: frontDoorId
     acsSenderAddress: acsSenderAddress
     turnstileSecret: turnstileSecret
     nurtureWebhookUrl: nurtureWebhookUrl

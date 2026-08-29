@@ -2,6 +2,7 @@ param location string
 param publicSiteUrl string
 param briefApiHost string
 param allowedOrigins array
+param frontDoorId string
 @secure()
 param acsSenderAddress string
 @secure()
@@ -191,6 +192,31 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
         allowedOrigins: allowedOrigins
         supportCredentials: false
       }
+      // Accept application traffic only from the shared Azure Front Door profile.
+      // Keep SCM rules independent so deployment access retains its existing posture.
+      ipSecurityRestrictions: [
+        {
+          name: 'AllowSharedAzureFrontDoor'
+          description: 'Allow only the shared Azure Front Door profile.'
+          priority: 100
+          action: 'Allow'
+          ipAddress: 'AzureFrontDoor.Backend'
+          tag: 'ServiceTag'
+          headers: {
+            'x-azure-fdid': [
+              frontDoorId
+            ]
+          }
+        }
+        {
+          name: 'DenyDirectTraffic'
+          description: 'Deny all non-Front Door traffic.'
+          priority: 2147483647
+          action: 'Deny'
+          ipAddress: '0.0.0.0/0'
+        }
+      ]
+      scmIpSecurityRestrictionsUseMain: false
       appSettings: [
         {
           name: 'AzureWebJobsStorage__accountName'
