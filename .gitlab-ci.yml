@@ -21,7 +21,10 @@ pages:
 # per-run signed tag. GitHub Pages deploys only from that tag, so a branch push
 # without a GitLab-issued receipt cannot enter production.
 mirror:
-  image: harbor.focuscell.org/dockerhub-proxy/alpine/git:v2.52.0
+  # alpine/git runs as an unprivileged user, which prevents the job from
+  # installing its signing dependencies. Use the root Alpine base explicitly
+  # and install only the three tools this bounded mirror job needs.
+  image: harbor.focuscell.org/dockerhub-proxy/library/alpine:3.22
   before_script:
     - apk add --no-cache curl openssl
     - test -n "$GITHUB_TOKEN"
