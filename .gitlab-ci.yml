@@ -21,10 +21,10 @@ pages:
 # per-run signed tag. GitHub Pages deploys only from that tag, so a branch push
 # without a GitLab-issued receipt cannot enter production.
 mirror:
-  # The GitLab runner enforces an unprivileged/read-only container. The Azure
-  # CLI image already carries git, OpenSSL, base64, and the shell utilities
-  # needed by this bounded signing job, so it needs no package installation.
-  image: mcr.microsoft.com/azure-cli:2.89.0
+  # The GitLab runner enforces an unprivileged/read-only container. The Git
+  # image supplies the VCS client; OpenSSL is installed into a temporary
+  # writable root so the job never mutates the image filesystem.
+  image: docker.io/alpine/git:v2.52.0
   before_script:
     - test -n "$GITHUB_TOKEN"
     - test -n "$GITLAB_PROVENANCE_PRIVATE_KEY_B64"
@@ -36,8 +36,12 @@ mirror:
       key_file="$(mktemp)"
       assertion_file="$(mktemp)"
       signature_file="$(mktemp)"
+      tools_root="$(mktemp -d)"
       trap 'rm -f "$key_file" "$assertion_file" "$signature_file"' EXIT
       umask 077
+      apk --root "$tools_root" --initdb --no-cache --keys-dir /etc/apk/keys --repositories-file /etc/apk/repositories add openssl >/dev/null
+      export PATH="$tools_root/usr/bin:$PATH"
+      export LD_LIBRARY_PATH="$tools_root/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
       printf '%s' "$GITLAB_PROVENANCE_PRIVATE_KEY_B64" | base64 -d > "$key_file"
       printf '%s' "$assertion" > "$assertion_file"
       # OpenSSL 3.3 requires raw-input mode for Ed25519 signatures.
