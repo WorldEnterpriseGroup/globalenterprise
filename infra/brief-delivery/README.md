@@ -40,7 +40,15 @@ az deployment sub create \
   --parameters infra/brief-delivery/parameters.example.json
 ```
 
-Because direct `azurewebsites.net` origin requests are intentionally blocked, the deployment workflow verifies the Function's management-plane state rather than curling the origin. Verify `/api/health` through the shared Front Door after its route is provisioned.
+Because direct `azurewebsites.net` origin requests are intentionally blocked, the deployment workflow verifies the Function's management-plane state and then asserts that the origin's `/api/health` request returns `403`. It also verifies that `https://briefs.globalenterprise.com/api/health` returns a healthy, configured service response and the API security contract:
+
+- `Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'`
+- `Permissions-Policy: camera=(), microphone=(), geolocation=()`
+- `Referrer-Policy: no-referrer`
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+
+This remains an intentional, manually invoked infrastructure gate in the site repository, not an automatic release job. The normal infrastructure workflow remains the owner of the production apply and the Terraform-managed Front Door route/custom domain. Do not dispatch this workflow for production unless platform ownership has explicitly designated this tracked workflow as the canonical authorized deployment path.
 
 After the Email Communication Service provisions its Azure-managed domain, retrieve the MailFrom address and set `ACS_SENDER_ADDRESS` on the Function App. A verified `mail.globalenterprise.com` sender should replace the Azure-managed address before a serious campaign launch; it gives recipients a recognizable sender and lets the domain's existing SPF/DKIM policy do its work.
 

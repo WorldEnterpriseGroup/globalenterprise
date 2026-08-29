@@ -152,6 +152,72 @@ jobs:
           echo "Brief delivery Function app did not become Running" >&2
           exit 1
 
+      - name: Verify post-deployment security posture
+        env:
+          FUNCTION_HOST: ${{ steps.outputs.outputs.function_host }}
+          FRONT_DOOR_HEALTH_URL: https://briefs.globalenterprise.com/api/health
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$FUNCTION_HOST" =~ ^https://[^/]+$ ]]; then
+            echo "Deployment output did not contain a valid HTTPS Function host" >&2
+            exit 1
+          fi
+
+          direct_origin_status="$(curl --silent --show-error --output /dev/null \
+            --write-out '%{http_code}' --max-time 30 \
+            "${FUNCTION_HOST%/}/api/health")"
+          if [[ "$direct_origin_status" != '403' ]]; then
+            echo "Direct Function origin was not denied (expected HTTP 403)" >&2
+            exit 1
+          fi
+          echo "Direct Function origin denied as expected"
+
+          front_door_headers="$RUNNER_TEMP/globalenterprise-brief-health-headers.txt"
+          front_door_body="$RUNNER_TEMP/globalenterprise-brief-health.json"
+          front_door_status="$(curl --silent --show-error \
+            --dump-header "$front_door_headers" --output "$front_door_body" \
+            --write-out '%{http_code}' --max-time 30 \
+            "$FRONT_DOOR_HEALTH_URL")"
+          if [[ "$front_door_status" != '200' ]]; then
+            echo "Front Door health endpoint was not healthy (expected HTTP 200)" >&2
+            exit 1
+          fi
+          if ! jq -e '(.ok == true) and (.configured == true) and (.service == "globalenterprise-brief-delivery")' "$front_door_body" >/dev/null; then
+            echo "Front Door health endpoint did not report the expected healthy service contract" >&2
+            exit 1
+          fi
+
+          assert_header() {
+            local name="$1"
+            local expected="$2"
+            local actual
+            actual="$(awk -v wanted="$name" '
+              {
+                line = $0
+                sub(/\r$/, "", line)
+                separator = index(line, ":")
+                if (separator > 0 && tolower(substr(line, 1, separator - 1)) == wanted) {
+                  value = substr(line, separator + 1)
+                  sub(/^[[:space:]]+/, "", value)
+                  print value
+                  exit
+                }
+              }
+            ' "$front_door_headers")"
+            if [[ "$actual" != "$expected" ]]; then
+              echo "Front Door health endpoint is missing expected $name security header" >&2
+              return 1
+            fi
+          }
+
+          assert_header 'content-security-policy' "default-src 'none'; style-src 'unsafe-inline'"
+          assert_header 'permissions-policy' 'camera=(), microphone=(), geolocation=()'
+          assert_header 'referrer-policy' 'no-referrer'
+          assert_header 'x-content-type-options' 'nosniff'
+          assert_header 'x-frame-options' 'DENY'
+          echo "Front Door health endpoint is healthy and returned the expected security headers"
+
       - name: Print next integration endpoint
         env:
           FUNCTION_HOST: ${{ steps.outputs.outputs.function_host }}
