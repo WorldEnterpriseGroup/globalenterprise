@@ -17,7 +17,7 @@ npm run build
 npm run preview
 ```
 
-The build is fully prerendered and deploys to GitHub Pages through `.github/workflows/deploy.yml`. The `public/CNAME` file preserves `globalenterprise.com` for Pages deployments. The Pages environment is intentionally gated to the `gh-pages` branch; the workflow mirrors that policy.
+The build is fully prerendered and deploys to GitHub Pages through `.github/workflows/deploy.yml`. The `public/CNAME` file preserves `globalenterprise.com` for Pages deployments. GitLab is the release authority: its protected `gh-pages` mirror job emits an Ed25519-signed `release-provenance-*` tag, and the GitHub Pages environment accepts only the protected `gh-pages` branch policy plus those signed release tags.
 
 ## Site capabilities
 

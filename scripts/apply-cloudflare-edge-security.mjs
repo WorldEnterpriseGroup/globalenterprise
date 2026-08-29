@@ -62,6 +62,7 @@ const desiredRule = {
   description: ruleDescription,
   expression: "true",
   action: "rewrite",
+  enabled: true,
   action_parameters: { headers: headerParameters },
 };
 

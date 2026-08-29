@@ -92,3 +92,9 @@ test("rejects a signed assertion delivered from the wrong GitHub tag", async () 
   assert.notEqual(result.code, 0);
   assert.match(result.stderr, /does not bind/);
 });
+
+test("rejects a tag whose pipeline/job suffix does not match the signed receipt", async () => {
+  const result = await runAudit({ GITHUB_REF_NAME: `release-provenance-${releaseSha}-1001-2003` });
+  assert.notEqual(result.code, 0);
+  assert.match(result.stderr, /pipeline\/job receipt/);
+});

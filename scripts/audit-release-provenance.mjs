@@ -36,12 +36,16 @@ async function remoteBranchSha(branch) {
   }
 }
 
-function verifyGithubRef(required = false) {
+function verifyGithubRef(required = false, assertion = null) {
   if (provenanceMode === "mirror") {
     if (githubRefType === "tag") {
-      const match = githubRef?.match(/^release-provenance-([0-9a-f]{40})-[1-9][0-9]*-[1-9][0-9]*$/i);
+      const match = githubRef?.match(/^release-provenance-([0-9a-f]{40})-([1-9][0-9]*)-([1-9][0-9]*)$/i);
       if (!match || match[1].toLowerCase() !== releaseSha) {
         console.error(`✗ GitHub provenance tag ${githubRef || "(missing)"} does not bind ${releaseSha}`);
+        return false;
+      }
+      if (assertion && (String(assertion.pipeline_id) !== match[2] || String(assertion.job_id) !== match[3])) {
+        console.error(`✗ GitHub provenance tag ${githubRef} does not bind the signed GitLab pipeline/job receipt`);
         return false;
       }
       return true;
@@ -134,10 +138,10 @@ function verifyGitlabAssertion() {
 try {
   if (provenanceMode === "mirror") {
     if (process.env.GITHUB_ACTIONS !== "true") throw new Error("mirror provenance mode is reserved for GitHub Actions");
-    if (!verifyGithubRef(true)) {
+    const assertion = verifyGitlabAssertion();
+    if (!verifyGithubRef(true, assertion)) {
       process.exitCode = 1;
     } else {
-      const assertion = verifyGitlabAssertion();
       console.log(`Release receipt: signed GitLab ${assertion.repository} ${assertion.ref} ${assertion.sha.toLowerCase()}`);
       console.log(`Release receipt: GitHub workflow ${releaseSha}`);
       console.log(`✓ Signed GitLab mirror assertion, GitHub ${releaseBranch}, and the deployment workflow agree on ${releaseSha}`);
