@@ -40,7 +40,8 @@ mirror:
       umask 077
       printf '%s' "$GITLAB_PROVENANCE_PRIVATE_KEY_B64" | base64 -d > "$key_file"
       printf '%s' "$assertion" > "$assertion_file"
-      openssl pkeyutl -sign -inkey "$key_file" -in "$assertion_file" -out "$signature_file"
+      # OpenSSL 3.3 requires raw-input mode for Ed25519 signatures.
+      openssl pkeyutl -sign -rawin -inkey "$key_file" -in "$assertion_file" -out "$signature_file"
       signature="$(base64 < "$signature_file" | tr -d '\n=' | tr '+/' '-_')"
       git remote add github "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" 2>/dev/null || git remote set-url github "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git"
       # GitLab checks out protected branch pipelines detached. Push the exact
