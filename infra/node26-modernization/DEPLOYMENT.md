@@ -16,7 +16,8 @@ The production-compatible path is an explicit `node:26.5.0-alpine` container, pi
 - Repositories: `hm-proxy`, `ringomeet-node26`, and `stripedonate-node26`.
 - App: `ringomeet-node26` → `ringomeet-node26.happyrock-d12daa4c.eastus.azurecontainerapps.io`.
 - App: `stripedonate-node26` → `stripedonate-node26.happyrock-d12daa4c.eastus.azurecontainerapps.io`.
-- Both apps: 0.25 vCPU, 0.5 GiB, minimum replicas 0, maximum replicas 2, HTTP scale rule, single active revision.
+- Both apps: 0.25 vCPU, 0.5 GiB, maximum replicas 2, HTTP scale rule, single active revision.
+- Minimum replicas: `ringomeet-node26` 0; `stripedonate-node26` **1** (since 2026-10-13, see "Stripe Donate scale" below).
 - No new Front Door was created. The existing old App Service/Function resources remain available for rollback while the caller/edge routing decision is made.
 
 This topology keeps the compute consumption-based and shares one environment and one registry. Azure Monitor is used for the environment's platform logs rather than creating a separate Log Analytics workspace. The Basic ACR is the only new fixed registry service.
@@ -79,3 +80,16 @@ The repository pipeline is designed for later releases; the current runtime imag
 ## Cutover and rollback
 
 The old `RingoMeet` App Service and `stripedonate` Function App are intentionally not deleted. No custom hostname was attached to either old resource, so their Azure-managed hostnames cannot be atomically renamed to the Container App hostnames. Before a public caller cutover, route the existing edge or caller configuration to the new hosts and test again. Keep the old resources until a soak period and a confirmed caller inventory are complete. If rollback is needed, return the caller/edge route to the old host; the old application settings and deployed artifacts remain untouched.
+
+## Stripe Donate scale (2026-10-13)
+
+`stripedonate-node26` runs with `minReplicas: 1`. Scale-to-zero never happened in practice: the Front Door origin group `stripedonate-origins` (taodoor-standard) probes `GET /readyz` every 120 seconds from each edge POP. That is about 7,000 requests/day, compared with 3–35 client requests/day forwarded by Front Door. The probes kept one replica up 24/7. With `minReplicas: 0`, every second of that replica is billed at the **active** vCPU rate, about $14/month. A replica held at its minimum count is billed at the **idle** rate ($0.000003 instead of $0.000024 per vCPU-second) whenever it is not serving a request. The expected cost is about $4–5/month, and donors no longer hit a cold start.
+
+The deploy and rollback scripts change only the image, so this setting carries over to new revisions. To set it or revert it:
+
+```bash
+az containerapp update --name stripedonate-node26 --resource-group RingoMeet \
+  --subscription 6e60a8fd-9992-4ff7-8a3e-db96b4dfed4f --min-replicas 1 --max-replicas 2
+```
+
+Scale-to-zero would bring this close to $0, but only if the Front Door health probe on that single-origin group is disabled (Microsoft's guidance for single-origin groups). That is a Front Door change and was out of scope. Stripe does not call this app: there is no webhook route, and `POST /webhook` returns 404. Ingress IP restrictions therefore do not affect Stripe. They would not lower cost either, because the probes have to be allowed.

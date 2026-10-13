@@ -2,7 +2,7 @@
 
 These two services are rebuilt as small Node 26 Alpine containers so they do not depend on Azure's built-in Windows IISNode runtime catalog. As of August 13, 2026, Node 26 is still the Node project's Current line and is scheduled to enter LTS in October; Azure Functions/App Service built-in catalogs do not expose Node 26. The container path is therefore deliberate.
 
-Both deployments should use one shared Consumption Azure Container Apps environment and one shared Basic Azure Container Registry. Keep minimum replicas at zero. Do not create another Front Door: route through the existing shared edge only after the new origins pass their direct smoke tests.
+Both deployments should use one shared Consumption Azure Container Apps environment and one shared Basic Azure Container Registry. Keep minimum replicas at zero, except `stripedonate-node26` (1, for idle billing; see DEPLOYMENT.md). Do not create another Front Door: route through the existing shared edge only after the new origins pass their direct smoke tests.
 
 ## Services
 
