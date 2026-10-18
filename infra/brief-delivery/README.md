@@ -76,7 +76,7 @@ The production site uses `https://briefs.globalenterprise.com/api/brief-request`
 
 `taodoor-standard` is shared production infrastructure and is tagged as Terraform-managed. Do not add an origin or route by hand. Add the Function hostname as a new origin in the existing infrastructure workflow, add a dedicated `briefs.globalenterprise.com` custom domain, and apply the smallest route possible:
 
-The Function origin itself accepts application traffic only when Azure Front Door supplies the `AzureFrontDoor.Backend` service tag and the `x-azure-fdid` header matches the shared profile ID in `parameters.example.json`. SCM access remains on its separate access-restriction posture.
+The Function origin itself accepts application traffic only when Azure Front Door supplies the `AzureFrontDoor.Backend` service tag and the `x-azure-fdid` header matches the shared profile ID in `parameters.example.json`. The SCM (Kudu) site is not IP-restricted, because deploys run from GitHub-hosted runners or an operator workstation with no stable egress IP. Instead basic-auth publishing is off for SCM and FTP (`basicPublishingCredentialsPolicies`) and FTP is disabled, so Kudu accepts only Microsoft Entra bearer tokens. `az functionapp deployment source config-zip` uses the Entra token automatically; for Kudu API calls send `Authorization: Bearer $(az account get-access-token --resource https://management.azure.com --query accessToken -o tsv)` (FocusApiary/infrastructure#509).
 
 - `/api/brief-request` → Function origin, no caching;
 - `/api/contact-request` → Function origin, no caching; stores a minimal contact event, sends a branded internal notification, and resolves the requester to the Global Enterprise Account in Dream Dataverse;
