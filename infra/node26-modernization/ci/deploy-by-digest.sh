@@ -54,6 +54,16 @@ if [[ -n "$front_door_id" ]]; then
   validate_guid "$front_door_id"
   env_args=(--set-env-vars "FRONT_DOOR_ID=$front_door_id")
 fi
+# Converge the allowed browser origins on every release (stripedonate only).
+cors_origins="$(service_cors_origins "$service")"
+if [[ -n "$cors_origins" ]]; then
+  validate_cors_origins "$cors_origins"
+  if (( ${#env_args[@]} > 0 )); then
+    env_args+=("CORS_ORIGINS=$cors_origins")
+  else
+    env_args=(--set-env-vars "CORS_ORIGINS=$cors_origins")
+  fi
+fi
 
 log "deploying immutable image $target_image to $app_name"
 az containerapp update \

@@ -79,6 +79,29 @@ service_front_door_id() {
   esac
 }
 
+# Browser origins allowed to call the public donate path. Declared here so a
+# deploy converges the live CORS_ORIGINS env var instead of relying on a manual
+# `az containerapp update`. Add a site here (and nowhere else) to let it donate.
+# Override with STRIPEDONATE_CORS_ORIGINS (comma-separated) for ad-hoc runs.
+STRIPEDONATE_CORS_ORIGINS="${STRIPEDONATE_CORS_ORIGINS:-https://globalenterprise.com,https://www.globalenterprise.com,https://taolearning.org,https://www.taolearning.org,https://curiositycorp.org,https://www.curiositycorp.org}"
+
+service_cors_origins() {
+  case "$1" in
+    stripedonate) printf '%s' "$STRIPEDONATE_CORS_ORIGINS" ;;
+    *) printf '' ;;
+  esac
+}
+
+validate_cors_origins() {
+  local origin
+  local -a origins
+  IFS=',' read -r -a origins <<< "$1"
+  (( ${#origins[@]} > 0 )) || fail "CORS origin list is empty"
+  for origin in "${origins[@]}"; do
+    [[ "$origin" =~ ^https://[a-z0-9]([a-z0-9.-]*[a-z0-9])?$ ]] || fail "invalid CORS origin (expected https://host, no path or wildcard): $origin"
+  done
+}
+
 validate_guid() {
   [[ "$1" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]] || fail "invalid GUID: $1"
 }
