@@ -10,6 +10,9 @@ ACR_NAME="${ACR_NAME:-acrglobalapps}"
 ACR_RESOURCE_GROUP="${ACR_RESOURCE_GROUP:-rg-hm-proxy}"
 AZURE_RESOURCE_GROUP="${AZURE_RESOURCE_GROUP:-RingoMeet}"
 AZURE_SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID:-}"
+# acrglobalapps lives in a different subscription (MCPP) than the Container Apps
+# (Microsoft Partner Network); default to the app subscription for compatibility.
+ACR_SUBSCRIPTION_ID="${ACR_SUBSCRIPTION_ID:-$AZURE_SUBSCRIPTION_ID}"
 WAIT_TIMEOUT_SECONDS="${WAIT_TIMEOUT_SECONDS:-300}"
 WAIT_INTERVAL_SECONDS="${WAIT_INTERVAL_SECONDS:-10}"
 
@@ -61,6 +64,25 @@ service_health_name() {
   esac
 }
 
+# Azure Front Door profile GUID (`frontDoorId` of taodoor-standard, rg tli_interest)
+# that fronts p.taolearning.org. The stripedonate origin refuses every request
+# that does not carry it in X-Azure-FDID (see stripedonate/server.mjs). It is an
+# identifier, not a secret; the route itself is declared in
+# FocusApiary/infrastructure terraform/environments/focushive/frontdoor-stripedonate.tf.
+# Verify with: az afd profile show -g tli_interest --profile-name taodoor-standard --query frontDoorId -o tsv
+STRIPEDONATE_FRONT_DOOR_ID="${STRIPEDONATE_FRONT_DOOR_ID:-9640fdb7-bfd5-4890-a984-5a5a7217ad3d}"
+
+service_front_door_id() {
+  case "$1" in
+    stripedonate) printf '%s' "$STRIPEDONATE_FRONT_DOOR_ID" ;;
+    *) printf '' ;;
+  esac
+}
+
+validate_guid() {
+  [[ "$1" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]] || fail "invalid GUID: $1"
+}
+
 validate_tag() {
   [[ "$1" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$ ]] || fail "invalid image tag: $1"
 }
@@ -77,7 +99,7 @@ acr_login_server() {
   require_cmd az
   local server
   local subscription_args=()
-  [[ -n "$AZURE_SUBSCRIPTION_ID" ]] && subscription_args+=(--subscription "$AZURE_SUBSCRIPTION_ID")
+  [[ -n "$ACR_SUBSCRIPTION_ID" ]] && subscription_args+=(--subscription "$ACR_SUBSCRIPTION_ID")
   server="$(az acr show --name "$ACR_NAME" --resource-group "$ACR_RESOURCE_GROUP" "${subscription_args[@]}" --query loginServer --output tsv)"
   [[ "$server" =~ ^[a-z0-9-]+\.azurecr\.io$ ]] || fail "ACR login server is not an Azure Container Registry host: $server"
   printf '%s' "$server"
@@ -89,7 +111,7 @@ acr_digest_for_tag() {
   validate_tag "$tag"
   local digest
   local subscription_args=()
-  [[ -n "$AZURE_SUBSCRIPTION_ID" ]] && subscription_args+=(--subscription "$AZURE_SUBSCRIPTION_ID")
+  [[ -n "$ACR_SUBSCRIPTION_ID" ]] && subscription_args+=(--subscription "$ACR_SUBSCRIPTION_ID")
   digest="$(az acr manifest show-metadata --registry "$ACR_NAME" --name "$repository:$tag" "${subscription_args[@]}" --query digest --output tsv)"
   validate_digest "$digest"
   printf '%s' "$digest"

@@ -34,3 +34,7 @@ Required repository configuration before activation:
 - a protected `node26-production` environment with named reviewers.
 
 The local release scripts make no Azure calls unless explicitly invoked. Do not set `DEPLOY_APPROVED=true` outside the protected deployment job.
+
+## Origin lock
+
+`stripedonate-node26` only accepts requests that carry the shared Front Door profile id in `X-Azure-FDID` (`FRONT_DOOR_ID`, set by `ci/deploy-by-digest.sh`); direct hits on the Container Apps hostname return 403. See the "Stripe Donate origin lock" section of [`DEPLOYMENT.md`](DEPLOYMENT.md).

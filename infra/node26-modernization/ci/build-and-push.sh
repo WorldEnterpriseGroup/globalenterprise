@@ -23,7 +23,7 @@ context_dir="$root_dir/$service"
 
 grep -Fq "FROM $NODE26_IMAGE" "$context_dir/Dockerfile" || fail "$service Dockerfile is not pinned to the approved Node 26 Alpine digest"
 log "logging into $ACR_NAME"
-az acr login --name "$ACR_NAME" --resource-group "$ACR_RESOURCE_GROUP" --subscription "$AZURE_SUBSCRIPTION_ID" >/dev/null
+az acr login --name "$ACR_NAME" --resource-group "$ACR_RESOURCE_GROUP" --subscription "$ACR_SUBSCRIPTION_ID" >/dev/null
 
 log "building $image"
 DOCKER_BUILDKIT=1 docker build \

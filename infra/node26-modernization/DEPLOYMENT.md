@@ -93,3 +93,16 @@ az containerapp update --name stripedonate-node26 --resource-group RingoMeet \
 ```
 
 Scale-to-zero would bring this close to $0, but only if the Front Door health probe on that single-origin group is disabled (Microsoft's guidance for single-origin groups). That is a Front Door change and was out of scope. Stripe does not call this app: there is no webhook route, and `POST /webhook` returns 404. Ingress IP restrictions therefore do not affect Stripe. They would not lower cost either, because the probes have to be allowed.
+
+## Stripe Donate origin lock (FocusApiary/infrastructure#507)
+
+`stripedonate-node26` has external Container Apps ingress, so its default hostname is reachable by anyone. The public path is `https://p.taolearning.org` -> Azure Front Door `taodoor-standard` (WAF `tliwafstandard`, rate limits). To keep the WAF and rate limits from being bypassed, the origin only serves requests that carry the Front Door profile GUID in `X-Azure-FDID`:
+
+- `stripedonate/server.mjs` returns `403 {"error":"Forbidden"}` for every route (donation POST, CORS preflight, `/healthz`, `/readyz`, unknown paths) unless `X-Azure-FDID` equals one of the GUIDs in the `FRONT_DOOR_ID` environment variable (comma-separated, case-insensitive, constant-time compare). Front Door adds this header to proxied requests and to its health probes (`/readyz`), so no path is exempt. Refusals carry no CORS headers.
+- The server refuses to start without `FRONT_DOOR_ID` unless `ALLOW_DIRECT_ACCESS=true` (local development only), so a misconfigured revision fails readiness and the deploy rolls back instead of silently serving the open origin.
+- `ci/deploy-by-digest.sh` sets `FRONT_DOOR_ID` from `ci/lib.sh` (`STRIPEDONATE_FRONT_DOOR_ID`) in the same `az containerapp update` that changes the image, and `ci/smoke-e2e.sh` proves the lock on every release (valid header: 400 validation error; missing or wrong header: POST and OPTIONS return 403).
+- The GUID is an identifier, not a secret. If the Front Door profile is ever recreated, update `STRIPEDONATE_FRONT_DOOR_ID` (check with `az afd profile show -g tli_interest --profile-name taodoor-standard --query frontDoorId -o tsv`) and redeploy.
+
+Decision: no `ipSecurityRestrictions` for the `AzureFrontDoor.Backend` service tag. Container Apps accepts CIDRs only; the tag currently expands to 157 IPv4 ranges that Microsoft changes weekly. A stale list would silently drop donation traffic, and CI runners (smoke tests) would also be blocked. The header check is therefore the control. Residual risk: anyone who learns the (non-secret) profile GUID can spoof the header and bypass the lock; they still hit only the app's own validation, never Stripe credentials. Moving to Front Door Premium with Private Link, or a scheduled, reviewed service-tag refresh job, would close that gap and is tracked in the issue.
+
+Callers: the app has no Stripe webhook receiver (see `stripedonate/TESTING.md`) and the Stripe account has no webhook endpoints configured, so Stripe never calls the origin. The only callers are browsers and Front Door via `p.taolearning.org`. Azure Container Apps defines no probes for this app.
