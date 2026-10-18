@@ -91,6 +91,11 @@ validate_digest() {
   [[ "$1" =~ ^sha256:[a-f0-9]{64}$ ]] || fail "invalid OCI digest: $1"
 }
 
+# Azure limits "<app>--<suffix>" to 54 characters in total.
+revision_suffix_max_length() {
+  printf '%s' "$((54 - ${#1} - 2))"
+}
+
 validate_revision_suffix() {
   [[ "$1" =~ ^[a-z0-9][a-z0-9-]{0,62}$ ]] || fail "invalid Container App revision suffix: $1"
 }

@@ -30,9 +30,9 @@ old_revision="$(az containerapp show --name "$app_name" --resource-group "$AZURE
 
 # A tag is an input to the release, not a unique revision identifier. Include
 # the workflow run/attempt so a retry cannot collide with a previous revision.
-deployment_nonce="${GITHUB_RUN_ID:-$(date -u +%Y%m%d%H%M%S%N)}-${GITHUB_RUN_ATTEMPT:-1}"
-revision_suffix="release-${service}-${deployment_nonce}"
-revision_suffix="$(printf '%s' "$revision_suffix" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9-' | cut -c1-63)"
+deployment_nonce="${GITHUB_RUN_ID:-$(date -u +%Y%m%d%H%M%S)}-${GITHUB_RUN_ATTEMPT:-1}"
+revision_suffix="release-${deployment_nonce}"
+revision_suffix="$(printf '%s' "$revision_suffix" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9-' | cut -c1-"$(revision_suffix_max_length "$app_name")" | sed 's/-*$//')"
 validate_revision_suffix "$revision_suffix"
 
 state_file="${STATE_FILE:-${RUNNER_TEMP:-/tmp}/node26-${service}.state}"
