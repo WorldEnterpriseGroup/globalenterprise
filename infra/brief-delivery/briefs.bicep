@@ -188,12 +188,16 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
     siteConfig: {
       minTlsVersion: '1.2'
       http20Enabled: true
+      ftpsState: 'Disabled'
       cors: {
         allowedOrigins: allowedOrigins
         supportCredentials: false
       }
       // Accept application traffic only from the shared Azure Front Door profile.
-      // Keep SCM rules independent so deployment access retains its existing posture.
+      // Keep SCM rules independent of the Front Door-only runtime rule. SCM is not
+      // IP-restricted (the deploy runs from GitHub-hosted runners or an operator
+      // workstation, neither with a stable egress IP); instead basic-auth
+      // publishing is off below, so Kudu accepts only Entra bearer tokens.
       ipSecurityRestrictions: [
         {
           name: 'AllowSharedAzureFrontDoor'
@@ -337,6 +341,28 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
     storageQueueContributor
     storageTableContributor
     communicationEmailOwner
+  ]
+}
+
+// SCM (Kudu) and FTP accept no basic-auth credentials. `az functionapp deployment
+// source config-zip` (deploy-brief-delivery.yml) switches to the Entra token by
+// itself when basic auth is off. FocusApiary/infrastructure#509.
+resource scmBasicAuthPolicy 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2024-04-01' = {
+  parent: functionApp
+  name: 'scm'
+  properties: {
+    allow: false
+  }
+}
+
+resource ftpBasicAuthPolicy 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2024-04-01' = {
+  parent: functionApp
+  name: 'ftp'
+  properties: {
+    allow: false
+  }
+  dependsOn: [
+    scmBasicAuthPolicy
   ]
 }
 
