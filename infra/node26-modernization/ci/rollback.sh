@@ -35,9 +35,9 @@ current_immutable="$(immutable_image_for "$current_image" "$login_server")"
 
 # Keep rollback revision names unique across fast retries as well as separate
 # workflow runs.
-rollback_nonce="${GITHUB_RUN_ID:-$(date -u +%Y%m%d%H%M%S%N)}-${GITHUB_RUN_ATTEMPT:-1}"
-rollback_suffix="rollback-${service}-${rollback_nonce}"
-rollback_suffix="$(printf '%s' "$rollback_suffix" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9-' | cut -c1-63)"
+rollback_nonce="${GITHUB_RUN_ID:-$(date -u +%Y%m%d%H%M%S)}-${GITHUB_RUN_ATTEMPT:-1}"
+rollback_suffix="rollback-${rollback_nonce}"
+rollback_suffix="$(printf '%s' "$rollback_suffix" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9-' | cut -c1-"$(revision_suffix_max_length "$app_name")" | sed 's/-*$//')"
 validate_revision_suffix "$rollback_suffix"
 state_put ROLLBACK_REVISION "$rollback_suffix" "$state_file"
 

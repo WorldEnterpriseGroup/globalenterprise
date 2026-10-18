@@ -10,6 +10,9 @@ app_name="${1:-${CONTAINER_APP_NAME:-}}"
 revision="${2:-${REVISION_NAME:-}}"
 [[ -n "$app_name" && -n "$revision" ]] || fail "usage: $0 <container-app-name> <revision-name>"
 require_cmd az
+# Callers pass the revision suffix; Azure's revision APIs and latestReadyRevisionName
+# use the full "<app>--<suffix>" name.
+[[ "$revision" == "$app_name--"* ]] || revision="$app_name--$revision"
 require_env AZURE_RESOURCE_GROUP
 require_env AZURE_SUBSCRIPTION_ID
 
