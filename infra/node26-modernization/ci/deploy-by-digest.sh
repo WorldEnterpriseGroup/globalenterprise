@@ -46,6 +46,15 @@ state_put NEW_REVISION "$revision_suffix" "$state_file"
 state_put MUTATION_STARTED true "$state_file"
 state_put DEPLOYED false "$state_file"
 
+# Origin lock configuration travels with the image so the app can never run the
+# lock-aware image without its allowed Front Door profile id (and vice versa).
+env_args=()
+front_door_id="$(service_front_door_id "$service")"
+if [[ -n "$front_door_id" ]]; then
+  validate_guid "$front_door_id"
+  env_args=(--set-env-vars "FRONT_DOOR_ID=$front_door_id")
+fi
+
 log "deploying immutable image $target_image to $app_name"
 az containerapp update \
   --name "$app_name" \
@@ -53,6 +62,7 @@ az containerapp update \
   --subscription "$AZURE_SUBSCRIPTION_ID" \
   --image "$target_image" \
   --revision-suffix "$revision_suffix" \
+  "${env_args[@]}" \
   --output none
 state_put DEPLOYED true "$state_file"
 

@@ -61,6 +61,25 @@ service_health_name() {
   esac
 }
 
+# Azure Front Door profile GUID (`frontDoorId` of taodoor-standard, rg tli_interest)
+# that fronts p.taolearning.org. The stripedonate origin refuses every request
+# that does not carry it in X-Azure-FDID (see stripedonate/server.mjs). It is an
+# identifier, not a secret; the route itself is declared in
+# FocusApiary/infrastructure terraform/environments/focushive/frontdoor-stripedonate.tf.
+# Verify with: az afd profile show -g tli_interest --profile-name taodoor-standard --query frontDoorId -o tsv
+STRIPEDONATE_FRONT_DOOR_ID="${STRIPEDONATE_FRONT_DOOR_ID:-9640fdb7-bfd5-4890-a984-5a5a7217ad3d}"
+
+service_front_door_id() {
+  case "$1" in
+    stripedonate) printf '%s' "$STRIPEDONATE_FRONT_DOOR_ID" ;;
+    *) printf '' ;;
+  esac
+}
+
+validate_guid() {
+  [[ "$1" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]] || fail "invalid GUID: $1"
+}
+
 validate_tag() {
   [[ "$1" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$ ]] || fail "invalid image tag: $1"
 }

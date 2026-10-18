@@ -5,6 +5,35 @@ export const MAX_BODY_BYTES = 64 * 1024;
 export const STRIPE_CLIENT_OPTIONS = Object.freeze({ maxNetworkRetries: 2, timeout: 10_000 });
 const defaultAllowedOrigins = new Set(String(process.env.CORS_ORIGINS || "https://globalenterprise.com,https://www.globalenterprise.com").split(",").map((value) => value.trim()).filter(Boolean));
 
+/**
+ * Azure Front Door profile GUIDs (the `frontDoorId` of the profile, sent by Front
+ * Door in the `X-Azure-FDID` request header, health probes included) allowed to
+ * reach this origin. Comma-separated. Direct requests to the Container Apps
+ * hostname carry no such header and are refused, so the Front Door WAF and rate
+ * limits cannot be bypassed.
+ */
+export function parseFrontDoorIds(value = process.env.FRONT_DOOR_ID) {
+  return String(value || "")
+    .split(",")
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+const GUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+export function isFrontDoorRequest(request, frontDoorIds) {
+  const header = request.headers["x-azure-fdid"];
+  if (typeof header !== "string" || !header) return false;
+  const presented = crypto.createHash("sha256").update(header.trim().toLowerCase()).digest();
+  // Compare every allowed id (no early exit) in constant time.
+  let match = false;
+  for (const id of frontDoorIds) {
+    const expected = crypto.createHash("sha256").update(id).digest();
+    if (crypto.timingSafeEqual(presented, expected)) match = true;
+  }
+  return match;
+}
+
 let stripeClient;
 function stripeSecretKey() {
   return process.env.STRIPE_SECRET_KEY || process.env.StripeSecret || "";
@@ -214,10 +243,20 @@ function stripeStatus(error) {
   return 500;
 }
 
-export function createServer({ allowedOrigins = defaultAllowedOrigins, stripeClient: injectedClient } = {}) {
+export function createServer({ allowedOrigins = defaultAllowedOrigins, stripeClient: injectedClient, frontDoorIds = [] } = {}) {
   const originSet = allowedOrigins instanceof Set ? allowedOrigins : new Set(allowedOrigins);
+  const allowedFrontDoors = [...frontDoorIds].map((id) => String(id).trim().toLowerCase());
+  for (const id of allowedFrontDoors) {
+    if (!GUID_PATTERN.test(id)) throw new Error("frontDoorIds must be Azure Front Door profile GUIDs");
+  }
   return http.createServer(async (request, response) => {
     const idForLog = requestId(request, response);
+    // Origin lock: every route (preflight and health included) requires the
+    // Front Door profile id. No CORS headers are emitted on a refusal.
+    if (allowedFrontDoors.length && !isFrontDoorRequest(request, allowedFrontDoors)) {
+      response.setHeader("Cache-Control", "no-store");
+      return sendJson(response, 403, { error: "Forbidden", requestId: idForLog });
+    }
     setHeaders(request, response, originSet);
     if (request.method === "OPTIONS") {
       if (request.headers.origin && !originSet.has(request.headers.origin)) return sendJson(response, 403, { error: "Origin not allowed", requestId: idForLog });
@@ -247,7 +286,13 @@ export function createServer({ allowedOrigins = defaultAllowedOrigins, stripeCli
 }
 
 export function start(port = Number.parseInt(process.env.PORT || "8080", 10)) {
-  const server = createServer();
+  const frontDoorIds = parseFrontDoorIds();
+  // Fail closed: a production container must be locked to Front Door. Local and
+  // test runs opt out explicitly.
+  if (!frontDoorIds.length && process.env.ALLOW_DIRECT_ACCESS !== "true") {
+    throw new Error("FRONT_DOOR_ID is required (set ALLOW_DIRECT_ACCESS=true only for local development)");
+  }
+  const server = createServer({ frontDoorIds });
   server.listen(port, "0.0.0.0", () => console.log(`stripedonate listening on ${port}`));
   const close = () => server.close(() => process.exit(0));
   process.once("SIGTERM", close);

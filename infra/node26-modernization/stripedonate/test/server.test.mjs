@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { once } from "node:events";
 import test from "node:test";
 
-import { MAX_BODY_BYTES, STRIPE_CLIENT_OPTIONS, createServer } from "../server.mjs";
+import { MAX_BODY_BYTES, STRIPE_CLIENT_OPTIONS, createServer, parseFrontDoorIds } from "../server.mjs";
 
 let server;
 let baseUrl;
@@ -278,4 +278,50 @@ test("invalid client request IDs are replaced instead of reaching response heade
   const response = await fetch(`${baseUrl}/api/unknown`, { headers: { "x-request-id": "bad request" } });
   assert.equal(response.status, 404);
   assert.match(response.headers.get("x-request-id"), /^[0-9a-f-]{36}$/i);
+});
+
+const FDID = "9640fdb7-bfd5-4890-a984-5a5a7217ad3d";
+
+test("origin lock rejects direct requests and accepts only the configured Front Door id", async () => {
+  const capture = {};
+  const { instance, url } = await startServer({ frontDoorIds: [FDID], stripeClient: fakeStripe({ capture }), allowedOrigins: new Set(["https://taolearning.org"]) });
+  try {
+    const post = (headers) => fetch(`${url}/api/StripeHttpTrigger`, { method: "POST", headers: { "content-type": "application/json", ...headers }, body: "{}" });
+    for (const headers of [{}, { "x-azure-fdid": "00000000-0000-0000-0000-000000000000" }, { "x-azure-fdid": "" }, { "x-azure-fdid": `${FDID}x` }]) {
+      const denied = await post(headers);
+      assert.equal(denied.status, 403);
+      assert.equal(denied.headers.get("access-control-allow-origin"), null);
+    }
+    const preflight = await fetch(`${url}/api/StripeHttpTrigger`, { method: "OPTIONS", headers: { origin: "https://taolearning.org" } });
+    assert.equal(preflight.status, 403);
+    assert.equal(preflight.headers.get("access-control-allow-origin"), null);
+    for (const path of ["/healthz", "/readyz", "/"]) assert.equal((await fetch(`${url}${path}`)).status, 403);
+
+    const allowed = await post({ "x-azure-fdid": FDID });
+    assert.equal(allowed.status, 400);
+    assert.match((await allowed.json()).error, /payment_method_id or payment_intent_id/);
+    const upper = await post({ "x-azure-fdid": FDID.toUpperCase() });
+    assert.equal(upper.status, 400);
+    const ok = await fetch(`${url}/api/StripeHttpTrigger`, { method: "OPTIONS", headers: { origin: "https://taolearning.org", "x-azure-fdid": FDID } });
+    assert.equal(ok.status, 204);
+    assert.equal(ok.headers.get("access-control-allow-origin"), "https://taolearning.org");
+    assert.equal((await fetch(`${url}/readyz`, { headers: { "x-azure-fdid": FDID } })).status, 503);
+    assert.equal(capture.create, undefined);
+  } finally {
+    instance.close();
+  }
+});
+
+test("origin lock supports several profile ids and rejects malformed configuration", async () => {
+  const other = "11111111-2222-3333-4444-555555555555";
+  const { instance, url } = await startServer({ frontDoorIds: [FDID, other] });
+  try {
+    const response = await fetch(`${url}/healthz`, { headers: { "x-azure-fdid": other } });
+    assert.equal(response.status, 200);
+  } finally {
+    instance.close();
+  }
+  assert.throws(() => createServer({ frontDoorIds: ["not-a-guid"] }), /Front Door profile GUIDs/);
+  assert.deepEqual(parseFrontDoorIds(` ${FDID.toUpperCase()}, ,${other} `), [FDID, other]);
+  assert.deepEqual(parseFrontDoorIds(""), []);
 });
