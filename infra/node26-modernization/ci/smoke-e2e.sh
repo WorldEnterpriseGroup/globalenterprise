@@ -63,6 +63,16 @@ case "$service" in
       --output "$tmp_dir/negative.json" --write-out '%{http_code}' \
       "${fd_header[@]}" -H 'content-type: application/json' -X POST -d '{}' "$base_url/api/StripeHttpTrigger" || true)"
     [[ "$status" == 400 ]] || fail "Stripe negative smoke expected HTTP 400, got $status"
+    # CORS: every declared origin must get a 204 preflight echoing its own origin.
+    IFS=',' read -r -a cors_list <<< "$(service_cors_origins stripedonate)"
+    for cors_origin in "${cors_list[@]}"; do
+      preflight="$(curl --silent --show-error --connect-timeout 5 --max-time 20 --output /dev/null \
+        --dump-header - "${fd_header[@]}" -X OPTIONS -H "Origin: $cors_origin" \
+        -H 'Access-Control-Request-Method: POST' -H 'Access-Control-Request-Headers: content-type,idempotency-key' \
+        "$base_url/api/StripeHttpTrigger" | tr -d '\r' || true)"
+      grep -q '^HTTP/[0-9.]* 204' <<< "$preflight" || fail "CORS preflight for $cors_origin expected 204"
+      grep -qi "^access-control-allow-origin: $cors_origin\$" <<< "$preflight" || fail "CORS preflight for $cors_origin did not echo the origin"
+    done
     # Origin lock: direct requests (no / wrong X-Azure-FDID) must be refused for
     # both POST and the CORS preflight; nothing reaches Stripe.
     for lock_case in "POST:" "POST:X-Azure-FDID: 00000000-0000-0000-0000-000000000000" "OPTIONS:"; do
