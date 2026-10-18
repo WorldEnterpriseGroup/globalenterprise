@@ -164,7 +164,12 @@ jobs:
             exit 1
           fi
 
-          direct_origin_status="$(curl --silent --show-error --output /dev/null \
+          # The Front Door WAF (tliwafstandard, FocusApiary/infrastructure#506) returns
+          # 403 on /api/ paths for curl/wget/bot-style or empty User-Agents. Identify
+          # this smoke honestly instead of using curl's default.
+          smoke_ua="globalenterprise-brief-deploy-smoke/1.0 (+https://git.developerdojo.org/WorldEnterpriseGroup/globalenterprise)"
+
+          direct_origin_status="$(curl --silent --show-error --user-agent "$smoke_ua" --output /dev/null \
             --write-out '%{http_code}' --max-time 30 \
             "${FUNCTION_HOST%/}/api/health")"
           if [[ "$direct_origin_status" != '403' ]]; then
@@ -175,7 +180,7 @@ jobs:
 
           front_door_headers="$RUNNER_TEMP/globalenterprise-brief-health-headers.txt"
           front_door_body="$RUNNER_TEMP/globalenterprise-brief-health.json"
-          front_door_status="$(curl --silent --show-error \
+          front_door_status="$(curl --silent --show-error --user-agent "$smoke_ua" \
             --dump-header "$front_door_headers" --output "$front_door_body" \
             --write-out '%{http_code}' --max-time 30 \
             "$FRONT_DOOR_HEALTH_URL")"
